@@ -1,0 +1,69 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* 防止出现滚动条，破坏美感 */
+}
+
+/* 游戏容器，也是所有元素的定位基准 */
+#game-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* 背景图，永远在最底层 */
+#background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 保证图片不变形地填满容器 */
+    z-index: 0; /* 把它放在最底层 */
+}
+
+/* 对话框现在使用Flexbox布局，以便更好地控制内部结构 */
+#dialogue-box {
+    position: absolute;
+    bottom: 5%;
+    left: 10%;
+    right: 10%;
+    min-height: 25%; /* 使用min-height保证最小高度 */
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border-radius: 15px;
+    padding: 20px;
+    z-index: 20;
+    cursor: pointer;
+    display: flex; /* 启用Flexbox */
+    flex-direction: column; /* 垂直排列：立绘在上，文字在下 */
+}
+
+#character-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80%; /* 角色活动区域的高度 */
+    z-index: 10;
+    display: flex; /* 使用Flexbox来排列我们的角色 */
+    justify-content: space-around;
+    align-items: flex-end; /* 底部对齐 */
+    gap: 2%; /* 角色之间的间距 */
+    padding: 0 5%; /* 保证角色不会紧贴屏幕边缘 */
+}
+
+/* 容器内所有角色立绘的通用样式 */
+#character-container img {
+    height: 100%; /* 高度占满父容器 */
+    object-fit: contain;
+    /* 所有的立绘都将拥有柔和的过渡效果，无论是出现、消失还是光影变化 */
+    transition: all 0.4s ease-in-out;
+}
+
+.dimmed {
+    filter: brightness(0.5);
+}
+
+#dialogue-content {
+}
