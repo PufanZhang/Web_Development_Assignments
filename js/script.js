@@ -1,102 +1,171 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // 获取元素
-    const gameContainer = document.getElementById('game-container');
-    const characterName = document.getElementById('character-name');
-    const dialogueText = document.getElementById('dialogue-text');
+import { renderDialogue } from './dialogue_renderer.js';
 
-    const gameState = {
-        story: [],
-        currentIndex: -1,
-        currentScene: []
+document.addEventListener('DOMContentLoaded', () => {
+
+    // --- 世界的状态与设定 ---
+    let gameMode = 'map'; // 当前游戏模式: 'map' 或 'dialogue'
+    let allStories = {}; // 存放我们所有的故事
+
+    const player = {
+        element: document.getElementById('player'),
+        x: 400, // 初始x坐标
+        y: 300, // 初始y坐标
+        speed: 3, // 移动速度
     };
 
-    function render() {
-        // 获取我们的新舞台
-        const characterContainer = document.getElementById('character-container');
+    // 追踪按键状态，实现流畅移动
+    const keysPressed = {
+        w: false,
+        a: false,
+        s: false,
+        d: false
+    };
 
-        if (gameState.currentIndex < 0 || gameState.currentIndex >= gameState.story.length) {
-            if (gameState.currentIndex >= gameState.story.length) {
-                dialogueText.innerText = '(故事结束)';
-                characterContainer.innerHTML = ''; // 故事结束，清空舞台
+    // --- 获取舞台元素 ---
+    const dialogueView = document.getElementById('dialogue-view');
+    const characterContainer = document.getElementById('character-container');
+    const characterName = document.getElementById('character-name');
+    const dialogueText = document.getElementById('dialogue-text');
+    const mapView = document.getElementById('map-view');
+    let interactableObjects = []; // 存放所有可交互物
+
+    // --- 游戏循环 ---
+    function gameLoop() {
+        if (gameMode !== 'map') return;
+
+        // 根据按键更新玩家坐标
+        if (keysPressed.w) player.y -= player.speed;
+        if (keysPressed.s) player.y += player.speed;
+        if (keysPressed.a) player.x -= player.speed;
+        if (keysPressed.d) player.x += player.speed;
+
+        // 更新玩家在屏幕上的位置
+        player.element.style.top = `${player.y}px`;
+        player.element.style.left = `${player.x}px`;
+
+        // 检查与可交互物的距离
+        checkInteraction();
+
+        requestAnimationFrame(gameLoop);
+    }
+
+    // --- 交互逻辑 ---
+    let currentInteractable = null;
+    function checkInteraction() {
+        currentInteractable = null;
+        interactableObjects.filter(obj => !obj.interacted).forEach(obj => {
+            const distance = Math.hypot(player.x - obj.x, player.y - obj.y);
+            if (distance < 60) {
+                currentInteractable = obj;
+                obj.element.classList.add('in-range');
+            } else {
+                obj.element.classList.remove('in-range');
             }
-            return;
-        }
+        });
+    }
 
-        const currentDialogue = gameState.story[gameState.currentIndex];
-        if (currentDialogue.scene) {
-            gameState.currentScene = currentDialogue.scene;
-        }
+    // --- 对话系统 ---
+    let dialogueState = {};
+    function startDialogue(storyKey) {
+        if (!allStories[storyKey]) return; // 如果故事不存在，则不触发
 
-        // 更新对话框文字
-        dialogueText.innerText = currentDialogue.dialogue;
+        gameMode = 'dialogue'; // 切换游戏模式
+        dialogueView.classList.add('active'); // 召唤对话界面
 
-        // 如果是旁白
-        if (currentDialogue.speaker === '旁白') {
-            characterName.style.display = 'none';
-            // 旁白时，让所有角色都退场
-            characterContainer.innerHTML = '';
-        } else {
-            // 是角色对话
-            characterName.style.display = 'block';
-            characterName.innerText = currentDialogue.speaker;
+        // 初始化对话状态
+        dialogueState = {
+            story: allStories[storyKey],
+            currentIndex: -1,
+            currentScene: []
+        };
 
-            // 智能地更新舞台上的角色
-            const sceneCharacters = gameState.currentScene.map(c => c.id);
-            const displayedCharacters = Array.from(characterContainer.children).map(img => img.dataset.characterId);
-
-            // 退场：移除不在新场景中的角色
-            displayedCharacters.forEach(id => {
-                if (!sceneCharacters.includes(id)) {
-                    characterContainer.querySelector(`[data-character-id="${id}"]`).remove();
-                }
-            });
-
-            // 登场 & 更新状态：处理需要出现在场景中的角色
-            gameState.currentScene.forEach(character => {
-                let spriteImg = characterContainer.querySelector(`[data-character-id="${character.id}"]`);
-
-                if (!spriteImg) {
-                    spriteImg = document.createElement('img');
-                    spriteImg.dataset.characterId = character.id;
-                    spriteImg.src = character.sprite;
-                    characterContainer.appendChild(spriteImg);
-                }
-
-                // 如果当前场景只有一个角色，则不添加变暗效果
-                if (gameState.currentScene.length === 1) {
-                    spriteImg.classList.remove('dimmed');
-                } else {
-                    if (character.id === currentDialogue.speaker) {
-                        spriteImg.classList.remove('dimmed');
-                    } else {
-                        spriteImg.classList.add('dimmed');
-                    }
-                }
-            });
-        }
+        advanceDialogue(); // 开始第一句对话
     }
 
     function advanceDialogue() {
-        gameState.currentIndex++;
-        render();
-    }
-
-    async function initializeGame() {
-        try {
-            const response = await fetch('data/story.json');
-            if (!response.ok) throw new Error('Story file not found!');
-            gameState.story = await response.json();
-            advanceDialogue();
-        } catch (error) {
-            console.error("在准备故事时出错了: ", error);
+        dialogueState.currentIndex++;
+        if (dialogueState.currentIndex >= dialogueState.story.length) {
+            endDialogue();
+            return;
         }
+        renderDialogue(dialogueState, { characterContainer, characterName, dialogueText });
     }
 
-    gameContainer.addEventListener('click', () => {
-        if (gameState.currentIndex < gameState.story.length) {
+    function endDialogue() {
+        gameMode = 'map';
+        dialogueView.classList.remove('active');
+
+        if (currentInteractable) {
+            currentInteractable.interacted = true; // 标记为已交互
+            currentInteractable.element.classList.add('hidden'); // 在视觉上隐藏它
+            currentInteractable = null; // 清除当前的交互目标
+        }
+
+        requestAnimationFrame(gameLoop);
+    }
+
+    window.addEventListener('keydown', (e) => {
+        if (gameMode === 'map') {
+            if (keysPressed[e.key] !== undefined) keysPressed[e.key] = true;
+            if (e.key === 'e' && currentInteractable) {
+                startDialogue(currentInteractable.storyKey);
+            }
+        }
+    });
+
+    window.addEventListener('keyup', (e) => {
+        if (gameMode === 'map') {
+            if (keysPressed[e.key] !== undefined) keysPressed[e.key] = false;
+        }
+    });
+
+    dialogueView.addEventListener('click', () => {
+        if(gameMode === 'dialogue') {
             advanceDialogue();
         }
     });
+
+    // --- 游戏初始化：世界的诞生 ---
+    async function initializeGame() {
+        try {
+            const [storyResponse, objectsResponse] = await Promise.all([
+                fetch('data/story.json'),
+                fetch('data/objects.json')
+            ]);
+
+            allStories = await storyResponse.json();
+            const objectsData = await objectsResponse.json();
+
+            // 根据物品蓝图，创造世界万物
+            objectsData.forEach(data => {
+                const objElement = document.createElement('div');
+                objElement.id = data.id;
+                objElement.className = 'interactable-object';
+                objElement.style.left = `${data.x}px`;
+                objElement.style.top = `${data.y}px`;
+                objElement.style.width = `${data.width}px`;
+                objElement.style.height = `${data.height}px`;
+                objElement.style.backgroundImage = `url(${data.image})`;
+                objElement.dataset.storyKey = data.storyKey;
+
+                mapView.appendChild(objElement); // 将创造的物品放入世界
+
+                // 将物品的完整信息存入世界状态中
+                interactableObjects.push({
+                    element: objElement,
+                    x: data.x,
+                    y: data.y,
+                    storyKey: data.storyKey,
+                    interacted: false // 初始状态：未交互
+                });
+            });
+
+        } catch (error) {
+            console.error("在构建世界时出现了错误: ", error);
+        }
+
+        requestAnimationFrame(gameLoop);
+    }
 
     initializeGame();
 });

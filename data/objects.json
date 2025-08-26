@@ -1,0 +1,20 @@
+[
+  {
+    "id": "test01",
+    "image": "assets/images/item_01.png",
+    "x": 600,
+    "y": 250,
+    "width": 50,
+    "height": 50,
+    "storyKey": "story1"
+  },
+  {
+    "id": "test02",
+    "image": "assets/images/item_02.png",
+    "x": 200,
+    "y": 500,
+    "width": 60,
+    "height": 80,
+    "storyKey": "story1"
+  }
+]

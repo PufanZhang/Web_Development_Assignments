@@ -2,20 +2,26 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>Master's Story</title>
+    <title>Master's World</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
 <div id="game-container">
-    <img id="background" src="assets/images/background1.png" alt="Background">
 
-    <div id="character-container"></div>
-
-    <div id="dialogue-box">
-        <p id="character-name"></p>
-        <p id="dialogue-text"></p>
+    <div id="map-view">
+        <div id="player"></div>
     </div>
+
+    <div id="dialogue-view">
+        <div id="character-container"></div>
+        <div id="dialogue-box">
+            <p id="character-name"></p>
+            <p id="dialogue-text"></p>
+        </div>
+    </div>
+
 </div>
-<script src="js/script.js"></script>
+<script type="module" src="js/script.js"></script>
 </body>
 </html>

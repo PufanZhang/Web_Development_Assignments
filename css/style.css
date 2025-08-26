@@ -6,23 +6,86 @@ body, html {
     overflow: hidden; /* 防止出现滚动条，破坏美感 */
 }
 
-/* 游戏容器，也是所有元素的定位基准 */
 #game-container {
     position: relative;
     width: 100%;
     height: 100%;
+    background-color: #2d2d2d; /* 为地图之外的区域设置一个底色 */
 }
 
-/* 背景图，永远在最底层 */
-#background {
+/* --- 地图层样式 --- */
+#map-view {
+    position: relative; /* 成为内部所有绝对定位元素的基准 */
+    width: 1600px; /* 地图的宽度 */
+    height: 900px; /* 地图的高度 */
+    background: url('../assets/images/map.png'); /* 地图图片 */
+    /* 让地图在容器中居中 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#player {
     position: absolute;
+    width: 50px;  /* 小人的宽度 */
+    height: 50px; /* 小人的高度 */
+    background-image: url('../assets/images/player.png');
+    background-size: contain;
+    z-index: 10; /* 赋予主角更高的视觉层级 */
+    /* 小人的初始位置将由JS设定 */
+}
+
+.interactable-object {
+    position: absolute;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* 为消失效果增加柔和的过渡 */
+    transition: opacity 0.5s ease;
+}
+
+/* 用于隐藏已交互物品的样式 */
+.interactable-object.hidden {
+    opacity: 0;
+    pointer-events: none; /* 隐藏后不再响应任何鼠标事件 */
+}
+
+/* 可交互物的提示效果 */
+.interactable-object::after {
+    content: 'E';
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 2px 8px;
+    border-radius: 5px;
+    color: black;
+    font-weight: bold;
+    display: none; /* 默认隐藏 */
+}
+
+.interactable-object.in-range::after {
+    display: block; /* 靠近时显示 */
+}
+
+/* --- 对话层样式 --- */
+#dialogue-view {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* 保证图片不变形地填满容器 */
-    z-index: 0; /* 把它放在最底层 */
+    z-index: 100; /* 确保它在最顶层 */
+    display: none; /* 默认完全隐藏，等待召唤 */
 }
 
-/* 对话框现在使用Flexbox布局，以便更好地控制内部结构 */
+/* 当对话激活时，我们为对话层添加这个类 */
+#dialogue-view.active {
+    display: block;
+}
+
+/* 对话框使用Flexbox布局，以便更好地控制内部结构 */
 #dialogue-box {
     position: absolute;
     bottom: 5%;
@@ -46,7 +109,7 @@ body, html {
     right: 0;
     height: 80%; /* 角色活动区域的高度 */
     z-index: 10;
-    display: flex; /* 使用Flexbox来排列我们的角色 */
+    display: flex; /* 使用Flexbox来排列角色 */
     justify-content: space-around;
     align-items: flex-end; /* 底部对齐 */
     gap: 2%; /* 角色之间的间距 */
