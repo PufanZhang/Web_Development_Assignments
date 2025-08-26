@@ -88,6 +88,10 @@ document.addEventListener('DOMContentLoaded', () => {
             endDialogue();
             return;
         }
+        const currentLine = dialogueState.story[dialogueState.currentIndex];
+        if (currentLine.scene) {
+            dialogueState.currentScene = currentLine.scene;
+        }
         renderDialogue(dialogueState, { characterContainer, characterName, dialogueText });
     }
 
