@@ -50,25 +50,6 @@ body, html {
     pointer-events: none; /* 隐藏后不再响应任何鼠标事件 */
 }
 
-/* 可交互物的提示效果 */
-.interactable-object::after {
-    content: 'E';
-    position: absolute;
-    top: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: white;
-    padding: 2px 8px;
-    border-radius: 5px;
-    color: black;
-    font-weight: bold;
-    display: none; /* 默认隐藏 */
-}
-
-.interactable-object.in-range::after {
-    display: block; /* 靠近时显示 */
-}
-
 /* --- 对话层样式 --- */
 #dialogue-view {
     position: absolute;
@@ -129,4 +110,25 @@ body, html {
 }
 
 #dialogue-content {
+}
+
+/* --- （调试用）墙体样式 --- */
+.wall {
+    position: absolute;
+    background-color: rgba(255, 0, 0, 0.3); /* 半透明红色，方便我们看清范围 */
+    z-index: 5; /* 层级比玩家低一点，免得挡住我们的主角 */
+}
+
+/* --- 智能交互提示样式 --- */
+.interaction-prompt {
+    position: absolute;
+    display: none; /* 默认隐藏，等待JS的召唤 */
+    background: white;
+    padding: 2px 8px;
+    border-radius: 5px;
+    color: black;
+    font-weight: bold;
+    z-index: 15; /* 比玩家高一点，确保不会被挡住 */
+    transform: translateX(-50%); /* 水平居中对齐的小技巧 */
+    transition: top 0.1s linear, left 0.1s linear; /* 让位置变化更丝滑 */
 }

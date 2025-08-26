@@ -6,7 +6,8 @@
     "y": 250,
     "width": 50,
     "height": 50,
-    "storyKey": "story1"
+    "storyKey": "story1",
+    "showPrompt": true
   },
   {
     "id": "test02",
@@ -15,6 +16,7 @@
     "y": 500,
     "width": 60,
     "height": 80,
-    "storyKey": "story1"
+    "storyKey": "story1",
+    "showPrompt": false
   }
 ]
