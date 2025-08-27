@@ -19,19 +19,18 @@ let currentMap = {
 };
 
 // --- 地图传送 ---
-async function teleportTo(portal) { // <-- 参数直接接收 portal 对象
-    const { targetMap, targetX, targetY } = portal; // 从 portal 对象中解构出目标信息
-    console.log(`正在加载地图: ${targetMap}...`);
+async function loadMapAt(mapId, targetX, targetY) {
+    console.log(`正在加载地图: ${mapId}...`);
 
-    const newMapData = await loader.loadMap(targetMap);
+    const newMapData = await loader.loadMap(mapId);
     if (!newMapData) {
-        alert(`地图 "${targetMap}" 加载失败，请检查文件或网络！`);
+        alert(`地图 "${mapId}" 加载失败，请检查文件或网络！`);
         return;
     }
 
     clearMap();
     const { interactableObjects, portals, walls } = buildMap(newMapData);
-    currentMap = { id: targetMap, interactableObjects, portals, walls };
+    currentMap = { id: mapId, interactableObjects, portals, walls };
 
     document.getElementById('map-view').style.backgroundImage = `url(${newMapData.background})`;
 
@@ -41,11 +40,10 @@ async function teleportTo(portal) { // <-- 参数直接接收 portal 对象
     player.updateStyle();
 
     if (currentUser) {
-        gameState.save(currentUser, targetMap, { x: targetX, y: targetY });
+        gameState.save(currentUser, mapId, { x: targetX, y: targetY });
     }
 
-    // 修正这里的变量名
-    console.log(`已传送到: ${newMapData.name || targetMap}`);
+    console.log(`已传送到: ${newMapData.name || mapId}`);
 }
 
 // --- 游戏主循环 ---
@@ -61,25 +59,26 @@ function gameLoop() {
 async function initializeGame() {
     currentUser = getCurrentUser();
     if (!currentUser) {
-        // 如果没登录，可以跳转回登录页
         alert("请先登录！");
         window.location.href = 'login.html';
         return;
     }
 
-    // 初始化各个模块
+    const handleTeleport = (portal) => {
+        loadMapAt(portal.targetMap, portal.targetX, portal.targetY);
+    };
+
     dialogueManager.init();
-    interactionManager.init((portal) => teleportTo(portal));
+    interactionManager.init(handleTeleport);
     player.init();
 
-    // 决定出生点
     const savedLocation = gameState.load(currentUser);
-    const initialMap = savedLocation ? savedLocation.map : "map1"; // 假设默认地图是 map1
-    const initialX = savedLocation ? savedLocation.x : 400; // 默认坐标
-    const initialY = savedLocation ? savedLocation.y : 300; // 默认坐标
-    await teleportTo({ targetMap: initialMap, targetX: initialX, targetY: initialY });
+    const initialMap = savedLocation ? savedLocation.map : "map1";
+    const initialX = savedLocation ? saved.x : 400;
+    const initialY = savedLocation ? saved.y : 300;
 
-    // 启动游戏循环
+    await loadMapAt(initialMap, initialX, initialY);
+
     requestAnimationFrame(gameLoop);
 }
 
