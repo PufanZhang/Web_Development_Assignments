@@ -1,0 +1,7 @@
+{
+  "id": "portal1to2",
+  "image": "assets/images/portal.png",
+  "x": 800, "y": 50, "width": 80, "height": 100,
+  "targetMap": "map2",
+  "targetX": 150, "targetY": 400
+}

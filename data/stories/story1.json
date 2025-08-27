@@ -1,0 +1,44 @@
+[
+  {
+    "scene": [
+      {
+        "id": "A",
+        "sprite": "assets/images/characterA.png"
+      },
+      {
+        "id": "B",
+        "sprite": "assets/images/characterB.png"
+      }
+    ],
+    "speaker": "A",
+    "dialogue": "小B，你看，这样是不是感觉更生动了？"
+  },
+  {
+    "scene": [
+      {
+        "id": "A",
+        "sprite": "assets/images/characterA.png"
+      },
+      {
+        "id": "B",
+        "sprite": "assets/images/characterB.png"
+      }
+    ],
+    "speaker": "B",
+    "dialogue": "嗯，确实。右边还有你的立绘。"
+  },
+  {
+    "speaker": "旁白",
+    "dialogue": "……这是旁白的效果。"
+  },
+  {
+    "scene": [
+      {
+        "id": "A",
+        "sprite": "assets/images/characterA.png"
+      }
+    ],
+    "speaker": "A",
+    "dialogue": "即使我单独在这里，也依然光彩夺目"
+  }
+]
