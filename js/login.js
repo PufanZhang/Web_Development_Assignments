@@ -7,11 +7,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const usernameInput = document.getElementById("username");
     const passwordInput = document.getElementById("password");
 
-    const handleResponse = (response) => {
+    const handleResponse = (response, action) => {
         alert(response.message);
-        if (response.success && response.message.includes("注册")) {
-            usernameInput.value = "";
-            passwordInput.value = "";
+        if (response.success) {
+            if (action === 'signup') {
+                usernameInput.value = "";
+                passwordInput.value = "";
+            } else if (action === 'login') {
+                // 登录成功，跳转到游戏世界！
+                window.location.href = 'game.html';
+            }
         }
     };
 
@@ -23,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         const response = await auth.login(username, password);
-        handleResponse(response);
+        handleResponse(response, 'login'); // 传入动作类型
     }
 
     async function signupHandler() {
@@ -34,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         const response = await auth.register(username, password);
-        handleResponse(response);
+        handleResponse(response, 'signup'); // 传入动作类型
     }
 
     loginButton.addEventListener('click', loginHandler);

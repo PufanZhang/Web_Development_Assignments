@@ -1,6 +1,6 @@
 {
   "name": "神创之地",
-  "background": "assets/images/background2.png",
+  "background": "assets/images/map2.png",
   "walls": [
     { "x": 0, "y": 0, "width": 1600, "height": 10 },
     { "x": 0, "y": 890, "width": 1600, "height": 10 }

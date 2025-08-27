@@ -1,6 +1,6 @@
 {
   "name": "起源之地",
-  "background": "assets/images/background1.png",
+  "background": "assets/images/map1.png",
   "walls": [
     { "x": 0, "y": 0, "width": 1600, "height": 10 },
     { "x": 0, "y": 890, "width": 1600, "height": 10 }

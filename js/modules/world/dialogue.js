@@ -38,7 +38,7 @@ export const dialogueManager = {
         elements.dialogueView.classList.add('active');
 
         state = {
-            story: allStories[storyKey],
+            story: story,
             currentIndex: -1,
             currentScene: []
         };

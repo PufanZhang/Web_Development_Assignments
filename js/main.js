@@ -19,36 +19,33 @@ let currentMap = {
 };
 
 // --- 地图传送 ---
-async function teleportTo(mapId, targetX, targetY) { // <-- 方法变为异步 (async)
-    console.log(`正在加载地图: ${mapId}...`);
+async function teleportTo(portal) { // <-- 参数直接接收 portal 对象
+    const { targetMap, targetX, targetY } = portal; // 从 portal 对象中解构出目标信息
+    console.log(`正在加载地图: ${targetMap}...`);
 
-    // 1. 从加载器获取地图数据
-    const newMapData = await loader.loadMap(mapId);
+    const newMapData = await loader.loadMap(targetMap);
     if (!newMapData) {
-        alert(`地图 "${mapId}" 加载失败，请检查文件或网络！`);
+        alert(`地图 "${targetMap}" 加载失败，请检查文件或网络！`);
         return;
     }
 
-    // 2. 清理旧地图
     clearMap();
-
-    // 3. 建造新地图
     const { interactableObjects, portals, walls } = buildMap(newMapData);
+    currentMap = { id: targetMap, interactableObjects, portals, walls };
 
-    // 4. 更新当前地图状态
-    currentMap = { id: mapId, interactableObjects, portals, walls };
+    document.getElementById('map-view').style.backgroundImage = `url(${newMapData.background})`;
 
-    // 5. 移动玩家到新位置
+    interactionManager.updateInteractables(currentMap.interactableObjects, currentMap.portals);
     player.x = targetX;
     player.y = targetY;
     player.updateStyle();
 
-    // 6. 保存进度
     if (currentUser) {
-        gameState.save(currentUser, mapId, { x: targetX, y: targetY });
+        gameState.save(currentUser, targetMap, { x: targetX, y: targetY });
     }
 
-    console.log(`已传送到: ${mapData.name || mapId}`);
+    // 修正这里的变量名
+    console.log(`已传送到: ${newMapData.name || targetMap}`);
 }
 
 // --- 游戏主循环 ---
@@ -72,7 +69,7 @@ async function initializeGame() {
 
     // 初始化各个模块
     dialogueManager.init();
-    interactionManager.init(teleportTo);
+    interactionManager.init((portal) => teleportTo(portal));
     player.init();
 
     // 决定出生点
@@ -80,7 +77,7 @@ async function initializeGame() {
     const initialMap = savedLocation ? savedLocation.map : "map1"; // 假设默认地图是 map1
     const initialX = savedLocation ? savedLocation.x : 400; // 默认坐标
     const initialY = savedLocation ? savedLocation.y : 300; // 默认坐标
-    await teleportTo(initialMap, initialX, initialY);
+    await teleportTo({ targetMap: initialMap, targetX: initialX, targetY: initialY });
 
     // 启动游戏循环
     requestAnimationFrame(gameLoop);
