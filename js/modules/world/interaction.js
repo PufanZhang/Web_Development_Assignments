@@ -6,7 +6,7 @@ let currentInteractable = null;
 let currentPortal = null;
 const promptElement = document.getElementById('interaction-prompt');
 
-function updatePrompt(target, key = 'E') {
+function updatePrompt(target, player, key = 'E') {
     if (!target) {
         promptElement.style.display = 'none';
         return;
