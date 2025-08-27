@@ -74,8 +74,8 @@ async function initializeGame() {
 
     const savedLocation = gameState.load(currentUser);
     const initialMap = savedLocation ? savedLocation.map : "map1";
-    const initialX = savedLocation ? saved.x : 400;
-    const initialY = savedLocation ? saved.y : 300;
+    const initialX = savedLocation ? savedLocation.x : 400;
+    const initialY = savedLocation ? savedLocation.y : 300;
 
     await loadMapAt(initialMap, initialX, initialY);
 
