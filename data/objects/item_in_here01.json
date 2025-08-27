@@ -1,6 +1,6 @@
 {
   "id": "item_in_here_01",
-  "image": "assets/images/item_02.png",
+  "image": "assets/images/item_01.png",
   "x": 600, "y": 250, "width": 50, "height": 50,
   "storyKey": "story1",
   "showPrompt": true
