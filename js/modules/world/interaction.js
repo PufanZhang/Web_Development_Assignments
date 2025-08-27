@@ -13,37 +13,44 @@ function updatePrompt(target, player, key = 'E') {
     }
 
     // --- 智能定位算法开始 ---
-    // 1. 计算玩家和目标的中心点
+    const BASE_VISUAL_GAP = 15;
+    // 1. 实时获取提示标签被渲染后的实际尺寸
+    const promptWidth = promptElement.offsetWidth;
+    const promptHeight = promptElement.offsetHeight;
+    const aspectRatio = promptWidth / promptHeight;
+    const horizontalGap = BASE_VISUAL_GAP * Math.sqrt(aspectRatio);
+    const verticalGap = BASE_VISUAL_GAP / Math.sqrt(aspectRatio);
+
+    // 2. 计算玩家和目标的中心点
     const playerCenterX = player.x + player.width / 2;
     const playerCenterY = player.y + player.height / 2;
     const targetCenterX = target.x + target.width / 2;
     const targetCenterY = target.y + target.height / 2;
 
-    // 2. 计算中心点之间的向量
+    // 3. 计算中心点之间的向量
     const deltaX = playerCenterX - targetCenterX;
     const deltaY = playerCenterY - targetCenterY;
 
-    // 3. 为不同方向设置最合适的偏移量
-    const offsetX = 40; // 用于左右定位的偏移量
-    const offsetY = 35; // 用于上下定位的偏移量，比offsetX稍小，以达到视觉统一
     let promptX, promptY;
 
-    // 4. 判断主方向，并使用对应的偏移量进行计算
+    // 4. 判断主方向，并根据标签的实时尺寸和视觉间隙，计算出完美的中心点位置
     if (Math.abs(deltaX) > Math.abs(deltaY)) {
         // 水平方向是主导
         promptY = targetCenterY;
+        const totalHorizontalOffset = (promptWidth / 2) + horizontalGap;
         if (deltaX > 0) { // 玩家在右，提示在左
-            promptX = target.x - offsetX;
+            promptX = target.x - totalHorizontalOffset;
         } else { // 玩家在左，提示在右
-            promptX = target.x + target.width + offsetX;
+            promptX = target.x + target.width + totalHorizontalOffset;
         }
     } else {
         // 垂直方向是主导
         promptX = targetCenterX;
+        const totalVerticalOffset = (promptHeight / 2) + verticalGap;
         if (deltaY > 0) { // 玩家在下，提示在上
-            promptY = target.y - offsetY;
+            promptY = target.y - totalVerticalOffset;
         } else { // 玩家在上，提示在下
-            promptY = target.y + target.height + offsetY;
+            promptY = target.y + target.height + totalVerticalOffset;
         }
     }
     // --- 算法结束 ---
