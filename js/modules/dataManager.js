@@ -67,6 +67,7 @@ export const loader = {
             // 4. 把所有信息组装好，返回一张完整的、随时可用的地图数据
             return {
                 name: mapInfo.name,
+                background: mapInfo.background,
                 walls: mapInfo.walls || [],
                 objects: objects,
                 portals: portals
