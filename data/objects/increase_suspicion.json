@@ -1,0 +1,7 @@
+{
+  "id": "increase_suspicion",
+  "image": "assets/images/item_01.png",
+  "x": 1000, "y": 100, "width": 50, "height": 50,
+  "storyKey": "increase_suspicion_story",
+  "showPrompt": true
+}

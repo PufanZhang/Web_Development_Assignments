@@ -71,11 +71,20 @@ export const dialogueManager = {
             this.end();
             return;
         }
-        // 如果当前节点有场景信息，就更新场景
+
+        // --- 处理数值变化 ---
+        if (currentNode.valueChanges) {
+            const currentUser = getCurrentUser();
+            if (currentUser) {
+                currentNode.valueChanges.forEach(change => {
+                    gameState.modifyValue(currentUser, change.name, change.amount);
+                });
+            }
+        }
+
         if (currentNode.scene) {
             state.currentScene = currentNode.scene;
         }
-        // 渲染，并传入处理选项点击的函数
         renderDialogue(state, elements, (targetNode) => {
             this.advance(targetNode);
         });

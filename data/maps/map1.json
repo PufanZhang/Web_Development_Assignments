@@ -4,5 +4,5 @@
   "walls": [
     { "x": 700, "y": 800, "width": 100, "height": 100 }
   ],
-  "objects": [ "item_in_here01", "portal1to2" ]
+  "objects": [ "item_in_here01", "portal1to2", "increase_suspicion", "decrease_suspicion" ]
 }

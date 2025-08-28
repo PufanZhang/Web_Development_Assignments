@@ -1,0 +1,17 @@
+{
+  "startNode": "start",
+  "nodes": {
+    "start": {
+      "speaker": "旁白",
+      "dialogue": "这个紫色的物品看起来人畜无害，你感觉心情平静了一些。",
+      "nextNode": "changeValue"
+    },
+    "changeValue": {
+      "speaker": "旁白",
+      "dialogue": "（怀疑度降低了。）",
+      "valueChanges": [
+        { "name": "suspicion", "amount": -10 }
+      ]
+    }
+  }
+}

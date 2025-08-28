@@ -16,7 +16,13 @@ export const auth = {
         const hashedPassword = await hashPassword(password);
         localStorage.setItem(username + "@login", hashedPassword);
 
-        const initialData = { address: "", v1: 0, achievements: "", tools: "" };
+        // 初始化玩家数据，包含位置、成就、道具和一个空的数值容器
+        const initialData = {
+            address: { map: "map1", x: 400, y: 300 },
+            values: {}, // 新增：用于存放所有游戏数值的容器
+            achievements: "",
+            tools: ""
+        };
         localStorage.setItem(username + "@data", JSON.stringify(initialData));
         return { success: true, message: "用户注册成功" };
     },
@@ -37,7 +43,7 @@ export const auth = {
 
 // --- 资源加载器 ---
 export const loader = {
-    // 加载单个JSON文件的小工具函数
+    // ... (这部分代码没有变化)
     async _fetchJson(path) {
         const response = await fetch(path);
         if (!response.ok) {
@@ -45,36 +51,24 @@ export const loader = {
         }
         return response.json();
     },
-
-    // 加载一张完整的地图
     async loadMap(mapId) {
         try {
-            // 1. 先获取地图的基本信息
             const mapInfo = await this._fetchJson(`data/maps/${mapId}.json`);
-
-            // 2. 根据地图信息，异步加载所有需要用到的“物品”数据
             const objectPromises = (mapInfo.objects || []).map(id =>
                 this._fetchJson(`data/objects/${id}.json`)
             );
-
-            // 3. 等待所有物品都加载完毕
             const objects = await Promise.all(objectPromises);
-
-            // 4. 组装成一份完整的、随时可以使用的地图数据并返回
             return {
                 name: mapInfo.name,
                 background: mapInfo.background,
                 walls: mapInfo.walls || [],
                 objects: objects
             };
-
         } catch (error) {
             console.error(`加载地图 "${mapId}" 时发生严重错误:`, error);
-            return null; // 加载失败
+            return null;
         }
     },
-
-    // 加载故事剧本（会被 DialogueManager 调用）
     async loadStory(storyKey) {
         try {
             return await this._fetchJson(`data/stories/${storyKey}.json`);
@@ -85,34 +79,70 @@ export const loader = {
     }
 };
 
-// --- 游戏存档模块 ---
+// --- 游戏存档模块 (重构) ---
 export const gameState = {
-    save(username, mapId, position) {
+    // 获取当前用户的完整数据
+    _getPlayerData(username) {
+        const dataString = localStorage.getItem(username + "@data");
+        return dataString ? JSON.parse(dataString) : null;
+    },
+
+    // 保存当前用户的完整数据
+    _savePlayerData(username, data) {
+        localStorage.setItem(username + "@data", JSON.stringify(data));
+    },
+
+    // 保存玩家位置
+    saveLocation(username, mapId, position) {
         try {
-            const dataString = localStorage.getItem(username + "@data");
-            if (!dataString) return;
-            const data = JSON.parse(dataString);
+            const data = this._getPlayerData(username);
+            if (!data) return;
             data.address = { map: mapId, x: position.x, y: position.y };
-            localStorage.setItem(username + "@data", JSON.stringify(data));
+            this._savePlayerData(username, data);
         } catch(e) {
-            console.error("存档失败:", e);
+            console.error("存档位置失败:", e);
         }
     },
 
-    load(username) {
+    // 读取玩家位置
+    loadLocation(username) {
         try {
-            const dataString = localStorage.getItem(username + "@data");
-            if (!dataString) return null;
-            const data = JSON.parse(dataString);
-            return data.address || null;
+            const data = this._getPlayerData(username);
+            return data ? (data.address || null) : null;
         } catch(e) {
-            console.error("读档失败:", e);
+            console.error("读档位置失败:", e);
             return null;
+        }
+    },
+
+    // --- 新增：数值系统核心函数 ---
+
+    // 获取特定数值
+    getValue(username, valueName) {
+        const data = this._getPlayerData(username);
+        // 如果数值不存在，则默认为0
+        return data?.values?.[valueName] || 0;
+    },
+
+    // 修改特定数值（增加或减少）
+    modifyValue(username, valueName, amount) {
+        try {
+            const data = this._getPlayerData(username);
+            if (!data) return;
+            if (!data.values) {
+                data.values = {}; // 如果没有values对象，创建一个
+            }
+            const currentValue = data.values[valueName] || 0;
+            data.values[valueName] = currentValue + amount;
+            this._savePlayerData(username, data);
+            console.log(`数值[${valueName}] 变化: ${amount}。当前值: ${data.values[valueName]}`);
+        } catch(e) {
+            console.error(`修改数值 "${valueName}" 失败:`, e);
         }
     }
 };
 
-// 新增一个获取当前用户的辅助函数
+// --- 辅助函数 ---
 export function getCurrentUser() {
     return localStorage.getItem("user");
 }

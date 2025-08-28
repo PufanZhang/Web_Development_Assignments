@@ -14,8 +14,7 @@ let currentUser = null;
 let currentMap = {
     id: null,
     walls: [],
-    interactableObjects: [],
-    portals: []
+    interactableObjects: []
 };
 
 // --- 地图传送 ---
@@ -39,7 +38,7 @@ async function loadMapAt(mapId, targetX, targetY) {
     player.updateStyle();
 
     if (currentUser) {
-        gameState.save(currentUser, mapId, { x: targetX, y: targetY });
+        gameState.saveLocation(currentUser, mapId, { x: targetX, y: targetY });
     }
     console.log(`已传送到: ${newMapData.name || mapId}`);
 }
@@ -71,7 +70,7 @@ async function initializeGame() {
     interactionManager.init(handleTeleport);
     player.init();
 
-    const savedLocation = gameState.load(currentUser);
+    const savedLocation = gameState.loadLocation(currentUser);
     const initialMap = savedLocation ? savedLocation.map : "map1";
     const initialX = savedLocation ? savedLocation.x : 400;
     const initialY = savedLocation ? savedLocation.y : 300;

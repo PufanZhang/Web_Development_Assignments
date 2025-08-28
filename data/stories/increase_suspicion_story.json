@@ -1,0 +1,17 @@
+{
+  "startNode": "start",
+  "nodes": {
+    "start": {
+      "speaker": "旁白",
+      "dialogue": "你触摸了这个神秘的紫色物品，一股奇怪的感觉涌上心头。",
+      "nextNode": "changeValue"
+    },
+    "changeValue": {
+      "speaker": "旁白",
+      "dialogue": "（怀疑度增加了！）",
+      "valueChanges": [
+        { "name": "suspicion", "amount": 100 }
+      ]
+    }
+  }
+}
