@@ -1,33 +1,33 @@
 import { renderDialogue } from '../../dialogue_renderer.js';
-import { loader } from '../dataManager.js'; // 引入新的加载器
+import { loader } from '../dataManager.js';
 
 const elements = {
     dialogueView: document.getElementById('dialogue-view'),
     characterContainer: document.getElementById('character-container'),
     characterName: document.getElementById('character-name'),
     dialogueText: document.getElementById('dialogue-text'),
+    dialogueOptionsContainer: document.getElementById('dialogue-options-container')
 };
 
 let state = {};
-const storyCache = {}; // 新增一个“剧本缓存”，看过的剧本就记下来，不用重复加载
-let allStories = {};
+const storyCache = {};
 let onDialogueEndCallback = null;
 
 export const dialogueManager = {
     init() {
-        elements.dialogueView.addEventListener('click', () => {
-            if (window.gameMode === 'dialogue') {
+        elements.dialogueView.addEventListener('click', (e) => {
+            // 只有在没有选项，并且点击的不是选项按钮时，才通过点击背景继续
+            const currentNode = state.story.nodes[state.currentNodeId];
+            if (window.gameMode === 'dialogue' && !currentNode.options && e.target.className !== 'dialogue-option') {
                 this.advance();
             }
         });
     },
 
     async start(storyKey, onEnd) {
-        // 检查缓存里有没有这个剧本
         if (!storyCache[storyKey]) {
-            console.log(`首次加载剧本: ${storyKey}`);
             const storyData = await loader.loadStory(storyKey);
-            if (!storyData) return; // 加载失败则不继续
+            if (!storyData) return;
             storyCache[storyKey] = storyData;
         }
 
@@ -39,23 +39,41 @@ export const dialogueManager = {
 
         state = {
             story: story,
-            currentIndex: -1,
+            currentNodeId: story.startNode, // 从 startNode 开始
             currentScene: []
         };
-        this.advance();
+        this.renderCurrentNode();
     },
 
-    advance() {
-        state.currentIndex++;
-        if (state.currentIndex >= state.story.length) {
+    advance(nextNodeId) {
+        const currentNode = state.story.nodes[state.currentNodeId];
+
+        // 如果提供了 nextNodeId (来自选项点击)，则直接使用
+        // 否则，使用当前节点的 nextNode
+        const targetNodeId = nextNodeId || currentNode.nextNode;
+
+        if (targetNodeId && state.story.nodes[targetNodeId]) {
+            state.currentNodeId = targetNodeId;
+            this.renderCurrentNode();
+        } else {
+            this.end(); // 没有下一个节点了，结束对话
+        }
+    },
+
+    renderCurrentNode() {
+        const currentNode = state.story.nodes[state.currentNodeId];
+        if (!currentNode) {
             this.end();
             return;
         }
-        const currentLine = state.story[state.currentIndex];
-        if (currentLine.scene) {
-            state.currentScene = currentLine.scene;
+        // 如果当前节点有场景信息，就更新场景
+        if (currentNode.scene) {
+            state.currentScene = currentNode.scene;
         }
-        renderDialogue(state, elements);
+        // 渲染，并传入处理选项点击的函数
+        renderDialogue(state, elements, (targetNode) => {
+            this.advance(targetNode);
+        });
     },
 
     end() {

@@ -1,44 +1,41 @@
-[
-  {
-    "scene": [
-      {
-        "id": "A",
-        "sprite": "assets/images/characterA.png"
-      },
-      {
-        "id": "B",
-        "sprite": "assets/images/characterB.png"
-      }
-    ],
-    "speaker": "A",
-    "dialogue": "小B，你看，这样是不是感觉更生动了？"
-  },
-  {
-    "scene": [
-      {
-        "id": "A",
-        "sprite": "assets/images/characterA.png"
-      },
-      {
-        "id": "B",
-        "sprite": "assets/images/characterB.png"
-      }
-    ],
-    "speaker": "B",
-    "dialogue": "嗯，确实。右边还有你的立绘。"
-  },
-  {
-    "speaker": "旁白",
-    "dialogue": "……这是旁白的效果。"
-  },
-  {
-    "scene": [
-      {
-        "id": "A",
-        "sprite": "assets/images/characterA.png"
-      }
-    ],
-    "speaker": "A",
-    "dialogue": "即使我单独在这里，也依然光彩夺目"
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "scene": [{ "id": "A", "sprite": "assets/images/characterA.png" },
+        { "id": "B", "sprite": "assets/images/characterB.png" }],
+      "speaker": "A",
+      "dialogue": "小B，你看，这样是不是感觉更生动了？",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [{ "id": "A", "sprite": "assets/images/characterA.png" },
+        { "id": "B", "sprite": "assets/images/characterB.png" }],
+      "speaker": "B",
+      "dialogue": "嗯，确实。不过……我们接下来要做什么呢？",
+      "options": [
+        { "text": "“我们来聊聊更深邃的话题吧。”", "targetNode": "node_topic" },
+        { "text": "“先不聊了，继续我们的冒险！”", "targetNode": "node_adventure" }
+      ]
+    },
+    "node_topic": {
+      "speaker": "旁白",
+      "dialogue": "你们深入地探讨了世界的本质，感觉羁绊加深了。",
+      "nextNode": "end1"
+    },
+    "node_adventure": {
+      "scene": [{ "id": "A", "sprite": "assets/images/characterA.png" }],
+      "speaker": "A",
+      "dialogue": "好！冒险在召唤我们！",
+      "nextNode": "end2"
+    },
+    "end1": {
+      "speaker": "旁白",
+      "dialogue": "（结局A：思想的共鸣）"
+    },
+    "end2": {
+      "speaker": "旁白",
+      "dialogue": "（结局B：旅途的起点）"
+    }
   }
-]
+}

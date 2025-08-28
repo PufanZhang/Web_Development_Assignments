@@ -80,6 +80,8 @@ body, html {
     cursor: pointer;
     display: flex; /* 启用Flexbox */
     flex-direction: column; /* 垂直排列：立绘在上，文字在下 */
+    user-select: none; /* 防止用户选中文本 */
+    outline: none;
 }
 
 #character-container {
@@ -130,6 +132,8 @@ body, html {
     z-index: 15; /* 比玩家高一点，确保不会被挡住 */
     transform: translate(-50%, -50%); /* 居中对齐 */
     transition: top 0.1s linear, left 0.1s linear; /* 让位置变化更丝滑 */
+    user-select: none; /* 防止用户选中文本 */
+    outline: none;
 }
 
 .portal {
@@ -137,4 +141,30 @@ body, html {
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
+}
+
+#dialogue-options-container {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.dialogue-option {
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid white;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 80%;
+    text-align: center;
+    user-select: none; /* 防止用户选中文本 */
+    outline: none;
+}
+
+.dialogue-option:hover {
+    background-color: rgba(255, 255, 255, 0.3);
 }
