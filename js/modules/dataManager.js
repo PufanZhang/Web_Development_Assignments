@@ -49,28 +49,23 @@ export const loader = {
     // 加载一张完整的地图
     async loadMap(mapId) {
         try {
-            // 1. 先获取地图的“图书卡”
+            // 1. 先获取地图的基本信息
             const mapInfo = await this._fetchJson(`data/maps/${mapId}.json`);
 
-            // 2. 根据卡上的索引，创建去各个书架取书的“任务列表”
+            // 2. 根据地图信息，异步加载所有需要用到的“物品”数据
             const objectPromises = (mapInfo.objects || []).map(id =>
                 this._fetchJson(`data/objects/${id}.json`)
             );
-            const portalPromises = (mapInfo.portals || []).map(id =>
-                this._fetchJson(`data/portals/${id}.json`)
-            );
 
-            // 3. 同时执行所有取书任务
+            // 3. 等待所有物品都加载完毕
             const objects = await Promise.all(objectPromises);
-            const portals = await Promise.all(portalPromises);
 
-            // 4. 把所有信息组装好，返回一张完整的、随时可用的地图数据
+            // 4. 组装成一份完整的、随时可以使用的地图数据并返回
             return {
                 name: mapInfo.name,
                 background: mapInfo.background,
                 walls: mapInfo.walls || [],
-                objects: objects,
-                portals: portals
+                objects: objects
             };
 
         } catch (error) {
