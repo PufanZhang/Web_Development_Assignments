@@ -27,14 +27,13 @@ async function loadMapAt(mapId, targetX, targetY) {
         alert(`地图 "${mapId}" 加载失败，请检查文件或网络！`);
         return;
     }
-
     clearMap();
-    const { interactableObjects, portals, walls } = buildMap(newMapData);
-    currentMap = { id: mapId, interactableObjects, portals, walls };
+    const { interactableObjects, walls } = buildMap(newMapData);
+    currentMap = { id: mapId, interactableObjects, walls };
 
     document.getElementById('map-view').style.backgroundImage = `url(${newMapData.background})`;
 
-    interactionManager.updateInteractables(currentMap.interactableObjects, currentMap.portals);
+    interactionManager.updateInteractables(currentMap.interactableObjects);
     player.x = targetX;
     player.y = targetY;
     player.updateStyle();
@@ -42,7 +41,6 @@ async function loadMapAt(mapId, targetX, targetY) {
     if (currentUser) {
         gameState.save(currentUser, mapId, { x: targetX, y: targetY });
     }
-
     console.log(`已传送到: ${newMapData.name || mapId}`);
 }
 
@@ -64,8 +62,8 @@ async function initializeGame() {
         return;
     }
 
-    const handleTeleport = (portal) => {
-        loadMapAt(portal.targetMap, portal.targetX, portal.targetY);
+    const handleTeleport = (teleportData) => {
+        loadMapAt(teleportData.targetMap, teleportData.targetX, teleportData.targetY);
     };
 
     dialogueManager.init();
@@ -76,9 +74,7 @@ async function initializeGame() {
     const initialMap = savedLocation ? savedLocation.map : "map1";
     const initialX = savedLocation ? savedLocation.x : 400;
     const initialY = savedLocation ? savedLocation.y : 300;
-
     await loadMapAt(initialMap, initialX, initialY);
-
     requestAnimationFrame(gameLoop);
 }
 

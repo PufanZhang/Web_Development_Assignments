@@ -30,33 +30,38 @@ export const dialogueManager = {
             if (!storyData) return;
             storyCache[storyKey] = storyData;
         }
-
         const story = storyCache[storyKey];
         onDialogueEndCallback = onEnd;
-
         window.gameMode = 'dialogue';
         elements.dialogueView.classList.add('active');
-
         state = {
             story: story,
-            currentNodeId: story.startNode, // 从 startNode 开始
-            currentScene: []
+            currentNodeId: story.startNode,
+            currentScene: [],
+            endAction: null
         };
         this.renderCurrentNode();
     },
 
     advance(nextNodeId) {
         const currentNode = state.story.nodes[state.currentNodeId];
-
         // 如果提供了 nextNodeId (来自选项点击)，则直接使用
         // 否则，使用当前节点的 nextNode
         const targetNodeId = nextNodeId || currentNode.nextNode;
 
         if (targetNodeId && state.story.nodes[targetNodeId]) {
             state.currentNodeId = targetNodeId;
+            const nextNode = state.story.nodes[targetNodeId];
+            if (nextNode.action) {
+                state.endAction = nextNode.action; // 如果下一个节点有动作，记录下来
+            }
             this.renderCurrentNode();
         } else {
-            this.end(); // 没有下一个节点了，结束对话
+            // 如果当前节点有动作，也记录下来
+            if (currentNode.action) {
+                state.endAction = currentNode.action;
+            }
+            this.end();
         }
     },
 
@@ -80,7 +85,7 @@ export const dialogueManager = {
         window.gameMode = 'map';
         elements.dialogueView.classList.remove('active');
         if (onDialogueEndCallback) {
-            onDialogueEndCallback();
+            onDialogueEndCallback(state.endAction);
         }
     }
 };

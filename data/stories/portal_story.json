@@ -1,0 +1,22 @@
+{
+  "startNode": "confirm",
+  "nodes": {
+    "confirm": {
+      "speaker": "旁白",
+      "dialogue": "前方似乎连接着另一个区域，要现在过去吗？",
+      "options": [
+        { "text": "出发，前往新区域", "targetNode": "teleport_action" },
+        { "text": "还是再逛逛吧", "targetNode": "stay_action" }
+      ]
+    },
+    "teleport_action": {
+      "speaker": "旁白",
+      "dialogue": "你下定了决心，迈向了新的旅途。",
+      "action": "teleport"
+    },
+    "stay_action": {
+      "speaker": "旁白",
+      "dialogue": "你决定暂时留在这里，继续探索一番。"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "portal2to1",
+  "image": "assets/images/portal.png",
+  "x": 800, "y": 500, "width": 80, "height": 100,
+  "storyKey": "portal_story",
+  "showPrompt": true,
+  "teleportData": {
+    "targetMap": "map1",
+    "targetX": 150,
+    "targetY": 400
+  }
+}

@@ -1,13 +1,11 @@
 import { dialogueManager } from './dialogue.js';
 
 let interactableObjects = [];
-let portals = [];
 let currentInteractable = null;
-let currentPortal = null;
 const promptElement = document.getElementById('interaction-prompt');
 
-function updatePrompt(target, player, key = 'E') {
-    if (!target) {
+function updatePrompt(target, player) {
+    if (!target || !target.showPrompt) {
         promptElement.style.display = 'none';
         return;
     }
@@ -55,7 +53,7 @@ function updatePrompt(target, player, key = 'E') {
     }
     // --- 算法结束 ---
 
-    promptElement.innerText = key;
+    promptElement.innerText = 'E';
     promptElement.style.display = 'block';
     // 使用 transform 来精确定位，并让CSS中的居中效果生效
     promptElement.style.left = `${promptX}px`;
@@ -63,26 +61,29 @@ function updatePrompt(target, player, key = 'E') {
 }
 
 export const interactionManager = {
-    updateInteractables(objects, newPortals) {
+    updateInteractables(objects) {
         interactableObjects = objects;
-        portals = newPortals;
     },
 
     init(onTeleport) {
         window.addEventListener('keydown', (e) => {
-            if (window.gameMode !== 'map') return;
-            if (e.key === 'e' && currentInteractable) {
-                dialogueManager.start(currentInteractable.storyKey, () => {
-                    if (currentInteractable) {
-                        currentInteractable.interacted = true;
-                        currentInteractable.element.classList.add('hidden');
-                        currentInteractable = null;
-                    }
-                });
-            }
-            if (e.key === 'q' && currentPortal) {
-                onTeleport(currentPortal);
-            }
+            if (window.gameMode !== 'map' || e.key !== 'e' || !currentInteractable) return;
+
+            dialogueManager.start(currentInteractable.storyKey, (endAction) => {
+                // 对话结束后的回调
+                if (endAction === 'teleport' && currentInteractable.teleportData) {
+                    onTeleport(currentInteractable.teleportData);
+                }
+
+                // 普通物品交互后隐藏
+                if (currentInteractable && !currentInteractable.teleportData) {
+                    currentInteractable.interacted = true;
+                    currentInteractable.element.classList.add('hidden');
+                }
+
+                // 无论如何，清空当前交互对象
+                currentInteractable = null;
+            });
         });
     },
 
@@ -104,25 +105,6 @@ export const interactionManager = {
         });
         currentInteractable = nearestObject;
 
-        let nearestPortal = null;
-        let minPortalDist = Infinity;
-        portals.forEach(portal => {
-            const portalCenterX = portal.x + portal.width / 2;
-            const portalCenterY = portal.y + portal.height / 2;
-            const distance = Math.hypot(playerCenterX - portalCenterX, playerCenterY - portalCenterY);
-            if (distance < detectionRadius && distance < minPortalDist) {
-                minPortalDist = distance;
-                nearestPortal = portal;
-            }
-        });
-        currentPortal = nearestPortal;
-
-        if (currentPortal) {
-            updatePrompt(currentPortal, player, 'Q');
-        } else if (currentInteractable && currentInteractable.showPrompt) {
-            updatePrompt(currentInteractable, player, 'E');
-        } else {
-            updatePrompt(null, player);
-        }
+        updatePrompt(currentInteractable, player);
     }
 };
