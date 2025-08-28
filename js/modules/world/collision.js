@@ -11,16 +11,11 @@ export function handlePlayerCollision(player, walls) {
     const originalX = player.x;
     const originalY = player.y;
 
-    // 1. 计算玩家“希望”移动到的下一个位置
-    let targetX = originalX;
-    let targetY = originalY;
+    // 从 player 对象中获取已经计算好的目标位置
+    const targetX = player.targetX;
+    const targetY = player.targetY;
 
-    if (player.keysPressed.w) targetY -= player.speed;
-    if (player.keysPressed.s) targetY += player.speed;
-    if (player.keysPressed.a) targetX -= player.speed;
-    if (player.keysPressed.d) targetX += player.speed;
-
-    // 2. 独立检测X轴的碰撞，并确定最终的X坐标
+    // 1. 独立检测X轴的碰撞，并确定最终的X坐标
     let finalX = targetX;
     const playerXRect = { ...player, x: targetX, y: originalY };
     for (const wall of walls) {
@@ -34,7 +29,7 @@ export function handlePlayerCollision(player, walls) {
         }
     }
 
-    // 3. 独立检测Y轴的碰撞，并确定最终的Y坐标
+    // 2. 独立检测Y轴的碰撞，并确定最终的Y坐标
     let finalY = targetY;
     const playerYRect = { ...player, x: finalX, y: targetY }; // X用的是修正后的finalX，防止穿墙角
     for (const wall of walls) {
@@ -48,7 +43,7 @@ export function handlePlayerCollision(player, walls) {
         }
     }
 
-    // 4. 最后，一次性更新玩家的最终位置
+    // 3. 最后，一次性更新玩家的最终位置
     player.x = finalX;
     player.y = finalY;
 

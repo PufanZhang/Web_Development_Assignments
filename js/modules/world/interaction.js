@@ -1,4 +1,5 @@
 import { dialogueManager } from './dialogue.js';
+import { INTERACTION_RADIUS, BASE_VISUAL_GAP } from '../../config.js';
 
 let interactableObjects = [];
 let currentInteractable = null;
@@ -6,15 +7,30 @@ const promptElement = document.getElementById('interaction-prompt');
 
 function updatePrompt(target, player) {
     if (!target || !target.showPrompt) {
-        promptElement.style.display = 'none';
+        if (promptElement.style.display !== 'none') {
+            promptElement.style.display = 'none';
+        }
         return;
     }
 
+    const wasHidden = promptElement.style.display === 'none';
+    let promptWidth, promptHeight;
+    if (wasHidden) {
+        // 为了精确测量，先让标签在不可见状态下显示出来
+        promptElement.style.transition = 'none'; // 测量期间禁止任何动画
+        promptElement.style.visibility = 'hidden'; // 让它不可见，但占据空间
+        promptElement.style.display = 'block';
+        // 能获取到它真实的尺寸
+        promptWidth = promptElement.offsetWidth;
+        promptHeight = promptElement.offsetHeight;
+    } else {
+        // 如果它本来就可见，直接获取尺寸即可
+        promptWidth = promptElement.offsetWidth;
+        promptHeight = promptElement.offsetHeight;
+    }
+
     // --- 智能定位算法开始 ---
-    const BASE_VISUAL_GAP = 15;
     // 1. 实时获取提示标签被渲染后的实际尺寸
-    const promptWidth = promptElement.offsetWidth;
-    const promptHeight = promptElement.offsetHeight;
     const aspectRatio = promptWidth / promptHeight;
     const horizontalGap = BASE_VISUAL_GAP * Math.sqrt(aspectRatio);
     const verticalGap = BASE_VISUAL_GAP / Math.sqrt(aspectRatio);
@@ -53,11 +69,19 @@ function updatePrompt(target, player) {
     }
     // --- 算法结束 ---
 
+    // 更新文本和计算出的位置
     promptElement.innerText = 'E';
-    promptElement.style.display = 'block';
-    // 使用 transform 来精确定位，并让CSS中的居中效果生效
     promptElement.style.left = `${promptX}px`;
     promptElement.style.top = `${promptY}px`;
+
+    if (wasHidden) {
+        // 对于初次登场的标签，让它“瞬移”到正确位置
+        // 强制浏览器立刻应用上面的位置变化
+        void promptElement.offsetWidth;
+        // 然后，恢复它的过渡动画和可见度，让后续移动变得丝滑
+        promptElement.style.transition = '';
+        promptElement.style.visibility = 'visible';
+    }
 }
 
 export const interactionManager = {
@@ -88,7 +112,8 @@ export const interactionManager = {
     },
 
     update(player) {
-        const detectionRadius = 80;
+        // 使用从配置中导入的 INTERACTION_RADIUS
+        const detectionRadius = INTERACTION_RADIUS;
         const playerCenterX = player.x + player.width / 2;
         const playerCenterY = player.y + player.height / 2;
 

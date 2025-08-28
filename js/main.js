@@ -47,8 +47,9 @@ async function loadMapAt(mapId, targetX, targetY) {
 // --- 游戏主循环 ---
 function gameLoop() {
     if (window.gameMode === 'map') {
-        handlePlayerCollision(player, currentMap.walls);
-        interactionManager.update(player);
+        player.update(); // 1. 更新玩家，计算出期望移动的位置
+        handlePlayerCollision(player, currentMap.walls); // 2. 传入玩家对象，处理碰撞
+        interactionManager.update(player); // 3. 更新交互检测
     }
     requestAnimationFrame(gameLoop);
 }

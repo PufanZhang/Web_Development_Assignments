@@ -1,10 +1,14 @@
+import { PLAYER_SPEED } from '../../config.js';
+
 export const player = {
     element: document.getElementById('player'),
     x: 400,
     y: 300,
-    speed: 3,
+    speed: PLAYER_SPEED,
     width: 50,
     height: 50,
+    targetX: 50,
+    targetY: 50,
     keysPressed: { w: false, a: false, s: false, d: false },
 
     init() {
@@ -19,6 +23,16 @@ export const player = {
             }
         });
         this.updateStyle();
+    },
+
+    update() {
+        this.targetX = this.x;
+        this.targetY = this.y;
+
+        if (this.keysPressed.w) this.targetY -= this.speed;
+        if (this.keysPressed.s) this.targetY += this.speed;
+        if (this.keysPressed.a) this.targetX -= this.speed;
+        if (this.keysPressed.d) this.targetX += this.speed;
     },
 
     updateStyle() {
