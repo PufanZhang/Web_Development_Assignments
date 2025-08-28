@@ -8,7 +8,7 @@ import { dialogueManager } from './modules/world/dialogue.js';
 // --- 全局游戏状态 ---
 window.gameMode = 'map'; // 'map' 或 'dialogue'
 let currentUser = null;
-let worldData = null;
+
 
 // --- 当前地图的状态容器 ---
 let currentMap = {
