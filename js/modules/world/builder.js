@@ -36,6 +36,7 @@ export function buildMap(mapData) {
         wallElement.style.cssText = `
             left: ${data.x}px; top: ${data.y}px;
             width: ${data.width}px; height: ${data.height}px;
+            background-color: rgba(255, 0, 0, 0.3);
         `;
         mapView.appendChild(wallElement);
     });
