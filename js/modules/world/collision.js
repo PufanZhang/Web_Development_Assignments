@@ -11,51 +11,48 @@ export function handlePlayerCollision(player, walls) {
     const originalX = player.x;
     const originalY = player.y;
 
-    let nextX = originalX;
-    let nextY = originalY;
+    // 1. 计算玩家“希望”移动到的下一个位置
+    let targetX = originalX;
+    let targetY = originalY;
 
-    if (player.keysPressed.w) nextY -= player.speed;
-    if (player.keysPressed.s) nextY += player.speed;
-    if (player.keysPressed.a) nextX -= player.speed;
-    if (player.keysPressed.d) nextX += player.speed;
+    if (player.keysPressed.w) targetY -= player.speed;
+    if (player.keysPressed.s) targetY += player.speed;
+    if (player.keysPressed.a) targetX -= player.speed;
+    if (player.keysPressed.d) targetX += player.speed;
 
-    // --- X轴碰撞检测 ---
-    const playerXRect = { ...player, x: nextX, y: originalY };
-    let collidedX = false;
+    // 2. 独立检测X轴的碰撞，并确定最终的X坐标
+    let finalX = targetX;
+    const playerXRect = { ...player, x: targetX, y: originalY };
     for (const wall of walls) {
         if (isRectColliding(playerXRect, wall)) {
-            // 如果发生碰撞，就修正nextX的值，让其刚好贴在墙边
-            if (nextX > originalX) { // 向右移动时撞墙
-                nextX = wall.x - player.width;
-                collidedX = true;
-            } else if (nextX < originalX) { // 向左移动时撞墙
-                nextX = wall.x + wall.width;
-                collidedX = true;
+            if (targetX > originalX) { // 向右撞墙
+                finalX = wall.x - player.width;
+            } else if (targetX < originalX) { // 向左撞墙
+                finalX = wall.x + wall.width;
             }
-            break; // 找到一个碰撞就够了
+            break;
         }
     }
-    player.x = nextX;
 
-    // --- Y轴碰撞检测 ---
-    const playerYRect = { ...player, x: player.x, y: nextY };
-    let collidedY = false;
+    // 3. 独立检测Y轴的碰撞，并确定最终的Y坐标
+    let finalY = targetY;
+    const playerYRect = { ...player, x: finalX, y: targetY }; // X用的是修正后的finalX，防止穿墙角
     for (const wall of walls) {
         if (isRectColliding(playerYRect, wall)) {
-            // 如果发生碰撞，就修正nextY的值
-            if (nextY > originalY) { // 向下移动时撞墙
-                nextY = wall.y - player.height;
-                collidedY = true;
-            } else if (nextY < originalY) { // 向上移动时撞墙
-                nextY = wall.y + wall.height;
-                collidedY = true;
+            if (targetY > originalY) { // 向下撞墙
+                finalY = wall.y - player.height;
+            } else if (targetY < originalY) { // 向上撞墙
+                finalY = wall.y + wall.height;
             }
-            break; // 找到一个碰撞就够了
+            break;
         }
     }
-    player.y = nextY;
 
-    // 只有在位置实际发生变化时才更新样式
+    // 4. 最后，一次性更新玩家的最终位置
+    player.x = finalX;
+    player.y = finalY;
+
+    // 只有在位置实际发生变化时才更新样式，避免不必要的渲染
     if (player.x !== originalX || player.y !== originalY) {
         player.updateStyle();
     }

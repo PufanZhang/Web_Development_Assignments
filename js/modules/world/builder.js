@@ -33,11 +33,10 @@ export function buildMap(mapData) {
     walls.forEach(data => {
         const wallElement = document.createElement('div');
         wallElement.className = 'map-element wall';
-        wallElement.style.cssText = `
-            left: ${data.x}px; top: ${data.y}px;
-            width: ${data.width}px; height: ${data.height}px;
-            background-color: rgba(255, 0, 0, 0.3);
-        `;
+        wallElement.style.left = `${data.x}px`;
+        wallElement.style.top = `${data.y}px`;
+        wallElement.style.width = `${data.width}px`;
+        wallElement.style.height = `${data.height}px`;
         mapView.appendChild(wallElement);
     });
 
