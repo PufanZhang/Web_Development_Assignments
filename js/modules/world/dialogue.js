@@ -1,5 +1,5 @@
 import { renderDialogue } from '../../dialogue_renderer.js';
-import { loader } from '../dataManager.js';
+import { loader, gameState, getCurrentUser } from '../dataManager.js';
 
 const elements = {
     dialogueView: document.getElementById('dialogue-view'),
