@@ -1,3 +1,5 @@
+import { debugManager } from '../debug.js';
+
 // --- 安全的哈希函数 ---
 async function hashPassword(password) {
     const encoder = new TextEncoder();
@@ -115,13 +117,15 @@ export const gameState = {
         }
     },
 
-    // --- 新增：数值系统核心函数 ---
+    // --- 数值系统核心函数 ---
 
     // 获取特定数值
     getValue(username, valueName) {
         const data = this._getPlayerData(username);
-        // 如果数值不存在，则默认为0
-        return data?.values?.[valueName] || 0;
+        const value = data?.values?.[valueName] || 0;
+        // 同时更新一下调试窗口，保证刷新后数值正确
+        debugManager.updateValue(valueName, value);
+        return value;
     },
 
     // 修改特定数值（增加或减少）
@@ -130,12 +134,16 @@ export const gameState = {
             const data = this._getPlayerData(username);
             if (!data) return;
             if (!data.values) {
-                data.values = {}; // 如果没有values对象，创建一个
+                data.values = {};
             }
             const currentValue = data.values[valueName] || 0;
-            data.values[valueName] = currentValue + amount;
+            const newValue = currentValue + amount;
+            data.values[valueName] = newValue;
             this._savePlayerData(username, data);
-            console.log(`数值[${valueName}] 变化: ${amount}。当前值: ${data.values[valueName]}`);
+
+            debugManager.updateValue(valueName, newValue);
+
+            console.log(`数值[${valueName}] 变化: ${amount}。当前值: ${newValue}`);
         } catch(e) {
             console.error(`修改数值 "${valueName}" 失败:`, e);
         }

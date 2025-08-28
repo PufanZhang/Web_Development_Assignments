@@ -4,6 +4,8 @@ import { player } from './modules/world/player.js';
 import { handlePlayerCollision } from './modules/world/collision.js';
 import { interactionManager } from './modules/world/interaction.js';
 import { dialogueManager } from './modules/world/dialogue.js';
+import { debugManager } from './debug.js';
+
 
 // --- 全局游戏状态 ---
 window.gameMode = 'map'; // 'map' 或 'dialogue'
@@ -62,6 +64,8 @@ async function initializeGame() {
         return;
     }
 
+    debugManager.init();
+
     const handleTeleport = (teleportData) => {
         loadMapAt(teleportData.targetMap, teleportData.targetX, teleportData.targetY);
     };
@@ -75,6 +79,7 @@ async function initializeGame() {
     const initialX = savedLocation ? savedLocation.x : 400;
     const initialY = savedLocation ? savedLocation.y : 300;
     await loadMapAt(initialMap, initialX, initialY);
+    gameState.getValue(currentUser, 'suspicion');
     requestAnimationFrame(gameLoop);
 }
 
