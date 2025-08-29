@@ -57,7 +57,7 @@ export const fightManager = {
             attackCooldown: 0,
             attackRate: 0.5,
             isBlocking: false,
-            attackDamage: 8,
+            attackDamage: 12,
             attacklocked: 0,
             attackRange: 100,
             prevState: 'idle' // 新增：记录前一个状态
@@ -69,7 +69,7 @@ export const fightManager = {
             y: 500,
             width: 80,
             height: 120,
-            speed: 3,
+            speed: 20,
             health: 200,
             state: 'idle',
             facing: 'left',
@@ -287,7 +287,7 @@ export const fightManager = {
             const distance = Math.abs(this.player.x - this.enemy.x);
 
             if (distance < 100) {
-            //    this.enemyAttack();
+                this.enemyAttack();
             } else if (distance < 400) {
                 if (this.player.x < this.enemy.x) {
                     this.enemy.x -= this.enemy.speed;
