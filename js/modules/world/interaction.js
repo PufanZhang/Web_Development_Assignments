@@ -79,7 +79,7 @@ export const interactionManager = {
                     // 启动战斗前对话
                     dialogueManager.start(currentInteractable.storyKey, () => {
                         // 对话结束后开始战斗
-                        import('./fight.js').then(({ fightManager }) => {
+                        import('../../../minigame/FTG/fight.js').then(({ fightManager }) => {
                             fightManager.start();
                         });
                     });

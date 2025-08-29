@@ -332,7 +332,7 @@ export const fightManager = {
         // 检测敌人攻击
         if (this.enemy.state === 'attack') {
             const attackX = this.enemy.facing === 'right' ?
-                this.enemy.x + this.enemy.width :
+                this.enemy.x + this.enemy.attackRange :
                 this.enemy.x - this.enemy.attackRange;
 
             if (this.checkAttackHit(attackX, this.enemy.attackRange, this.enemy, this.player)) {
