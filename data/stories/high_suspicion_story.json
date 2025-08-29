@@ -1,0 +1,14 @@
+{
+  "startNode": "start",
+  "nodes": {
+    "start": {
+      "speaker": "？？？",
+      "dialogue": "你竟然能看到我……",
+      "nextNode": "end"
+    },
+    "end": {
+      "speaker": "旁白",
+      "dialogue": "（你似乎触及了更深层的秘密。）"
+    }
+  }
+}

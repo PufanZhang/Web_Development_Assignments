@@ -1,0 +1,12 @@
+{
+  "id": "high_suspicion_item",
+  "image": "assets/images/item_03.png",
+  "x": 400, "y": 150, "width": 60, "height": 60,
+  "storyKey": "high_suspicion_story",
+  "showPrompt": true,
+  "requiredValue": {
+    "name": "suspicion",
+    "comparison": "greaterOrEqual",
+    "value": 200
+  }
+}
