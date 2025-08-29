@@ -1,0 +1,204 @@
+/* 格斗游戏视图 */
+#fight-view {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #1a1a2e, #16213e);
+    z-index: 50;
+    display: none;
+}
+
+#arena {
+    position: relative;
+    width: 1600px;
+    height: 600px;
+    margin: 100px auto 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 2px solid #fff;
+    overflow: hidden;
+}
+
+/* 角色容器 - 使用方块表示 */
+.fighter {
+    position: absolute;
+    width: 80px;
+    height: 120px;
+    transition: all 0.1s;
+    transform-origin: center; /* 确保缩放以中心为基准 */
+}
+
+/* 玩家方块 */
+#player-fighter {
+    background-color: #ff5252; /* 红色 */
+    border: 2px solid #fff;
+}
+
+/* 敌人方块 */
+#enemy-fighter {
+    background-color: #536dfe; /* 蓝色 */
+    border: 2px solid #fff;
+}
+
+/* 状态效果 */
+.fighter.idle {
+    /* 待机状态 - 轻微上下浮动 */
+    animation: idleFloat 1s ease-in-out infinite;
+}
+
+.fighter.walk {
+    /* 行走状态 - 左右移动效果 */
+    animation: walkMove 0.5s ease-in-out infinite;
+}
+
+.fighter.jump {
+    /* 跳跃状态 - 上移并回落 */
+    animation: jumpMove 0.8s ease-in-out;
+}
+
+.fighter.attack {
+    /* 攻击状态 - 向前突进并返回 */
+    animation: attackMove 0.4s ease-in-out;
+}
+
+.fighter.block {
+    /* 防御状态 - 变宽变矮 */
+    transform: scale(1.2, 0.8);
+    background-color: #ffeb3b; /* 黄色 */
+}
+
+.fighter.hurt {
+    /* 受击状态 - 闪烁红色 */
+    animation: hurtFlash 0.3s ease-in-out;
+}
+
+.fighter.skill {
+    /* 大招状态 - 发光效果 */
+    animation: skillGlow 0.5s ease-in-out infinite;
+    box-shadow: 0 0 20px #ffeb3b;
+}
+
+/* 动画关键帧 */
+@keyframes idleFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+@keyframes walkMove {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(5px); }
+}
+
+@keyframes jumpMove {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-100px); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes attackMove {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(50px); }
+}
+
+@keyframes hurtFlash {
+    0%, 100% { background-color: #ff5252; }
+    50% { background-color: #fff; }
+}
+
+@keyframes skillGlow {
+    0%, 100% { box-shadow: 0 0 10px #ffeb3b; }
+    50% { box-shadow: 0 0 30px #ffeb3b; }
+}
+
+/* 血条样式 */
+#fight-ui {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 200px;
+}
+
+.health-bar {
+    width: 300px;
+}
+
+.health-bar.enemy-health {
+    text-align: right;
+}
+
+.health-label {
+    color: white;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.health-container {
+    height: 30px;
+    background-color: #333;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.health-fill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.3s;
+}
+
+.enemy-health .health-fill {
+    background-color: #f44336;
+    float: right;
+}
+
+/* 大招计时器 */
+.buff-timer {
+    height: 5px;
+    background-color: #ffeb3b;
+    margin-top: 5px;
+    border-radius: 2px;
+    transition: width 1s linear;
+}
+
+/* 战斗结果 */
+#fight-result {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 72px;
+    color: white;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
+    display: none;
+}
+
+/* 控制提示 */
+#fight-controls-hint {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    text-align: center;
+}
+
+/* 大招特效 */
+.skill-effect {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255,215,0,0.5) 0%, rgba(255,215,0,0) 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: skillPulse 2s infinite;
+}
+
+@keyframes skillPulse {
+    0% { transform: scale(0.8); opacity: 0.8; }
+    50% { transform: scale(1.2); opacity: 0.5; }
+    100% { transform: scale(0.8); opacity: 0.8; }
+}
