@@ -1,0 +1,7 @@
+{
+  "id": "portalFto1",
+  "image": "assets/images/Portal_To_FTG.png",
+  "x": 760, "y": 0, "width": 80, "height": 100,
+  "targetMap": "map1",
+  "targetX": 150, "targetY": 400
+}

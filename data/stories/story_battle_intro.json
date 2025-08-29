@@ -1,0 +1,37 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "scene": [
+        { "id": "A", "sprite": "assets/images/characterA.png" },
+        { "id": "Kidnap", "sprite": "assets/images/characterKidnap.png" }
+      ],
+      "speaker": "Kidnap",
+      "dialogue": "哼，你终于找到这里了。但你以为你能打败我吗？",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        { "id": "A", "sprite": "assets/images/characterA.png" },
+        { "id": "Kidnap", "sprite": "assets/images/characterKidnap.png" }
+      ],
+      "speaker": "A",
+      "dialogue": "我不会退缩的！准备好迎接失败吧！",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        { "id": "Kidnap", "sprite": "assets/images/characterKidnap.png" }
+      ],
+      "speaker": "Kidnap",
+      "dialogue": "狂妄！那就让我看看你的实力！",
+      "options": [
+        { "text": "“来吧！”", "targetNode": "end" }
+      ]
+    },
+    "end": {
+      "speaker": "旁白",
+      "dialogue": "战斗开始！"
+    }
+  }
+}

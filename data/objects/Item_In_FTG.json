@@ -1,0 +1,10 @@
+{
+  "id": "enemy_ftg",
+  "image": "assets/images/Enemy_FTG.png",
+  "x": 800,
+  "y": 400,
+  "width": 80,
+  "height": 120,
+  "storyKey": "story_battle_intro",
+  "showPrompt": true
+}

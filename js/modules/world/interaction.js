@@ -71,15 +71,31 @@ export const interactionManager = {
     init(onTeleport) {
         window.addEventListener('keydown', (e) => {
             if (window.gameMode !== 'map') return;
+
+            // 普通交互
             if (e.key === 'e' && currentInteractable) {
-                dialogueManager.start(currentInteractable.storyKey, () => {
-                    if (currentInteractable) {
-                        currentInteractable.interacted = true;
-                        currentInteractable.element.classList.add('hidden');
-                        currentInteractable = null;
-                    }
-                });
+                // 检查是否是FTG敌人
+                if (currentInteractable.storyKey === 'story_battle_intro') {
+                    // 启动战斗前对话
+                    dialogueManager.start(currentInteractable.storyKey, () => {
+                        // 对话结束后开始战斗
+                        import('./fight.js').then(({ fightManager }) => {
+                            fightManager.start();
+                        });
+                    });
+                } else {
+                    // 普通交互
+                    dialogueManager.start(currentInteractable.storyKey, () => {
+                        if (currentInteractable) {
+                            currentInteractable.interacted = true;
+                            currentInteractable.element.classList.add('hidden');
+                            currentInteractable = null;
+                        }
+                    });
+                }
             }
+
+            // 传送
             if (e.key === 'q' && currentPortal) {
                 onTeleport(currentPortal);
             }

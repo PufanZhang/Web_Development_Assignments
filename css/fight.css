@@ -20,61 +20,70 @@
     overflow: hidden;
 }
 
-/* 角色容器 - 使用方块表示 */
+/* 角色容器 */
 .fighter {
     position: absolute;
     width: 80px;
     height: 120px;
     transition: all 0.1s;
-    transform-origin: center; /* 确保缩放以中心为基准 */
+    transform-origin: center;
 }
 
 /* 玩家方块 */
 #player-fighter {
-    background-color: #ff5252; /* 红色 */
+    background-color: #ff5252;
     border: 2px solid #fff;
 }
 
 /* 敌人方块 */
 #enemy-fighter {
-    background-color: #536dfe; /* 蓝色 */
+    background-color: #536dfe;
     border: 2px solid #fff;
 }
 
 /* 状态效果 */
 .fighter.idle {
-    /* 待机状态 - 轻微上下浮动 */
     animation: idleFloat 1s ease-in-out infinite;
 }
 
 .fighter.walk {
-    /* 行走状态 - 左右移动效果 */
     animation: walkMove 0.5s ease-in-out infinite;
 }
 
 .fighter.jump {
-    /* 跳跃状态 - 上移并回落 */
     animation: jumpMove 0.8s ease-in-out;
 }
 
+/* 攻击状态 - 根据方向使用不同的动画 */
 .fighter.attack {
-    /* 攻击状态 - 向前突进并返回 */
     animation: attackMove 0.4s ease-in-out;
 }
 
+.fighter.walk-and-attack {
+    animation: walkAttackMove 0.4s ease-in-out;
+}
+
+.fighter.jump-and-attack {
+    animation: jumpAttackMove 0.4s ease-in-out;
+}
+
+/* 左侧攻击的特殊动画 */
+.fighter.attack[style*="scaleX(-1)"],
+.fighter.walk-and-attack[style*="scaleX(-1)"],
+.fighter.jump-and-attack[style*="scaleX(-1)"] {
+    animation: attackMoveLeft 0.4s ease-in-out;
+}
+
 .fighter.block {
-    /* 防御状态 - 变宽变矮 */
     transform: scale(1.2, 0.8);
-    background-color: #ffeb3b; /* 黄色 */
+    background-color: #ffeb3b;
 }
 
 .fighter.hurt {
-    /* 受击状态 - 闪烁红色 */
     animation: hurtFlash 0.3s ease-in-out;
 }
 
 .fighter.skill {
-    /* 大招状态 - 发光效果 */
     animation: skillGlow 0.5s ease-in-out infinite;
     box-shadow: 0 0 20px #ffeb3b;
 }
@@ -99,6 +108,26 @@
 @keyframes attackMove {
     0%, 100% { transform: translateX(0); }
     50% { transform: translateX(50px); }
+}
+
+@keyframes attackMoveLeft {
+    0%, 100% { transform: translateX(0) scaleX(-1); }
+    50% { transform: translateX(-50px) scaleX(-1); }
+}
+
+@keyframes walkAttackMove {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(5px); }
+    50% { transform: translateX(50px); }
+    75% { transform: translateX(5px); }
+}
+
+@keyframes jumpAttackMove {
+    0% { transform: translateY(0); }
+    25% { transform: translateY(-50px) translateX(25px); }
+    50% { transform: translateY(-100px) translateX(50px); }
+    75% { transform: translateY(-50px) translateX(25px); }
+    100% { transform: translateY(0) translateX(0); }
 }
 
 @keyframes hurtFlash {
