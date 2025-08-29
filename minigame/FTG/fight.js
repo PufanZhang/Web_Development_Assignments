@@ -58,6 +58,7 @@ export const fightManager = {
             attackRate: 0.5,
             isBlocking: false,
             attackDamage: 8,
+            attacklocked: 0,
             attackRange: 100,
             prevState: 'idle' // 新增：记录前一个状态
         };
@@ -115,7 +116,7 @@ export const fightManager = {
 
         this.mouseButtons[e.button] = true;
 
-        if (e.button === 0 && this.player.attackCooldown <= 0) {
+        if (e.button === 0 && this.player.attackCooldown <= 0 && this.player.attacklocked === 0) {
             this.playerAttack();
         }
 
@@ -126,6 +127,9 @@ export const fightManager = {
 
     handleMouseUp(e) {
         this.mouseButtons[e.button] = false;
+        if (e.button === 0) {
+            this.player.attacklocked = 0;
+        }
 
         if (e.button === 2) {
             this.playerBlock(false);
@@ -148,6 +152,7 @@ export const fightManager = {
         } else {
             attackState = 'attack';
         }
+        this.player.attacklocked = 1;
 
         this.updatePlayerState(attackState);
         this.player.attackCooldown = 1 / (this.isPlayerBuffActive ?
@@ -282,7 +287,7 @@ export const fightManager = {
             const distance = Math.abs(this.player.x - this.enemy.x);
 
             if (distance < 100) {
-                this.enemyAttack();
+            //    this.enemyAttack();
             } else if (distance < 400) {
                 if (this.player.x < this.enemy.x) {
                     this.enemy.x -= this.enemy.speed;
@@ -312,13 +317,14 @@ export const fightManager = {
     checkCollisions() {
         // 检测玩家攻击碰撞
         if (this.player.state.includes('attack')) {
-            const attackX = this.player.facing === 'right' ?
+            const attackX =     this.player.facing === 'right' ?
                 this.player.x + this.player.attackRange :
                 this.player.x - this.player.attackRange;
 
-            if (this.checkAttackHit(attackX, this.player.attackRange, this.player, this.enemy)) {
+            if (this.checkAttackHit(attackX, this.player.attackRange, this.player, this.enemy) && this.player.attacklocked === 1) {
                 this.enemy.health -= this.isPlayerBuffActive ?
                     this.player.attackDamage * 2 : this.player.attackDamage;
+                this.player.attacklocked = 2;
                 this.updateEnemyState('hurt');
                 this.updateHealthBars();
                 setTimeout(() => {
