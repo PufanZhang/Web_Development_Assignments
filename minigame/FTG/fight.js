@@ -69,12 +69,13 @@ export const fightManager = {
             y: 500,
             width: 80,
             height: 120,
-            speed: 20,
+            speed: 3,
             health: 200,
             state: 'idle',
             facing: 'left',
             aiTimer: 0,
             attackDamage: 12,
+            attacklocked: 0,
             attackRange: 100
         };
 
@@ -282,22 +283,21 @@ export const fightManager = {
         } else {
             this.enemy.facing = 'right';
         }
+        const distance = Math.abs(this.player.x - this.enemy.x);
 
-        if (this.enemy.aiTimer % 60 === 0) {
-            const distance = Math.abs(this.player.x - this.enemy.x);
-
-            if (distance < 100) {
-                this.enemyAttack();
-            } else if (distance < 400) {
-                if (this.player.x < this.enemy.x) {
-                    this.enemy.x -= this.enemy.speed;
-                } else {
-                    this.enemy.x += this.enemy.speed;
-                }
-                this.updateEnemyState('walk');
+        if (distance < 600 && distance >= 100) {
+            if (this.player.x < this.enemy.x) {
+                this.enemy.x -= this.enemy.speed;
             } else {
-                this.updateEnemyState('idle');
+                this.enemy.x += this.enemy.speed;
             }
+            this.updateEnemyState('walk');
+        }
+        else if (distance >= 600) {
+            this.updateEnemyState('idle');
+        }
+        if (distance < 100 &&this.enemy.aiTimer % 60 === 0 && this.enemy.attacklocked === 0) {
+            this.enemyAttack();
         }
 
         if (this.enemy.x < 0) this.enemy.x = 0;
@@ -307,9 +307,12 @@ export const fightManager = {
     enemyAttack() {
         this.updateEnemyState('attack');
 
+        this.enemy.attacklocked = 1;
+
         setTimeout(() => {
             if (this.enemy.state === 'attack') {
                 this.updateEnemyState('idle');
+                this.enemy.attacklocked = 0;
             }
         }, 400);
     },
@@ -341,7 +344,7 @@ export const fightManager = {
                 this.enemy.x + this.enemy.attackRange :
                 this.enemy.x - this.enemy.attackRange;
 
-            if (this.checkAttackHit(attackX, this.enemy.attackRange, this.enemy, this.player)) {
+            if (this.checkAttackHit(attackX, this.enemy.attackRange, this.enemy, this.player) && this.enemy.attacklocked === 1) {
                 let damage = this.enemy.attackDamage;
 
                 if (this.player.isBlocking) {
@@ -354,6 +357,7 @@ export const fightManager = {
                 }
 
                 this.player.health -= damage;
+                this.enemy.attacklocked = 2;
                 this.updatePlayerState('hurt');
                 this.updateHealthBars();
                 setTimeout(() => {
