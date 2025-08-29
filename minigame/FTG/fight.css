@@ -31,8 +31,8 @@
 
 /* 玩家方块 */
 #player-fighter {
-    background-color: #ff5252;
-    border: 2px solid #fff;
+    background-image: url('./images/player_FTG.png');
+    background-size: contain;
 }
 
 /* 敌人方块 */
@@ -56,7 +56,7 @@
 
 /* 攻击状态 - 根据方向使用不同的动画 */
 .fighter.attack {
-    animation: attackMove 0.4s ease-in-out;
+    animation: attackMove 1s ease-in-out;
 }
 
 .fighter.walk-and-attack {
@@ -107,7 +107,9 @@
 
 @keyframes attackMove {
     0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(50px); }
+    25% { background-image: url('./images/keyframe1.png'); }
+    50% { background-image: url('./images/keyframe2.png'); }
+    75% { background-image: url('./images/keyframe3.png'); }
 }
 
 @keyframes attackMoveLeft {
