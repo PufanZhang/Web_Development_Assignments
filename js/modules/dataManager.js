@@ -21,7 +21,7 @@ export const auth = {
         // 初始化玩家数据，包含位置、成就、道具和一个空的数值容器
         const initialData = {
             address: { map: "map1", x: 400, y: 300 },
-            values: {}, // 新增：用于存放所有游戏数值的容器
+            values: {},
             achievements: "",
             tools: ""
         };
@@ -45,7 +45,6 @@ export const auth = {
 
 // --- 资源加载器 ---
 export const loader = {
-    // ... (这部分代码没有变化)
     async _fetchJson(path) {
         const response = await fetch(path);
         if (!response.ok) {
@@ -63,7 +62,7 @@ export const loader = {
             return {
                 name: mapInfo.name,
                 background: mapInfo.background,
-                walls: mapInfo.walls || [],
+                walls: mapInfo.walls,
                 objects: objects
             };
         } catch (error) {

@@ -2,7 +2,7 @@
   "name": "起源之地",
   "background": "assets/images/map1.png",
   "walls": [
-    { "x": 700, "y": 800, "width": 100, "height": 100 }
+    { "x": 700, "y": 400, "width": 100, "height": 100 }
   ],
   "objects": [ "item_in_here01", "portal1to2", "increase_suspicion", "decrease_suspicion" ]
 }

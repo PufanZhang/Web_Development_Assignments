@@ -30,7 +30,8 @@ export function buildMap(mapData) {
     });
 
     // （调试用）绘制墙体
-    walls.forEach(data => {
+    console.log(walls);
+    (mapData.walls || []).forEach(data => {
         const wallElement = document.createElement('div');
         wallElement.className = 'map-element wall';
         wallElement.style.left = `${data.x}px`;
