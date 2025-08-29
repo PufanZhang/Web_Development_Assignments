@@ -312,9 +312,9 @@ export const fightManager = {
         setTimeout(() => {
             if (this.enemy.state === 'attack') {
                 this.updateEnemyState('idle');
-                this.enemy.attacklocked = 0;
             }
         }, 400);
+
     },
 
     checkCollisions() {
@@ -358,6 +358,11 @@ export const fightManager = {
 
                 this.player.health -= damage;
                 this.enemy.attacklocked = 2;
+                setTimeout(() => {
+                    if(this.enemy.attacklocked === 2) {
+                        this.enemy.attacklocked = 0;
+                    }
+                }, 400);
                 this.updatePlayerState('hurt');
                 this.updateHealthBars();
                 setTimeout(() => {
