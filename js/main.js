@@ -28,8 +28,34 @@ async function loadMapAt(mapId, targetX, targetY) {
         alert(`地图 "${mapId}" 加载失败，请检查文件或网络！`);
         return;
     }
+
+    // --- 在构建地图前，先过滤掉不该出现的物品 ---
+    const filteredObjects = (newMapData.objects || []).filter(objData => {
+        let shouldShow = true;
+        if (objData.requiredValue && currentUser) {
+            const { name, comparison, value } = objData.requiredValue;
+            const userValue = gameState.getValue(currentUser, name);
+
+            switch (comparison) {
+                case 'greaterOrEqual':
+                    if (userValue < value) shouldShow = false;
+                    break;
+                case 'lessOrEqual':
+                    if (userValue > value) shouldShow = false;
+                    break;
+                case 'equal':
+                    if (userValue !== value) shouldShow = false;
+                    break;
+            }
+        }
+        return shouldShow;
+    });
+
+    // 创建一个新的 mapData 对象，它只包含通过了检查的物品
+    const filteredMapData = { ...newMapData, objects: filteredObjects };
+
     clearMap();
-    const { interactableObjects, walls } = buildMap(newMapData);
+    const { interactableObjects, walls } = buildMap(filteredMapData);
     currentMap = { id: mapId, interactableObjects, walls };
 
     document.getElementById('map-view').style.backgroundImage = `url(${newMapData.background})`;
