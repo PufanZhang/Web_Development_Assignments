@@ -10,7 +10,7 @@
       "speaker": "旁白",
       "dialogue": "（怀疑度降低了。）",
       "valueChanges": [
-        { "name": "suspicion", "amount": -10 }
+        { "name": "suspicion", "amount": -100 }
       ]
     }
   }
