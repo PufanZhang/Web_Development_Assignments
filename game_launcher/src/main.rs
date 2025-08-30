@@ -4,12 +4,19 @@ use std::path::{Path, PathBuf};
 use std::env;
 
 fn main() {
-    // 尝试在本地的任意一个空闲端口上启动服务器
-    let server = match Server::http("127.0.0.1:0") {
+    // 指定一个固定的端口号
+    const PORT: u16 = 8000;
+    let addr_str = format!("127.0.0.1:{}", PORT);
+
+    // 尝试在固定的地址上启动服务器
+    let server = match Server::http(&addr_str) {
         Ok(s) => s,
         Err(e) => {
+            // 如果端口被占用，给出更明确的提示
             println!("❌ 启动服务器失败: {}", e);
-            println!("按 Enter 键退出...");
+            println!("原因可能是端口 {} 已被其他程序占用。", PORT);
+            println!("请关闭占用该端口的程序后重试，或联系开发者。");
+            println!("\n按 Enter 键退出...");
             let mut line = String::new();
             std::io::stdin().read_line(&mut line).unwrap();
             return;
