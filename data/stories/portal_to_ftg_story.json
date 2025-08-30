@@ -1,0 +1,22 @@
+{
+  "startNode": "confirm",
+  "nodes": {
+    "confirm": {
+      "speaker": "旁白",
+      "dialogue": "前方似乎连接着一个有战斗的地区，要现在过去吗？",
+      "options": [
+        { "text": "出发，前往战斗", "targetNode": "teleport_action" },
+        { "text": "还是再逛逛吧", "targetNode": "stay_action" }
+      ]
+    },
+    "teleport_action": {
+      "speaker": "旁白",
+      "dialogue": "你下定了决心，准备迎接不速之客。",
+      "action": "teleport"
+    },
+    "stay_action": {
+      "speaker": "旁白",
+      "dialogue": "你决定暂时留在这里，继续探索一番。"
+    }
+  }
+}

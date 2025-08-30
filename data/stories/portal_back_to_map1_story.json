@@ -1,0 +1,22 @@
+{
+  "startNode": "confirm",
+  "nodes": {
+    "confirm": {
+      "speaker": "旁白",
+      "dialogue": "前方连接着起源之地，要现在过去吗？",
+      "options": [
+        { "text": "出发，返回起源之地", "targetNode": "teleport_action" },
+        { "text": "我要继续战斗、爽！", "targetNode": "stay_action" }
+      ]
+    },
+    "teleport_action": {
+      "speaker": "旁白",
+      "dialogue": "你返回了起源之地。",
+      "action": "teleport"
+    },
+    "stay_action": {
+      "speaker": "旁白",
+      "dialogue": "你决定暂时留在这里，继续较量一番。"
+    }
+  }
+}
