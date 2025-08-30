@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>光辉编年史</title>
     <link rel="stylesheet" href="css/style.css">
+    <!-- 格斗小游戏专用css -->
+    <link rel="stylesheet" href="minigame/FTG/fight.css">
 </head>
 <body>
 
@@ -22,10 +24,40 @@
             <div id="dialogue-options-container"></div>
         </div>
     </div>
+    <!-- 格斗小游戏新增项目 -->
+    <div id="fight-view" style="display: none;">
+        <div id="fight-ui">
+            <div class="health-bar">
+                <div class="health-label">玩家</div>
+                <div class="health-container">
+                    <div id="player-health" class="health-fill"></div>
+                </div>
+                <div id="player-buff-timer" class="buff-timer"></div>
+            </div>
+
+            <div class="health-bar enemy-health">
+                <div class="health-label">敌人</div>
+                <div class="health-container">
+                    <div id="enemy-health" class="health-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="arena">
+            <div id="player-fighter" class="fighter"></div>
+            <div id="enemy-fighter" class="fighter enemy"></div>
+        </div>
+
+        <div id="fight-result"></div>
+
+        <div id="fight-controls-hint">
+            <p>控制: A/D-移动, W-跳跃, J-攻击, K-格挡, Q-大招</p>
+        </div>
+    </div>
 
     <div id="debug-view"></div>
-
 </div>
+
 <script type="module" src="js/main.js"></script>
 </body>
 </html>
