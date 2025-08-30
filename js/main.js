@@ -107,6 +107,13 @@ async function initializeGame() {
     await loadMapAt(initialMap, initialX, initialY);
     gameState.getValue(currentUser, 'suspicion');
     requestAnimationFrame(gameLoop);
+
+    // 监听浏览器窗口关闭或刷新事件，实现“退出时自动存档”
+    window.addEventListener('beforeunload', () => {
+        if (currentUser && currentMap.id) {
+            gameState.saveLocation(currentUser, currentMap.id, { x: player.x, y: player.y });
+        }
+    });
 }
 
 document.addEventListener('DOMContentLoaded', initializeGame);

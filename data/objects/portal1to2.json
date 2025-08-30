@@ -6,7 +6,7 @@
   "showPrompt": true,
   "teleportData": {
     "targetMap": "map2",
-    "targetX": 200,
+    "targetX": 400,
     "targetY": 400
   }
 }
