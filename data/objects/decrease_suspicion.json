@@ -1,7 +1,7 @@
 {
   "id": "decrease_suspicion",
   "image": "assets/images/item_02.png",
-  "x": 200, "y": 100, "width": 50, "height": 50,
+  "x": 300, "y": 300, "width": 50, "height": 50,
   "storyKey": "decrease_suspicion_story",
   "showPrompt": true
 }
