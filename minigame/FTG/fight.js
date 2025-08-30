@@ -298,8 +298,11 @@ export const fightManager = {
         else if (distance >= 600) {
             this.updateEnemyState('idle');
         }
-        if (distance < 100 &&this.enemy.aiTimer % 60 === 0 && this.enemy.attacklocked === 0) {
-            this.enemyAttack();
+        if (this.enemy.aiTimer % 60 === 0) {
+            this.enemy.attacklocked = 1;
+            if(distance < 100) {
+                this.enemyAttack();
+            }
         }
 
         if (this.enemy.x < 0) this.enemy.x = 0;
@@ -308,8 +311,6 @@ export const fightManager = {
 
     enemyAttack() {
         this.updateEnemyState('attack');
-
-        this.enemy.attacklocked = 1;
 
         setTimeout(() => {
             if (this.enemy.state === 'attack') {
