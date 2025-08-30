@@ -383,7 +383,6 @@ export const fightManager = {
         }
     },
 
-
     checkAttackHit(attackX, attackRange, attacker, target) {
         const horizontalHit = (
             attackX < target.x + target.width &&
