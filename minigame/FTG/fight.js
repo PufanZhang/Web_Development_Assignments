@@ -108,13 +108,27 @@ export const fightManager = {
         if (e.key === 'q' && !this.isPlayerBuffActive) {
             this.activatePlayerBuff();
         }
+
+        if (e.key === 'j' && this.player.attackCooldown <= 0 && this.player.attacklocked === 0){
+            this.playerAttack();
+        }
+        if (e.key === 'k') {
+            this.playerBlock(true);
+        }
     },
 
     handleKeyUp(e) {
         this.keysPressed[e.key] = false;
+
+        if (e.key === 'j') {
+            this.player.attacklocked = 0;
+        }
+        if (e.key === 'k') {
+            this.playerBlock(false);
+        }
     },
 
-    handleMouseDown(e) {
+/*    handleMouseDown(e) {
         if (!this.isRunning) return;
 
         this.mouseButtons[e.button] = true;
@@ -138,7 +152,7 @@ export const fightManager = {
             this.playerBlock(false);
         }
     },
-
+*/
     playerAttack() {
         // 允许在行走和跳跃状态下攻击
         if (this.player.state === 'hurt') return;
@@ -355,8 +369,8 @@ export const fightManager = {
                         (this.enemy.facing === 'right' && this.player.facing === 'left') ||
                         (this.enemy.facing === 'left' && this.player.facing === 'right');
 
-                    damage = this.isPlayerBuffActive || isBlockingCorrectDirection ?
-                        0 : damage / 2;
+                    damage = isBlockingCorrectDirection ?
+                        (this.isPlayerBuffActive ? 0 : damage / 3) : damage;
                 }
 
                 this.player.health -= damage;
