@@ -324,8 +324,8 @@ export const fightManager = {
         // 检测玩家攻击碰撞
         if (this.player.state.includes('attack')) {
             const attackX =     this.player.facing === 'right' ?
-                this.player.x + this.player.attackRange :
-                this.player.x - this.player.attackRange;
+                this.player.x + this.player.width :
+                this.player.x;
 
             if (this.checkAttackHit(attackX, this.player.attackRange, this.player, this.enemy) && this.player.attacklocked === 1) {
                 this.enemy.health -= this.isPlayerBuffActive ?
@@ -344,8 +344,8 @@ export const fightManager = {
         // 检测敌人攻击
         if (this.enemy.state === 'attack') {
             const attackX = this.enemy.facing === 'right' ?
-                this.enemy.x + this.enemy.attackRange :
-                this.enemy.x - this.enemy.attackRange;
+                this.enemy.x + this.enemy.width :
+                this.enemy.x;
 
             if (this.checkAttackHit(attackX, this.enemy.attackRange, this.enemy, this.player) && this.enemy.attacklocked === 1) {
                 let damage = this.enemy.attackDamage;
@@ -384,10 +384,14 @@ export const fightManager = {
     },
 
     checkAttackHit(attackX, attackRange, attacker, target) {
-        const horizontalHit = (
+        const horizontalHit = attacker.facing === 'right' ?
+            (
             attackX < target.x + target.width &&
             attackX + attackRange > target.x
-        );
+             ) : (
+                attackX > target.x &&
+                attackX - attackRange < target.x + target.width
+            );
 
         const verticalHit = (
             attacker.y < target.y + target.height * 0.8 &&
