@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 usernameInput.value = "";
                 passwordInput.value = "";
             } else if (action === 'login') {
-                // 登录成功，跳转到游戏世界！
-                window.location.href = 'game.html';
+                // 登录成功，跳转到主页
+                window.location.href = 'index.html';
             }
         }
     };
