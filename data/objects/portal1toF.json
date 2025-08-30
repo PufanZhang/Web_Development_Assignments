@@ -1,0 +1,12 @@
+{
+  "id": "portal1toF",
+  "image": "assets/images/Portal_To_FTG.png",
+  "x": 1200, "y": 500, "width": 80, "height": 100,
+  "storyKey": "portal_story",
+  "showPrompt": true,
+  "teleportData": {
+    "targetMap": "Map_FTG",
+    "targetX": 150,
+    "targetY": 400
+  }
+}

@@ -99,6 +99,12 @@ export const interactionManager = {
                     onTeleport(currentInteractable.teleportData);
                 }
 
+                if(endAction === 'minigameFTG'){
+                    import('../../../minigame/FTG/fight.js').then(({ fightManager }) => {
+                        fightManager.start();
+                    });
+                }
+
                 // 普通物品交互后隐藏
                 if (currentInteractable && !currentInteractable.teleportData) {
                     currentInteractable.interacted = true;
