@@ -51,6 +51,7 @@ export const fightManager = {
             jumpForce: 20,
             velocityY: 0,
             isGrounded: false,
+            maxHealth: 200,
             health: 200,
             state: 'idle',
             facing: 'right',
@@ -70,6 +71,7 @@ export const fightManager = {
             width: 80,
             height: 120,
             speed: 3,
+            maxHealth: 200,
             health: 200,
             state: 'idle',
             facing: 'left',
@@ -439,8 +441,8 @@ export const fightManager = {
     },
 
     updateHealthBars() {
-        document.getElementById('player-health').style.width = `${this.player.health}%`;
-        document.getElementById('enemy-health').style.width = `${this.enemy.health}%`;
+        document.getElementById('player-health').style.width = `${100 * this.player.health / this.player.maxHealth}%`;
+        document.getElementById('enemy-health').style.width = `${100 * this.enemy.health / this.enemy.maxHealth}%`;
     },
 
     showResult(playerWon) {
