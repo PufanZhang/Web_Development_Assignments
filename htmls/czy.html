@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陈钟依 - 个人介绍</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4efe9 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(120deg, #4c6b8a 0%, #2c3e50 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+        
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 30px;
+        }
+        
+        .left-column {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+        }
+        
+        .right-column {
+            flex: 2;
+            min-width: 300px;
+            padding: 20px;
+            border-left: 1px solid #eee;
+        }
+        
+        .avatar {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 5px solid white;
+            object-fit: cover;
+            display: block; 
+        }
+        
+        .info-card {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #4c6b8a;
+            font-weight: 400;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        ul {
+            list-style-type: none;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        li:before {
+            content: "•";
+            color: #4c6b8a;
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -5px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #f5f7fa;
+            color: #6c7a89;
+            font-size: 0.9rem;
+        }
+        
+        .image-gallery {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        margin-top: 15px;
+    }
+    
+    .image-item img {
+        width: 250px;
+        height: 250px;
+        object-fit: contain; 
+        background-color: #f5f7fa; 
+        border-radius: 8px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        padding: 5px; 
+    }
+    
+    .image-caption {
+        margin-top: 10px;
+        font-size: 0.9rem;
+        color: #6c7a89;
+        text-align: center;
+    }
+    
+    @media (max-width: 768px) {
+        .content {
+            flex-direction: column;
+        }
+        
+        .right-column {
+            border-left: none;
+            border-top: 1px solid #eee;
+        }
+        
+        .image-gallery {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>陈钟依</h1>
+            <p class="subtitle">计算机科学与技术 · 创意开发者</p>
+        </header>
+
+        <div class="content">
+            <div class="left-column">
+                <img src="../assets/photos/czypic1.jpg" alt="陈钟依的头像" class="avatar">
+                
+                <div class="info-card">
+                    <h2>基本信息</h2>
+                    <p><strong>姓名：</strong>陈钟依</p>
+                    <p><strong>专业：</strong>计算机科学与技术</p>
+                    <p><strong>邮箱：</strong>bitczy2024@qq.com</p>
+                </div>
+                
+                <div class="info-card">
+                    <h2>项目分工</h2>
+                    <ul>
+                        <li>构建剧情框架和具体情节</li>
+                        <li>细化不同分支</li>
+                        <li>撰写对话脚本</li>
+                        <li>协助网站的搭建和网页的设计</li>
+                    </ul>
+                </div>
+            </div>
+    
+            <div class="right-column">
+                <div class="info-card">
+                    <h2>个人简介</h2>
+                    
+                    
+                    <p>作为“浅度爱好者协会常任理事”，我的特长是发现乐趣，而非成为专家。我兴趣广泛，喜欢读书、画画、摄影、吉他、飞盘、各种球类运动......喜欢体验和学习新的技能和事物。</p>
+                    
+                    <p>我阅读过许多科幻、悬疑类型的小说，对于光怪陆离的外太空有着自己的构想，也曾获得科幻科普作文大赛全国二等奖。这次也从之前的积累中找寻到了灵感，抓住机会再次进行了自己的创作，希望通过剧情的设置可以为这个游戏增添更多吸引力。</p>
+                    
+                    <p>同时，作为一名"资深"旅游规划师，人形美食雷达，我喜欢观赏地球上不同地域的自然和人文景观，期待未来某一天雪山在我脚下，银河和极光在我头顶，世界万千美景都呈现在我眼前。</p>
+                   
+                    <p>我喜欢探索生活的'广度'，但也知晓学业的'深度'钻研成就高度。在此游戏设计中，我接触到了一些之前从未了解过的技术和领域，也意识到了专业能力方面的提升空间。我深知自己如同幂函数的增长率（先缓再增）般的学习曲线，故在最初接触HTML、CSS、JS等技术时的不熟练，并不会让我气馁或放弃，而是为此挑战性而感到动力十足，通过不断积累尝试，将所学运用于此实践中，不断提升。</p>
+                    
+                    <p>总之，人生不过三万天，我不愿给自己设限，而愿在没有天花板的地方，与风同频~</p>
+                </div>
+             <div class="info-card">
+        <div class="image-gallery">
+            <div class="image-item">
+                <img src="../assets/photos/czyinfj.jpg" alt="项目图片1">
+                <p class="image-caption">本人MBTI：INFJ</p>
+            </div>
+            <div class="image-item">
+                <img src="../assets/photos/czyscenery.jpg" alt="项目图片2">
+                <p class="image-caption">遇见的美丽的风景</p>
+            </div>
+        </div>
+    </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 陈钟依 - 个人介绍页面</p>
+        </footer>
+    </div>
+</body>
+</html>

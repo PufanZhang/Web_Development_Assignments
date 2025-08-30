@@ -1,0 +1,191 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Microsoft YaHei', sans-serif;
+}
+
+body {
+    overflow: hidden;
+    background-color: #000;
+    color: #fff;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 开门动画容器 */
+.door-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: flex;
+}
+
+/* 左右门扇 */
+.door {
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(45deg, #1a1a1a, #000000);
+    transition: transform 1.5s ease-in-out;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.door-left {
+    left: 0;
+    transform-origin: left center;
+    border-right: 1px solid #333;
+}
+
+.door-right {
+    right: 0;
+    transform-origin: right center;
+    border-left: 1px solid #333;
+}
+
+/* 门上的装饰 */
+.door-handle {
+    position: absolute;
+    width: 20px;
+    height: 80px;
+    background: linear-gradient(to bottom, #b8860b, #daa520);
+    border-radius: 10px;
+    top: 50%;
+    box-shadow: 0 0 10px rgba(218, 165, 32, 0.5);
+}
+
+.door-left .door-handle {
+    right: 30px;
+    transform: translateY(-50%);
+}
+
+.door-right .door-handle {
+    left: 30px;
+    transform: translateY(-50%);
+}
+
+/* 开门后隐藏门 */
+.open .door-left {
+    transform: perspective(1200px) rotateY(-110deg);
+}
+
+.open .door-right {
+    transform: perspective(1200px) rotateY(110deg);
+}
+
+/* 内容区域 */
+.content {
+    opacity: 0;
+    transition: opacity 1s ease-in-out 1.2s;
+    text-align: center;
+    max-width: 800px;
+    padding: 20px;
+    z-index: 100;
+}
+
+.show-content .content {
+    opacity: 1;
+}
+
+/* 图片样式 */
+.main-image {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #333;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+    margin-bottom: 30px;
+    animation: glow 3s infinite alternate;
+}
+
+/* 文字样式 */
+.title {
+    font-size: 2.8rem;
+    margin-bottom: 20px;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    letter-spacing: 2px;
+}
+
+.description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #ccc;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* 背景装饰 */
+.background-elements {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    opacity: 0.1;
+}
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #ffd700, #ff8c00);
+    opacity: 0.3;
+    filter: blur(40px);
+}
+
+/* 动画效果 */
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    }
+    100% {
+        box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .main-image {
+        width: 200px;
+        height: 200px;
+    }
+
+    .title {
+        font-size: 2rem;
+    }
+
+    .description {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-image {
+        width: 150px;
+        height: 150px;
+    }
+
+    .title {
+        font-size: 1.6rem;
+    }
+}

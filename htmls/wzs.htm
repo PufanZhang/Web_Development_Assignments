@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人主页</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <style>
+        /* 基础样式 */
+        body {
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+        }
+        
+        /* 平滑滚动 */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* 简单动画效果 */
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- 页面头部 -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-5">
+            <div class="text-center">
+                <h1 class="text-3xl font-bold text-blue-600">个人主页</h1>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区 -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- 个人信息部分 -->
+        <section class="mb-12 fade-in">
+            <div class="bg-white rounded-lg shadow-sm p-6 md:p-8">
+                <div class="flex flex-col md:flex-row items-center">
+                    <!-- 横版照片框 -->
+                    <div class="w-full md:w-1/3 mb-6 md:mb-0 md:mr-8">
+                        <div class="w-full h-64 bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
+                            <!-- 照片占位 -->
+                            <div class="w-full h-full flex items-center justify-center">
+                                
+                                <!-- 替换为你的照片 -->
+                                <img src="../assets/photos/wzspic.jpg" alt="个人照片" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 个人简介 -->
+                    <div class="w-full md:w-2/3 text-center md:text-left">
+                        <h2 class="text-2xl md:text-3xl font-bold mb-3">王宗生</h2>
+                        <p class="text-xl text-gray-600 mb-4">技术总监</p>
+                        <p class="text-gray-700 mb-6">
+                            安平诈其利，战时用其死
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 详细介绍部分 -->
+        <section id="details" class="mb-12 fade-in">
+            <div class="bg-white rounded-lg shadow-sm p-6 md:p-8">
+                <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-gray-200">关于我</h2>
+                
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold mb-3 text-gray-700">个人简介</h3>
+                    <p class="mb-4">
+                        大家好！如果你能看到这里，说明你对我们的游戏很感兴趣（或者想骂人），想知道创作者有关的信息。
+                        那我就满足你的愿望吧！我叫王宗生，是我们灰姑娘小队的技术总监，睿信书院24级学生，计算机科学与技术专业，来自河北省石家庄市。平时的爱好主要是上B站看一些电影电视剧解说视频和一些历史类的视频，
+                        闲暇之余也会去看一些课外书籍和新闻类杂志，和朋友们出去聚餐海聊。当然，作为一名IT人，平时也会去学习一些技术，自己写一些代码。
+                        好啦，我就简单介绍到这里，大家一定不要忘了去看看我们小队其他成员的信息哦！
+                    </p>
+                    <p>
+                        希望大家能多多支持我们灰姑娘小队，支持我们的游戏！也欢迎大家指出我们的不足之处，我们会不断改进，争取做出更好的游戏！
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025个人主页 | 简洁个人介绍</p>
+        </div>
+    </footer>
+
+    <!-- 简单的JavaScript -->
+    <script>
+        // 页面加载完成后显示元素动画
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为各部分添加淡入动画
+            const sections = document.querySelectorAll('section');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+/* 全局样式 */
+body {
+    font-family: "Microsoft YaHei", sans-serif; /* 字体清晰 */
+    line-height: 1.6; /* 行高提高可读性 */
+    margin: 0;
+    padding: 20px;
+    background-color: #f0f8ff; /* 浅蓝背景，符合清爽风格 */
+}
+
+/* 标题样式 */
+h1, h2 {
+    color: #1a5276; /* 深蓝色标题 */
+}
+
+/* 导航链接 */
+nav {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #e6f2ff;
+}
+
+nav a {
+    color: #0066cc;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+nav a:hover {
+    text-decoration: underline; /* 鼠标悬停时下划线 */
+}
+
+/* 个人资料布局 */
+.profile {
+    display: flex; /* 照片和文字并排 */
+    gap: 30px; /* 间距 */
+    margin: 20px 0;
+}
+
+.photo img {
+    border-radius: 8px; /* 照片圆角 */
+    box-shadow: 0 2px 5px #ccc; /* 轻微阴影 */
+}
+
+.intro {
+    max-width: 600px; /* 限制文字宽度，避免过宽难读 */
+}
+
+/* 页脚 */
+footer {
+    margin-top: 30px;
+    color: #666;
+    text-align: center;
+}

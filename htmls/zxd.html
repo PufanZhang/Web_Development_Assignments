@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/zxd.css">
+    <title>张新迪的个人主页</title>
+</head>
+<body>
+<!-- 开门动画容器 -->
+<div class="door-container" id="doorContainer">
+    <div class="door door-left">
+        <div class="door-handle"></div>
+    </div>
+    <div class="door door-right">
+        <div class="door-handle"></div>
+    </div>
+</div>
+
+<!-- 背景装饰元素 -->
+<div class="background-elements">
+    <div class="circle" style="width: 300px; height: 300px; top: 10%; left: 20%;"></div>
+    <div class="circle" style="width: 400px; height: 400px; bottom: 10%; right: 20%;"></div>
+</div>
+
+<!-- 主要内容 -->
+<div class="content" id="mainContent">
+    <img src="../assets/photos/zxd.jpg" class="main-image">
+    <h1 class="title">哇！你竟然来到了这里！</h1>
+    <p class="description">
+        欢迎你！我是北京理工大学计算机科学与技术专业2024级本科生张新迪，是这个游戏的总策划。
+        我从小就是一个喜欢电子游戏的孩子，涉猎过各种类型的游戏，
+        而我的一个长期以来的梦想，就是能创作出一个属于自己的游戏————所以就有了你现在面前的我们！
+        我们这个游戏从剧情美工，到代码框架逻辑，都是我和我的同事一点点在黑暗中摸索出来的，我想先在这里对我的同事们表示深深的感激！
+        我们的目的就是为你提供最好的游戏体验，我和我的同事一定竭尽全力，把我们的第一个游戏作品做到力所能及的完美！
+    </p>
+    <br>
+    <p class="description">
+        喜欢我们的游戏吗？我们也喜欢你！
+    </p>
+</div>
+<script>
+    // 页面加载完成后执行开门动画
+    document.addEventListener('DOMContentLoaded', function() {
+        const doorContainer = document.getElementById('doorContainer');
+        const mainContent = document.getElementById('mainContent');
+
+        // 添加开门类
+        setTimeout(function() {
+            doorContainer.classList.add('open');
+
+            // 显示内容
+            document.body.classList.add('show-content');
+
+            // 动画结束后隐藏门（可选）
+            setTimeout(function() {
+                doorContainer.style.display = 'none';
+            }, 2000);
+
+        }, 500); // 延迟一点时间开始动画
+    });
+</script>
+</body>
+</html>
