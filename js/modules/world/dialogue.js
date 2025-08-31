@@ -6,7 +6,8 @@ const elements = {
     characterContainer: document.getElementById('character-container'),
     characterName: document.getElementById('character-name'),
     dialogueText: document.getElementById('dialogue-text'),
-    dialogueOptionsContainer: document.getElementById('dialogue-options-container')
+    dialogueOptionsContainer: document.getElementById('dialogue-options-container'),
+    dialogueImageContainer: document.getElementById('dialogue-image-container')
 };
 
 let state = {};
@@ -37,6 +38,7 @@ export const dialogueManager = {
         state = {
             story: story,
             currentNodeId: story.startNode,
+            displayImage: story.displayImage,
             currentScene: [],
             endAction: null
         };
@@ -93,6 +95,9 @@ export const dialogueManager = {
     end() {
         window.gameMode = 'map';
         elements.dialogueView.classList.remove('active');
+        if (elements.dialogueImageContainer) {
+            elements.dialogueImageContainer.style.display = 'none';
+        }
         if (onDialogueEndCallback) {
             onDialogueEndCallback(state.endAction);
         }

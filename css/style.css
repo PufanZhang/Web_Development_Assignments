@@ -179,3 +179,43 @@ body, html {
     z-index: 200; /* 确保它在最顶层 */
     user-select: none;
 }
+
+/* --- 对话系统新增样式 --- */
+
+/* 这是我们为大图准备的“画框”容器 */
+#dialogue-image-container {
+    /* 使用绝对定位，让它能覆盖在游戏画面上 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    /* 用 Flexbox 布局，让里面的图片能轻松地水平垂直居中 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* 加一个半透明的黑色背景，突出图片，更有氛围感！ */
+    background-color: rgba(0, 0, 0, 0.7);
+
+    /* 默认情况下先藏起来，等JS来召唤！ */
+    display: none;
+
+    /* 点击图片也可以继续对话，和点击背景效果一样 */
+    cursor: pointer;
+}
+
+/* 这是对“画框”里那张图片本身的样式设置 */
+#dialogue-image-container img {
+    /* 限制图片的最大尺寸，防止它超出屏幕 */
+    max-width: 90%;
+    max-height: 90%;
+
+    /* 保持图片的原始宽高比，不变形 */
+    object-fit: contain;
+
+    /* 给图片加个边框，看起来更精致 */
+    border: 3px solid white;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
