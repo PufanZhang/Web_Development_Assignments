@@ -1,0 +1,11 @@
+{
+  "id": "newspaper",
+  "image": "assets/images/newspaper.jpg",
+  "x": 500,
+  "y": 250,
+  "width": 50,
+  "height": 50,
+  "showPrompt": true,
+  
+  "newspaperContentImage": "assets/images/newspaper.jpg"
+}
