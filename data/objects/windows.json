@@ -1,7 +1,0 @@
-{
-  "id": "windows",
-  "image": "assets/images/item_02.png",
-  "x": 1000, "y": 100, "width": 50, "height": 50,
-  "storyKey": "windows",
-  "showPrompt": true
-}

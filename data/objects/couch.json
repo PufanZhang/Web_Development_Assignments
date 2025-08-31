@@ -1,7 +1,0 @@
-{
-  "id": "couch",
-  "image": "assets/images/item_02.png",
-  "x": 1000, "y": 500, "width": 50, "height": 50,
-  "storyKey": "couch",
-  "showPrompt": true
-}
