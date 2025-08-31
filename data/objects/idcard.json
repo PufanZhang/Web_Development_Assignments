@@ -1,0 +1,10 @@
+{
+  "id": "ID",
+  "image": "assets/images/ID.jpg",
+  "x": 1100,
+  "y": 700,
+  "width": 30,
+  "height": 30,
+  
+  "showPrompt": true
+}

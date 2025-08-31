@@ -1,0 +1,11 @@
+{
+    "id": "door",
+    "x": 1300, "y": 500, "width": 100, "height": 100,
+    "storyKey": "door_story",
+    "showPrompt": true,
+    "teleportData": {
+      "targetMap": "map2",
+      "targetX": 100,
+      "targetY": 500
+    }
+}
