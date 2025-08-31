@@ -29,46 +29,61 @@ async function loadMapAt(mapId, targetX, targetY) {
         return;
     }
 
-    // --- 在构建地图前，先过滤掉不该出现的物品 ---
-    const filteredObjects = (newMapData.objects || []).filter(objData => {
-        let shouldShow = true;
-        if (objData.requiredValue && currentUser) {
-            const { name, comparison, value } = objData.requiredValue;
-            const userValue = gameState.getValue(currentUser, name);
+    const mapView = document.getElementById('map-view');
 
-            switch (comparison) {
-                case 'greaterOrEqual':
-                    if (userValue < value) shouldShow = false;
-                    break;
-                case 'lessOrEqual':
-                    if (userValue > value) shouldShow = false;
-                    break;
-                case 'equal':
-                    if (userValue !== value) shouldShow = false;
-                    break;
+    const setupMap = () => {
+        // --- 在构建地图前，先过滤掉不该出现的物品 ---
+        const filteredObjects = (newMapData.objects || []).filter(objData => {
+            let shouldShow = true;
+            if (objData.requiredValue && currentUser) {
+                const { name, comparison, value } = objData.requiredValue;
+                const userValue = gameState.getValue(currentUser, name);
+                switch (comparison) {
+                    case 'greaterOrEqual':
+                        if (userValue < value) shouldShow = false;
+                        break;
+                    case 'lessOrEqual':
+                        if (userValue > value) shouldShow = false;
+                        break;
+                    case 'equal':
+                        if (userValue !== value) shouldShow = false;
+                        break;
+                }
             }
+            return shouldShow;
+        });
+
+        // 创建一个新的 mapData 对象，它只包含通过了检查的物品
+        const filteredMapData = { ...newMapData, objects: filteredObjects };
+
+        clearMap();
+        const { interactableObjects, walls } = buildMap(filteredMapData);
+        currentMap = { id: mapId, interactableObjects, walls };
+
+        // 恢复地图原本的背景
+        mapView.style.backgroundImage = `url(${newMapData.background})`;
+        mapView.style.backgroundColor = ''; // 清除纯黑背景
+
+        interactionManager.updateInteractables(currentMap.interactableObjects);
+        player.x = targetX;
+        player.y = targetY;
+        player.updateStyle();
+
+        if (currentUser) {
+            gameState.saveLocation(currentUser, mapId, { x: targetX, y: targetY });
         }
-        return shouldShow;
-    });
+        console.log(`已传送到: ${newMapData.name || mapId}`);
+    };
 
-    // 创建一个新的 mapData 对象，它只包含通过了检查的物品
-    const filteredMapData = { ...newMapData, objects: filteredObjects };
-
-    clearMap();
-    const { interactableObjects, walls } = buildMap(filteredMapData);
-    currentMap = { id: mapId, interactableObjects, walls };
-
-    document.getElementById('map-view').style.backgroundImage = `url(${newMapData.background})`;
-
-    interactionManager.updateInteractables(currentMap.interactableObjects);
-    player.x = targetX;
-    player.y = targetY;
-    player.updateStyle();
-
-    if (currentUser) {
-        gameState.saveLocation(currentUser, mapId, { x: targetX, y: targetY });
+    if (newMapData.entryStoryKey) {
+        // 如果有入场故事，就先播放它
+        console.log(`发现入场故事: ${newMapData.entryStoryKey}`);
+        mapView.style.backgroundImage = '';
+        mapView.style.backgroundColor = 'black';
+        dialogueManager.start(newMapData.entryStoryKey, setupMap);
+    } else {
+        setupMap();
     }
-    console.log(`已传送到: ${newMapData.name || mapId}`);
 }
 
 // --- 游戏主循环 ---

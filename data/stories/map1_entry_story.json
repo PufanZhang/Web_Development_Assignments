@@ -1,0 +1,23 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "scene": [{ "id": "A", "sprite": "assets/images/characterA.png" },
+        { "id": "B", "sprite": "assets/images/characterB.png" }],
+      "speaker": "A",
+      "dialogue": "我们这是在哪里？",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [{ "id": "A", "sprite": "assets/images/characterA.png" },
+        { "id": "B", "sprite": "assets/images/characterB.png" }],
+      "speaker": "B",
+      "dialogue": "嗯，让我看看……这里是起源之地",
+      "nextNode": "end"
+    },
+    "end": {
+      "speaker": "旁白",
+      "dialogue": "即将进入起源之地。"
+    }
+  }
+}
