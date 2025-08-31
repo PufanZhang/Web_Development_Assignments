@@ -30,6 +30,7 @@ async function loadMapAt(mapId, targetX, targetY) {
     }
 
     const mapView = document.getElementById('map-view');
+    clearMap();
 
     const setupMap = () => {
         // --- 在构建地图前，先过滤掉不该出现的物品 ---
@@ -55,8 +56,6 @@ async function loadMapAt(mapId, targetX, targetY) {
 
         // 创建一个新的 mapData 对象，它只包含通过了检查的物品
         const filteredMapData = { ...newMapData, objects: filteredObjects };
-
-        clearMap();
         const { interactableObjects, walls } = buildMap(filteredMapData);
         currentMap = { id: mapId, interactableObjects, walls };
 
@@ -80,7 +79,7 @@ async function loadMapAt(mapId, targetX, targetY) {
         console.log(`发现入场故事: ${newMapData.entryStoryKey}`);
         mapView.style.backgroundImage = '';
         mapView.style.backgroundColor = 'black';
-        dialogueManager.start(newMapData.entryStoryKey, setupMap);
+        await dialogueManager.start(newMapData.entryStoryKey, setupMap);
     } else {
         setupMap();
     }

@@ -63,7 +63,8 @@ export const loader = {
                 name: mapInfo.name,
                 background: mapInfo.background,
                 walls: mapInfo.walls,
-                objects: objects
+                objects: objects,
+                entryStoryKey: mapInfo.entryStoryKey,
             };
         } catch (error) {
             console.error(`加载地图 "${mapId}" 时发生严重错误:`, error);
