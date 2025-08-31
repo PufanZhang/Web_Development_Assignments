@@ -1,0 +1,7 @@
+{
+  "id": "newspaper",
+  "image": "assets/images/item_02.png",
+  "x": 1000, "y": 200, "width": 50, "height": 50,
+  "storyKey": "newspaper",
+  "showPrompt": true
+}

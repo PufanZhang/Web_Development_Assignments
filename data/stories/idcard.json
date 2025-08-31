@@ -1,0 +1,9 @@
+{
+  "startNode": "start",
+  "nodes": {
+    "start": {
+      "speaker": "身份牌",
+      "dialogue": "联合防卫队队员——唐梓"
+    }
+  }
+}

@@ -19,7 +19,7 @@
     },
     "start4": {
       "speaker": "旁白",
-      "dialogue": "巨大的声响和耀眼的白光是你昏迷前最后的记忆。",
+      "dialogue": "巨大的声响和耀眼的白光是你昏迷前最后的记忆……",
       "nextNode": "changeValue"
     },
     "changeValue": {
@@ -31,3 +31,4 @@
     }
   }
 }
+
