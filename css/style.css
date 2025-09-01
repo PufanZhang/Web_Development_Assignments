@@ -7,12 +7,12 @@ body, html {
 }
 
 #game-container {
-    width: 800px;
-    height: 600px;
-    border: 2px solid #333;
+    width: 100vw;
+    height: 100vh;
+    border: none;
     position: relative;
     overflow: hidden;
-    margin: 20px auto;
+    margin: 0;
     background-color: black;
 }
 

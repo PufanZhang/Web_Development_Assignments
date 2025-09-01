@@ -9,10 +9,18 @@ export function clearMap() {
 // 建造新地图的函数
 export function buildMap(mapData) {
     console.log('Building map with data:', mapData);
-    mapView.style.width = `${mapData.width || 800}px`;   // 如果json没写，默认800
-    mapView.style.height = `${mapData.height || 600}px`; // 如果json没写，默认600
+    const width = mapData.width || 800;
+    const height = mapData.height || 600;
+    mapView.style.width = `${width}px`;
+    mapView.style.height = `${height}px`;
     const interactableObjects = [];
     const walls = mapData.walls || [];
+    const wallThickness = 10;
+    // 自动添加边界墙
+    walls.push({ x: 0, y: -wallThickness, width: width, height: wallThickness });
+    walls.push({ x: 0, y: height, width: width, height: wallThickness });
+    walls.push({ x: -wallThickness, y: 0, width: wallThickness, height: height });
+    walls.push({ x: width, y: 0, width: wallThickness, height: height });
 
     const createElement = (data, type) => {
         const element = document.createElement('div');
@@ -44,5 +52,5 @@ export function buildMap(mapData) {
         mapView.appendChild(wallElement);
     });
 
-    return { interactableObjects, walls };
+    return { interactableObjects, walls, width, height };
 }
