@@ -16,19 +16,17 @@ body, html {
 /* --- 地图层样式 --- */
 #map-view {
     position: relative; /* 成为内部所有绝对定位元素的基准 */
-    width: 1600px; /* 地图的宽度 */
-    height: 900px; /* 地图的高度 */
-    /* 让地图在容器中居中 */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width: 100%; /* 地图的宽度 */
+    height: 100%; /* 地图的高度 */
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
     z-index: 1;
 }
 
 #player {
     position: absolute;
-    width: 50px;  /* 小人的宽度 */
-    height: 50px; /* 小人的高度 */
+    width: 140px;  /* 小人的宽度 */
+    height: 195px; /* 小人的高度 */
     background-image: url('../assets/images/player.png');
     background-size: contain;
     z-index: 10; /* 赋予主角更高的视觉层级 */

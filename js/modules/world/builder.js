@@ -31,7 +31,7 @@ export function buildMap(mapData) {
 
     // （调试用）绘制墙体
     console.log(walls);
-    (mapData.walls || []).forEach(data => {
+    /*(mapData.walls || []).forEach(data => {
         const wallElement = document.createElement('div');
         wallElement.className = 'map-element wall';
         wallElement.style.left = `${data.x}px`;
@@ -39,7 +39,7 @@ export function buildMap(mapData) {
         wallElement.style.width = `${data.width}px`;
         wallElement.style.height = `${data.height}px`;
         mapView.appendChild(wallElement);
-    });
+    });*/
 
     return { interactableObjects, walls };
 }

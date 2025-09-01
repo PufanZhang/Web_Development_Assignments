@@ -1,0 +1,9 @@
+{
+  "name": "医院病房",
+  "background": "assets/background1/map1-1.png",
+  "walls": [
+    { "x": 0, "y": 0, "width": 1800, "height": 250 },
+    {"x": 50, "y": 210, "width": 200, "height": 250}
+  ],
+  "objects": ["1-1bed","door"]
+}

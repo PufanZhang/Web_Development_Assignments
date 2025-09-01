@@ -101,9 +101,12 @@ async function initializeGame() {
     player.init();
 
     const savedLocation = gameState.loadLocation(currentUser);
-    const initialMap = savedLocation ? savedLocation.map : "map1";
-    const initialX = savedLocation ? savedLocation.x : 400;
-    const initialY = savedLocation ? savedLocation.y : 300;
+    //const initialMap = savedLocation ? savedLocation.map : "map1";
+    const initialMap = "map1-1";
+    //const initialX = savedLocation ? savedLocation.x : 400;
+    //const initialY = savedLocation ? savedLocation.y : 300;
+    const initialX =  500;
+    const initialY =  500;
     await loadMapAt(initialMap, initialX, initialY);
     gameState.getValue(currentUser, 'suspicion');
     requestAnimationFrame(gameLoop);

@@ -1,0 +1,7 @@
+{
+  "id": "decrease_suspicion",
+  "image": "assets/images/player.png",
+  "x": 800, "y": 300, "width": 200, "height": 250,
+  "storyKey": "story1",
+  "showPrompt": true
+}

@@ -1,0 +1,6 @@
+{
+  "id": "decrease_suspicion",
+  "x": 100, "y": 300, "width": 200, "height": 250,
+  "storyKey": "bed_story",
+  "showPrompt": true
+}
