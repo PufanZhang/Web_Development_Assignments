@@ -8,6 +8,9 @@ export function clearMap() {
 
 // 建造新地图的函数
 export function buildMap(mapData) {
+    console.log('Building map with data:', mapData);
+    mapView.style.width = `${mapData.width || 800}px`;   // 如果json没写，默认800
+    mapView.style.height = `${mapData.height || 600}px`; // 如果json没写，默认600
     const interactableObjects = [];
     const walls = mapData.walls || [];
 

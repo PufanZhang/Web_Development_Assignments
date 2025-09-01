@@ -1,5 +1,7 @@
 {
   "name": "起源之地",
+  "width": 16000,
+  "height": 10000,
   "background": "assets/images/map1.png",
   "entryStoryKey": "map1_entry_story",
   "walls": [

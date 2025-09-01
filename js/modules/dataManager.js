@@ -64,6 +64,8 @@ export const loader = {
                 background: mapInfo.background,
                 walls: mapInfo.walls,
                 objects: objects,
+                width: mapInfo.width,
+                height: mapInfo.height,
                 entryStoryKey: mapInfo.entryStoryKey,
             };
         } catch (error) {
