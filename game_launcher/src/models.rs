@@ -140,12 +140,20 @@ pub struct PlayerPosition {
     pub y: f64,
 }
 
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
+pub struct MapState {
+    #[serde(rename = "removedObjects", default)]
+    pub removed_objects: Vec<String>,
+}
+
 // 完整的玩家存档数据结构
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PlayerData {
     pub username: String,
     pub address: PlayerPosition,
     pub values: HashMap<String, i32>,
+    #[serde(rename = "mapStates", default)]
+    pub map_states: HashMap<String, MapState>,
     pub achievements: Vec<String>,
     pub tools: Vec<String>,
 }
@@ -163,11 +171,11 @@ impl PlayerData {
             values: HashMap::new(),
             achievements: Vec::new(),
             tools: Vec::new(),
+            map_states: HashMap::new(),
         }
     }
 }
 
-// (这个结构体暂时用不上，但为了和 database.rs 里的代码对应先写上)
 #[derive(Serialize, Deserialize, Debug)]
 pub struct UserCredentials {
     pub username: String,

@@ -150,6 +150,33 @@ export const gameState = {
             debugManager.updateValue(valueName, newValue);
             console.log(`数值 [${valueName}] 同步成功，新值: ${newValue}`);
         }
+    },
+
+    recordObjectRemoval(mapId, objectId) {
+        if (!window.playerDataCache) {
+            console.warn("玩家数据缓存不存在，无法记录物体移除。");
+            return;
+        }
+        // 确保 mapStates 对象的存在
+        if (!window.playerDataCache.mapStates) {
+            window.playerDataCache.mapStates = {};
+        }
+        // 确保当前地图的状态容器存在
+        if (!window.playerDataCache.mapStates[mapId]) {
+            window.playerDataCache.mapStates[mapId] = { removedObjects: [] };
+        }
+        // 将物体 ID 添加到“已移除”列表中，防止重复添加
+        if (!window.playerDataCache.mapStates[mapId].removedObjects.includes(objectId)) {
+            window.playerDataCache.mapStates[mapId].removedObjects.push(objectId);
+            console.log(`[存档缓存] 物体 ${objectId} 在地图 ${mapId} 上已被标记为移除。`);
+        }
+    },
+
+    getRemovedObjects(mapId) {
+        if (window.playerDataCache && window.playerDataCache.mapStates && window.playerDataCache.mapStates[mapId]) {
+            return window.playerDataCache.mapStates[mapId].removedObjects || [];
+        }
+        return []; // 如果没有记录，返回空数组
     }
 };
 

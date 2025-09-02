@@ -1,5 +1,6 @@
 import { dialogueManager } from './dialogue.js';
 import { INTERACTION_RADIUS, BASE_VISUAL_GAP } from '../../config.js';
+import { gameState } from '../dataManager.js';
 
 let interactableObjects = [];
 let currentInteractable = null;
@@ -94,7 +95,6 @@ export const interactionManager = {
             if (window.gameMode !== 'map' || e.key !== 'e' || !currentInteractable) return;
 
             const interactedObject = currentInteractable;
-            localStorage.setItem('interactableObjects', JSON.stringify(interactedObject));
 
             dialogueManager.start(interactedObject.storyKey, (endAction) => {
                 // 对话结束后的回调
@@ -113,6 +113,13 @@ export const interactionManager = {
                     interactedObject.interacted = true;
                     interactedObject.element.classList.add('hidden');
                     currentInteractable = null;
+                    // 获取当前地图ID并记录该物体已被移除
+                    const currentLocation = gameState.loadLocation();
+                    if (currentLocation && currentLocation.map) {
+                        gameState.recordObjectRemoval(currentLocation.map, object.id);
+                    } else {
+                        console.error("无法确定当前地图ID，物体移除状态可能不会被保存！");
+                    }
                 }
             });
         });

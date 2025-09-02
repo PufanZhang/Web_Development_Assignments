@@ -72,6 +72,16 @@ async function loadMapAt(mapId, targetX, targetY) {
         return;
     }
 
+    // 1.5. 从存档中获取此地图上已移除的物体列表
+    const removedObjectIds = gameState.getRemovedObjects(mapId);
+    if (removedObjectIds.length > 0) {
+        console.log(`根据存档，将过滤掉 ${removedObjectIds.length} 个已移除的物体:`, removedObjectIds);
+        const originalCount = packedMapData.objects.length;
+        // 过滤掉 packedMapData.objects 数组中 ID 在 removedObjectIds 列表里的物体
+        packedMapData.objects = packedMapData.objects.filter(objData => !removedObjectIds.includes(objData.id));
+        console.log(`物体过滤完毕。原始数量: ${originalCount}, 当前数量: ${packedMapData.objects.length}`);
+    }
+
     // 2. 在构建地图前，调用预加载
     await preloadImages(packedMapData.assetManifest || []);
     clearMap();
@@ -155,11 +165,40 @@ async function initializeGame() {
     requestAnimationFrame(gameLoop);
 
     // “退出时自动存档”功能
-    window.addEventListener('beforeunload', () => {
+    window.addEventListener('beforeunload', (event) => {
+        // 检查是否有需要保存的数据
         if (window.playerDataCache && currentMap.id) {
+            // 1. 更新玩家在缓存中的最新位置
             window.playerDataCache.address = { map: currentMap.id, x: player.x, y: player.y };
-            navigator.sendBeacon('/api/player/save', JSON.stringify(window.playerDataCache));
-            console.log("已发送退出存档信标。(注意: 该请求可能因缺少token而失败)");
+
+            // 2. 从 localStorage 中获取认证令牌
+            const token = localStorage.getItem('jwt_token');
+
+            // 如果没有令牌，则不发送请求，避免后端报错
+            if (!token) {
+                console.warn("退出存档失败：在 localStorage 中未找到 'jwt_token'。");
+                return;
+            }
+
+            // 3. 创建带有认证信息的请求头
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            };
+
+            // 4. 将要发送的数据转换为 Blob 对象
+            const blob = new Blob([JSON.stringify(window.playerDataCache)], { type: 'application/json' });
+
+            // 5. 使用 fetch API 和 keepalive 标志发送请求
+            // 浏览器会保证这个请求在页面关闭后继续进行
+            fetch('/api/player/save', {
+                method: 'POST',
+                headers: headers,
+                body: blob,
+                keepalive: true // 确保页面关闭后请求能被完整发送
+            });
+
+            console.log("已发送带令牌的退出存档请求。");
         }
     });
 }
