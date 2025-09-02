@@ -116,7 +116,8 @@ export const interactionManager = {
                     // 获取当前地图ID并记录该物体已被移除
                     const currentLocation = gameState.loadLocation();
                     if (currentLocation && currentLocation.map) {
-                        gameState.recordObjectRemoval(currentLocation.map, object.id);
+                        console.log(`移除物体：${interactedObject.id}`)
+                        gameState.recordObjectRemoval(currentLocation.map, interactedObject.id);
                     } else {
                         console.error("无法确定当前地图ID，物体移除状态可能不会被保存！");
                     }
