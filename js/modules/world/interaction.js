@@ -93,10 +93,12 @@ export const interactionManager = {
         window.addEventListener('keydown', (e) => {
             if (window.gameMode !== 'map' || e.key !== 'e' || !currentInteractable) return;
 
-            dialogueManager.start(currentInteractable.storyKey, (endAction) => {
+            const interactedObject = currentInteractable;
+
+            dialogueManager.start(interactedObject.storyKey, (endAction) => {
                 // 对话结束后的回调
-                if (endAction === 'teleport' && currentInteractable.teleportData) {
-                    onTeleport(currentInteractable.teleportData);
+                if (endAction === 'teleport' && interactedObject.teleportData) {
+                    onTeleport(interactedObject.teleportData);
                 }
 
                 if(endAction === 'minigameFTG'){
@@ -105,14 +107,12 @@ export const interactionManager = {
                     });
                 }
 
-                // 交互后隐藏
-                if (currentInteractable.singleInteraction) {
-                    currentInteractable.interacted = true;
-                    currentInteractable.element.classList.add('hidden');
+                // 只有当 singleInteraction 为 true 时，才将其标记为已交互并隐藏
+                if (interactedObject.singleInteraction) {
+                    interactedObject.interacted = true;
+                    interactedObject.element.classList.add('hidden');
+                    currentInteractable = null;
                 }
-
-                // 无论如何，清空当前交互对象
-                currentInteractable = null;
             });
         });
     },
