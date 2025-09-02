@@ -116,9 +116,6 @@ function gameLoop() {
 
 // --- 游戏初始化 ---
 async function initializeGame() {
-    console.log("【main.js】: initializeGame 开始执行，准备检查 token...");
-
-    console.log("【main.js】: Token 检查通过！");
     currentUser = getCurrentUser();
 
     debugManager.init();
