@@ -94,6 +94,7 @@ export const interactionManager = {
             if (window.gameMode !== 'map' || e.key !== 'e' || !currentInteractable) return;
 
             const interactedObject = currentInteractable;
+            localStorage.setItem('interactableObjects', JSON.stringify(interactedObject));
 
             dialogueManager.start(interactedObject.storyKey, (endAction) => {
                 // 对话结束后的回调
