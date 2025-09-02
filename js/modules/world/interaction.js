@@ -100,10 +100,10 @@ export const interactionManager = {
                 }
 
                 if(endAction === 'minigameFTG'){
-        //            window.location.href = "minigame/FTG/fight.html";
-                    import('../../../minigame/FTG/fight.js').then(({ fightManager }) => {
-                        fightManager.start();
-                    });
+                    window.location.href = "minigame/FTG/fight.html";
+        //            import('../../../minigame/FTG/fight.js').then(({ fightManager }) => {
+        //                fightManager.start();
+        //            });
                 }
 
                 // 普通物品交互后隐藏
