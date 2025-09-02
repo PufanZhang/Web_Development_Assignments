@@ -38,6 +38,7 @@ async fn main() -> std::io::Result<()> {
             )
             .service(Files::new("/js", "./js"))
             .service(Files::new("/css", "./css"))
+            .service(Files::new("/data", "./data"))
             .service(Files::new("/assets", "./assets"))
             .service(Files::new("/minigame", "./minigame"))
             .service(index) // 处理根路径

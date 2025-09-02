@@ -135,10 +135,8 @@ export const gameState = {
             console.error("无法修改数值，玩家数据未加载！");
             return;
         }
-        const username = window.playerDataCache.username;
         console.log(`请求修改数值 [${valueName}]，变化量: ${amount}`);
         const response = await apiRequest('/player/modify_value', 'POST', {
-            username, // 后端需要这个字段来校验
             valueName,
             amount
         });

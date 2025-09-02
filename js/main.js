@@ -97,7 +97,13 @@ async function loadMapAt(mapId, targetX, targetY) {
         mapView.style.backgroundImage = '';
         mapView.style.backgroundColor = 'black';
         mapView.style.transform = 'translate(0, 0)';
-        await dialogueManager.start(packedMapData.entryStoryKey, setupMap);
+        try {
+            await dialogueManager.start(packedMapData.entryStoryKey, setupMap);
+        } catch (error) {
+            console.error("启动入场故事时发生错误:", error);
+            console.log("对话系统出现异常，已跳过故事并直接加载地图。");
+            setupMap();
+        }
     } else {
         setupMap();
     }
