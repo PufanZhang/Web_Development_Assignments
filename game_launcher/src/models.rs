@@ -56,6 +56,12 @@ pub struct GameObject {
     pub required_values: Option<RequiredValues>,
     #[serde(default)]
     pub show_prompt: bool,
+    #[serde(rename = "singleInteraction", default = "default_true")]
+    pub single_interaction: bool,
+}
+
+fn default_true() -> bool {
+    true
 }
 
 // 传送点信息

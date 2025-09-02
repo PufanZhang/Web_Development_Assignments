@@ -130,13 +130,14 @@ export const gameState = {
     },
 
     // 修改特定数值 (现在通过 API 与后端同步)
-    async modifyValue(valueName, amount) {
+    async modifyValue(username, valueName, amount) {
         if (!window.playerDataCache) {
             console.error("无法修改数值，玩家数据未加载！");
             return;
         }
         console.log(`请求修改数值 [${valueName}]，变化量: ${amount}`);
         const response = await apiRequest('/player/modify_value', 'POST', {
+            username,
             valueName,
             amount
         });

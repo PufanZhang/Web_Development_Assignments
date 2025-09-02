@@ -4,6 +4,7 @@
   "x": 1200, "y": 500, "width": 80, "height": 100,
   "storyKey": "portal_to_ftg_story",
   "showPrompt": true,
+  "singleInteraction": false,
   "teleportData": {
     "targetMap": "Map_FTG",
     "targetX": 150,

@@ -74,12 +74,9 @@ export const dialogueManager = {
 
         // --- 处理数值变化 ---
         if (currentNode.valueChanges) {
-            const currentUser = getCurrentUser();
-            if (currentUser) {
-                currentNode.valueChanges.forEach(change => {
-                    gameState.modifyValue(currentUser, change.name, change.amount);
-                });
-            }
+            currentNode.valueChanges.forEach(change => {
+                gameState.modifyValue(getCurrentUser(), change.name, change.amount);
+            });
         }
 
         if (currentNode.scene) {

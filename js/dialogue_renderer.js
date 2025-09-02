@@ -1,4 +1,4 @@
-import { gameState, getCurrentUser } from './modules/dataManager.js';
+import { gameState } from './modules/dataManager.js';
 
 /**
  * 这是我们的“对话渲染画师”。
@@ -42,16 +42,15 @@ export function renderDialogue(dialogueState, elements, onOptionClick) {
         });
     }
 
-    // --- 渲染选项 (核心修改部分) ---
+    // --- 渲染选项 ---
     dialogueOptionsContainer.innerHTML = ''; // 先清空旧选项
     if (currentNode.options) {
-        const currentUser = getCurrentUser();
         currentNode.options.forEach(option => {
             // --- 条件检查 ---
             let shouldShow = true; // 默认显示
-            if (option.requiredValue && currentUser) {
+            if (option.requiredValue) {
                 const { name, comparison, value } = option.requiredValue;
-                const userValue = gameState.getValue(currentUser, name);
+                const userValue = gameState.getValue(name);
 
                 switch (comparison) {
                     case 'greaterOrEqual':

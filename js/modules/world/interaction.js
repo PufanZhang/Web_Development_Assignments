@@ -105,8 +105,8 @@ export const interactionManager = {
                     });
                 }
 
-                // 普通物品交互后隐藏
-                if (currentInteractable && !currentInteractable.teleportData) {
+                // 交互后隐藏
+                if (currentInteractable.singleInteraction) {
                     currentInteractable.interacted = true;
                     currentInteractable.element.classList.add('hidden');
                 }
