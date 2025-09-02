@@ -5,7 +5,7 @@ use crate::models::{AuthRequest, AuthResponse, ModifyValueRequest, PlayerData};
 use crate::auth::{create_jwt, AuthenticatedUser};
 
 #[get("/map_data/{map_id}")]
-async fn get_map_data( map_id: web::Path<String>, user: AuthenticatedUser) -> impl Responder {
+pub async fn get_map_data( map_id: web::Path<String>, user: AuthenticatedUser) -> impl Responder {
     // 从 token 里拿到用户名
     let username = user.username;
 

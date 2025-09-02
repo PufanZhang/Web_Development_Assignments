@@ -7,19 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const usernameInput = document.getElementById("username");
     const passwordInput = document.getElementById("password");
 
-    const handleResponse = (response, action) => {
-        alert(response.message);
-        if (response.success) {
-            if (action === 'signup') {
-                usernameInput.value = "";
-                passwordInput.value = "";
-            } else if (action === 'login') {
-                // 登录成功，跳转到主页
-                window.location.href = 'index.html';
-            }
-        }
-    };
-
     async function loginHandler() {
         const username = usernameInput.value;
         const password = passwordInput.value;
@@ -27,8 +14,39 @@ document.addEventListener('DOMContentLoaded', () => {
             alert("请输入完整信息");
             return;
         }
-        const response = await auth.login(username, password);
-        handleResponse(response, 'login'); // 传入动作类型
+
+        // --- 核心改动在这里 ---
+        try {
+            // 1. 等待服务器返回完整的响应
+            const response = await auth.login(username, password);
+            console.log("【login.js】: 已收到来自服务器的响应:", response);
+
+            // 2. 检查响应是否成功，并且真的包含了 token
+            if (response.success && response.token) {
+
+                // 3. 立刻！马上！在这里直接存储！
+                localStorage.setItem("jwt_token", response.token);
+                localStorage.setItem("user", username);
+
+                console.log("【login.js】: Token 已成功写入 localStorage!");
+                alert(response.message);
+
+                // 4. 所有事情都做完后，再执行跳转
+                console.log("【login.js】: 登录成功，准备跳转到 index.html...");
+                window.location.href = 'index.html';
+
+            } else {
+                // 如果登录失败或响应里没有 token，就弹窗提示
+                const message = response ? response.message : "登录失败，请重试。";
+                alert(message);
+                console.error("【login.js】: 登录失败或响应中缺少 token。", response);
+            }
+
+        } catch (error) {
+            // 如果网络请求本身就出错了
+            console.error("【login.js】: 登录过程中发生严重错误:", error);
+            alert("登录请求失败，请检查网络连接或联系管理员。");
+        }
     }
 
     async function signupHandler() {
@@ -38,8 +56,15 @@ document.addEventListener('DOMContentLoaded', () => {
             alert("请输入完整信息");
             return;
         }
+
+        // 注册逻辑可以保持类似，如果注册成功也返回 token 并自动登录
         const response = await auth.register(username, password);
-        handleResponse(response, 'signup'); // 传入动作类型
+
+        if (response && response.success) {
+            alert(response.message);
+        } else {
+            alert(response ? response.message : "注册失败");
+        }
     }
 
     loginButton.addEventListener('click', loginHandler);

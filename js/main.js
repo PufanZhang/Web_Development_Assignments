@@ -67,6 +67,7 @@ async function loadMapAt(mapId, targetX, targetY) {
     // 1. 调用 loader 来获取打包好的地图数据
     const packedMapData = await loader.loadMap(mapId);
     if (!packedMapData) {
+        // 如果加载失败，dataManager 里的 apiRequest 应该已经处理了跳转，这里以防万一
         alert(`地图 "${mapId}" 加载失败，请检查文件或网络！`);
         return;
     }
@@ -87,9 +88,7 @@ async function loadMapAt(mapId, targetX, targetY) {
         player.y = targetY;
         player.updateStyle();
 
-        if (currentUser) {
-            gameState.saveLocation(currentUser, mapId, { x: targetX, y: targetY });
-        }
+        gameState.saveLocation(mapId, { x: targetX, y: targetY });
         console.log(`已传送到: ${packedMapData.name || mapId}`);
     };
 
@@ -117,12 +116,10 @@ function gameLoop() {
 
 // --- 游戏初始化 ---
 async function initializeGame() {
+    console.log("【main.js】: initializeGame 开始执行，准备检查 token...");
+
+    console.log("【main.js】: Token 检查通过！");
     currentUser = getCurrentUser();
-    if (!currentUser) {
-        alert("请先登录！");
-        window.location.href = 'login.html';
-        return;
-    }
 
     debugManager.init();
 
@@ -134,8 +131,7 @@ async function initializeGame() {
     interactionManager.init(handleTeleport);
     player.init();
 
-    // 从后端加载完整的玩家数据
-    const playerData = await gameState.loadPlayerData(currentUser);
+    const playerData = await gameState.loadPlayerData();
     if (!playerData) {
         alert("加载玩家存档失败！");
         return;
@@ -150,17 +146,17 @@ async function initializeGame() {
 
     // 初始化时同步所有数值到调试窗口
     Object.keys(playerData.values || {}).forEach(valueName => {
-        gameState.getValue(currentUser, valueName);
+        gameState.getValue(valueName);
     });
 
     requestAnimationFrame(gameLoop);
 
     // “退出时自动存档”功能
     window.addEventListener('beforeunload', () => {
-        if (currentUser && currentMap.id && window.playerDataCache) {
+        if (window.playerDataCache && currentMap.id) {
             window.playerDataCache.address = { map: currentMap.id, x: player.x, y: player.y };
             navigator.sendBeacon('/api/player/save', JSON.stringify(window.playerDataCache));
-            console.log("已发送退出存档信标。");
+            console.log("已发送退出存档信标。(注意: 该请求可能因缺少token而失败)");
         }
     });
 }
