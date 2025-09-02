@@ -4,22 +4,9 @@ mod models;
 mod database;
 mod auth;
 
-use std::env;
-use std::path::PathBuf;
 use actix_files::Files;
-use actix_web::{App, HttpServer, web, get, Responder, HttpResponse};
-
-
-#[get("/{filename:.*\\.html}")]
-async fn serve_html(path_param: web::Path<String>) -> impl Responder {
-    let filename = path_param.into_inner();
-    let mut path = PathBuf::from("./htmls");
-    path.push(&filename);
-    match std::fs::read_to_string(&path) {
-        Ok(content) => HttpResponse::Ok().content_type("text/html").body(content),
-        Err(_) => HttpResponse::NotFound().body(format!("404 Not Found: Could not find '{}'", filename)),
-    }
-}
+use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
+use std::env;
 
 // 专门处理根路径"/"的请求，重定向到login.html
 #[get("/")]
@@ -54,7 +41,6 @@ async fn main() -> std::io::Result<()> {
             .service(Files::new("/assets", "./assets"))
             .service(Files::new("/minigame", "./minigame"))
             .service(index) // 处理根路径
-            .service(serve_html) // 处理所有.html文件的请求
             .service(
                 Files::new("/", "./htmls")
                     .index_file("login.html")
