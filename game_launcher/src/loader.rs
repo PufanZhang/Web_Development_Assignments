@@ -1,4 +1,4 @@
-use crate::models::{GameObject, MapInfo, PackedMapData};
+use crate::models::{Comparison, Condition, GameObject, MapInfo, PackedMapData, PlayerData};
 use futures::future::try_join_all;
 use std::path::PathBuf;
 use tokio::fs;
@@ -34,7 +34,36 @@ async fn read_json_file<T: serde::de::DeserializeOwned>(path: PathBuf) -> Result
     Ok(data)
 }
 
-pub async fn load_and_pack_map_data(map_id: &str) -> Result<PackedMapData, LoadError> {
+fn check_condition(condition: &Condition, player_data: &PlayerData) -> bool {
+    // 从玩家存档里找到对应的数值, 如果找不到, 就默认为 0
+    let player_value = player_data.values.get(&condition.name).cloned().unwrap_or(0);
+    let required_value = condition.value;
+
+    match condition.comparison {
+        Comparison::GreaterThan => player_value > required_value,
+        Comparison::LessThan => player_value < required_value,
+        Comparison::Equal => player_value == required_value,
+        Comparison::GreaterThanOrEqual => player_value >= required_value,
+        Comparison::LessThanOrEqual => player_value <= required_value,
+        Comparison::NotEqual => player_value != required_value,
+    }
+}
+
+fn should_display_object(obj: &GameObject, player_data: &Option<PlayerData>) -> bool {
+    // 如果没有玩家数据 (比如未登录), 或者物件本身没有显示要求, 则直接显示
+    let Some(player) = player_data else { return true; };
+    let Some(req) = &obj.required_values else { return true; };
+
+    if req.logic.to_uppercase() == "AND" {
+        // AND 逻辑: 所有条件都必须为 true
+        req.conditions.iter().all(|cond| check_condition(cond, player))
+    } else {
+        // OR 逻辑: 只要有一个条件为 true
+        req.conditions.iter().any(|cond| check_condition(cond, player))
+    }
+}
+
+pub async fn load_and_pack_map_data(map_id: &str, player_data: &Option<PlayerData>) -> Result<PackedMapData, LoadError> {
     println!("📦 开始打包地图: {}", map_id);
 
     let map_path = PathBuf::from(format!("./data/maps/{}.json", map_id));
@@ -46,11 +75,18 @@ pub async fn load_and_pack_map_data(map_id: &str) -> Result<PackedMapData, LoadE
         read_json_file::<GameObject>(obj_path)
     });
 
-    let game_objects: Vec<GameObject> = try_join_all(object_futures).await?;
-    println!("  -> 已加载 {} 个物件", game_objects.len());
+    let all_game_objects: Vec<GameObject> = try_join_all(object_futures).await?;
+    println!("  -> 已加载 {} 个物件", all_game_objects.len());
+    
+    let filtered_objects: Vec<GameObject> = all_game_objects
+        .into_iter()
+        .filter(|obj| should_display_object(obj, player_data))
+        .collect();
+    println!("  -> 过滤后剩下 {} 个物件", filtered_objects.len());
+
 
     let mut asset_manifest = vec![map_info.background.clone()];
-    for obj in &game_objects {
+    for obj in &filtered_objects {
         asset_manifest.push(obj.image.clone());
     }
     // 去重
@@ -62,7 +98,7 @@ pub async fn load_and_pack_map_data(map_id: &str) -> Result<PackedMapData, LoadE
         name: map_info.name,
         background: map_info.background,
         walls: map_info.walls,
-        objects: game_objects, // 在这里可以加入基于玩家存档的过滤逻辑
+        objects: filtered_objects,
         width: map_info.width,
         height: map_info.height,
         entry_story_key: map_info.entry_story_key,

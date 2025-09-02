@@ -2,6 +2,7 @@ mod handlers;
 mod loader;
 mod models;
 mod database;
+mod auth;
 
 use std::env;
 use actix_files::Files;
@@ -22,12 +23,12 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .service(
                 web::scope("/api")
-                    .service(handlers::get_map_data)
                     .service(handlers::register)
                     .service(handlers::login)
+                    .service(handlers::get_map_data)
                     .service(handlers::save_player_data)
                     .service(handlers::load_player_data)
-                    .service(handlers::modify_value),
+                    .service(handlers::modify_value)
             )
             .service(
                 Files::new("/", ".")

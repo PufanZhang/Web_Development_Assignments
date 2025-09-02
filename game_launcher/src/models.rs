@@ -5,11 +5,35 @@ use std::collections::HashMap;
 
 // 物件的显示条件
 #[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(rename_all = "snake_case")]
+pub enum Comparison {
+    GreaterThan,
+    LessThan,
+    Equal,
+    GreaterThanOrEqual,
+    LessThanOrEqual,
+    NotEqual,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
-pub struct RequiredValue {
+pub struct Condition {
     pub name: String,
-    pub comparison: String,
+    pub comparison: Comparison,
     pub value: i32,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct RequiredValues {
+    #[serde(default = "default_logic")] // 默认为 AND 逻辑
+    pub logic: String,
+    pub conditions: Vec<Condition>,
+}
+
+// 为 RequiredValues 的 logic 字段提供一个默认值
+fn default_logic() -> String {
+    "AND".to_string()
 }
 
 // 游戏物件 (从 object.json 读取)
@@ -22,12 +46,16 @@ pub struct GameObject {
     pub width: i32,
     pub height: i32,
     pub image: String,
-    #[serde(default)] // storyKey 是可选的
+    #[serde(default)]
     pub story_key: Option<String>,
+    #[serde(rename = "teleportData")]
     #[serde(default)]
-    pub teleport: Option<Teleport>,
+    pub teleport_data: Option<Teleport>,
+    #[serde(rename = "requiredValues")]
     #[serde(default)]
-    pub required_value: Option<RequiredValue>,
+    pub required_values: Option<RequiredValues>,
+    #[serde(default)]
+    pub show_prompt: bool,
 }
 
 // 传送点信息
@@ -56,9 +84,9 @@ pub struct MapInfo {
     pub background: String,
     pub walls: Vec<Wall>,
     pub objects: Vec<String>, // 物件 ID 列表
-    #[serde(default = "default_width")] // 如果json里没有，就使用默认值
+    #[serde(default = "default_width")]
     pub width: i32,
-    #[serde(default = "default_height")] // 如果json里没有，就使用默认值
+    #[serde(default = "default_height")]
     pub height: i32,
     #[serde(default)]
     pub entry_story_key: Option<String>,
@@ -94,7 +122,8 @@ pub struct AuthRequest {
 pub struct AuthResponse {
     pub success: bool,
     pub message: String,
-    // pub token: Option<String>, // 为未来的 token 认证留个位置
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub token: Option<String>,
 }
 
 // 玩家的位置信息
