@@ -1,102 +1,55 @@
-use tiny_http::{Server, Response, Header, Request, Method, StatusCode};
-use std::fs;
-use std::path::{Path, PathBuf};
+mod handlers;
+mod loader;
+mod models;
+mod database;
+
 use std::env;
+use actix_files::Files;
+use actix_web::{App, HttpServer, web};
 
-fn main() {
-    // 指定一个固定的端口号
-    const PORT: u16 = 8000;
-    let addr_str = format!("127.0.0.1:{}", PORT);
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    const HOST: &str = "127.0.0.1";
+    const PORT: u16 = 8080;
 
-    // 尝试在固定的地址上启动服务器
-    let server = match Server::http(&addr_str) {
-        Ok(s) => s,
-        Err(e) => {
-            // 如果端口被占用，给出更明确的提示
-            println!("❌ 启动服务器失败: {}", e);
-            println!("原因可能是端口 {} 已被其他程序占用。", PORT);
-            println!("请关闭占用该端口的程序后重试，或联系开发者。");
-            println!("\n按 Enter 键退出...");
-            let mut line = String::new();
-            std::io::stdin().read_line(&mut line).unwrap();
-            return;
-        }
-    };
+    let game_url = format!("http://{}:{}/login.html", HOST, PORT);
 
-    // 获取服务器实际监听的地址和端口
-    let addr = server.server_addr().to_string();
-    let full_url = format!("http://{}/login.html", addr);
+    let current_dir = env::current_dir().unwrap_or_default();
+    println!("💡 当前工作目录: {:?}", current_dir);
+    println!("游戏服务器启动中...");
 
+    let server = HttpServer::new(|| {
+        App::new()
+            .service(
+                web::scope("/api")
+                    .service(handlers::get_map_data)
+                    .service(handlers::register)
+                    .service(handlers::login)
+                    .service(handlers::save_player_data)
+                    .service(handlers::load_player_data)
+                    .service(handlers::modify_value),
+            )
+            .service(
+                Files::new("/", ".")
+                    .index_file("login.html")
+                    .use_last_modified(true),
+            )
+    })
+        .bind((HOST, PORT))?;
+    // 从绑定的服务器实例中获取监听地址
+    let addr = server.addrs()[0];
     println!("✅ 服务器已成功启动，正在监听: http://{}", addr);
     println!("🚀 准备在浏览器中打开游戏...");
 
-    // 使用 opener 库自动打开浏览器
-    match opener::open(&full_url) {
-        Ok(_) => println!("🎉 浏览器已打开! 如果没有，请手动访问上面的地址。"),
-        Err(e) => println!("🤔 无法自动打开浏览器: {}", e),
+    // 调用 opener 打开浏览器
+    match opener::open(&game_url) {
+        Ok(_) => println!("🎉 浏览器已打开! 如果没有，请手动访问 {}", game_url),
+        Err(e) => eprintln!("🤔 无法自动打开浏览器: {}", e),
     }
 
     println!("\n游戏服务中... 请不要关闭此窗口。");
     println!("按 Ctrl+C 即可退出服务器。");
 
-    // 循环处理来自浏览器的请求
-    for request in server.incoming_requests() {
-        handle_request(request);
-    }
-}
-
-// 处理每一个请求
-fn handle_request(request: Request) {
-    // 打印出浏览器请求了哪个文件
-    println!("请求: {} {}", request.method(), request.url());
-
-    if *request.method() != Method::Get {
-        let response = Response::empty(StatusCode(405));
-        let _ = request.respond(response);
-        return;
-    }
-
-    // 将 URL 路径转换为本地文件路径
-    let mut file_path = env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
-
-    // 如果请求的是根目录 "/"，我们就返回 "login.html"
-    let requested_url = if request.url() == "/" {
-        "/login.html"
-    } else {
-        request.url()
-    };
-
-    // 把 URL 开头的 "/" 去掉
-    file_path.push(requested_url.trim_start_matches('/'));
-
-    // 读取文件内容
-    match fs::read(&file_path) {
-        Ok(data) => {
-            // 根据文件后缀名猜一下它的 Content-Type，这样浏览器才能正确显示
-            let content_type = get_content_type(&file_path);
-            let header = Header::from_bytes(&b"Content-Type"[..], content_type).unwrap();
-
-            // 把文件内容和一个 "200 OK" 的状态码一起发回给浏览器
-            let response = Response::from_data(data).with_header(header);
-            let _ = request.respond(response);
-        }
-        Err(_) => {
-            // 如果文件没找到，就返回一个 "404 Not Found"
-            let response = Response::from_string("404 Not Found").with_status_code(404);
-            let _ = request.respond(response);
-        }
-    }
-}
-
-// 辅助函数用来判断文件类型
-fn get_content_type(path: &Path) -> &'static str {
-    match path.extension().and_then(|s| s.to_str()) {
-        Some("html") => "text/html; charset=utf-8",
-        Some("css") => "text/css; charset=utf-8",
-        Some("js") => "application/javascript; charset=utf-8",
-        Some("png") => "image/png",
-        Some("jpg") | Some("jpeg") => "image/jpeg",
-        Some("json") => "application/json",
-        _ => "application/octet-stream",
-    }
+    // 运行服务器 (这是一个阻塞调用，会一直运行直到程序退出)
+    server.run().await
 }

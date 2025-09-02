@@ -1,81 +1,77 @@
 import { debugManager } from '../debug.js';
 
-// --- 安全的哈希函数 ---
-async function hashPassword(password) {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(password);
-    const hashBuffer = await window.crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+let playerDataCache = null;
+
+// --- 辅助函数：统一处理 API 请求 ---
+async function apiRequest(endpoint, method = 'GET', body = null) {
+    const options = {
+        method,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+    if (body) {
+        options.body = JSON.stringify(body);
+    }
+
+    try {
+        const response = await fetch(`/api${endpoint}`, options);
+        if (!response.ok) {
+            // 如果服务器返回错误，这里统一处理
+            const errorData = await response.json().catch(() => ({ message: response.statusText }));
+            console.error(`API Error on ${method} ${endpoint}:`, errorData.message);
+            alert(`请求失败: ${errorData.message}`);
+            return null;
+        }
+        // 如果响应体为空 (例如 200 OK 但没有内容)，返回 true 表示成功
+        if (response.status === 204 || response.headers.get('content-length') === '0') {
+            return true;
+        }
+        return await response.json();
+    } catch (error) {
+        console.error(`Network Error on ${method} ${endpoint}:`, error);
+        alert('网络连接错误，请检查服务器是否开启！');
+        return null;
+    }
 }
 
 // --- 用户认证模块 ---
 export const auth = {
     async register(username, password) {
-        if (localStorage.getItem(username + "@login")) {
-            return { success: false, message: "该用户名已被占用" };
-        }
-        const hashedPassword = await hashPassword(password);
-        localStorage.setItem(username + "@login", hashedPassword);
-
-        // 初始化玩家数据，包含位置、成就、道具和一个空的数值容器
-        const initialData = {
-            address: { map: "map1", x: 400, y: 300 },
-            values: {},
-            achievements: "",
-            tools: ""
-        };
-        localStorage.setItem(username + "@data", JSON.stringify(initialData));
-        return { success: true, message: "用户注册成功" };
+        // 使用新的 API 接口
+        const response = await apiRequest('/auth/register', 'POST', { username, password });
+        return response ? { success: response.success, message: response.message } : { success: false, message: "请求失败" };
     },
 
     async login(username, password) {
-        const storedHash = localStorage.getItem(username + "@login");
-        if (!storedHash) {
-            return { success: false, message: "该用户不存在" };
-        }
-        const inputHash = await hashPassword(password);
-        if (storedHash === inputHash) {
+        // 使用新的 API 接口
+        const response = await apiRequest('/auth/login', 'POST', { username, password });
+        if (response && response.success) {
+            // 登录成功后，依然在浏览器中记录当前用户名
             localStorage.setItem("user", username);
             return { success: true, message: "登录成功！" };
         }
-        return { success: false, message: "密码错误" };
+        return { success: false, message: (response ? response.message : "请求失败") };
     }
 };
 
 // --- 资源加载器 ---
 export const loader = {
-    async _fetchJson(path) {
-        const response = await fetch(path);
-        if (!response.ok) {
-            throw new Error(`文件加载失败: ${path}`);
-        }
-        return response.json();
-    },
     async loadMap(mapId) {
-        try {
-            const mapInfo = await this._fetchJson(`data/maps/${mapId}.json`);
-            const objectPromises = (mapInfo.objects || []).map(id =>
-                this._fetchJson(`data/objects/${id}.json`)
-            );
-            const objects = await Promise.all(objectPromises);
-            return {
-                name: mapInfo.name,
-                background: mapInfo.background,
-                walls: mapInfo.walls,
-                objects: objects,
-                width: mapInfo.width,
-                height: mapInfo.height,
-                entryStoryKey: mapInfo.entryStoryKey,
-            };
-        } catch (error) {
-            console.error(`加载地图 "${mapId}" 时发生严重错误:`, error);
-            return null;
+        // 一次性获取所有打包好的地图数据
+        console.log(`向服务器请求地图 ${mapId} 的打包数据...`);
+        const packedData = await apiRequest(`/map_data/${mapId}`);
+        if (packedData) {
+            console.log(`✅ 成功接收到地图 ${mapId} 的数据包!`);
         }
+        return packedData; // 直接返回打包好的数据
     },
+
     async loadStory(storyKey) {
         try {
-            return await this._fetchJson(`data/stories/${storyKey}.json`);
+            const response = await fetch(`data/stories/${storyKey}.json`);
+            if (!response.ok) throw new Error(`文件加载失败: ${storyKey}`);
+            return await response.json();
         } catch (error) {
             console.error(`加载故事 "${storyKey}" 失败:`, error);
             return null;
@@ -83,71 +79,72 @@ export const loader = {
     }
 };
 
-// --- 游戏存档模块 (重构) ---
+// --- 游戏存档模块 ---
 export const gameState = {
-    // 获取当前用户的完整数据
-    _getPlayerData(username) {
-        const dataString = localStorage.getItem(username + "@data");
-        return dataString ? JSON.parse(dataString) : null;
+    // 保存玩家的完整数据到后端
+    async savePlayerData(username, playerData) {
+        console.log("正在保存玩家数据到服务器...", playerData);
+        await apiRequest('/player/save', 'POST', playerData);
     },
 
-    // 保存当前用户的完整数据
-    _savePlayerData(username, data) {
-        localStorage.setItem(username + "@data", JSON.stringify(data));
+    // 从后端加载玩家的完整数据
+    async loadPlayerData(username) {
+        console.log(`正在从服务器加载玩家 ${username} 的数据...`);
+        const data = await apiRequest(`/player/load/${username}`);
+        if (data) {
+            // 将加载到的数据存入我们的全局缓存
+            playerDataCache = data;
+            console.log("玩家数据加载并缓存成功！", playerDataCache);
+        }
+        return data;
     },
 
-    // 保存玩家位置
+    // 保存玩家位置 (现在它会更新缓存，并在需要时由主逻辑触发完整保存)
     saveLocation(username, mapId, position) {
-        try {
-            const data = this._getPlayerData(username);
-            if (!data) return;
-            data.address = { map: mapId, x: position.x, y: position.y };
-            this._savePlayerData(username, data);
-        } catch(e) {
-            console.error("存档位置失败:", e);
+        if (!playerDataCache || playerDataCache.username !== username) {
+            console.warn("玩家数据缓存不存在或用户不匹配，无法更新位置。");
+            return;
         }
+        playerDataCache.address = { map: mapId, x: position.x, y: position.y };
+        // 注意：这里只更新了本地缓存，完整的保存将由 beforeunload 事件来处理
     },
 
-    // 读取玩家位置
+    // 读取玩家位置 (现在从缓存中读取)
     loadLocation(username) {
-        try {
-            const data = this._getPlayerData(username);
-            return data ? (data.address || null) : null;
-        } catch(e) {
-            console.error("读档位置失败:", e);
-            return null;
-        }
+        // 这个函数现在只是为了兼容旧的调用方式，返回缓存中的位置信息
+        return playerDataCache ? (playerDataCache.address || null) : null;
     },
 
     // --- 数值系统核心函数 ---
 
-    // 获取特定数值
+    // 获取特定数值 (现在从缓存中读取)
     getValue(username, valueName) {
-        const data = this._getPlayerData(username);
-        const value = data?.values?.[valueName] || 0;
-        // 同时更新一下调试窗口，保证刷新后数值正确
+        if (!playerDataCache || playerDataCache.username !== username) {
+            console.warn(`无法获取数值 [${valueName}]，因为玩家数据未加载。`);
+            return 0; // 返回默认值
+        }
+        const value = playerDataCache.values?.[valueName] || 0;
         debugManager.updateValue(valueName, value);
         return value;
     },
 
-    // 修改特定数值（增加或减少）
-    modifyValue(username, valueName, amount) {
-        try {
-            const data = this._getPlayerData(username);
-            if (!data) return;
-            if (!data.values) {
-                data.values = {};
+    // 修改特定数值 (现在通过 API 与后端同步)
+    async modifyValue(username, valueName, amount) {
+        console.log(`请求修改数值 [${valueName}]，变化量: ${amount}`);
+        const response = await apiRequest('/player/modify_value', 'POST', {
+            username,
+            valueName,
+            amount
+        });
+
+        if (response) {
+            // 用服务器返回的最新值来更新我们的本地缓存
+            const newValue = response.newValue;
+            if (playerDataCache) {
+                playerDataCache.values[valueName] = newValue;
             }
-            const currentValue = data.values[valueName] || 0;
-            const newValue = currentValue + amount;
-            data.values[valueName] = newValue;
-            this._savePlayerData(username, data);
-
             debugManager.updateValue(valueName, newValue);
-
-            console.log(`数值[${valueName}] 变化: ${amount}。当前值: ${newValue}`);
-        } catch(e) {
-            console.error(`修改数值 "${valueName}" 失败:`, e);
+            console.log(`数值 [${valueName}] 同步成功，新值: ${newValue}`);
         }
     }
 };

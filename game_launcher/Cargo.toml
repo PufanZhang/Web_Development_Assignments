@@ -4,5 +4,11 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-tiny_http = "0.12"
+actix-web = "4"
+actix-files = "0.6"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+futures = "0.3"
 opener = "0.8"
+tokio = { version = "1.47.1", features = ["fs"] }
+sha2 = "0.10"
