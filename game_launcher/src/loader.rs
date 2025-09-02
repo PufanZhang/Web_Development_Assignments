@@ -63,6 +63,8 @@ pub async fn load_and_pack_map_data(map_id: &str) -> Result<PackedMapData, LoadE
         background: map_info.background,
         walls: map_info.walls,
         objects: game_objects, // 在这里可以加入基于玩家存档的过滤逻辑
+        width: map_info.width,
+        height: map_info.height,
         entry_story_key: map_info.entry_story_key,
         asset_manifest,
     };

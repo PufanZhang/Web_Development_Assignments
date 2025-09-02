@@ -9,13 +9,13 @@ use tokio::io::AsyncWriteExt;
 
 // 获取用户凭据文件的路径
 fn get_users_path() -> PathBuf {
-    PathBuf::from("../data/users.json")
+    PathBuf::from("./data/users.json")
 }
 
 // 获取特定玩家存档文件的路径
 fn get_player_data_path(username: &str) -> PathBuf {
     // 确保 `players` 文件夹存在
-    let dir = PathBuf::from("../data/players");
+    let dir = PathBuf::from("./data/players");
     if !dir.exists() {
         std::fs::create_dir_all(&dir).expect("Failed to create players directory");
     }

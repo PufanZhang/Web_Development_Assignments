@@ -56,10 +56,16 @@ pub struct MapInfo {
     pub background: String,
     pub walls: Vec<Wall>,
     pub objects: Vec<String>, // 物件 ID 列表
+    #[serde(default = "default_width")] // 如果json里没有，就使用默认值
+    pub width: i32,
+    #[serde(default = "default_height")] // 如果json里没有，就使用默认值
+    pub height: i32,
     #[serde(default)]
     pub entry_story_key: Option<String>,
 }
 
+fn default_width() -> i32 { 800 }
+fn default_height() -> i32 { 600 }
 
 // --- 最终打包后发送给前端的数据结构 ---
 
@@ -69,7 +75,9 @@ pub struct PackedMapData {
     pub name: String,
     pub background: String,
     pub walls: Vec<Wall>,
-    pub objects: Vec<GameObject>, // 这里是完整的物件信息
+    pub objects: Vec<GameObject>,
+    pub width: i32,
+    pub height: i32,
     pub entry_story_key: Option<String>,
     pub asset_manifest: Vec<String>, // 资源清单
 }
