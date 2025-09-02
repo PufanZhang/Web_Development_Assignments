@@ -46,6 +46,11 @@ async fn read_users() -> Result<HashMap<String, String>, std::io::Error> {
 // 写入所有用户凭据
 async fn write_users(users: &HashMap<String, String>) -> Result<(), std::io::Error> {
     let path = get_users_path();
+
+    // 在写入前，确保父目录 "./data" 存在
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent).await?;
+    }
     let content = serde_json::to_string_pretty(users)?;
     let mut file = fs::File::create(path).await?;
     file.write_all(content.as_bytes()).await?;
@@ -94,6 +99,11 @@ pub async fn login_user(req: &AuthRequest) -> Result<bool, &'static str> {
 // 保存玩家数据
 pub async fn save_player_data(data: &PlayerData) -> Result<(), std::io::Error> {
     let path = get_player_data_path(&data.username);
+
+    // 在写入前，确保父目录 "./data/players" 存在
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent).await?;
+    }
     let content = serde_json::to_string_pretty(data)?;
     fs::write(path, content).await
 }
