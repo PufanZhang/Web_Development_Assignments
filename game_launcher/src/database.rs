@@ -4,6 +4,7 @@ use std::collections::HashMap;
 use std::path::PathBuf;
 use tokio::fs;
 use tokio::io::AsyncWriteExt;
+use std::io::{Error, ErrorKind};
 
 // --- 辅助函数 ---
 
@@ -18,6 +19,15 @@ fn get_player_data_path(username: &str) -> PathBuf {
     let dir = PathBuf::from("./data/players");
     if !dir.exists() {
         std::fs::create_dir_all(&dir).expect("Failed to create players directory");
+    }
+    dir.join(format!("{}.json", username))
+}
+
+fn get_save_file_path(username: &str) -> PathBuf {
+    // 确保 `save_files` 文件夹存在
+    let dir = PathBuf::from("./data/save_files");
+    if !dir.exists() {
+        std::fs::create_dir_all(&dir).expect("Failed to create save files directory");
     }
     dir.join(format!("{}.json", username))
 }
@@ -47,10 +57,7 @@ async fn read_users() -> Result<HashMap<String, String>, std::io::Error> {
 async fn write_users(users: &HashMap<String, String>) -> Result<(), std::io::Error> {
     let path = get_users_path();
 
-    // 在写入前，确保父目录 "./data" 存在
-    if let Some(parent) = path.parent() {
-        fs::create_dir_all(parent).await?;
-    }
+    // 默认 ./data文件夹存在，因为它是运行游戏的资源库
     let content = serde_json::to_string_pretty(users)?;
     let mut file = fs::File::create(path).await?;
     file.write_all(content.as_bytes()).await?;
@@ -137,4 +144,58 @@ pub async fn modify_player_value(
         value_name: value_name.to_string(),
         new_value,
     })
+}
+
+pub async fn save_file(save_name: &str, data: &PlayerData) -> Result<(), std::io::Error> {
+    let path = get_save_file_path(&data.username);
+
+    // 读取已有的存档，如果文件不存在或解析失败，则创建一个新的空存档集合
+    let mut saves: HashMap<String, PlayerData> = if path.exists() {
+        let content = fs::read_to_string(&path).await?;
+        serde_json::from_str(&content).unwrap_or_else(|_| HashMap::new())
+    } else {
+        HashMap::new()
+    };
+
+    // 插入或更新指定名称的存档
+    saves.insert(save_name.to_string(), data.clone());
+
+    // 将更新后的存档集合写回文件
+    let content = serde_json::to_string_pretty(&saves)?;
+    fs::write(path, content).await
+}
+
+pub async fn load_save_file(username: &str, save_name: &str) -> Result<(), Error> {
+    let path = get_save_file_path(username);
+
+    if !path.exists() {
+        // 如果连存档文件都没有，直接返回“未找到”错误
+        return Err(Error::new(ErrorKind::NotFound, "Save file not found."));
+    }
+    let content = fs::read_to_string(&path).await?;
+    let saves: HashMap<String, PlayerData> = serde_json::from_str(&content)?;
+
+    // 从存档集合中找到对应的存档点
+    if let Some(player_data_to_load) = saves.get(save_name) {
+        // 如果找到了，就调用现有的 save_player_data 函数，
+        save_player_data(player_data_to_load).await
+    } else {
+        // 如果没找到指定名称的存档，返回“未找到”错误
+        Err(Error::new(ErrorKind::NotFound, "Specified save name not found."))
+    }
+}
+
+pub async fn get_manual_save_names(username: &str) -> Result<Vec<String>, std::io::Error> {
+    let path = get_save_file_path(username);
+
+    if !path.exists() {
+        // 如果存档文件不存在，说明没有任何存档，返回一个空列表
+        return Ok(Vec::new());
+    }
+    let content = fs::read_to_string(&path).await?;
+    let saves: HashMap<String, PlayerData> = serde_json::from_str(&content)?;
+
+    // 提取所有的 key (也就是存档名) 并返回
+    let names = saves.keys().cloned().collect();
+    Ok(names)
 }

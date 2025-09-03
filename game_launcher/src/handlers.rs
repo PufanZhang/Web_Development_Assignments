@@ -120,3 +120,42 @@ pub async fn modify_value(req: web::Json<ModifyValueRequest>, user: Authenticate
         Err(_) => HttpResponse::InternalServerError().body("Failed to modify player value."),
     }
 }
+
+#[post("/player/savefile/{save_name}")]
+pub async fn create_manual_save(
+    path: web::Path<String>,
+    data: web::Json<PlayerData>,
+    user: AuthenticatedUser
+) -> impl Responder {
+    let save_name = path.into_inner();
+    if data.username != user.username {
+        return HttpResponse::Forbidden().finish();
+    }
+
+    match database::save_file(&save_name, &data).await {
+        Ok(response) => HttpResponse::Ok().json(response),
+        Err(_) => HttpResponse::InternalServerError().body("Failed to save player file."),
+    }
+}
+
+#[post("/player/loadfile/{save_name}")]
+pub async fn load_manual_save(path: web::Path<String>, user: AuthenticatedUser) -> impl Responder {
+    let save_name = path.into_inner();
+    let username = &user.username;
+
+    match database::load_save_file(username, &save_name).await {
+        Ok(_) => HttpResponse::Ok().finish(),
+        Err(e) if e.kind() == std::io::ErrorKind::NotFound => {
+            HttpResponse::NotFound().body(e.to_string()) // 如果存档不存在，返回 404 Not Found
+        },
+        Err(_) => HttpResponse::InternalServerError().finish(), // 其他错误，返回 500
+    }
+}
+
+#[get("/player/enquire_all_savefiles")]
+pub async fn get_save_file_names(user: AuthenticatedUser) -> impl Responder {
+    match database::get_manual_save_names(&user.username).await {
+        Ok(names) => HttpResponse::Ok().json(names),
+        Err(_) => HttpResponse::InternalServerError().finish(),
+    }
+}
