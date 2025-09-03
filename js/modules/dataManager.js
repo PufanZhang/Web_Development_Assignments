@@ -177,6 +177,24 @@ export const gameState = {
             return window.playerDataCache.mapStates[mapId].removedObjects || [];
         }
         return []; // 如果没有记录，返回空数组
+    },
+
+    async createSaveFile(saveName) {
+        if (!window.playerDataCache) {
+            console.error("无法创建手动存档，因为玩家数据缓存不存在！");
+            alert("存档失败：玩家数据未加载。");
+            return;
+        }
+        console.log(`正在创建手动存档，名称: [${saveName}]...`);
+        this.saveLocation(window.playerDataCache.address.map, { x: player.x, y: player.y });
+        const response = await apiRequest(`/player/savefile/${saveName}`, 'POST', window.playerDataCache);
+        if (response) {
+            console.log(`✅ 手动存档 [${saveName}] 创建成功！`);
+            alert(`存档点已保存：${saveName}`);
+        } else {
+            console.error(`手动存档 [${saveName}] 创建失败。`);
+            alert("存档失败，请稍后再试。");
+        }
     }
 };
 

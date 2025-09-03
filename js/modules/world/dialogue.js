@@ -79,9 +79,10 @@ export const dialogueManager = {
             });
         }
 
-        if (currentNode.scene) {
-            state.currentScene = currentNode.scene;
+        if (currentNode.saveFile) {
+            gameState.createSaveFile(currentNode.saveFile);
         }
+
         renderDialogue(state, elements, (targetNode) => {
             this.advance(targetNode);
         });
