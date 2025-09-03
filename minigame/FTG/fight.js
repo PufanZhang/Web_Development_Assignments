@@ -436,8 +436,10 @@ export const fightManager = {
         }
 
         if (this.player.health <= 0) {
+            this.updateHealthBars();
             this.showResult(false)
         } else if (this.enemy.health <= 0) {
+            this.updateHealthBars();
             this.showResult(true)
         }
     },
@@ -502,10 +504,10 @@ export const fightManager = {
 
     updateHealthBars() {
         document.getElementById("player-health").style.width = `${
-            (100 * this.player.health) / this.player.maxHealth
+            (100 * (this.player.health > 0 ? this.player.health : 0)) / this.player.maxHealth
         }%`
         document.getElementById("enemy-health").style.width = `${
-            (100 * this.enemy.health) / this.enemy.maxHealth
+            (100 * (this.enemy.health > 0 ? this.enemy.health : 0)) / this.enemy.maxHealth
         }%`
     },
 
