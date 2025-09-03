@@ -99,7 +99,7 @@ async fn main() -> std::io::Result<()> {
                 web::scope("/api")
                     .service(handlers::register)
                     .service(handlers::login)
-                    .service(handlers::logout_and_save_data)
+                    .service(handlers::logout_and_save)
                     .service(handlers::get_map_data)
                     .service(handlers::save_player_data)
                     .service(handlers::load_player_data)

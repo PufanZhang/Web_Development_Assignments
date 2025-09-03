@@ -107,8 +107,8 @@ pub async fn login(req: web::Json<AuthRequest>, active_users: web::Data<Arc<Mute
     }
 }
 
-#[post("/auth/logout")]
-pub async fn logout_and_save_data(data: web::Json<PlayerData>, user: AuthenticatedUser, active_users: web::Data<Arc<Mutex<HashSet<String>>>>
+#[post("/player/logout")]
+pub async fn logout_and_save(data: web::Json<PlayerData>, user: AuthenticatedUser, active_users: web::Data<Arc<Mutex<HashSet<String>>>>
 ) -> impl Responder {
     // 从在线用户列表中移除该用户
     let mut users = active_users.lock().await;

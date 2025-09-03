@@ -185,7 +185,7 @@ async function initializeGame() {
             localStorage.clear();
 
             // 5. 使用 fetch API 和 keepalive 标志发送请求
-            fetch('/auth/logout', {
+            fetch('/player/logout', {
                 method: 'POST',
                 headers: headers,
                 body: blob,
