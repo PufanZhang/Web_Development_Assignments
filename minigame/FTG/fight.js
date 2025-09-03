@@ -6,11 +6,22 @@ export const fightManager = {
     playerBuffTimer: 0,
     playerBuffDuration: 15,
     originalPlayerPosition: { x: 0, y: 0 },
+    animationFrameID: null,
+
+    stopGameLoop() {
+        if(this.animationFrameID) {
+            cancelAnimationFrame(this.animationFrameID);
+            this.animationFrameID = null;
+        }
+    },
 
     async start() {
         // this.originalPlayerPosition.x = window.player.x
         // this.originalPlayerPosition.y = window.player.y
 
+        this.stopGameLoop();
+        document.getElementsByClassName("btn-controls")[0].style.display = 'none';
+        this.isRunning = false;
         // document.getElementById("map-view").style.display = "none"
         document.getElementById("fight-view").style.display = "block"
 
@@ -21,6 +32,7 @@ export const fightManager = {
 
     end() {
         this.isRunning = false
+        this.stopGameLoop()
         document.getElementsByClassName("btn-controls")[0].style.display = "block"
         // document.getElementById("fight-view").style.display = "none"
         // document.getElementById("map-view").style.display = "block"
@@ -231,7 +243,7 @@ export const fightManager = {
         this.checkCollisions()
         this.updateRender()
 
-        requestAnimationFrame(() => this.gameLoop())
+        this.animationFrameID = requestAnimationFrame(() => this.gameLoop())
     },
 
     handleInput() {
