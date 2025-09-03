@@ -6,6 +6,5 @@
   "width": 80,
   "height": 120,
   "storyKey": "story_battle_intro",
-  "showPrompt": true,
-  "singleInteraction": false
+  "showPrompt": true
 }

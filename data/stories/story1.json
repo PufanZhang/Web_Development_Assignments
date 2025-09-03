@@ -21,7 +21,6 @@
     "node_topic": {
       "speaker": "旁白",
       "dialogue": "你们深入地探讨了世界的本质，感觉羁绊加深了。",
-      "displayImage": "assets/images/idcard.png",
       "nextNode": "end1"
     },
     "node_adventure": {

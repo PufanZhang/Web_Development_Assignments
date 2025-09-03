@@ -1,8 +1,6 @@
 {
   "name": "街道战斗",
   "background": "assets/images/Map_FTG.png",
-  "width": 1600,
-  "height": 1000,
   "walls": [
     { "x": 0, "y": 0, "width": 1600, "height": 10 },
     { "x": 0, "y": 890, "width": 1600, "height": 10 }
