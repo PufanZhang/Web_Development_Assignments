@@ -199,3 +199,25 @@ pub async fn get_manual_save_names(username: &str) -> Result<Vec<String>, std::i
     let names = saves.keys().cloned().collect();
     Ok(names)
 }
+
+// --- 开发者模式函数 --- //
+pub async fn modify_player_value_dev(username: &str, value_name: &str, amount: i32) -> Result<(String, i32), String> {
+    // 1. 读取玩家数据
+    let mut player_data = match load_player_data(username).await {
+        Ok(data) => data,
+        Err(_) => return Err(format!("User '{}' not found.", username)),
+    };
+
+    // 2. 修改数值
+    let current_value = player_data.values.entry(value_name.to_string()).or_insert(0);
+    *current_value += amount;
+    let new_value = *current_value;
+
+    // 3. 保存修改后的数据
+    if let Err(e) = save_player_data(&player_data).await {
+        return Err(format!("Failed to save player data: {}", e));
+    }
+
+    // 4. 返回成功信息
+    Ok((value_name.to_string(), new_value))
+}

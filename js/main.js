@@ -121,7 +121,6 @@ async function loadMapAt(mapId, targetX, targetY) {
 
 // --- 游戏主循环 ---
 function gameLoop() {
-    setInterval(saveGameData, 60000);
     if (window.gameMode === 'map') {
         player.update();
         handlePlayerCollision(player, currentMap.walls);
@@ -186,8 +185,7 @@ async function initializeGame() {
             localStorage.clear();
 
             // 5. 使用 fetch API 和 keepalive 标志发送请求
-            // 浏览器会保证这个请求在页面关闭后继续进行
-            fetch('/api/player/save', {
+            fetch('/auth/logout', {
                 method: 'POST',
                 headers: headers,
                 body: blob,
@@ -197,33 +195,6 @@ async function initializeGame() {
             console.log("已发送带令牌的退出存档请求。");
         }
     });
-}
-
-async function saveGameData() {
-    if (!window.playerDataCache || !currentMap.id) {
-        return;
-    }
-    window.playerDataCache.address = { map: currentMap.id, x: player.x, y: player.y };
-    const token = localStorage.getItem('jwt_token');
-
-    try {
-        const response = await fetch('/api/player/save', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(window.playerDataCache)
-        });
-
-        if (response.ok) {
-            console.log("游戏进度已自动保存。");
-        } else {
-            console.error("自动存档请求失败:", await response.text());
-        }
-    } catch (error) {
-        console.error("自动存档时发生网络错误:", error);
-    }
 }
 
 document.addEventListener('DOMContentLoaded', initializeGame);

@@ -3,6 +3,9 @@ use crate::database;
 use actix_web::{get, post, web, HttpResponse, Responder};
 use crate::models::{AuthRequest, AuthResponse, ModifyValueRequest, PlayerData};
 use crate::auth::{create_jwt, AuthenticatedUser};
+use std::collections::HashSet;
+use std::sync::Arc;
+use tokio::sync::Mutex;
 
 #[get("/map_data/{map_id}")]
 pub async fn get_map_data( map_id: web::Path<String>, user: AuthenticatedUser) -> impl Responder {
@@ -60,9 +63,23 @@ pub async fn register(req: web::Json<AuthRequest>) -> impl Responder {
 }
 
 #[post("/auth/login")]
-pub async fn login(req: web::Json<AuthRequest>) -> impl Responder {
+pub async fn login(req: web::Json<AuthRequest>, active_users: web::Data<Arc<Mutex<HashSet<String>>>>) -> impl Responder {
     match database::login_user(&req).await {
         Ok(true) => {
+            // 检查用户是否已在集合中
+            let mut users = active_users.lock().await;
+            if users.contains(&req.username) {
+                // 如果已存在，则拒绝登录
+                return HttpResponse::Conflict().json(AuthResponse {
+                    success: false,
+                    message: "This account is already logged in elsewhere.".to_string(),
+                    token: None,
+                });
+            }
+
+            // 如果不存在，则将其加入集合
+            users.insert(req.username.clone());
+
             // 登录成功, 签发 token
             match create_jwt(&req.username) {
                 Ok(token) => HttpResponse::Ok().json(AuthResponse {
@@ -87,6 +104,19 @@ pub async fn login(req: web::Json<AuthRequest>) -> impl Responder {
             message: msg.to_string(),
             token: None,
         }),
+    }
+}
+
+#[post("/auth/logout")]
+pub async fn logout_and_save_data(data: web::Json<PlayerData>, user: AuthenticatedUser, active_users: web::Data<Arc<Mutex<HashSet<String>>>>
+) -> impl Responder {
+    // 从在线用户列表中移除该用户
+    let mut users = active_users.lock().await;
+    users.remove(&user.username);
+    println!("User '{}' logged out.", user.username);
+    match database::save_player_data(&data).await {
+        Ok(_) => HttpResponse::Ok().finish(),
+        Err(_) => HttpResponse::InternalServerError().finish(),
     }
 }
 

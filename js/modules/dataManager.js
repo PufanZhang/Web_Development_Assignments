@@ -57,6 +57,10 @@ export const auth = {
     async login(username, password) {
         // 登录成功后直接返回完整的响应体，包含 token
         return await apiRequest('/auth/login', 'POST', {username, password});
+    },
+
+    async logout() {
+        return await apiRequest('/auth/logout', 'POST');
     }
 };
 
