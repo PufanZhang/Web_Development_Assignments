@@ -27,18 +27,15 @@ body, html {
 
 #player {
     position: absolute;
-    width: 32px;
-    height: 48px;
     background-image: url('../assets/images/player.png');
-    background-size: cover;
+    background-size: 100px 100px;
 }
 
 .interactable-object {
     position: absolute;
-    background-size: contain;
+    background-size: 100px 100px;
     background-position: center;
     background-repeat: no-repeat;
-    /* 为消失效果增加柔和的过渡 */
     transition: opacity 0.5s ease;
 }
 
@@ -123,16 +120,16 @@ body, html {
 /* --- 智能交互提示样式 --- */
 .interaction-prompt {
     position: absolute;
-    display: none; /* 默认隐藏，等待JS的召唤 */
+    display: none;
     background: white;
     padding: 2px 8px;
     border-radius: 5px;
     color: black;
     font-weight: bold;
-    z-index: 15; /* 比玩家高一点，确保不会被挡住 */
-    transform: translate(-50%, -50%); /* 居中对齐 */
-    transition: top 0.1s linear, left 0.1s linear; /* 让位置变化更丝滑 */
-    user-select: none; /* 防止用户选中文本 */
+    z-index: 15;
+    transform: translate(-50%, -50%);
+    transition: top 0.1s linear, left 0.1s linear;
+    user-select: none;
     outline: none;
 }
 
@@ -154,7 +151,7 @@ body, html {
     transition: background-color 0.3s;
     width: 80%;
     text-align: center;
-    user-select: none; /* 防止用户选中文本 */
+    user-select: none;
     outline: none;
 }
 
@@ -165,7 +162,7 @@ body, html {
 /* --- 调试信息窗口样式 --- */
 #debug-view {
     position: absolute;
-    top: 10px;
+    top: 50px;
     left: 10px;
     padding: 10px;
     background-color: rgba(0, 0, 0, 0.6);

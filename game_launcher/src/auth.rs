@@ -8,7 +8,7 @@ use std::future::{ready, Ready};
 // --- 配置区 ---
 const JWT_SECRET: &[u8] = b"your-super-secret-and-long-key-that-no-one-can-guess";
 // 令牌有效期 (天)
-const TOKEN_TTL_DAYS: i64 = 7;
+const TOKEN_TTL_DAYS: i64 = 2;
 
 lazy_static! {
     pub static ref ENCODING_KEY: EncodingKey = EncodingKey::from_secret(JWT_SECRET);
@@ -67,4 +67,10 @@ impl FromRequest for AuthenticatedUser {
         // 如果上面任何一步失败了, 就返回未授权错误
         ready(Err(actix_web::error::ErrorUnauthorized("Invalid or missing token")))
     }
+}
+
+pub fn validate_and_get_username(token: &str) -> Result<String, jsonwebtoken::errors::Error> {
+    let validation = Validation::default();
+    let token_data = decode::<Claims>(token, &DECODING_KEY, &validation)?;
+    Ok(token_data.claims.sub)
 }

@@ -1,6 +1,14 @@
 import { auth } from './modules/dataManager.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+    // 检查本地存储中是否已有 token
+    const token = localStorage.getItem("jwt_token");
+    if (token) {
+        // 如果有，直接尝试进入游戏
+        console.log("【login.js】: 检测到有效 token，正在尝试自动登录...");
+        window.location.href = 'index.html';
+        return;
+    }
 
     const loginButton = document.getElementById("login");
     const signupButton = document.getElementById("signup");

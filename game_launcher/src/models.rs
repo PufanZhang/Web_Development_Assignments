@@ -160,7 +160,7 @@ pub struct PlayerData {
 
 // 为新用户创建默认存档
 impl PlayerData {
-    pub fn default_for_user(username: &str) -> Self {
+    pub fn new_for_user(username: &str, initial_values: HashMap<String, i32>) -> Self {
         PlayerData {
             username: username.to_string(),
             address: PlayerPosition {
@@ -168,7 +168,7 @@ impl PlayerData {
                 x: 400.0,
                 y: 300.0,
             },
-            values: HashMap::new(),
+            values: initial_values,
             achievements: Vec::new(),
             tools: Vec::new(),
             map_states: HashMap::new(),
@@ -197,4 +197,11 @@ pub struct ModifyValueRequest {
 pub struct ModifyValueResponse {
     pub value_name: String,
     pub new_value: i32, // 修改后的新数值
+}
+
+#[derive(serde::Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct LogoutRequest {
+    pub token: String,
+    pub player_data: PlayerData,
 }

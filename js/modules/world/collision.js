@@ -11,43 +11,45 @@ export function handlePlayerCollision(player, walls) {
     const originalX = player.x;
     const originalY = player.y;
 
-    // 从 player 对象中获取已经计算好的目标位置
-    const targetX = player.targetX;
-    const targetY = player.targetY;
+    // 步骤 1: 处理X轴的移动和碰撞
+    const playerXRect = { x: player.targetX, y: originalY, width: player.width, height: player.height };
 
-    // 1. 独立检测X轴的碰撞，并确定最终的X坐标
-    let finalX = targetX;
-    const playerXRect = { ...player, x: targetX, y: originalY };
+    let finalX = player.targetX; // 假设目标X坐标有效
+
     for (const wall of walls) {
         if (isRectColliding(playerXRect, wall)) {
-            if (targetX > originalX) { // 向右撞墙
+            if (player.targetX > originalX) {
                 finalX = wall.x - player.width;
-            } else if (targetX < originalX) { // 向左撞墙
+            } else if (player.targetX < originalX) {
                 finalX = wall.x + wall.width;
             }
             break;
         }
     }
 
-    // 2. 独立检测Y轴的碰撞，并确定最终的Y坐标
-    let finalY = targetY;
-    const playerYRect = { ...player, x: finalX, y: targetY }; // X用的是修正后的finalX，防止穿墙角
+    // 立刻应用经过X轴校正后的位置
+    player.x = finalX;
+
+    // 步骤 2: 处理Y轴的移动和碰撞
+    const playerYRect = { x: player.x, y: player.targetY, width: player.width, height: player.height };
+
+    let finalY = player.targetY; // 假设目标Y坐标有效
+
     for (const wall of walls) {
         if (isRectColliding(playerYRect, wall)) {
-            if (targetY > originalY) { // 向下撞墙
+            if (player.targetY > originalY) {
                 finalY = wall.y - player.height;
-            } else if (targetY < originalY) { // 向上撞墙
+            } else if (player.targetY < originalY) {
                 finalY = wall.y + wall.height;
             }
             break;
         }
     }
 
-    // 3. 最后，一次性更新玩家的最终位置
-    player.x = finalX;
+    // 应用经过Y轴校正后的位置
     player.y = finalY;
 
-    // 只有在位置实际发生变化时才更新样式，避免不必要的渲染
+    // 步骤 3: 只有在最终位置发生变化时才更新样式，以优化性能
     if (player.x !== originalX || player.y !== originalY) {
         player.updateStyle();
     }

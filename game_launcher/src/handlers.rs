@@ -1,7 +1,7 @@
 use crate::loader::{load_and_pack_map_data, LoadError};
-use crate::database;
+use crate::database::{self, ModifyValueError};
 use actix_web::{get, post, web, HttpResponse, Responder};
-use crate::models::{AuthRequest, AuthResponse, ModifyValueRequest, PlayerData};
+use crate::models::{AuthRequest, AuthResponse, ModifyValueRequest, PlayerData, LogoutRequest};
 use crate::auth::{create_jwt, AuthenticatedUser};
 use std::collections::HashSet;
 use std::sync::Arc;
@@ -108,15 +108,34 @@ pub async fn login(req: web::Json<AuthRequest>, active_users: web::Data<Arc<Mute
 }
 
 #[post("/player/logout")]
-pub async fn logout_and_save(data: web::Json<PlayerData>, user: AuthenticatedUser, active_users: web::Data<Arc<Mutex<HashSet<String>>>>
+pub async fn logout_and_save(payload: web::Json<LogoutRequest>, active_users: web::Data<Arc<Mutex<HashSet<String>>>>
 ) -> impl Responder {
-    // 从在线用户列表中移除该用户
-    let mut users = active_users.lock().await;
-    users.remove(&user.username);
-    println!("User '{}' logged out.", user.username);
-    match database::save_player_data(&data).await {
-        Ok(_) => HttpResponse::Ok().finish(),
-        Err(_) => HttpResponse::InternalServerError().finish(),
+    // 1. 从请求体中拿出 token，手动进行验证
+    match crate::auth::validate_and_get_username(&payload.token) {
+        Ok(username) => {
+            // 2. 安全检查：确保 token 里的用户名和 player_data 里的用户名一致
+            if payload.player_data.username != username {
+                return HttpResponse::Forbidden().body("Token username does not match player data.");
+            }
+
+            // 3. 从在线用户列表中移除该用户
+            let mut users = active_users.lock().await;
+            users.remove(&username);
+            println!("User '{}' logged out and data saved.", username);
+
+            // 4. 保存玩家数据
+            match database::save_player_data(&payload.player_data).await {
+                Ok(_) => HttpResponse::Ok().finish(),
+                Err(e) => {
+                    eprintln!("Failed to save player data on logout for user '{}': {}", username, e);
+                    HttpResponse::InternalServerError().finish()
+                },
+            }
+        }
+        Err(_) => {
+            // 如果 token 无效或过期
+            HttpResponse::Unauthorized().body("Invalid token provided in payload.")
+        }
     }
 }
 
@@ -133,7 +152,14 @@ pub async fn save_player_data(data: web::Json<PlayerData>, user: AuthenticatedUs
 }
 
 #[get("/player/load")]
-pub async fn load_player_data(user: AuthenticatedUser) -> impl Responder {
+pub async fn load_player_data(
+    user: AuthenticatedUser,
+    active_users: web::Data<Arc<Mutex<HashSet<String>>>>
+) -> impl Responder {
+    // 防止在刷新时被登出
+    let mut users = active_users.lock().await;
+    users.insert(user.username.clone());
+
     match database::load_player_data(&user.username).await {
         Ok(data) => HttpResponse::Ok().json(data),
         Err(_) => HttpResponse::NotFound().finish(),
@@ -147,7 +173,14 @@ pub async fn modify_value(req: web::Json<ModifyValueRequest>, user: Authenticate
     }
     match database::modify_player_value(&req.username, &req.value_name, req.amount).await {
         Ok(response) => HttpResponse::Ok().json(response),
-        Err(_) => HttpResponse::InternalServerError().body("Failed to modify player value."),
+        Err(e) => match e {
+            ModifyValueError::InvalidValueName(name) => {
+                HttpResponse::BadRequest().body(format!("Invalid value name: {}", name))
+            }
+            ModifyValueError::Io(_) => {
+                HttpResponse::InternalServerError().body("Failed to modify player value due to a server error.")
+            }
+        },
     }
 }
 
@@ -188,4 +221,13 @@ pub async fn get_save_file_names(user: AuthenticatedUser) -> impl Responder {
         Ok(names) => HttpResponse::Ok().json(names),
         Err(_) => HttpResponse::InternalServerError().finish(),
     }
+}
+
+// 用于在主页时登出
+#[post("/auth/logout")]
+pub async fn logout(user: AuthenticatedUser, active_users: web::Data<Arc<Mutex<HashSet<String>>>>) -> impl Responder {
+    let mut users = active_users.lock().await;
+    users.remove(&user.username);
+    println!("User '{}' logged out via API.", user.username);
+    HttpResponse::Ok().finish()
 }

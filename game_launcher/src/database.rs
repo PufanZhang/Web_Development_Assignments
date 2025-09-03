@@ -6,6 +6,19 @@ use tokio::fs;
 use tokio::io::AsyncWriteExt;
 use std::io::{Error, ErrorKind};
 
+
+#[derive(Debug)]
+pub enum ModifyValueError {
+    Io(Error),
+    InvalidValueName(String),
+}
+
+impl From<Error> for ModifyValueError {
+    fn from(err: Error) -> Self {
+        ModifyValueError::Io(err)
+    }
+}
+
 // --- 辅助函数 ---
 
 // 获取用户凭据文件的路径
@@ -40,10 +53,18 @@ fn hash_password(password: &str) -> String {
     format!("{:x}", result)
 }
 
+// 读取并解析初始数值配置文件
+async fn load_initial_values() -> Result<HashMap<String, i32>, Error> {
+    let path = PathBuf::from("./data/value_initialize.json");
+    let content = fs::read_to_string(path).await?;
+    let values: HashMap<String, i32> = serde_json::from_str(&content)?;
+    Ok(values)
+}
+
 // --- 核心数据库函数 ---
 
 // 读取所有用户凭据
-async fn read_users() -> Result<HashMap<String, String>, std::io::Error> {
+async fn read_users() -> Result<HashMap<String, String>, Error> {
     let path = get_users_path();
     if !path.exists() {
         return Ok(HashMap::new()); // 如果文件不存在，返回一个空的用户列表
@@ -54,7 +75,7 @@ async fn read_users() -> Result<HashMap<String, String>, std::io::Error> {
 }
 
 // 写入所有用户凭据
-async fn write_users(users: &HashMap<String, String>) -> Result<(), std::io::Error> {
+async fn write_users(users: &HashMap<String, String>) -> Result<(), Error> {
     let path = get_users_path();
 
     // 默认 ./data文件夹存在，因为它是运行游戏的资源库
@@ -66,6 +87,8 @@ async fn write_users(users: &HashMap<String, String>) -> Result<(), std::io::Err
 
 // --- 对外暴露的接口 ---
 
+// In src/database.rs
+
 // 注册新用户
 pub async fn register_user(req: &AuthRequest) -> Result<(), &'static str> {
     let mut users = read_users().await.map_err(|_| "Failed to read user database")?;
@@ -74,13 +97,18 @@ pub async fn register_user(req: &AuthRequest) -> Result<(), &'static str> {
         return Err("Username is already taken");
     }
 
+    // 在写入用户信息前，先确保初始数值文件可读
+    let initial_values = load_initial_values()
+        .await
+        .map_err(|_| "Server configuration error: Cannot read initial values.")?;
+
     let hashed_password = hash_password(&req.password);
     users.insert(req.username.clone(), hashed_password);
 
     write_users(&users).await.map_err(|_| "Failed to save new user")?;
 
-    // 创建初始化的玩家存档
-    let initial_data = PlayerData::default_for_user(&req.username);
+    // 使用从文件加载的初始值创建玩家存档
+    let initial_data = PlayerData::new_for_user(&req.username, initial_values);
     save_player_data(&initial_data).await.map_err(|_| "Failed to create initial player data")?;
 
     Ok(())
@@ -104,7 +132,7 @@ pub async fn login_user(req: &AuthRequest) -> Result<bool, &'static str> {
 }
 
 // 保存玩家数据
-pub async fn save_player_data(data: &PlayerData) -> Result<(), std::io::Error> {
+pub async fn save_player_data(data: &PlayerData) -> Result<(), Error> {
     let path = get_player_data_path(&data.username);
 
     // 在写入前，确保父目录 "./data/players" 存在
@@ -116,7 +144,7 @@ pub async fn save_player_data(data: &PlayerData) -> Result<(), std::io::Error> {
 }
 
 // 读取玩家数据
-pub async fn load_player_data(username: &str) -> Result<PlayerData, std::io::Error> {
+pub async fn load_player_data(username: &str) -> Result<PlayerData, Error> {
     let path = get_player_data_path(username);
     let content = fs::read_to_string(path).await?;
     let data = serde_json::from_str(&content)?;
@@ -127,26 +155,32 @@ pub async fn modify_player_value(
     username: &str,
     value_name: &str,
     amount: i32,
-) -> Result<ModifyValueResponse, std::io::Error> {
+) -> Result<ModifyValueResponse, ModifyValueError> {
     // 1. 先把玩家的完整数据读出来
     let mut player_data = load_player_data(username).await?;
 
-    // 2. 找到对应的数值，进行计算
-    let current_value = player_data.values.entry(value_name.to_string()).or_insert(0);
+    // 2. 检查 value_name 是否合法 (是否存在于玩家的数值列表中)
+    if !player_data.values.contains_key(value_name) {
+        return Err(ModifyValueError::InvalidValueName(value_name.to_string()));
+    }
+
+    // 3. 找到对应的数值，进行计算
+    //    此时 unwrap 是安全的，因为我们已经检查过 key 的存在
+    let current_value = player_data.values.get_mut(value_name).unwrap();
     *current_value += amount;
     let new_value = *current_value;
 
-    // 3. 把修改后的完整数据存回去
+    // 4. 把修改后的完整数据存回去
     save_player_data(&player_data).await?;
 
-    // 4. 返回成功信息和新的数值
+    // 5. 返回成功信息和新的数值
     Ok(ModifyValueResponse {
         value_name: value_name.to_string(),
         new_value,
     })
 }
 
-pub async fn save_file(save_name: &str, data: &PlayerData) -> Result<(), std::io::Error> {
+pub async fn save_file(save_name: &str, data: &PlayerData) -> Result<(), Error> {
     let path = get_save_file_path(&data.username);
 
     // 读取已有的存档，如果文件不存在或解析失败，则创建一个新的空存档集合
@@ -185,7 +219,7 @@ pub async fn load_save_file(username: &str, save_name: &str) -> Result<(), Error
     }
 }
 
-pub async fn get_manual_save_names(username: &str) -> Result<Vec<String>, std::io::Error> {
+pub async fn get_manual_save_names(username: &str) -> Result<Vec<String>, Error> {
     let path = get_save_file_path(username);
 
     if !path.exists() {
@@ -208,16 +242,46 @@ pub async fn modify_player_value_dev(username: &str, value_name: &str, amount: i
         Err(_) => return Err(format!("User '{}' not found.", username)),
     };
 
-    // 2. 修改数值
-    let current_value = player_data.values.entry(value_name.to_string()).or_insert(0);
+    // 2. 检查 value_name 是否合法
+    if !player_data.values.contains_key(value_name) {
+        return Err(format!("Invalid value name: '{}'. This value does not exist for the player.", value_name));
+    }
+
+    // 3. 修改数值 (unwrap 是安全的)
+    let current_value = player_data.values.get_mut(value_name).unwrap();
     *current_value += amount;
     let new_value = *current_value;
 
-    // 3. 保存修改后的数据
+    // 4. 保存修改后的数据
     if let Err(e) = save_player_data(&player_data).await {
         return Err(format!("Failed to save player data: {}", e));
     }
 
-    // 4. 返回成功信息
+    // 5. 返回成功信息
+    Ok((value_name.to_string(), new_value))
+}
+
+pub async fn set_player_value_dev(username: &str, value_name: &str, new_value: i32) -> Result<(String, i32), String> {
+    // 1. 读取玩家数据
+    let mut player_data = match load_player_data(username).await {
+        Ok(data) => data,
+        Err(_) => return Err(format!("User '{}' not found.", username)),
+    };
+
+    // 2. 检查 value_name 是否合法
+    if !player_data.values.contains_key(value_name) {
+        return Err(format!("Invalid value name: '{}'. This value does not exist for the player.", value_name));
+    }
+
+    // 3. 直接设置新值 (unwrap 是安全的)
+    let value_to_set = player_data.values.get_mut(value_name).unwrap();
+    *value_to_set = new_value;
+
+    // 4. 保存修改后的数据
+    if let Err(e) = save_player_data(&player_data).await {
+        return Err(format!("Failed to save player data: {}", e));
+    }
+
+    // 5. 返回成功信息
     Ok((value_name.to_string(), new_value))
 }

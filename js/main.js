@@ -12,6 +12,7 @@ window.gameMode = 'map'; // 'map' 或 'dialogue'
 let currentUser = null;
 const gameContainer = document.getElementById('game-container'); // 获取视口容器
 const mapView = document.getElementById('map-view'); // 获取地图容器
+const loadingScreen = document.getElementById('loading-screen');
 
 // --- 当前地图的状态容器 ---
 let currentMap = {
@@ -38,6 +39,23 @@ async function preloadImages(imageUrls) {
     });
     await Promise.all(promises);
     console.log("✅ 所有图片已预加载完毕！");
+}
+
+// 退出时自动保存的函数
+function saveAndLogout() {
+    if (window.playerDataCache && currentMap.id) {
+        window.playerDataCache.address = { map: currentMap.id, x: player.x, y: player.y };
+
+        const token = localStorage.getItem('jwt_token');
+        if (token) {
+            const data = {
+                token: token,
+                playerData: window.playerDataCache
+            };
+            const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+            navigator.sendBeacon('/api/player/logout', blob);
+        }
+    }
 }
 
 function updateCamera() {
@@ -97,6 +115,7 @@ async function loadMapAt(mapId, targetX, targetY) {
         player.x = targetX;
         player.y = targetY;
         player.updateStyle();
+        player.show();
 
         gameState.saveLocation(mapId, { x: targetX, y: targetY });
         console.log(`已传送到: ${packedMapData.name || mapId}`);
@@ -104,6 +123,7 @@ async function loadMapAt(mapId, targetX, targetY) {
 
     if (packedMapData.entryStoryKey) {
         console.log(`发现入场故事: ${packedMapData.entryStoryKey}`);
+        player.hide();
         mapView.style.backgroundImage = '';
         mapView.style.backgroundColor = 'black';
         mapView.style.transform = 'translate(0, 0)';
@@ -132,69 +152,65 @@ function gameLoop() {
 
 // --- 游戏初始化 ---
 async function initializeGame() {
-    currentUser = getCurrentUser();
+    const startTime = Date.now();
+    const minimumDisplayTime = 1000;
+    const loadingPromise = (async () => {
+        currentUser = getCurrentUser();
 
-    debugManager.init();
+        debugManager.init();
 
-    const handleTeleport = (teleportData) => {
-        loadMapAt(teleportData.targetMap, teleportData.targetX, teleportData.targetY);
-    };
+        const handleTeleport = (teleportData) => {
+            loadMapAt(teleportData.targetMap, teleportData.targetX, teleportData.targetY);
+        };
 
-    dialogueManager.init();
-    interactionManager.init(handleTeleport);
-    player.init();
+        dialogueManager.init();
+        interactionManager.init(handleTeleport);
+        player.init();
 
-    const playerData = await gameState.loadPlayerData();
-    if (!playerData) {
-        alert("加载玩家存档失败！");
-        return;
+        const playerData = await gameState.loadPlayerData();
+        if (!playerData) {
+            alert("加载玩家存档失败！");
+            return;
+        }
+
+        // 使用后端返回的数据来确定初始位置
+        const initialMap = playerData.address ? playerData.address.map : "map1";
+        const initialX = playerData.address ? playerData.address.x : 400;
+        const initialY = playerData.address ? playerData.address.y : 300;
+
+        await loadMapAt(initialMap, initialX, initialY);
+
+        // 初始化时同步所有数值到调试窗口
+        Object.keys(playerData.values || {}).forEach(valueName => {
+            gameState.getValue(valueName);
+        });
+
+        requestAnimationFrame(gameLoop);
+
+        const returnToMenuButton = document.getElementById('return-to-menu');
+        if (returnToMenuButton) {
+            returnToMenuButton.addEventListener('click', () => {
+                window.location.href = 'index.html';
+            });
+        }
+
+        window.addEventListener('beforeunload', saveAndLogout);
+    })();
+    // 等待游戏加载完成
+    await loadingPromise;
+
+    // 计算已经过去的时间
+    const elapsedTime = Date.now() - startTime;
+    const remainingTime = minimumDisplayTime - elapsedTime;
+
+    // 如果加载时间小于5秒，则等待剩余的时间
+    if (remainingTime > 0) {
+        await new Promise(resolve => setTimeout(resolve, remainingTime));
     }
 
-    // 使用后端返回的数据来确定初始位置
-    const initialMap = playerData.address ? playerData.address.map : "map1";
-    const initialX = playerData.address ? playerData.address.x : 400;
-    const initialY = playerData.address ? playerData.address.y : 300;
-
-    await loadMapAt(initialMap, initialX, initialY);
-
-    // 初始化时同步所有数值到调试窗口
-    Object.keys(playerData.values || {}).forEach(valueName => {
-        gameState.getValue(valueName);
-    });
-
-    requestAnimationFrame(gameLoop);
-
-    // “退出时自动存档”功能
-    window.addEventListener('beforeunload', (event) => {
-        // 检查是否有需要保存的数据
-        if (window.playerDataCache && currentMap.id) {
-            // 1. 更新玩家在缓存中的最新位置
-            window.playerDataCache.address = { map: currentMap.id, x: player.x, y: player.y };
-
-            // 2. 从 localStorage 中获取认证令牌
-            const token = localStorage.getItem('jwt_token');
-
-            // 3. 创建带有认证信息的请求头
-            const headers = {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            };
-
-            // 4. 将要发送的数据转换为 Blob 对象
-            const blob = new Blob([JSON.stringify(window.playerDataCache)], { type: 'application/json' });
-            localStorage.clear();
-
-            // 5. 使用 fetch API 和 keepalive 标志发送请求
-            fetch('/player/logout', {
-                method: 'POST',
-                headers: headers,
-                body: blob,
-                keepalive: true // 确保页面关闭后请求能被完整发送
-            });
-
-            console.log("已发送带令牌的退出存档请求。");
-        }
-    });
+    // 所有初始化和等待完成后，隐藏加载屏幕并显示游戏容器
+    loadingScreen.classList.add('hidden');
+    gameContainer.classList.add('visible');
 }
 
 document.addEventListener('DOMContentLoaded', initializeGame);

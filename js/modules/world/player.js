@@ -1,14 +1,14 @@
-import { PLAYER_SPEED } from '../../config.js';
+import { PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_SPEED } from '../../config.js';
 
 export const player = {
     element: document.getElementById('player'),
     x: 400,
     y: 300,
     speed: PLAYER_SPEED,
-    width: 50,
-    height: 50,
-    targetX: 50,
-    targetY: 50,
+    width: PLAYER_WIDTH,
+    height: PLAYER_HEIGHT,
+    targetX: 0,
+    targetY: 0,
     keysPressed: { w: false, a: false, s: false, d: false },
 
     init() {
@@ -36,7 +36,17 @@ export const player = {
     },
 
     updateStyle() {
+        this.element.style.width = `${this.width}px`;
+        this.element.style.height = `${this.height}px`;
         this.element.style.top = `${this.y}px`;
         this.element.style.left = `${this.x}px`;
+    },
+
+    hide() {
+        this.element.style.display = 'none';
+    },
+
+    show() {
+        this.element.style.display = 'block';
     }
 };

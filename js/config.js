@@ -1,6 +1,8 @@
 // --- 游戏全局配置文件 ---
 
 // 玩家相关配置
+export const PLAYER_WIDTH = 30;
+export const PLAYER_HEIGHT = 50;
 export const PLAYER_SPEED = 2; // 玩家的移动速度
 
 // 交互相关配置

@@ -83,6 +83,10 @@ export const dialogueManager = {
             gameState.createSaveFile(currentNode.saveFile);
         }
 
+        if (currentNode.scene) {
+            state.currentScene = currentNode.scene;
+        }
+
         renderDialogue(state, elements, (targetNode) => {
             this.advance(targetNode);
         });
