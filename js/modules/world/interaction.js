@@ -106,6 +106,9 @@ export const interactionManager = {
         //            });
                 }
 
+                if(endAction === 'minigameParkour'){
+                    window.location.href = "minigame/Parkour/parkour.html";
+                }
                 // 普通物品交互后隐藏
                 if (currentInteractable && !currentInteractable.teleportData) {
                     currentInteractable.interacted = true;
