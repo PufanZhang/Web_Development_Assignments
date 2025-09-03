@@ -85,11 +85,6 @@ export const loader = {
 
 // --- 游戏存档模块 ---
 export const gameState = {
-    async savePlayerData(playerData) {
-        console.log("正在保存玩家数据到服务器...", playerData);
-        await apiRequest('/player/save', 'POST', playerData);
-    },
-
     // 从后端加载玩家数据, username 会从 token 中解析，不需要作为参数
     async loadPlayerData() {
         console.log(`正在从服务器加载当前玩家的数据...`);

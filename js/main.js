@@ -183,6 +183,7 @@ async function initializeGame() {
 
             // 4. 将要发送的数据转换为 Blob 对象
             const blob = new Blob([JSON.stringify(window.playerDataCache)], { type: 'application/json' });
+            localStorage.clear();
 
             // 5. 使用 fetch API 和 keepalive 标志发送请求
             // 浏览器会保证这个请求在页面关闭后继续进行
