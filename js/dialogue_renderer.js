@@ -56,11 +56,20 @@ export function renderDialogue(dialogueState, elements, onOptionClick) {
                     case 'greaterOrEqual':
                         if (userValue < value) shouldShow = false;
                         break;
+                    case 'greater':
+                        if (userValue <= value) shouldShow = false;
+                        break;
                     case 'lessOrEqual':
                         if (userValue > value) shouldShow = false;
                         break;
+                    case 'less':
+                        if (userValue >= value) shouldShow = false;
+                        break;
                     case 'equal':
                         if (userValue !== value) shouldShow = false;
+                        break;
+                    case 'not_equal':
+                        if (userValue === value) shouldShow = false;
                         break;
                 }
             }
