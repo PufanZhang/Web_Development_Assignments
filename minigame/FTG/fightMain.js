@@ -27,7 +27,7 @@ async function initializeGame() {
         fightManager.start()
     })
     backButton.addEventListener("click", () => {
-        window.location.href = "/game.html"
+        window.location.href = "../../game.html"
     })
 }
 
