@@ -1,25 +1,9 @@
-
 {
-  "startNode": "start1",
+  "startNode": "start",
   "nodes": {
-    "start1": {
+    "start": {
       "speaker": "旁白",
-      "dialogue": "你从病床上醒来，头痛欲裂，喉咙干渴得像吞了沙子。",
-      "nextNode": "start2"
-    },
-    "start2": {
-      "speaker": "旁白",
-      "dialogue": "你努力回忆之前都发生了什么,但图像模糊又时断时续，不甚清楚。",
-      "nextNode": "start3"
-    },
-    "start3": {
-      "speaker": "旁白",
-      "dialogue": "你只记得参加行动时战友把你从一艘巨大的战舰中推出来，逃生飞艇驶离的下一秒，战舰就在身后爆炸了。",
-      "nextNode": "start4"
-    },
-    "start4": {
-      "speaker": "旁白",
-      "dialogue": "巨大的声响和耀眼的白光是你昏迷前最后的记忆。",
+      "dialogue": "这个紫色的物品看起来人畜无害，你感觉心情平静了一些。",
       "nextNode": "changeValue"
     },
     "changeValue": {

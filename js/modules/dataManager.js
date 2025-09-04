@@ -134,20 +134,22 @@ export const gameState = {
             console.error("无法修改数值，玩家数据未加载！");
             return;
         }
-        console.log(`请求修改数值 [${valueName}]，变化量: ${amount}`);
-        const response = await apiRequest('/player/modify_value', 'POST', {
-            username,
-            valueName,
-            amount
-        });
+        if (amount){
+            console.log(`请求修改数值 [${valueName}]，变化量: ${amount}`);
+            const response = await apiRequest('/player/modify_value', 'POST', {
+                username,
+                valueName,
+                amount
+            });
 
-        if (response) {
-            const newValue = response.newValue;
-            if (window.playerDataCache) {
-                window.playerDataCache.values[valueName] = newValue;
+            if (response) {
+                const newValue = response.newValue;
+                if (window.playerDataCache) {
+                    window.playerDataCache.values[valueName] = newValue;
+                }
+                debugManager.updateValue(valueName, newValue);
+                console.log(`数值 [${valueName}] 同步成功，新值: ${newValue}`);
             }
-            debugManager.updateValue(valueName, newValue);
-            console.log(`数值 [${valueName}] 同步成功，新值: ${newValue}`);
         }
     },
 

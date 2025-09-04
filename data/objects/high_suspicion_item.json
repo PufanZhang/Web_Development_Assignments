@@ -4,9 +4,10 @@
   "x": 400, "y": 150, "width": 60, "height": 60,
   "storyKey": "high_suspicion_story",
   "showPrompt": true,
-  "requiredValue": {
-    "name": "suspicion",
-    "comparison": "greaterOrEqual",
-    "value": 200
+  "requiredValues": {
+    "logic": "AND",
+    "conditions": [
+      { "name": "suspicion", "comparison": "greater_than_or_equal", "value": 200 }
+    ]
   }
 }

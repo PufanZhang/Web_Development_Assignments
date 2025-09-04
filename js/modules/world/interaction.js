@@ -1,6 +1,7 @@
 import { dialogueManager } from './dialogue.js';
-import { INTERACTION_RADIUS, BASE_VISUAL_GAP } from '../../config.js';
+import { INTERACTION_RADIUS, BASE_VISUAL_GAP, GAME_LIST } from '../../config.js';
 import { gameState } from '../dataManager.js';
+import { minigameLoader } from '../../minigameLoader.js';
 
 let interactableObjects = [];
 let currentInteractable = null;
@@ -98,14 +99,19 @@ export const interactionManager = {
 
             dialogueManager.start(interactedObject.storyKey, (endAction) => {
                 // 对话结束后的回调
-                if (endAction === 'teleport' && interactedObject.teleportData) {
+                if (endAction.type === 'teleport' && interactedObject.teleportData) {
                     onTeleport(interactedObject.teleportData);
                 }
 
-                if(endAction === 'minigameFTG'){
+                if (endAction.type === 'minigameFTG'){
                     import('../../../minigame/FTG/fight.js').then(({ fightManager }) => {
                         fightManager.start();
                     });
+                }
+
+                if (GAME_LIST.includes(endAction.type)) {
+                    console.log(`接收到 ${endAction.type} 动作，正在加载游戏...`);
+                    minigameLoader.load(endAction.type, endAction.onWin, endAction.onLose);
                 }
 
                 // 只有当 singleInteraction 为 true 时，才将其标记为已交互并隐藏

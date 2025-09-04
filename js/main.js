@@ -153,7 +153,7 @@ function gameLoop() {
 // --- 游戏初始化 ---
 async function initializeGame() {
     const startTime = Date.now();
-    const minimumDisplayTime = 1000;
+    const minimumDisplayTime = 500;
     const loadingPromise = (async () => {
         currentUser = getCurrentUser();
 
