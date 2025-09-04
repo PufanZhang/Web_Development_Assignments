@@ -1,0 +1,9 @@
+{
+  "startNode": "start",
+  "nodes": {
+    "start": {
+      "speaker": "旁白",
+      "dialogue": "（谜题似乎太复杂了，你决定暂时放弃。）"
+    }
+  }
+}
