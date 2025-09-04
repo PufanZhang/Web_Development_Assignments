@@ -21,7 +21,8 @@ let animationId;
 class Player {
     constructor() {
         this.lane = 1; // 中间车道
-        this.x = (canvas.width - PLAYER_SIZE) / 2;
+        // 修改x坐标计算，使玩家在赛道中间
+        this.x = (canvas.width / 2 - LANE_WIDTH / 2) + (this.lane * LANE_WIDTH) + (LANE_WIDTH - PLAYER_SIZE) / 2;
         this.y = canvas.height - PLAYER_SIZE - 20;
         this.width = PLAYER_SIZE;
         this.height = PLAYER_SIZE;
@@ -33,8 +34,8 @@ class Player {
     }
 
     update() {
-        // 更新水平位置
-        const targetX = canvas.width / 2 - LANE_WIDTH / 2 + this.lane * LANE_WIDTH;
+        // 更新水平位置，使玩家保持在赛道中间
+        const targetX = (canvas.width / 2 - LANE_WIDTH / 2) + (this.lane * LANE_WIDTH) + (LANE_WIDTH - this.width) / 2;
         this.x += (targetX - this.x) * 0.2;
 
         // 更新垂直位置（跳跃/重力）
@@ -122,7 +123,8 @@ class Obstacle {
     constructor(type, lane) {
         this.type = type; // 0: 地面障碍, 1: 空中障碍, 2: 断桥
         this.lane = lane;
-        this.x = canvas.width / 2 - LANE_WIDTH / 2 + lane * LANE_WIDTH;
+        // 修改x坐标计算，使障碍物在赛道中间
+        this.x = (canvas.width / 2 - LANE_WIDTH / 2) + (lane * LANE_WIDTH) + (LANE_WIDTH - (LANE_WIDTH - 10)) / 2;
         this.y = -OBSTACLE_HEIGHT; // 从屏幕顶部上方生成
         this.width = LANE_WIDTH - 10;
         this.height = OBSTACLE_HEIGHT;
@@ -223,7 +225,7 @@ function initGame() {
     ctx = canvas.getContext('2d');
 
     // 设置画布尺寸
-    canvas.width = 400;
+    canvas.width = 500; // 增加画布宽度
     canvas.height = 600;
 
     // 初始化玩家

@@ -16,6 +16,23 @@
             操作: A-左移 D-右移 W-跳跃 S-翻滚
         </div>
 
+        <!-- 右侧说明面板 -->
+        <div class="instructions-panel">
+            <h3>障碍物说明</h3>
+            <div class="instruction-item">
+                <div class="obstacle-preview ground-obstacle"></div>
+                <div class="instruction-text">地面障碍 - 按W跳跃通过</div>
+            </div>
+            <div class="instruction-item">
+                <div class="obstacle-preview air-obstacle"></div>
+                <div class="instruction-text">空中障碍 - 按S翻滚通过</div>
+            </div>
+            <div class="instruction-item">
+                <div class="obstacle-preview bridge-obstacle"></div>
+                <div class="instruction-text">断桥障碍 - 按W跳跃通过</div>
+            </div>
+        </div>
+
         <div class="game-over" id="game-over">
             <h2>游戏结束</h2>
             <p>最终得分: <span id="final-score">0</span></p>
