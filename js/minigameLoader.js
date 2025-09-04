@@ -70,6 +70,11 @@ export const minigameLoader = {
                     gameState.loadPlayerData().then(playerData => {
                         if (playerData) {
                             console.log("【minigameLoader.js】: 后端状态已恢复。欢迎回来, ", playerData.username);
+                            if (result.success && onWinStory) {
+                                dialogueManager.start(onWinStory);
+                            } else if (!result.success && onLoseStory) {
+                                dialogueManager.start(onLoseStory);
+                            }
                         } else {
                             console.alert("Token 无效或已过期，请重新登录。");
                             localStorage.clear();
@@ -78,11 +83,6 @@ export const minigameLoader = {
                     });
                 }
                 window.gameMode = 'map';
-                if (result.success && onWinStory) {
-                    dialogueManager.start(onWinStory);
-                } else if (!result.success && onLoseStory) {
-                    dialogueManager.start(onLoseStory);
-                }
             };
 
         } catch (error) {
