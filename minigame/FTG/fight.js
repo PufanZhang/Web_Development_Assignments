@@ -5,6 +5,11 @@ export const fightManager = {
     isPlayerBuffActive: false,
     playerBuffTimer: 0,
     playerBuffDuration: 15,
+    // 大招CD相关属性
+    ultCooldown: 0,
+    ultCooldownDuration: 1800, // 30秒 * 60帧/秒
+    ultCooldownRecoveryRate: 1, // 每秒恢复的CD量
+    isUltCooldown: false, // 新增：标记是否处于CD状态
     originalPlayerPosition: { x: 0, y: 0 },
     animationFrameID: null,
 
@@ -74,7 +79,7 @@ export const fightManager = {
             attackDamage: 12,
             attacklocked: 0,
             attackRange: 100,
-            prevState: "idle", // 新增：记录前一个状态
+            prevState: "idle",
         }
 
         this.enemy = {
@@ -93,6 +98,13 @@ export const fightManager = {
             attacklocked: 0,
             attackRange: 100,
         }
+
+        // 初始化大招状态
+        this.isPlayerBuffActive = false;
+        this.playerBuffTimer = 0;
+        this.ultCooldown = 0;
+        this.isUltCooldown = false;
+        this.updateBuffTimerDisplay();
 
         this.keysPressed = {}
         //    this.mouseButtons = {};
@@ -118,7 +130,8 @@ export const fightManager = {
             this.player.facing = "right"
         }
 
-        if (e.key === "q" && !this.isPlayerBuffActive) {
+        // 修改大招触发条件，加入CD检查
+        if (e.key === "q" && !this.isPlayerBuffActive && !this.isUltCooldown) {
             this.activatePlayerBuff()
         }
 
@@ -214,15 +227,21 @@ export const fightManager = {
         this.isPlayerBuffActive = true
         this.playerBuffTimer = this.playerBuffDuration
 
+        // 设置大招CD（但不在激活期间恢复）
+        this.ultCooldown = this.ultCooldownDuration;
+        this.isUltCooldown = false; // 激活期间不处于CD状态
+
         const effect = document.createElement("div")
         effect.className = "skill-effect"
         effect.style.left = `${this.player.x - 60}px`
         effect.style.top = `${this.player.y - 40}px`
         document.getElementById("arena").appendChild(effect)
 
+        // 大招持续时间结束后设置CD状态
         setTimeout(() => {
             effect.remove()
             this.isPlayerBuffActive = false
+            this.isUltCooldown = true; // 大招结束后开始CD
         }, this.playerBuffDuration * 1000)
 
         this.updatePlayerState("skill")
@@ -231,6 +250,43 @@ export const fightManager = {
                 this.updatePlayerState("idle")
             }
         }, 500)
+    },
+
+    // 恢复大招CD
+    recoverUltCooldown(amount) {
+        if (this.isUltCooldown && this.ultCooldown > 0) {
+            this.ultCooldown = Math.max(0, this.ultCooldown - amount);
+            this.updateBuffTimerDisplay();
+
+            // 如果CD恢复完成，重置状态
+            if (this.ultCooldown <= 0) {
+                this.isUltCooldown = false;
+            }
+        }
+    },
+
+    // 更新buff计时器显示
+    updateBuffTimerDisplay() {
+        const timerElement = document.getElementById("player-buff-timer");
+        if (!timerElement) return;
+
+        let percent = 0;
+
+        if (this.isPlayerBuffActive) {
+            // 大招激活期间显示剩余持续时间
+            percent = (this.playerBuffTimer / this.playerBuffDuration) * 100;
+            timerElement.style.backgroundColor = '#ffeb3b'; // 金色表示激活状态
+        } else if (this.isUltCooldown) {
+            // CD期间显示CD恢复进度
+            percent = (1 - (this.ultCooldown / this.ultCooldownDuration)) * 100;
+            timerElement.style.backgroundColor = '#9C27B0'; // 紫色表示CD状态
+        } else {
+            // 大招可用状态
+            percent = 100;
+            timerElement.style.backgroundColor = '#4CAF50'; // 绿色表示可用状态
+        }
+
+        timerElement.style.width = `${percent}%`;
     },
 
     gameLoop() {
@@ -303,15 +359,22 @@ export const fightManager = {
 
         if (this.isPlayerBuffActive) {
             this.playerBuffTimer -= 1 / 60
-            const timerElement = document.getElementById("player-buff-timer")
-            if (timerElement) {
-                timerElement.style.width = `${
-                    (this.playerBuffTimer / this.playerBuffDuration) * 100
-                }%`
-            }
+            this.updateBuffTimerDisplay();
 
             if (this.playerBuffTimer <= 0) {
                 this.isPlayerBuffActive = false
+                this.isUltCooldown = true; // 大招结束后开始CD
+            }
+        }
+
+        // 更新大招CD（仅在大招结束后）
+        if (this.isUltCooldown && this.ultCooldown > 0) {
+            this.ultCooldown -= this.ultCooldownRecoveryRate;
+            this.updateBuffTimerDisplay();
+
+            if (this.ultCooldown <= 0) {
+                this.ultCooldown = 0;
+                this.isUltCooldown = false;
             }
         }
     },
@@ -416,6 +479,11 @@ export const fightManager = {
                             ? 0
                             : damage / 3
                         : damage
+
+                    // 格挡成功恢复5%大招CD
+                    if (isBlockingCorrectDirection) {
+                        this.recoverUltCooldown(this.ultCooldownDuration * 0.05);
+                    }
                 }
 
                 this.player.health -= damage
