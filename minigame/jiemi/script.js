@@ -1,9 +1,9 @@
 const gameData = {
     // 4条线索（对应密码：2724）
     clues: [
-        "线索1：刘小星在信息作战部队研发的高级病毒，是“冰川行动”成功的关键。根据唐梓回忆的行动流程：潜入→破解护盾→安装炸弹→撤离。这个关键技术应用在第几个步骤？",
-        "线索2：病房旧报纸记载“冰川行动”持续了漫长岁月，最终瘫痪“冰川号”。请问冰川行动是多长时间前结束的？",
-        "线索3：“冰川行动”十分惨烈，幸存者少之又少，请问有多少人幸存？",
+        "线索1：刘小星在信息作战部队研发的高级病毒，是\"冰川行动\"成功的关键。根据唐梓回忆的行动流程：潜入→破解护盾→安装炸弹→撤离。这个关键技术应用在第几个步骤？",
+        "线索2：病房旧报纸记载\"冰川行动\"持续了漫长岁月，最终瘫痪\"冰川号\"。请问冰川行动是多长时间前结束的？",
+        "线索3：\"冰川行动\"十分惨烈，幸存者少之又少，请问有多少人幸存？",
         "线索4：刘小月的姐姐在哪只部队服役？（1.网络空间安全部队2.信息支援部队3.信息作战与网安部队4.信息作战部队）"
     ],
     // 每条线索对应的提示（基于G2解密前剧情）
@@ -44,7 +44,8 @@ const elements = {
     autoFillBtn: document.getElementById('auto-fill'),
     hintSection: document.getElementById('hint-section'),
     backToClue: document.getElementById('back-to-clue'),
-    confirmHintBtn: document.getElementById('confirm-hint')
+    confirmHintBtn: document.getElementById('confirm-hint'),
+    tryAgain: document.getElementById('try-again')
 };
 
 // 初始化游戏（页面加载后执行）
@@ -204,19 +205,10 @@ function setupEventListeners() {
     // 9. 成功后返回剧情
     elements.backToStory.addEventListener('click', returnToStory);
     
+    // 10. 失败后重试
+    elements.tryAgain.addEventListener('click', returnToStory);
     
-    elements.tryAgain = document.getElementById('try-again'); // 新增获取失败按钮
-    elements.tryAgain.addEventListener('click', returnToStory); // 绑定返回函数
-    
-    // 10. 确认提示按钮：关闭提示界面，返回密码输入
-    elements.confirmHintBtn.addEventListener('click', () => {
-        elements.hintSection.classList.add('hidden');
-        elements.passwordSection.classList.remove('hidden');
-        elements.passwordDigits[0].focus();
-    });
-    
-    
-    // 在 setupEventListeners 函数中添加（比如放在其他按钮事件后面）
+    // 11. 返回查看线索按钮 - 修复的问题在这里
     elements.backToClue.addEventListener('click', () => {
         // 隐藏密码区域，显示线索区域
         elements.passwordSection.classList.add('hidden');
@@ -394,4 +386,6 @@ function returnToStory() {
         window.closeMinigame({ success: false });
     }
 }
+
+// 初始化游戏
 initGame();
