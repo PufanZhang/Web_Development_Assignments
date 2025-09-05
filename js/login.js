@@ -1,14 +1,30 @@
 import { auth } from './modules/dataManager.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 检查本地存储中是否已有 token
-    const token = localStorage.getItem("jwt_token");
-    if (token) {
-        // 如果有，直接尝试进入游戏
-        console.log("【login.js】: 检测到有效 token，正在尝试自动登录...");
-        window.location.href = 'index.html';
-        return;
+    // --- 自动登录逻辑 ---
+    async function attemptAutoLogin() {
+        const token = localStorage.getItem("jwt_token");
+        if (token) {
+            console.log("【login.js】: 检测到 token，正在向服务器验证...");
+            const response = await auth.loginWithToken(token);
+
+            if (response.success && response.token) {
+                console.log("【login.js】: Token 验证成功，自动登录...");
+                localStorage.setItem("jwt_token", response.token);
+                localStorage.setItem("user", response.playerData.username);
+                window.location.href = 'index.html';
+            } else {
+                console.warn("【login.js】: 自动登录失败:", response.message);
+                localStorage.removeItem("jwt_token");
+                localStorage.removeItem("user");
+            }
+        } else {
+            console.log("【login.js】: 未检测到 token，请手动登录。");
+        }
     }
+
+    // 页面加载时立即尝试自动登录
+    attemptAutoLogin();
 
     const loginButton = document.getElementById("login");
     const signupButton = document.getElementById("signup");

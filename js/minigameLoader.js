@@ -28,24 +28,24 @@ export const minigameLoader = {
                 addedElements.push(newLink);
             });
 
-            // 5. 创建小游戏容器，并注入 <body> 的内容
+            // 2. 创建小游戏容器，并注入 <body> 的内容
             const minigameContainer = document.createElement('div');
             minigameContainer.id = 'minigame-container';
             minigameContainer.innerHTML = minigameDoc.body.innerHTML;
             document.body.appendChild(minigameContainer);
             addedElements.push(minigameContainer);
 
-            // 6. 按顺序加载并执行所有 <script> 标签
+            // 3. 按顺序加载并执行所有 <script> 标签
             const scripts = Array.from(minigameDoc.querySelectorAll('script'));
             for (const oldScript of scripts) {
                 const newScript = document.createElement('script');
-                // 复制所有属性 (src, type, etc.)
+                // 复制所有属性
                 for (const attr of oldScript.attributes) {
                     newScript.setAttribute(attr.name, attr.value);
                 }
 
                 if (oldScript.src) {
-                    // 对于外部脚本，我们必须等待它加载完成
+                    // 对于外部脚本，必须等待它加载完成
                     await new Promise((resolve, reject) => {
                         newScript.onload = resolve;
                         newScript.onerror = reject;
@@ -58,7 +58,7 @@ export const minigameLoader = {
                 }
             }
 
-            // 7. 提供全局关闭函数
+            // 4. 提供全局关闭函数
             window.closeMinigame = (result) => {
                 console.log(`小游戏 '${minigameName}' 已结束，结果:`, result);
                 addedElements.forEach(el => el.parentNode.removeChild(el));

@@ -205,3 +205,21 @@ pub struct LogoutRequest {
     pub token: String,
     pub player_data: PlayerData,
 }
+
+// 用于 token 自动登录的请求体
+#[derive(Deserialize, Debug)]
+pub struct TokenLoginRequest {
+    pub token: String,
+}
+
+// token 自动登录成功后的响应体
+#[derive(Serialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct LoginWithTokenResponse {
+    pub success: bool,
+    pub message: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub token: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub player_data: Option<PlayerData>,
+}

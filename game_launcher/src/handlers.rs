@@ -1,7 +1,7 @@
 use crate::loader::{load_and_pack_map_data, LoadError};
 use crate::database::{self, ModifyValueError};
 use actix_web::{get, post, web, HttpResponse, Responder};
-use crate::models::{AuthRequest, AuthResponse, ModifyValueRequest, PlayerData, LogoutRequest};
+use crate::models::{AuthRequest, AuthResponse, ModifyValueRequest, PlayerData, LogoutRequest, TokenLoginRequest, LoginWithTokenResponse};
 use crate::auth::{create_jwt, AuthenticatedUser};
 use std::collections::HashSet;
 use std::sync::Arc;
@@ -104,6 +104,68 @@ pub async fn login(req: web::Json<AuthRequest>, active_users: web::Data<Arc<Mute
             message: msg.to_string(),
             token: None,
         }),
+    }
+}
+
+#[post("/auth/login_with_token")]
+pub async fn login_with_token(
+    req: web::Json<TokenLoginRequest>,
+    active_users: web::Data<Arc<Mutex<HashSet<String>>>>,
+) -> impl Responder {
+    // 1. 验证 token 并获取用户名
+    match crate::auth::validate_and_get_username(&req.token) {
+        Ok(username) => {
+            let mut users = active_users.lock().await;
+
+            // 2. 检查此账号是否已在其他地方登录
+            if users.contains(&username) {
+                return HttpResponse::Conflict().json(LoginWithTokenResponse {
+                    success: false,
+                    message: "This account is already logged in elsewhere.".to_string(),
+                    token: None,
+                    player_data: None,
+                });
+            }
+
+            // 3. 如果未登录，则添加到在线用户列表
+            users.insert(username.clone());
+
+            // 4. 签发一个新的 token
+            match create_jwt(&username) {
+                Ok(new_token) => {
+                    // 5. 加载玩家数据
+                    match database::load_player_data(&username).await {
+                        Ok(player_data) => HttpResponse::Ok().json(LoginWithTokenResponse {
+                            success: true,
+                            message: "Login successful!".to_string(),
+                            token: Some(new_token),
+                            player_data: Some(player_data),
+                        }),
+                        Err(_) => HttpResponse::NotFound().json(LoginWithTokenResponse {
+                            success: false,
+                            message: "Player data not found.".to_string(),
+                            token: None,
+                            player_data: None,
+                        }),
+                    }
+                }
+                Err(_) => HttpResponse::InternalServerError().json(LoginWithTokenResponse {
+                    success: false,
+                    message: "Could not create new token.".to_string(),
+                    token: None,
+                    player_data: None,
+                }),
+            }
+        }
+        Err(_) => {
+            // 如果 token 无效或已过期
+            HttpResponse::Unauthorized().json(LoginWithTokenResponse {
+                success: false,
+                message: "Invalid or expired token.".to_string(),
+                token: None,
+                player_data: None,
+            })
+        }
     }
 }
 

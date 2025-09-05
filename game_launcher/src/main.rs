@@ -39,6 +39,7 @@ async fn main() -> std::io::Result<()> {
                 web::scope("/api")
                     .service(handlers::register)
                     .service(handlers::login)
+                    .service(handlers::login_with_token)
                     .service(handlers::logout)
                     .service(handlers::logout_and_save)
                     .service(handlers::get_map_data)

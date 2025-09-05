@@ -1,0 +1,644 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Orbitron', 'Microsoft YaHei', sans-serif;
+    background:
+            radial-gradient(circle at 20% 50%, #0a0a23 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, #1a1a3e 0%, transparent 50%),
+            radial-gradient(circle at 40% 80%, #2d1b69 0%, transparent 50%),
+            linear-gradient(135deg, #0d1421 0%, #1a1a2e 50%, #16213e 100%);
+    min-height: 100vh;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+/* 科幻粒子背景效果 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+            radial-gradient(2px 2px at 20px 30px, cyan, transparent),
+            radial-gradient(2px 2px at 40px 70px, white, transparent),
+            radial-gradient(1px 1px at 90px 40px, cyan, transparent),
+            radial-gradient(1px 1px at 130px 80px, white, transparent),
+            radial-gradient(2px 2px at 160px 30px, cyan, transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: stars 20s linear infinite;
+    opacity: 0.3;
+    z-index: -1;
+}
+
+@keyframes stars {
+    from { transform: translateY(0px); }
+    to { transform: translateY(-100px); }
+}
+
+.achievement-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: rgba(13, 20, 33, 0.8);
+    min-height: 100vh;
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    box-shadow:
+            0 0 50px rgba(0, 255, 255, 0.1),
+            inset 0 0 50px rgba(0, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+}
+
+/* 顶部导航 */
+.achievement-header {
+    display: flex;
+    align-items: center;
+    padding: 25px;
+    background: linear-gradient(90deg,
+    rgba(0, 255, 255, 0.1) 0%,
+    rgba(0, 100, 255, 0.1) 50%,
+    rgba(138, 43, 226, 0.1) 100%);
+    border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.achievement-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+    animation: scan 3s ease-in-out infinite;
+}
+
+@keyframes scan {
+    0% { left: -100%; }
+    50% { left: 100%; }
+    100% { left: 100%; }
+}
+
+.back-btn {
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid rgba(0, 255, 255, 0.5);
+    color: #00ffff;
+    font-size: 16px;
+    font-family: 'Orbitron', sans-serif;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    z-index: 2;
+}
+
+.back-btn:hover {
+    background: rgba(0, 255, 255, 0.2);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+.title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 28px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    background: linear-gradient(45deg, #00ffff, #0080ff, #8a2be2);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    z-index: 2;
+    text-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+}
+
+/* 主要内容区域 */
+.achievement-main {
+    padding: 30px;
+}
+
+.achievement-categories {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.category-card {
+    background: linear-gradient(135deg,
+    rgba(0, 255, 255, 0.05) 0%,
+    rgba(0, 100, 255, 0.05) 50%,
+    rgba(138, 43, 226, 0.05) 100%);
+    border-radius: 15px;
+    padding: 25px;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.category-card:hover::before {
+    left: 100%;
+}
+
+.category-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    border-color: rgba(0, 255, 255, 0.6);
+    box-shadow:
+            0 10px 30px rgba(0, 255, 255, 0.2),
+            0 0 50px rgba(0, 255, 255, 0.1);
+}
+
+.category-icon {
+    width: 70px;
+    height: 70px;
+    margin-right: 25px;
+    background: linear-gradient(45deg, #00ffff, #0080ff);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-size: 28px;
+    box-shadow:
+            0 0 30px rgba(0, 255, 255, 0.4),
+            inset 0 0 20px rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.category-icon::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: iconShine 2s ease-in-out infinite;
+}
+
+@keyframes iconShine {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.category-info {
+    flex: 1;
+    z-index: 2;
+}
+
+.category-info h3 {
+    font-size: 22px;
+    color: #00ffff;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.progress {
+    color: #a0a0ff;
+    font-size: 14px;
+    margin-bottom: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00ffff 0%, #0080ff 50%, #8a2be2 100%);
+    transition: width 0.8s ease;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+}
+
+.category-arrow {
+    font-size: 28px;
+    color: #00ffff;
+    margin-left: 20px;
+    transition: transform 0.3s ease;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.category-card:hover .category-arrow {
+    transform: translateX(10px);
+}
+
+/* 模态框样式 */
+.achievement-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: linear-gradient(135deg,
+    rgba(13, 20, 33, 0.95) 0%,
+    rgba(26, 26, 62, 0.95) 100%);
+    margin: 5% auto;
+    padding: 0;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow: hidden;
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    box-shadow:
+            0 0 50px rgba(0, 255, 255, 0.2),
+            inset 0 0 50px rgba(0, 255, 255, 0.05);
+}
+
+.modal-header {
+    background: linear-gradient(90deg,
+    rgba(0, 255, 255, 0.1) 0%,
+    rgba(0, 100, 255, 0.1) 50%,
+    rgba(138, 43, 226, 0.1) 100%);
+    color: #00ffff;
+    padding: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+.modal-header h2 {
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+.close-btn {
+    background: rgba(255, 0, 100, 0.1);
+    border: 1px solid rgba(255, 0, 100, 0.5);
+    color: #ff0064;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 8px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.close-btn:hover {
+    background: rgba(255, 0, 100, 0.2);
+    box-shadow: 0 0 20px rgba(255, 0, 100, 0.4);
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    padding: 30px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.achievement-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+}
+
+.achievement-item {
+    background: linear-gradient(135deg,
+    rgba(0, 255, 255, 0.05) 0%,
+    rgba(0, 100, 255, 0.05) 100%);
+    border-radius: 15px;
+    padding: 25px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.achievement-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.achievement-item:hover::before {
+    left: 100%;
+}
+
+.achievement-item:hover {
+    transform: translateY(-5px);
+    border-color: rgba(0, 255, 255, 0.6);
+    box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+}
+
+.achievement-item.completed {
+    background: linear-gradient(135deg,
+    rgba(0, 255, 100, 0.1) 0%,
+    rgba(0, 255, 255, 0.1) 100%);
+    border-color: rgba(0, 255, 100, 0.6);
+}
+
+.achievement-item.completed::after {
+    content: '✓';
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    color: #00ff64;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 0 0 20px rgba(0, 255, 100, 0.8);
+}
+
+.achievement-item h4 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #00ffff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.achievement-item p {
+    font-size: 14px;
+    opacity: 0.9;
+    line-height: 1.6;
+    color: #a0a0ff;
+    letter-spacing: 0.5px;
+}
+
+.achievement-icon {
+    font-size: 28px;
+    filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.5));
+}
+
+/* 成就详情页面 */
+.achievement-detail {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.detail-content {
+    width: 100%;
+    height: 100%;
+}
+
+.detail-background {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg,
+    #0d1421 0%,
+    #1a1a2e 50%,
+    #16213e 100%);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.detail-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+            radial-gradient(circle at 30% 30%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 70% 70%, rgba(138, 43, 226, 0.1) 0%, transparent 50%);
+    z-index: 1;
+}
+
+.detail-back-btn {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    z-index: 2;
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid rgba(0, 255, 255, 0.5);
+    color: #00ffff;
+    padding: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.detail-back-btn:hover {
+    background: rgba(0, 255, 255, 0.2);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+    transform: translateX(-5px);
+}
+
+.detail-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 50px;
+    z-index: 2;
+    color: white;
+    text-align: center;
+}
+
+.achievement-badge {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #00ffff;
+    box-shadow:
+            0 0 50px rgba(0, 255, 255, 0.4),
+            inset 0 0 30px rgba(0, 255, 255, 0.1);
+    background: linear-gradient(45deg, #00ffff, #0080ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #000;
+    position: relative;
+    overflow: hidden;
+}
+
+.achievement-badge::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: badgeShine 3s ease-in-out infinite;
+}
+
+@keyframes badgeShine {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#achievementName {
+    font-size: 32px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: 2px;
+    background: linear-gradient(45deg, #00ffff, #0080ff, #8a2be2);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#achievementDescription {
+    font-size: 18px;
+    line-height: 1.8;
+    margin-bottom: 30px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #a0a0ff;
+    letter-spacing: 1px;
+}
+
+.achievement-status {
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 30px;
+    background: rgba(0, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 255, 255, 0.5);
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.status-text {
+    font-weight: bold;
+    color: #00ffff;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #00ffff, #0080ff);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #0080ff, #8a2be2);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .achievement-container {
+        margin: 0;
+    }
+
+    .category-card {
+        padding: 20px;
+    }
+
+    .category-icon {
+        width: 60px;
+        height: 60px;
+        margin-right: 20px;
+        font-size: 24px;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+    }
+
+    .achievement-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-info {
+        padding: 30px 20px;
+    }
+
+    #achievementName {
+        font-size: 24px;
+    }
+
+    .title {
+        font-size: 20px;
+        letter-spacing: 2px;
+    }
+}
