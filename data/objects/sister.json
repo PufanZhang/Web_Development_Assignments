@@ -1,0 +1,10 @@
+{
+  "id": "sister",
+  "image": "assets/images/sister.png",
+  "x": 1100,
+  "y": 450,
+  "width": 100,
+  "height": 100,
+  "storyKey": "sister_story",
+  "showPrompt": true
+}

@@ -1,0 +1,19 @@
+{
+    "name":"tousheng1-3-2",
+    "x": 800,"y": 500,"width": 160,"height": 90,
+    "image": "assets/images/tousheng.png",
+    "storyKey": "tousheng1-3-2_story",
+    "showPrompt": true,
+    "requiredValues":{
+        "logic":"AND",
+        "conditions":[
+            {
+                "name":"mi-1-3-2",
+                "comparison":"greater_than_or_equal",
+                "value":1
+            }
+        ]
+
+    },
+    "singleInteraction": true
+}

@@ -1,0 +1,7 @@
+{
+    "name":"NewsPaper1-4",
+    "x": 1000, "y": 200, "width": 50, "height": 50,
+    "image": "assets/images/newspaper.jpg",
+    "storyKey": "NewsPaper1-4_story",
+    "showPrompt": true
+}

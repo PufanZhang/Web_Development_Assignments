@@ -1,0 +1,8 @@
+{
+    "name":"couch1-3-1",
+    "x": 100, "y": 700, "width": 500, "height": 100,
+    "storyKey": "couch1-3-1_story",
+    "showPrompt": true,
+    "singleInteraction": false
+    
+}

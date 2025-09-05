@@ -1,0 +1,11 @@
+{
+    "id":"Screen1-2",
+    
+    "storyKey": "Screen1-2_story",
+    "x": 500,
+    "y": 500,
+    "width": 100,
+    "height": 100,
+    "showPrompt": true
+
+}

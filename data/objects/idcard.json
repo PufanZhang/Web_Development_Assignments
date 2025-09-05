@@ -1,0 +1,7 @@
+{
+  "id": "idcard",
+  "image": "assets/images/ID.jpg",
+  "x": 1000, "y": 400, "width": 50, "height": 50,
+  "storyKey": "idcard",
+  "showPrompt": true
+}
