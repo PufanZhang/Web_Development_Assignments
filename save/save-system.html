@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>存档系统 - 量子数据库</title>
+    <link rel="stylesheet" href="save-system.css">
+</head>
+<body>
+<!-- 主存档界面 -->
+<div class="save-container" id="saveContainer">
+    <!-- 科技背景粒子 -->
+    <div class="tech-background"></div>
+
+    <header class="save-header">
+        <button class="back-btn" onclick="goBack()">
+            <span class="btn-icon">◄</span>
+            <span class="btn-text">返回主界面</span>
+        </button>
+        <div class="title">
+            <span class="title-main">存档系统</span>
+            <span class="title-sub">QUANTUM DATABASE</span>
+        </div>
+        <div class="system-status">
+            <span class="status-dot"></span>
+            <span class="status-text">系统在线</span>
+        </div>
+    </header>
+
+    <main class="save-main">
+        <div class="save-grid" id="saveGrid">
+            <!-- 存档卡片将通过JavaScript动态生成 -->
+        </div>
+
+        <!-- 新建存档按钮 -->
+        <div class="new-save-card" onclick="createNewSave()">
+            <div class="new-save-icon">+</div>
+            <div class="new-save-text">
+                <h3>创建新存档</h3>
+                <p>开始新的量子之旅</p>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- 存档详情页面 -->
+<div class="save-detail" id="saveDetail">
+    <div class="detail-background">
+        <!-- 动态背景效果 -->
+        <div class="neural-network"></div>
+
+        <button class="detail-back-btn" onclick="closeSaveDetail()">
+            <span>◄</span>
+        </button>
+
+        <div class="detail-content">
+            <div class="save-info-card">
+                <div class="save-avatar" id="saveAvatar">
+                    <div class="avatar-glow"></div>
+                    <span class="avatar-text" id="avatarText">存档 01</span>
+                </div>
+
+                <div class="save-metadata">
+                    <h2 class="save-name" id="saveName">量子探索者</h2>
+                    <div class="save-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">游戏时长</span>
+                            <span class="stat-value" id="playTime">24小时 36分钟</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">最后保存</span>
+                            <span class="stat-value" id="lastSave">2024-01-15 14:30</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">当前关卡</span>
+                            <span class="stat-value" id="currentLevel">量子迷宫 - 第七层</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 进度统计 - 只保留主线进度 -->
+            <div class="progress-section">
+                <h3 class="section-title">
+                    <span class="title-icon">📊</span>
+                    游戏进度
+                </h3>
+                <div class="progress-grid">
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span class="progress-label">主线进度</span>
+                            <span class="progress-percent" id="mainProgress">75%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill main-progress" id="mainProgressBar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 成就统计 -->
+            <div class="achievement-section">
+                <h3 class="section-title">
+                    <span class="title-icon">🏆</span>
+                    成就统计
+                    <button class="view-achievements-btn" onclick="goToAchievements()">
+                        查看详情 →
+                    </button>
+                </h3>
+                <div class="achievement-stats">
+                    <div class="achievement-category">
+                        <div class="category-icon">🧬</div>
+                        <div class="category-info">
+                            <span class="category-name">记忆碎片</span>
+                            <span class="category-count" id="memoryCount">3/6</span>
+                        </div>
+                        <div class="category-progress">
+                            <div class="mini-progress-bar">
+                                <div class="mini-progress-fill" id="memoryProgressMini"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="achievement-category">
+                        <div class="category-icon">🔐</div>
+                        <div class="category-info">
+                            <span class="category-name">解密大师</span>
+                            <span class="category-count" id="decryptCount">1/3</span>
+                        </div>
+                        <div class="category-progress">
+                            <div class="mini-progress-bar">
+                                <div class="mini-progress-fill" id="decryptProgressMini"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="achievement-category">
+                        <div class="category-icon">🤖</div>
+                        <div class="category-info">
+                            <span class="category-name">角色收集</span>
+                            <span class="category-count" id="characterCount">2/4</span>
+                        </div>
+                        <div class="category-progress">
+                            <div class="mini-progress-bar">
+                                <div class="mini-progress-fill" id="characterProgressMini"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="achievement-category">
+                        <div class="category-icon">⚡</div>
+                        <div class="category-info">
+                            <span class="category-name">任务指挥</span>
+                            <span class="category-count" id="missionCount">2/3</span>
+                        </div>
+                        <div class="category-progress">
+                            <div class="mini-progress-bar">
+                                <div class="mini-progress-fill" id="missionProgressMini"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="action-buttons">
+                <button class="action-btn load-btn" onclick="loadSave()">
+                    <span class="btn-icon">▶</span>
+                    <span class="btn-text">加载存档</span>
+                </button>
+                <button class="action-btn delete-btn" onclick="deleteSave()">
+                    <span class="btn-icon">🗑</span>
+                    <span class="btn-text">删除存档</span>
+                </button>
+                <button class="action-btn export-btn" onclick="exportSave()">
+                    <span class="btn-icon">📤</span>
+                    <span class="btn-text">导出存档</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 确认删除弹窗 -->
+<div class="confirm-modal" id="confirmModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>确认删除</h3>
+        </div>
+        <div class="modal-body">
+            <p>确定要删除这个存档吗？此操作无法撤销。</p>
+        </div>
+        <div class="modal-actions">
+            <button class="modal-btn cancel-btn" onclick="closeConfirmModal()">取消</button>
+            <button class="modal-btn confirm-btn" onclick="confirmDelete()">确认删除</button>
+        </div>
+    </div>
+</div>
+
+<script src="save-system.js"></script>
+</body>
+</html>
