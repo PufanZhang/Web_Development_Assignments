@@ -181,29 +181,6 @@
             left: 100%;
         }
 
-        .back-btn {
-            position: absolute;
-            top: 30px;
-            left: 30px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
         .particles {
             position: absolute;
             top: 0;
@@ -309,24 +286,12 @@
             .form-title {
                 font-size: 1.8em;
             }
-
-            .back-btn {
-                top: 20px;
-                left: 20px;
-                padding: 10px 15px;
-                font-size: 0.9em;
-            }
         }
     </style>
 </head>
 <body>
     <!-- 粒子背景效果 -->
     <div class="particles" id="particles"></div>
-
-    <!-- 返回按钮 -->
-    <a href="#" class="back-btn" onclick="goBack()">
-        ← 返回主菜单
-    </a>
 
     <div class="login-container">
         <div class="form-header">

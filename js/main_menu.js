@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.clear();
             setTimeout(() => {
                 window.location.href = 'login.html';
-            }, 500);
+            }, 400);
         });
     }
 
