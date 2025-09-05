@@ -223,3 +223,9 @@ pub struct LoginWithTokenResponse {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub player_data: Option<PlayerData>,
 }
+
+#[derive(serde::Deserialize, Debug)]
+pub struct ApiLogoutRequest {
+    pub token: String,
+    pub username: String,
+}

@@ -1,7 +1,7 @@
 use crate::loader::{load_and_pack_map_data, LoadError};
 use crate::database::{self, ModifyValueError};
 use actix_web::{get, post, web, HttpResponse, Responder};
-use crate::models::{AuthRequest, AuthResponse, ModifyValueRequest, PlayerData, LogoutRequest, TokenLoginRequest, LoginWithTokenResponse};
+use crate::models::{AuthRequest, AuthResponse, ModifyValueRequest, PlayerData, LogoutRequest, TokenLoginRequest, LoginWithTokenResponse, ApiLogoutRequest};
 use crate::auth::{create_jwt, AuthenticatedUser};
 use std::collections::HashSet;
 use std::sync::Arc;
@@ -287,9 +287,27 @@ pub async fn get_save_file_names(user: AuthenticatedUser) -> impl Responder {
 
 // 用于在主页时登出
 #[post("/auth/logout")]
-pub async fn logout(user: AuthenticatedUser, active_users: web::Data<Arc<Mutex<HashSet<String>>>>) -> impl Responder {
-    let mut users = active_users.lock().await;
-    users.remove(&user.username);
-    println!("User '{}' logged out via API.", user.username);
-    HttpResponse::Ok().finish()
+pub async fn logout(
+    req: web::Json<ApiLogoutRequest>,
+    active_users: web::Data<Arc<Mutex<HashSet<String>>>>
+) -> impl Responder {
+
+    // 1. 手动从请求体中拿出 token 进行验证
+    match crate::auth::validate_and_get_username(&req.token) {
+        Ok(username_from_token) => {
+            // 确认 token 里的用户名和请求体里的用户名是不是同一个人
+            if req.username != username_from_token {
+                return HttpResponse::Forbidden().body("Username in request body does not match token.");
+            }
+
+            let mut users = active_users.lock().await;
+            users.remove(&username_from_token);
+            println!("User '{}' logged out via API.", username_from_token);
+            HttpResponse::Ok().finish()
+        }
+        // 验证失败，说明 token 是无效的或者过期了
+        Err(_) => {
+            HttpResponse::Unauthorized().body("Invalid token provided in payload.")
+        }
+    }
 }

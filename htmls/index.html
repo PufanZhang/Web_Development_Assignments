@@ -1,21 +1,307 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏主界面</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), url('/assets/login/background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .main-container {
+            text-align: center;
+            z-index: 10;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .logo-section {
+            margin-bottom: 50px;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        .logo {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+            transition: transform 0.3s ease;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .game-title {
+            font-size: 3em;
+            font-weight: bold;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+            color: #fff;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        .game-subtitle {
+            font-size: 1.2em;
+            opacity: 0.8;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+            margin-bottom: 40px;
+        }
+
+        .menu-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .menu-btn {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            min-width: 250px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .menu-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .menu-btn:hover::before {
+            left: 100%;
+        }
+
+        .menu-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            border-color: rgba(255, 255, 255, 0.6);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            border-color: #667eea;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+            border-color: #f093fb;
+            font-size: 1.3em;
+            padding: 20px 50px;
+            animation: pulse 2s infinite;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+            border-color: #4facfe;
+        }
+
+        .achievement-btn {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%) !important;
+            border-color: #43e97b;
+        }
+
+        .about-btn {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%) !important;
+            border-color: #fa709a;
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .logo-placeholder {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0 auto 20px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes logoFloat {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(240, 147, 251, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(240, 147, 251, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(240, 147, 251, 0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-100px) rotate(180deg);
+            }
+        }
+
+        .version-info {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 0.8em;
+            opacity: 0.6;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        }
+
+        @media (max-width: 768px) {
+            .game-title {
+                font-size: 2em;
+            }
+
+            .menu-btn {
+                min-width: 200px;
+                padding: 12px 30px;
+                font-size: 1em;
+            }
+
+            .start-btn {
+                padding: 15px 40px;
+                font-size: 1.1em;
+            }
+
+            .logo, .logo-placeholder {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
 </head>
 <body>
-<h2>
-    这一阶段我们还没有设计出封面的UI，所以先用这个页面暂时代替一下<br>
-    后面的游戏舞台我们也还没有填进去<br>
-    我们本周的工作主要是在概念上确定故事走向和细节，并在技术上做好统一化录入游戏舞台的工具，简而言之是搭建框架的工作，下一周我们会在框架这种填入具体的内容
-</h2>
-<a href="suggestions.html">玩前必读：可以体验的项目</a>
-<a href="game.html">游戏舞台</a>
-<a href="AboutUs.html">关于我们</a>
-<button id="logout-button" style="position: absolute; top: 10px; right: 10px; z-index: 1000; padding: 8px 12px; font-size: 14px; cursor: pointer;">
-    退出登录
-</button>
+<div class="particles" id="particles"></div>
+
+<div class="main-container">
+    <div class="logo-section">
+        <h1 class="game-title">时空回响</h1>
+        <p class="game-subtitle">重遇平行时空的TA</p >
+    </div>
+
+    <div class="menu-buttons">
+        <button class="menu-btn start-btn">开始游戏</button>
+        <button class="menu-btn save-btn">管理存档</button>
+        <button class="menu-btn achievement-btn">查看成就</button>
+        <button class="menu-btn about-btn">关于我们</button>
+        <button class="menu-btn login-btn">退出登录</button>
+    </div>
+</div>
+
+<div class="version-info">
+    Version 1.0.0
+</div>
 
 <script type="module" src="/js/main_menu.js"></script>
 </body>

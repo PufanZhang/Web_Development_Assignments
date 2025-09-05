@@ -59,8 +59,8 @@ export const auth = {
         return await apiRequest('/auth/login', 'POST', {username, password});
     },
 
-    async logout() {
-        return await apiRequest('/auth/logout', 'POST');
+    async logout(username) {
+        return await apiRequest('/auth/logout', 'POST', {username});
     },
 
     async loginWithToken(token) {
