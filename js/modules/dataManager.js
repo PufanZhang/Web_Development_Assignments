@@ -64,19 +64,7 @@ export const auth = {
     },
 
     async loginWithToken(token) {
-        try {
-            const response = await fetch('/api/auth/login_with_token', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ token: token }),
-            });
-            return await response.json();
-        } catch (error) {
-            console.error('Error during token login:', error);
-            return { success: false, message: 'Network error or server is down.' };
-        }
+        return await apiRequest('/auth/login_with_token', 'POST', {token});
     }
 };
 
