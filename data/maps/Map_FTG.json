@@ -5,5 +5,5 @@
     { "x": 0, "y": 0, "width": 1600, "height": 10 },
     { "x": 0, "y": 890, "width": 1600, "height": 10 }
   ],
-  "objects": [ "Item_In_FTG", "Item_In_Parkour", "portalFto1" ]
+  "objects": [ "Item_In_FTG", "Item_In_Parkour", "Item_In_STG", "portalFto1" ]
 }
