@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户登录 - 游戏账户系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        .login-container {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            width: 400px;
+            max-width: 90vw;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.6s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 300% 100%;
+            animation: gradientMove 3s ease-in-out infinite;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-title {
+            font-size: 2.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
+        }
+
+        .form-subtitle {
+            opacity: 0.8;
+            font-size: 1em;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: white;
+            font-size: 1em;
+            outline: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-input:focus {
+            border-color: #667eea;
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .form-input:focus + .input-icon {
+            opacity: 1;
+        }
+
+        .password-toggle {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .form-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .form-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .register-btn {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .register-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .form-btn:active {
+            transform: translateY(0);
+        }
+
+        .form-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .form-btn:hover::before {
+            left: 100%;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .error-message {
+            background: rgba(255, 107, 107, 0.2);
+            border: 1px solid rgba(255, 107, 107, 0.5);
+            color: #ff6b6b;
+            padding: 12px 20px;
+            border-radius: 25px;
+            margin-bottom: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+
+        .success-message {
+            background: rgba(67, 233, 123, 0.2);
+            border: 1px solid rgba(67, 233, 123, 0.5);
+            color: #43e97b;
+            padding: 12px 20px;
+            border-radius: 25px;
+            margin-bottom: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+
+        .loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            50% {
+                transform: translateY(-120px) rotate(180deg);
+            }
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+
+            .form-title {
+                font-size: 1.8em;
+            }
+
+            .back-btn {
+                top: 20px;
+                left: 20px;
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 粒子背景效果 -->
+    <div class="particles" id="particles"></div>
+
+    <!-- 返回按钮 -->
+    <a href="#" class="back-btn" onclick="goBack()">
+        ← 返回主菜单
+    </a>
+
+    <div class="login-container">
+        <div class="form-header">
+            <h1 class="form-title">账户登录</h1>
+            <p class="form-subtitle">欢迎回到游戏世界</p>
+        </div>
+
+        <!-- 错误/成功消息 -->
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <input
+                    type="text"
+                    class="form-input"
+                    id="username"
+                    placeholder="请输入用户名"
+                    required
+                >
+                <div class="input-icon">👤</div>
+            </div>
+
+            <div class="form-group">
+                <input
+                    type="password"
+                    class="form-input"
+                    id="password"
+                    placeholder="请输入密码"
+                    required
+                >
+                <div class="input-icon password-toggle" onclick="togglePassword()">👁</div>
+            </div>
+
+            <div class="form-buttons">
+                <button type="submit" class="form-btn login-btn" id="loginBtn">
+                    登录游戏
+                </button>
+                <button type="button" class="form-btn register-btn" onclick="showRegister()">
+                    注册新账户
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // 创建粒子效果
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // 密码显示/隐藏切换
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.querySelector('.password-toggle');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.textContent = '👁';
+            }
+        }
+
+        // 显示消息
+        function showMessage(message, type = 'error') {
+            const errorEl = document.getElementById('errorMessage');
+            const successEl = document.getElementById('successMessage');
+
+            // 隐藏所有消息
+            errorEl.style.display = 'none';
+            successEl.style.display = 'none';
+
+            if (type === 'error') {
+                errorEl.textContent = message;
+                errorEl.style.display = 'block';
+            } else {
+                successEl.textContent = message;
+                successEl.style.display = 'block';
+            }
+
+            // 3秒后自动隐藏
+            setTimeout(() => {
+                errorEl.style.display = 'none';
+                successEl.style.display = 'none';
+            }, 3000);
+        }
+
+        // 设置加载状态
+        function setLoading(isLoading) {
+            const loginBtn = document.getElementById('loginBtn');
+            const form = document.getElementById('loginForm');
+
+            if (isLoading) {
+                loginBtn.classList.add('loading');
+                loginBtn.textContent = '登录中...';
+                form.style.pointerEvents = 'none';
+            } else {
+                loginBtn.classList.remove('loading');
+                loginBtn.textContent = '登录游戏';
+                form.style.pointerEvents = 'auto';
+            }
+        }
+
+        // 表单验证
+        function validateForm(username, password) {
+            if (username.length < 3) {
+                return '用户名至少需要3个字符';
+            }
+            if (password.length < 6) {
+                return '密码至少需要6个字符';
+            }
+            return null;
+        }
+
+        // 登录处理
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            // 表单验证
+            const validationError = validateForm(username, password);
+            if (validationError) {
+                showMessage(validationError, 'error');
+                return;
+            }
+
+            // 显示加载状态
+            setLoading(true);
+
+            // 模拟登录请求
+            setTimeout(() => {
+                // 这里应该是实际的登录逻辑
+                // 现在只是模拟成功/失败
+
+                if (username === 'admin' && password === '123456') {
+                    showMessage('登录成功！正在跳转...', 'success');
+                    setTimeout(() => {
+                        alert('登录成功！这里应该跳转到游戏主界面');
+                        // window.location.href = 'game.html'; // 实际跳转
+                    }, 1500);
+                } else {
+                    showMessage('用户名或密码错误，请重新输入', 'error');
+                }
+
+                setLoading(false);
+            }, 1500);
+        });
+
+        // 注册处理
+        function showRegister() {
+            const container = document.querySelector('.login-container');
+            const title = document.querySelector('.form-title');
+            const subtitle = document.querySelector('.form-subtitle');
+            const loginBtn = document.querySelector('.login-btn');
+            const registerBtn = document.querySelector('.register-btn');
+
+            if (title.textContent === '账户登录') {
+                // 切换到注册模式
+                title.textContent = '注册账户';
+                subtitle.textContent = '开启你的冒险之旅';
+                loginBtn.textContent = '注册新账户';
+                registerBtn.textContent = '返回登录';
+
+                // 修改表单提交处理
+                document.getElementById('loginForm').onsubmit = handleRegister;
+            } else {
+                // 切换回登录模式
+                title.textContent = '账户登录';
+                subtitle.textContent = '欢迎回到游戏世界';
+                loginBtn.textContent = '登录游戏';
+                registerBtn.textContent = '注册新账户';
+
+                // 恢复登录表单处理
+                document.getElementById('loginForm').onsubmit = function(e) {
+                    e.preventDefault();
+                    const username = document.getElementById('username').value.trim();
+                    const password = document.getElementById('password').value;
+
+                    const validationError = validateForm(username, password);
+                    if (validationError) {
+                        showMessage(validationError, 'error');
+                        return;
+                    }
+
+                    setLoading(true);
+                    setTimeout(() => {
+                        if (username === 'admin' && password === '123456') {
+                            showMessage('登录成功！正在跳转...', 'success');
+                            setTimeout(() => {
+                                alert('登录成功！这里应该跳转到游戏主界面');
+                            }, 1500);
+                        } else {
+                            showMessage('用户名或密码错误，请重新输入', 'error');
+                        }
+                        setLoading(false);
+                    }, 1500);
+                };
+            }
+
+            // 清空输入框
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        // 注册处理函数
+        function handleRegister(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            const validationError = validateForm(username, password);
+            if (validationError) {
+                showMessage(validationError, 'error');
+                return;
+            }
+
+            setLoading(true);
+
+            // 模拟注册请求
+            setTimeout(() => {
+                // 这里应该是实际的注册逻辑
+                showMessage('注册成功！请使用新账户登录', 'success');
+                setTimeout(() => {
+                    showRegister(); // 切换回登录模式
+                }, 2000);
+                setLoading(false);
+            }, 1500);
+        }
+
+        // 返回主菜单
+        function goBack() {
+            if (confirm('确定要返回主菜单吗？')) {
+                // 这里应该跳转到游戏主界面
+                alert('返回主菜单（这里应该跳转到主界面）');
+                // window.location.href = 'index.html';
+            }
+        }
+
+        // 键盘支持
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+            } else if (e.key === 'Escape') {
+                goBack();
+            }
+        });
+
+        // 页面加载完成
+        window.addEventListener('load', function() {
+            createParticles();
+
+            // 自动聚焦到用户名输入框
+            document.getElementById('username').focus();
+
+            // 添加输入框动画效果
+            const inputs = document.querySelectorAll('.form-input');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'scale(1.02)';
+                });
+
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
