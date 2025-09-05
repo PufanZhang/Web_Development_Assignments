@@ -9,9 +9,14 @@ export const fightManager = {
     ultCooldown: 0,
     ultCooldownDuration: 1800, // 30秒 * 60帧/秒
     ultCooldownRecoveryRate: 1, // 每秒恢复的CD量
-    isUltCooldown: false, // 新增：标记是否处于CD状态
+    isUltCooldown: false, // 标记是否处于CD状态
     originalPlayerPosition: { x: 0, y: 0 },
     animationFrameID: null,
+
+    // 新增：敌人AI相关属性
+    enemyBlockTimer: 0,
+    enemyConsecutiveBlocks: 0,
+    enemyMaxConsecutiveBlocks: 3,
 
     stopGameLoop() {
         if(this.animationFrameID) {
@@ -97,6 +102,8 @@ export const fightManager = {
             attackDamage: 12,
             attacklocked: 0,
             attackRange: 100,
+            isBlocking: false, // 新增：敌人格挡状态
+            blockTimer: 0,     // 新增：敌人格挡计时器
         }
 
         // 初始化大招状态
@@ -105,6 +112,11 @@ export const fightManager = {
         this.ultCooldown = 0;
         this.isUltCooldown = false;
         this.updateBuffTimerDisplay();
+
+        // 初始化敌人AI状态
+        this.enemyBlockTimer = 0;
+        this.enemyConsecutiveBlocks = 0;
+        this.enemyMaxConsecutiveBlocks = 3;
 
         this.keysPressed = {}
         //    this.mouseButtons = {};
@@ -377,10 +389,19 @@ export const fightManager = {
                 this.isUltCooldown = false;
             }
         }
+
+        // 更新敌人格挡计时器
+        if (this.enemy.isBlocking) {
+            this.enemy.blockTimer--;
+            if (this.enemy.blockTimer <= 0) {
+                this.enemy.isBlocking = false;
+                this.updateEnemyState("idle");
+            }
+        }
     },
 
     updateAI() {
-        this.enemy.aiTimer++
+        this.enemy.aiTimer++;
 
         if (this.player.x < this.enemy.x) {
             this.enemy.facing = "left"
@@ -399,15 +420,67 @@ export const fightManager = {
         } else if (distance >= 600) {
             this.updateEnemyState("idle")
         }
-        if (this.enemy.aiTimer % 60 === 0) {
-            this.enemy.attacklocked = 1
+
+        // 修改攻击逻辑
+        if (this.enemy.aiTimer % 60 === 0 && !this.enemy.isBlocking) {
+            this.enemy.attacklocked = 1;
+
             if (distance < 100) {
-                this.enemyAttack()
+                // 根据玩家是否开启大招决定行为概率
+                let attackChance, blockChance;
+                let maxConsecutiveBlocks;
+
+                if (this.isPlayerBuffActive) {
+                    // 玩家开启大招时：25%攻击，75%格挡
+                    attackChance = 0.25;
+                    blockChance = 0.75;
+                    maxConsecutiveBlocks = 4;
+                } else {
+                    // 玩家未开启大招时：50%攻击，50%格挡
+                    attackChance = 0.5;
+                    blockChance = 0.5;
+                    maxConsecutiveBlocks = 3;
+                }
+
+                // 检查连续格挡次数限制
+                if (this.enemyConsecutiveBlocks >= maxConsecutiveBlocks) {
+                    // 达到最大连续格挡次数，强制攻击
+                    this.enemyAttack();
+                    this.enemyConsecutiveBlocks = 0; // 重置连续格挡计数
+                } else {
+                    // 根据概率决定行为
+                    const randomValue = Math.random();
+
+                    if (randomValue < attackChance) {
+                        // 攻击
+                        this.enemyAttack();
+                        this.enemyConsecutiveBlocks = 0; // 重置连续格挡计数
+                    } else {
+                        // 格挡
+                        this.enemyBlock();
+                        this.enemyConsecutiveBlocks++; // 增加连续格挡计数
+                    }
+                }
             }
         }
 
         if (this.enemy.x < 0) this.enemy.x = 0
         if (this.enemy.x > 1520) this.enemy.x = 1520
+    },
+
+    // 新增：敌人格挡函数
+    enemyBlock() {
+        this.enemy.isBlocking = true;
+        this.enemy.blockTimer = 60; // 格挡持续1秒（60帧）
+        this.updateEnemyState("block");
+
+        // 设置格挡结束回调
+        setTimeout(() => {
+            if (this.enemy.isBlocking) {
+                this.enemy.isBlocking = false;
+                this.updateEnemyState("idle");
+            }
+        }, 1000);
     },
 
     enemyAttack() {
@@ -437,17 +510,31 @@ export const fightManager = {
                 ) &&
                 this.player.attacklocked === 1
             ) {
-                this.enemy.health -= this.isPlayerBuffActive
+                // 敌人格挡时减少伤害
+                let damage = this.isPlayerBuffActive
                     ? this.player.attackDamage * 2
-                    : this.player.attackDamage
-                this.player.attacklocked = 2
-                this.updateEnemyState("hurt")
-                this.updateHealthBars()
+                    : this.player.attackDamage;
+
+                if (this.enemy.isBlocking) {
+                    damage /= 2; // 格挡时伤害减半
+                }
+
+                this.enemy.health -= damage;
+                this.player.attacklocked = 2;
+
+                if (this.enemy.isBlocking) {
+                    this.updateEnemyState("block-hit"); // 格挡受击状态
+                } else {
+                    this.updateEnemyState("hurt");
+                }
+
+                this.updateHealthBars();
+
                 setTimeout(() => {
-                    if (this.enemy.state === "hurt") {
-                        this.updateEnemyState("idle")
+                    if (this.enemy.state === "hurt" || this.enemy.state === "block-hit") {
+                        this.updateEnemyState(this.enemy.isBlocking ? "block" : "idle");
                     }
-                }, 300)
+                }, 300);
             }
         }
 
