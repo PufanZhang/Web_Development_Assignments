@@ -1,4 +1,6 @@
 // 存档数据 - 删除支线和收集品进度
+import {gameState} from "./modules/dataManager";
+
 const saveData = [
     {
         id: 1,
@@ -48,6 +50,19 @@ let currentSaveId = null;
 
 // 初始化页面
 document.addEventListener('DOMContentLoaded', function() {
+    const token = localStorage.getItem("jwt_token");
+    if (token) {
+        console.log("【main_menu.js】: 检测到 token，正在通知后端恢复在线状态...");
+        gameState.loadPlayerData().then(playerData => {
+            if (playerData) {
+                console.log("【main_menu.js】: 后端状态已恢复。欢迎回来, ", playerData.username);
+            } else {
+                console.alert("Token 无效或已过期，请重新登录。");
+                localStorage.clear();
+                window.location.href = 'login.html';
+            }
+        });
+    }
     generateSaveCards();
 });
 
@@ -227,8 +242,7 @@ function updateAchievementStats(achievements) {
 
 // 返回主界面
 function goBack() {
-    alert('返回主界面');
-    // 这里可以添加实际的页面跳转逻辑
+    window.location.href = 'index.html';
 }
 
 // 关闭存档详情
@@ -344,3 +358,18 @@ document.addEventListener('keydown', function(event) {
         }
     }
 });
+
+function logout() {
+    const token = localStorage.getItem('jwt_token');
+    const user = localStorage.getItem('user');
+    if (token) {
+        const data = {
+            token: token,
+            username: user,
+        };
+        const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+        navigator.sendBeacon('/api/auth/logout', blob);
+    }
+}
+
+window.addEventListener('beforeunload', logout);

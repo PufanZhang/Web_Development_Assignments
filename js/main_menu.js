@@ -1,18 +1,15 @@
-import { auth, gameState } from './modules/dataManager.js';
+import { gameState } from "./modules/dataManager";
 
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem("jwt_token");
 
-    // 自动重连逻辑: 如果本地存在 token，则尝试恢复后端会话
     if (token) {
         console.log("【main_menu.js】: 检测到 token，正在通知后端恢复在线状态...");
         gameState.loadPlayerData().then(playerData => {
             if (playerData) {
                 console.log("【main_menu.js】: 后端状态已恢复。欢迎回来, ", playerData.username);
             } else {
-                // 使用新的通知函数来提示用户
                 showNotification("Token 无效或已过期，请重新登录。");
-                console.warn("【main_menu.js】: Token 无效或已过期，请重新登录。");
                 localStorage.clear();
                 window.location.href = 'login.html';
             }
@@ -85,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleSaveManagement() {
         showNotification('打开存档管理...');
-        console.log('管理存档被点击');
+        window.location.href = 'save-system.html';
     }
 
     function handleAchievements() {
@@ -105,7 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if(achievementButton) achievementButton.addEventListener('click', handleAchievements);
     if(aboutButton) aboutButton.addEventListener('click', handleAbout);
 
-    // 登出函数
     function logout() {
         const token = localStorage.getItem('jwt_token');
         const user = localStorage.getItem('user');
