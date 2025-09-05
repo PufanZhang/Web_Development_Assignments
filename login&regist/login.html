@@ -13,7 +13,7 @@
 
         body {
             height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), url('background.jpg');
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), url('/assets/login/background.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -286,17 +286,16 @@
 
     <div class="main-container">
         <div class="logo-section">
-            < img src="logo.jpg" alt="游戏Logo" class="logo" id="gameLogo">
             <h1 class="game-title">时空回响</h1>
             <p class="game-subtitle">重遇平行时空的TA</p >
         </div>
 
         <div class="menu-buttons">
-            <button class="menu-btn login-btn" onclick="handleLogin()">登录账号</button>
             <button class="menu-btn start-btn" onclick="handleStartGame()">开始游戏</button>
             <button class="menu-btn save-btn" onclick="handleSaveManagement()">管理存档</button>
             <button class="menu-btn achievement-btn" onclick="handleAchievements()">查看成就</button>
             <button class="menu-btn about-btn" onclick="handleAbout()">关于我们</button>
+            <button class="menu-btn login-btn" onclick="handleLogin()">退出登录</button>
         </div>
     </div>
 
