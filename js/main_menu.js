@@ -1,4 +1,4 @@
-import { gameState } from "./modules/dataManager";
+import { auth, gameState } from "./modules/dataManager.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem("jwt_token");
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleAchievements() {
         showNotification('查看成就系统...');
-        console.log('查看成就被点击');
+        window.location.href = 'achievement.html';
     }
 
     function handleAbout() {

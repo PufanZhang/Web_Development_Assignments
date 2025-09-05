@@ -1,4 +1,6 @@
 // 成就数据 - 完全按照您要求的数量
+import { auth, gameState} from "./modules/dataManager.js";
+
 const achievementData = {
     memory: [
         {
@@ -224,6 +226,20 @@ function updateProgress() {
 
 // 初始化进度条
 document.addEventListener('DOMContentLoaded', function() {
+    const token = localStorage.getItem("jwt_token");
+
+    if (token) {
+        console.log("【main_menu.js】: 检测到 token，正在通知后端恢复在线状态...");
+        gameState.loadPlayerData().then(playerData => {
+            if (playerData) {
+                console.log("【main_menu.js】: 后端状态已恢复。欢迎回来, ", playerData.username);
+            } else {
+                console.alert("Token 无效或已过期，请重新登录。");
+                localStorage.clear();
+                window.location.href = 'login.html';
+            }
+        });
+    }
     updateProgress();
 });
 
@@ -245,3 +261,18 @@ document.addEventListener('keydown', function(event) {
         }
     }
 });
+
+function logout() {
+    const token = localStorage.getItem('jwt_token');
+    const user = localStorage.getItem('user');
+    if (token) {
+        const data = {
+            token: token,
+            username: user,
+        };
+        const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+        navigator.sendBeacon('/api/auth/logout', blob);
+    }
+}
+
+window.addEventListener('beforeunload', logout);

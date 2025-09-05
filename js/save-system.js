@@ -1,5 +1,5 @@
 // 存档数据 - 删除支线和收集品进度
-import {gameState} from "./modules/dataManager";
+import { auth, gameState} from "./modules/dataManager.js";
 
 const saveData = [
     {
