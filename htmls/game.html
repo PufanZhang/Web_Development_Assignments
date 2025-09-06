@@ -4,8 +4,59 @@
     <meta charset="UTF-8">
     <title>光辉编年史</title>
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* 加载屏幕样式 */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000; /* 黑色背景 */
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            z-index: 9999; /* 确保在最上层 */
+            transition: opacity 0.5s ease-out; /* 隐藏时的渐变效果 */
+        }
+        #loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none; /* 隐藏后不允许点击 */
+        }
+        .spinner {
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 游戏容器默认隐藏，等待加载完成 */
+        #game-container {
+            opacity: 0; /* 默认透明 */
+            transition: opacity 1s ease-in-out; /* 渐入效果 */
+        }
+        #game-container.visible {
+            opacity: 1;
+        }
+    </style>
 </head>
 <body>
+
+<div id="loading-screen">
+    <div class="spinner"></div>
+    <p>正在加载游戏...</p>
+</div>
 
 <div id="game-container">
     <button id="return-to-menu" style="position: absolute; top: 10px; left: 10px; z-index: 1000; padding: 8px 12px;">返回主页</button>

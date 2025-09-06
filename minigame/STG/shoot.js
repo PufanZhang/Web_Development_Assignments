@@ -1,4 +1,4 @@
-import { minigameLoader } from "../../js/minigameLoader";
+import { minigameLoader } from "../../js/minigameLoader.js";
 
 // 游戏常量
 const GAME_WIDTH = 700;
