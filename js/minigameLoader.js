@@ -7,8 +7,6 @@ export const minigameLoader = {
         window.gameMode = 'minigame';
         const mainGameContainer = document.getElementById('game-container');
         if (mainGameContainer) mainGameContainer.style.display = 'none';
-
-        // --- 使用 iframe 替代直接注入 DOM ---
         const iframe = document.createElement('iframe');
         iframe.id = 'minigame-iframe';
         iframe.src = `/minigame/${minigameName}/index.html`;
