@@ -26,6 +26,7 @@ let animationId;
 let gameTime = 0;
 let bossSpawned = false;
 let bossIndicator = null;
+let bombKeyPressed = false; // 新增：Bomb键按下状态标志
 
 // 玩家类
 class Player {
@@ -93,8 +94,9 @@ class Player {
             this.shootCooldown = this.shootRate;
         }
 
-        // Bomb
-        if ((keys['KeyX'] || keys['ShiftRight']) && bombs > 0) {
+        // Bomb - 修改：使用锁机制，按下并抬起之前只能触发一个
+        if ((keys['KeyX'] || keys['ShiftRight']) && bombs > 0 && !bombKeyPressed) {
+            bombKeyPressed = true;
             this.useBomb();
         }
 
@@ -188,6 +190,7 @@ class Player {
 
         // 如果还有残机，则重生
         if (lives >= 0) {
+            this.respawning = true;
             this.respawning = true;
             this.respawnTimer = 120;
             this.resetPosition(); // 使用重置位置方法
@@ -412,6 +415,7 @@ function initGame() {
     gameTime = 0;
     bossSpawned = false;
     bossIndicator = null;
+    bombKeyPressed = false; // 重置Bomb键状态
 
     // 清除特效容器
     document.getElementById('effects-container').innerHTML = '';
@@ -636,13 +640,13 @@ function gameLoop() {
     // 绘制游戏对象
     drawGameObjects();
 
-    // 绘制Boss指示器 - 修改为在游戏界面内的底部显示
+    // 绘制Boss指示器 - 修改为在游戏界面底部下方显示
     if (bossIndicator) {
         ctx.fillStyle = bossIndicator.color;
-        // 在游戏界面底部绘制指示器，高度为10px，宽度为40px
+        // 在游戏界面底部下方绘制指示器，高度为10px，宽度为40px
         ctx.fillRect(
             bossIndicator.x - bossIndicator.width/2,
-            GAME_HEIGHT - 15, // 距离底部15像素
+            GAME_HEIGHT + 10, // 在游戏界面底部下方10像素
             bossIndicator.width,
             bossIndicator.height
         );
@@ -791,6 +795,11 @@ document.addEventListener('keydown', (e) => {
 
 document.addEventListener('keyup', (e) => {
     keys[e.code] = false;
+
+    // 新增：释放Bomb键时重置状态
+    if (e.code === 'KeyX' || e.code === 'ShiftRight') {
+        bombKeyPressed = false;
+    }
 });
 
 // 初始化事件监听器
