@@ -5,7 +5,7 @@
       "speaker": "旁白",
       "dialogue": "一个解密小游戏",
       "action": {
-        "type": "STG",
+        "type": "jiemi",
         "onWin": "jiemi_win_story",
         "onLose": "jiemi_lose_story"
       }

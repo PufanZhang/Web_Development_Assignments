@@ -1,6 +1,6 @@
 {
     "name":"tousheng1-3-2",
-    "x": 800,"y": 500,"width": 160,"height": 90,
+    "x": 800,"y": 800,"width": 160,"height": 90,
     "image": "assets/images/tousheng.png",
     "storyKey": "tousheng1-3-2_story",
     "showPrompt": true,

@@ -7,5 +7,5 @@
   "height": 120,
   "storyKey": "jiemi_story",
   "showPrompt": true,
-  "singleInteraction": false
+  "singleInteraction": true
 }
