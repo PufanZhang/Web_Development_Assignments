@@ -5,7 +5,7 @@
       "speaker": "旁白",
       "dialogue": "（你成功解开了谜题，太棒了！）",
       "valueChanges": [
-        { "name": "conch", "amount": 1 }
+        { "name": "conch", "amount": 1, "absolute": true }
       ]
     }
   }
