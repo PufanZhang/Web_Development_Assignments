@@ -54,6 +54,7 @@ body, html {
     height: 100%;
     z-index: 100; /* 确保它在最顶层 */
     display: none; /* 默认完全隐藏，等待召唤 */
+    background-color: rgba(0, 0, 0, 0.15);
 }
 
 /* 当对话激活时，我们为对话层添加这个类 */
@@ -96,7 +97,7 @@ body, html {
 
 /* 容器内所有角色立绘的通用样式 */
 #character-container img {
-    height: 100%; /* 高度占满父容器 */
+    height: 100%;
     object-fit: contain;
     /* 所有的立绘都将拥有柔和的过渡效果，无论是出现、消失还是光影变化 */
     transition: all 0.4s ease-in-out;
@@ -159,6 +160,28 @@ body, html {
     background-color: rgba(255, 255, 255, 0.3);
 }
 
+#item-image-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#item-image-container img {
+    max-width: 50vw;
+    max-height: 65vh;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+    transform: translateY(-10%);
+}
+
+
 /* --- 调试信息窗口样式 --- */
 #debug-view {
     position: absolute;
@@ -173,4 +196,49 @@ body, html {
     border-radius: 5px;
     z-index: 200; /* 确保它在最顶层 */
     user-select: none;
+}
+
+/* --- 加载界面显示 ---*/
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000; /* 黑色背景 */
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    z-index: 9999; /* 确保在最上层 */
+    transition: opacity 0.5s ease-out; /* 隐藏时的渐变效果 */
+}
+#loading-screen.hidden {
+    opacity: 0;
+    pointer-events: none; /* 隐藏后不允许点击 */
+}
+.spinner {
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 游戏容器默认隐藏，等待加载完成 */
+#game-container {
+    opacity: 0; /* 默认透明 */
+    transition: opacity 1s ease-in-out; /* 渐入效果 */
+}
+#game-container.visible {
+    opacity: 1;
 }

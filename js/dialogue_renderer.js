@@ -8,9 +8,17 @@ import { gameState } from './modules/dataManager.js';
  * @param {function} onOptionClick - 当选项被点击时调用的回调函数。
  */
 export function renderDialogue(dialogueState, elements, onOptionClick) {
-    const { characterContainer, characterName, dialogueText, dialogueOptionsContainer } = elements;
+    const { characterContainer, characterName, dialogueText, dialogueOptionsContainer, itemImageContainer } = elements;
     const currentNode = dialogueState.story.nodes[dialogueState.currentNodeId];
     if (!currentNode) return;
+
+    if (currentNode.displayImage) {
+        itemImageContainer.innerHTML = `<img src="${currentNode.displayImage}" alt="Displayed Item">`;
+        itemImageContainer.style.display = 'flex';
+    } else {
+        itemImageContainer.innerHTML = '';
+        itemImageContainer.style.display = 'none';
+    }
 
     dialogueText.innerText = currentNode.dialogue;
     if (currentNode.speaker === '旁白') {

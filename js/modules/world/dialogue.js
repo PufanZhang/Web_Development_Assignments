@@ -6,7 +6,8 @@ const elements = {
     characterContainer: document.getElementById('character-container'),
     characterName: document.getElementById('character-name'),
     dialogueText: document.getElementById('dialogue-text'),
-    dialogueOptionsContainer: document.getElementById('dialogue-options-container')
+    dialogueOptionsContainer: document.getElementById('dialogue-options-container'),
+    itemImageContainer: document.getElementById('item-image-container')
 };
 
 let state = {};
@@ -100,6 +101,7 @@ export const dialogueManager = {
     end() {
         window.gameMode = 'map';
         elements.dialogueView.classList.remove('active');
+        elements.itemImageContainer.style.display = 'none';
         if (onDialogueEndCallback) {
             onDialogueEndCallback(state.endAction);
         }
