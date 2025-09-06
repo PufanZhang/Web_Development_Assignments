@@ -3,6 +3,7 @@ const LANE_WIDTH = 100;
 const LANE_COUNT = 3;
 const PLAYER_SIZE = 40;
 const OBSTACLE_HEIGHT = 50;
+const COIN_SIZE = 20;
 const GRAVITY = 0.5;
 const JUMP_FORCE = 12;
 const GAME_SPEED_INITIAL = 5;
@@ -12,10 +13,13 @@ const GAME_SPEED_INCREMENT = 0.0005;
 let canvas, ctx;
 let player;
 let obstacles = [];
+let coins = [];
 let gameSpeed = GAME_SPEED_INITIAL;
 let score = 0;
+let coinsCollected = 0;
 let gameOver = false;
 let animationId;
+let gameTime = 0;
 
 // 玩家类
 class Player {
@@ -31,6 +35,8 @@ class Player {
         this.isRolling = false;
         this.rollTimer = 0;
         this.color = '#FF5722';
+        this.scale = 1; // 新增：缩放因子
+        this.baseY = canvas.height - PLAYER_SIZE - 20; // 新增：基准Y坐标
     }
 
     update() {
@@ -38,15 +44,18 @@ class Player {
         const targetX = (canvas.width / 2 - LANE_WIDTH / 2) + (this.lane * LANE_WIDTH) + (LANE_WIDTH - this.width) / 2;
         this.x += (targetX - this.x) * 0.2;
 
-        // 更新垂直位置（跳跃/重力）
+        // 更新跳跃状态（使用缩放代替垂直位移）
         if (this.isJumping) {
             this.velocityY -= GRAVITY;
-            this.y -= this.velocityY;
 
-            if (this.y >= canvas.height - this.height - 20) {
-                this.y = canvas.height - this.height - 20;
+            // 使用缩放模拟跳跃高度
+            const jumpProgress = 1 - (this.velocityY / JUMP_FORCE);
+            this.scale = 1 + jumpProgress * 0.5; // 跳跃时放大50%
+
+            if (this.velocityY <= 0) {
                 this.isJumping = false;
                 this.velocityY = 0;
+                this.scale = 1;
             }
         }
 
@@ -62,31 +71,37 @@ class Player {
     }
 
     draw() {
+        ctx.save();
+        ctx.translate(this.x + this.width/2, this.baseY + this.height/2);
+        ctx.scale(this.scale, this.scale);
+
         ctx.fillStyle = this.color;
 
         if (this.isRolling) {
             // 绘制翻滚状态的玩家（扁平化）
-            ctx.fillRect(this.x, this.y + this.height / 2, this.width, this.height / 2);
+            ctx.fillRect(-this.width/2, -this.height/4, this.width, this.height/2);
             // 绘制细节
             ctx.fillStyle = '#333';
-            ctx.fillRect(this.x + 10, this.y + this.height / 2 + 5, 5, 5);
-            ctx.fillRect(this.x + this.width - 15, this.y + this.height / 2 + 5, 5, 5);
+            ctx.fillRect(-this.width/2 + 10, -this.height/4 + 5, 5, 5);
+            ctx.fillRect(this.width/2 - 15, -this.height/4 + 5, 5, 5);
         } else {
             // 绘制站立/跳跃状态的玩家
-            ctx.fillRect(this.x, this.y, this.width, this.height);
+            ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
 
             // 绘制面部特征
             ctx.fillStyle = '#333';
             // 眼睛
-            ctx.fillRect(this.x + 10, this.y + 15, 5, 5);
-            ctx.fillRect(this.x + this.width - 15, this.y + 15, 5, 5);
+            ctx.fillRect(-this.width/2 + 10, -this.height/2 + 15, 5, 5);
+            ctx.fillRect(this.width/2 - 15, -this.height/2 + 15, 5, 5);
             // 嘴巴
             if (this.isJumping) {
-                ctx.fillRect(this.x + 15, this.y + 30, 10, 3); // 惊讶的嘴
+                ctx.fillRect(-this.width/2 + 15, -this.height/2 + 30, 10, 3); // 惊讶的嘴
             } else {
-                ctx.fillRect(this.x + 15, this.y + 30, 10, 2); // 正常的嘴
+                ctx.fillRect(-this.width/2 + 15, -this.height/2 + 30, 10, 2); // 正常的嘴
             }
         }
+
+        ctx.restore();
     }
 
     jump() {
@@ -151,8 +166,6 @@ class Obstacle {
         // 检查是否通过玩家
         if (!this.passed && this.y > player.y + player.height) {
             this.passed = true;
-            score += 10;
-            document.getElementById('score').textContent = score;
         }
     }
 
@@ -188,9 +201,10 @@ class Obstacle {
     checkCollision() {
         if (this.lane !== player.lane) return false;
 
-        const playerBottom = player.y + player.height;
+        // 调整碰撞检测以考虑玩家的缩放
+        const playerBottom = player.baseY + player.height * player.scale;
+        const playerTop = player.baseY - (player.height * (player.scale - 1)) / 2;
         const obstacleTop = this.y;
-        const playerTop = player.y;
         const obstacleBottom = this.y + this.height;
 
         // 水平碰撞检测
@@ -219,6 +233,69 @@ class Obstacle {
     }
 }
 
+// 金币类
+class Coin {
+    constructor(lane) {
+        this.lane = lane;
+        this.x = (canvas.width / 2 - LANE_WIDTH / 2) + (lane * LANE_WIDTH) + (LANE_WIDTH - COIN_SIZE) / 2;
+        this.y = -COIN_SIZE;
+        this.width = COIN_SIZE;
+        this.height = COIN_SIZE;
+        this.collected = false;
+        this.rotation = 0;
+    }
+
+    update() {
+        // 向下移动
+        this.y += gameSpeed;
+
+        // 旋转动画
+        this.rotation += 0.1;
+    }
+
+    draw() {
+        ctx.save();
+        ctx.translate(this.x + this.width/2, this.y + this.height/2);
+        ctx.rotate(this.rotation);
+
+        // 绘制金币
+        ctx.fillStyle = '#FFD700';
+        ctx.beginPath();
+        ctx.arc(0, 0, this.width/2, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.strokeStyle = '#D4AF37';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // 绘制金币中心
+        ctx.fillStyle = '#D4AF37';
+        ctx.beginPath();
+        ctx.arc(0, 0, this.width/4, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+    }
+
+    checkCollection() {
+        if (this.collected) return false;
+
+        // 计算玩家与金币的距离
+        const playerCenterX = player.x + player.width/2;
+        const playerCenterY = player.baseY + player.height/2;
+        const coinCenterX = this.x + this.width/2;
+        const coinCenterY = this.y + this.height/2;
+
+        const distance = Math.sqrt(
+            Math.pow(playerCenterX - coinCenterX, 2) +
+            Math.pow(playerCenterY - coinCenterY, 2)
+        );
+
+        // 如果距离小于两者半径之和，则收集金币
+        return distance < (player.width/2 * player.scale + this.width/2);
+    }
+}
+
 // 初始化游戏
 function initGame() {
     canvas = document.getElementById('game-canvas');
@@ -233,11 +310,15 @@ function initGame() {
 
     // 重置游戏状态
     obstacles = [];
+    coins = [];
     gameSpeed = GAME_SPEED_INITIAL;
     score = 0;
+    coinsCollected = 0;
     gameOver = false;
+    gameTime = 0;
 
     document.getElementById('score').textContent = score;
+    document.getElementById('coins').textContent = coinsCollected;
     document.getElementById('game-over').style.display = 'none';
 
     // 启动游戏循环
@@ -257,6 +338,13 @@ function generateObstacle() {
     const type = Math.floor(Math.random() * 3); // 0, 1 或 2
 
     obstacles.push(new Obstacle(type, lane));
+}
+
+// 生成金币
+function generateCoin() {
+    const lane = Math.floor(Math.random() * LANE_COUNT);
+
+    coins.push(new Coin(lane));
 }
 
 // 绘制背景和赛道
@@ -298,6 +386,15 @@ function drawBackground() {
 function gameLoop() {
     if (gameOver) return;
 
+    // 增加游戏时间
+    gameTime++;
+
+    // 基于存活时间增加分数
+    if(gameTime % 3 === 0){
+        score += 1;
+    }
+    document.getElementById('score').textContent = score;
+
     // 清空画布
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -311,6 +408,11 @@ function gameLoop() {
     // 生成新障碍物
     if (Math.random() < 0.03) {
         generateObstacle();
+    }
+
+    // 生成新金币
+    if (Math.random() < 0.02) {
+        generateCoin();
     }
 
     // 更新和绘制障碍物
@@ -331,6 +433,29 @@ function gameLoop() {
         }
     }
 
+    // 更新和绘制金币
+    for (let i = coins.length - 1; i >= 0; i--) {
+        coins[i].update();
+
+        // 检查金币收集
+        if (coins[i].checkCollection()) {
+            coins[i].collected = true;
+            coinsCollected++;
+            score += 50; // 收集金币额外加分
+            document.getElementById('coins').textContent = coinsCollected;
+            document.getElementById('score').textContent = score;
+            coins.splice(i, 1);
+            continue;
+        }
+
+        coins[i].draw();
+
+        // 移除屏幕外的金币（超出底部）
+        if (coins[i].y > canvas.height) {
+            coins.splice(i, 1);
+        }
+    }
+
     // 增加游戏速度
     gameSpeed += GAME_SPEED_INCREMENT;
 
@@ -344,6 +469,7 @@ function endGame() {
     cancelAnimationFrame(animationId);
 
     document.getElementById('final-score').textContent = score;
+    document.getElementById('final-coins').textContent = coinsCollected;
     document.getElementById('game-over').style.display = 'block';
 }
 
