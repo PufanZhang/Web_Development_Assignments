@@ -8,63 +8,35 @@ export const minigameLoader = {
         const mainGameContainer = document.getElementById('game-container');
         if (mainGameContainer) mainGameContainer.style.display = 'none';
 
-        // 用于追踪动态添加的元素，方便后续移除
-        const addedElements = [];
+        // --- 使用 iframe 替代直接注入 DOM ---
+        const iframe = document.createElement('iframe');
+        iframe.id = 'minigame-iframe';
+        iframe.src = `/minigame/${minigameName}/index.html`;
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.border = 'none';
+        document.body.appendChild(iframe);
 
-        try {
-            const htmlPath = '/minigame/' + minigameName + '/index.html';
-            const response = await fetch(htmlPath);
-            if (!response.ok) {
-                throw new Error(`无法加载小游戏 HTML: ${response.statusText}`);
-            }
-            const htmlText = await response.text();
-            const parser = new DOMParser();
-            const minigameDoc = parser.parseFromString(htmlText, 'text/html');
-            minigameDoc.head.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
-                const newLink = document.createElement('link');
-                newLink.rel = 'stylesheet';
-                newLink.href = new URL(link.getAttribute('href'), response.url).href;
-                document.head.appendChild(newLink);
-                addedElements.push(newLink);
-            });
-
-            // 2. 创建小游戏容器，并注入 <body> 的内容
-            const minigameContainer = document.createElement('div');
-            minigameContainer.id = 'minigame-container';
-            minigameContainer.innerHTML = minigameDoc.body.innerHTML;
-            document.body.appendChild(minigameContainer);
-            addedElements.push(minigameContainer);
-
-            // 3. 按顺序加载并执行所有 <script> 标签
-            const scripts = Array.from(minigameDoc.querySelectorAll('script'));
-            for (const oldScript of scripts) {
-                const newScript = document.createElement('script');
-                // 复制所有属性
-                for (const attr of oldScript.attributes) {
-                    newScript.setAttribute(attr.name, attr.value);
-                }
-
-                if (oldScript.src) {
-                    // 对于外部脚本，必须等待它加载完成
-                    await new Promise((resolve, reject) => {
-                        newScript.onload = resolve;
-                        newScript.onerror = reject;
-                        minigameContainer.appendChild(newScript);
-                    });
-                } else {
-                    // 对于内联脚本，直接添加内容并插入即可
-                    newScript.textContent = oldScript.textContent;
-                    minigameContainer.appendChild(newScript);
-                }
+        // 2. 设置消息监听器，用于接收来自 iframe 的关闭请求
+        const messageHandler = (event) => {
+            // 安全性检查：确保消息来自 iframe
+            if (event.source !== iframe.contentWindow) {
+                return;
             }
 
-            // 4. 提供全局关闭函数
-            window.closeMinigame = (result) => {
+            const { type, result } = event.data;
+
+            if (type === 'closeMinigame') {
                 console.log(`小游戏 '${minigameName}' 已结束，结果:`, result);
-                addedElements.forEach(el => el.parentNode.removeChild(el));
-                delete window.closeMinigame;
+
+                // 3. 清理工作：移除 iframe 和事件监听器
+                document.body.removeChild(iframe);
+                window.removeEventListener('message', messageHandler);
+
+                // 4. 恢复主游戏逻辑
                 if (mainGameContainer) mainGameContainer.style.display = 'block';
-                const token = localStorage.getItem("jwt_token");// 自动重连逻辑
+
+                const token = localStorage.getItem("jwt_token"); // 自动重连逻辑
                 if (token) {
                     console.log("【minigameLoader.js】: 检测到 token，正在通知后端恢复在线状态...");
                     gameState.loadPlayerData().then(playerData => {
@@ -76,19 +48,16 @@ export const minigameLoader = {
                                 dialogueManager.start(onLoseStory);
                             }
                         } else {
-                            console.alert("Token 无效或已过期，请重新登录。");
+                            alert("Token 无效或已过期，请重新登录。"); // 使用 alert 替代 console.alert
                             localStorage.clear();
                             window.location.href = 'login.html';
                         }
                     });
                 }
                 window.gameMode = 'map';
-            };
+            }
+        };
 
-        } catch (error) {
-            console.error(`加载小游戏 '${minigameName}' 出错:`, error);
-            if (mainGameContainer) mainGameContainer.style.display = 'block';
-            window.gameMode = 'map';
-        }
+        window.addEventListener('message', messageHandler);
     }
 };

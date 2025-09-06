@@ -241,11 +241,9 @@ function checkPassword() {
     if (enteredPassword === gameData.correctPassword) {
         elements.passwordSection.classList.add('hidden');
         elements.successScreen.classList.remove('hidden');
-        sessionStorage.setItem('minigame', 1);
+        const result = { success: true };
         setTimeout(() => {
-            if (window.closeMinigame) {
-                window.closeMinigame({ success: true, password: enteredPassword });
-            }
+            window.parent.postMessage({ type: 'closeMinigame', result: result }, '*');
         }, 1500); // 1.5秒后关闭
     } 
     // 密码错误：处理剩余次数和提示
@@ -380,11 +378,8 @@ function returnToStory() {
     elements.failureScreen.classList.add('hidden');
     elements.cluesSection.classList.add('hidden');
     elements.passwordSection.classList.add('hidden');
-
-    if (window.closeMinigame) {
-        // 传入一个表示非成功结束的结果
-        window.closeMinigame({ success: false });
-    }
+    const result = { success: false };
+    window.parent.postMessage({ type: 'closeMinigame', result: result }, '*');
 }
 
 // 初始化游戏
