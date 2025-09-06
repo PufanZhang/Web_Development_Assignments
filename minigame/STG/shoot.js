@@ -1,3 +1,5 @@
+import { minigameLoader } from "../../js/minigameLoader";
+
 // 游戏常量
 const GAME_WIDTH = 700;
 const GAME_HEIGHT = 840;
@@ -708,7 +710,7 @@ function endGame() {
 
 // 返回首页
 function goToHomePage() {
-    window.location.href = '../../game.html';
+    window.closeMinigame();
 }
 
 // CSS特效函数

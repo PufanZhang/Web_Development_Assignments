@@ -6,5 +6,6 @@
   "width": 50,
   "height": 50,
   "storyKey": "story_parkour_intro",
-  "showPrompt": true
+  "showPrompt": true,
+  "singleInteraction": false
 }

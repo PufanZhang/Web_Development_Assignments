@@ -1,3 +1,5 @@
+import { minigameLoader } from "../../js/minigameLoader";
+
 // 游戏常量
 const LANE_WIDTH = 100;
 const LANE_COUNT = 3;
@@ -476,7 +478,7 @@ function endGame() {
 // 返回首页
 function goToHomePage() {
     // 返回主游戏页面
-    window.location.href = '../../game.html';
+    window.closeMinigame();
 }
 
 // 键盘控制
