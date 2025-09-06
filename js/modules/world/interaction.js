@@ -103,11 +103,6 @@ export const interactionManager = {
                     onTeleport(interactedObject.teleportData);
                 }
 
-                if (endAction.type === 'minigameFTG'){
-                    import('../../../minigame/FTG/fight.js').then(({ fightManager }) => {
-                        fightManager.start();
-                    });
-                }
 
                 if (GAME_LIST.includes(endAction.type)) {
                     console.log(`接收到 ${endAction.type} 动作，正在加载游戏...`);

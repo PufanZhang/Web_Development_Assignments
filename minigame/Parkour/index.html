@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跑酷小游戏</title>
+    <link rel="stylesheet" href="parkour.css">
+</head>
+<body>
+<div id="game-container">
+    <canvas id="game-canvas"></canvas>
+
+    <div id="ui-layer">
+        <div class="score-display">得分: <span id="score">0</span></div>
+        <div class="controls-info">
+            操作: A-左移 D-右移 W-跳跃 S-翻滚
+        </div>
+
+        <!-- 右侧说明面板 -->
+        <div class="instructions-panel">
+            <h3>游戏信息</h3>
+            <div class="instruction-item">
+                <div class="obstacle-preview ground-obstacle"></div>
+                <div class="instruction-text">地面障碍 - 按W跳跃通过</div>
+            </div>
+            <div class="instruction-item">
+                <div class="obstacle-preview air-obstacle"></div>
+                <div class="instruction-text">空中障碍 - 按S翻滚通过</div>
+            </div>
+            <div class="instruction-item">
+                <div class="obstacle-preview bridge-obstacle"></div>
+                <div class="instruction-text">断桥障碍 - 按W跳跃通过</div>
+            </div>
+            <div class="instruction-item">
+                <div class="obstacle-preview" style="background-color: #FFD700; border-radius: 50%;"></div>
+                <div class="instruction-text">金币 - 触碰收集 (+50分)</div>
+            </div>
+            <div class="instruction-item">
+                <div class="instruction-text">已收集金币: <span id="coins">0</span></div>
+            </div>
+        </div>
+
+        <div class="game-over" id="game-over">
+            <h2>游戏结束</h2>
+            <p>最终得分: <span id="final-score">0</span></p>
+            <p>收集金币: <span id="final-coins">0</span></p>
+            <div class="button-group">
+                <button class="restart-btn" id="restart-btn">重新开始</button>
+                <button class="home-btn" id="home-btn">返回首页</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="parkour.js"></script>
+</body>
+</html>
