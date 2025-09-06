@@ -3,8 +3,8 @@ const GAME_WIDTH = 700;
 const GAME_HEIGHT = 840;
 const PLAYER_SIZE = 20;
 const PLAYER_HITBOX_SIZE = 8;
-const PLAYER_SPEED_HIGH = 5;
-const PLAYER_SPEED_LOW = 2;
+const PLAYER_SPEED_HIGH = 7;
+const PLAYER_SPEED_LOW = 3;
 const BULLET_SPEED = 8;
 const ENEMY_BULLET_SPEED = 4;
 const BOSS_HEALTH = 1000;
@@ -16,7 +16,7 @@ let playerBullets = [];
 let enemies = [];
 let enemyBullets = [];
 let boss = null;
-let gameState = 'start'; // start, playing, gameover
+let gameState = 'start';
 let score = 0;
 let lives = 3;
 let bombs = 3;
@@ -25,6 +25,7 @@ let keys = {};
 let animationId;
 let gameTime = 0;
 let bossSpawned = false;
+let bossIndicator = null;
 
 // 玩家类
 class Player {
@@ -38,9 +39,27 @@ class Player {
         this.shootRate = 5;
         this.isHighSpeed = true;
         this.invincible = 0;
+        this.respawning = false;
+        this.respawnTimer = 0;
     }
 
     update() {
+        // 如果正在重生，处理重生逻辑
+        if (this.respawning) {
+            this.respawnTimer--;
+
+            // 重生动画
+            this.y = Math.min(GAME_HEIGHT * 5/6, this.y - 2);
+
+            // 重生完成
+            if (this.respawning && this.respawnTimer <= 0) {
+                this.respawning = false;
+                this.invincible = 120;
+            }
+
+            return;
+        }
+
         // 移动控制
         let speed = this.isHighSpeed ? PLAYER_SPEED_HIGH : PLAYER_SPEED_LOW;
 
@@ -79,6 +98,11 @@ class Player {
     }
 
     draw() {
+        // 重生期间闪烁效果
+        if (this.respawning && Math.floor(this.respawnTimer / 5) % 2 === 0) {
+            return;
+        }
+
         // 绘制玩家飞机
         ctx.fillStyle = this.invincible % 10 < 5 ? 'rgba(255, 255, 255, 0.5)' : '#00ccff';
         ctx.beginPath();
@@ -89,7 +113,7 @@ class Player {
         ctx.fill();
 
         // 绘制判定点
-        if (this.invincible === 0) {
+        if (this.invincible === 0 && !this.respawning) {
             ctx.fillStyle = 'red';
             ctx.beginPath();
             ctx.arc(this.x, this.y + 2, this.hitboxSize/2, 0, Math.PI * 2);
@@ -112,6 +136,9 @@ class Player {
         bombs--;
         document.getElementById('bombs').textContent = bombs;
 
+        // 添加Bomb特效
+        createBombEffect();
+
         // 清除所有敌方子弹
         enemyBullets = [];
 
@@ -120,14 +147,46 @@ class Player {
             if (enemy.type === 'boss') {
                 enemy.health -= 50;
                 updateBossHealth();
+
+                // 添加Boss受击特效
+                createBossHitEffect(enemy.x, enemy.y);
             } else {
                 score += 100;
                 document.getElementById('score').textContent = score;
+
+                // 添加小敌机爆炸特效
+                createExplosionEffect(enemy.x, enemy.y, '#ff6666');
             }
         });
 
         // 移除普通敌人
         enemies = enemies.filter(enemy => enemy.type === 'boss');
+    }
+
+    // 玩家死亡方法
+    die() {
+        lives--;
+        document.getElementById('lives').textContent = lives;
+
+        // 添加玩家死亡特效
+        createPlayerDeathEffect(this.x, this.y);
+
+        // 清除所有敌方子弹
+        enemyBullets = [];
+
+        // 设置无敌时间
+        this.invincible = 0;
+
+        // 如果还有残机，则重生
+        if (lives >= 0) {
+            this.respawning = true;
+            this.respawnTimer = 120;
+            this.x = GAME_WIDTH / 2;
+            this.y = GAME_HEIGHT * 5/6;
+        } else {
+            // 游戏结束
+            endGame();
+        }
     }
 }
 
@@ -137,6 +196,7 @@ class Enemy {
         this.type = type;
         this.x = x;
         this.y = y;
+        this.entering = true;
 
         if (type === 'small') {
             this.width = 30;
@@ -154,6 +214,7 @@ class Enemy {
             this.pattern = 0;
             this.patternTimer = 0;
             this.score = 5000;
+            this.targetY = 150;
         }
 
         this.shootCooldown = this.shootRate;
@@ -168,32 +229,55 @@ class Enemy {
             if (this.y > GAME_HEIGHT + this.height) {
                 return false;
             }
-        } else if (this.type === 'boss') {
-            // Boss移动逻辑
-            if (this.y > 150) {
-                this.y = 150;
-                this.x += Math.sin(gameTime / 50) * 2;
 
-                // 限制Boss移动范围
-                this.x = Math.max(this.width/2, Math.min(GAME_WIDTH - this.width/2, this.x));
+            // 小敌机射击逻辑
+            if (this.shootCooldown > 0) {
+                this.shootCooldown--;
             } else {
-                this.y += this.speed;
+                this.shoot();
+                this.shootCooldown = this.shootRate;
             }
+        } else if (this.type === 'boss') {
+            // Boss入场动画
+            if (this.entering) {
+                this.y += this.speed;
+
+                // 到达目标位置后停止入场动画
+                if (this.y >= this.targetY) {
+                    this.y = this.targetY;
+                    this.entering = false;
+
+                    // 添加Boss完全入场特效
+                    createBossEntranceEffect(this.x, this.y);
+                }
+
+                // 入场阶段不攻击
+                return true;
+            }
+
+            // Boss正常移动逻辑
+            this.x += Math.sin(gameTime / 50) * 2;
+
+            // 限制Boss移动范围
+            this.x = Math.max(this.width/2, Math.min(GAME_WIDTH - this.width/2, this.x));
 
             // Boss弹幕模式
             this.patternTimer++;
             if (this.patternTimer > 300) {
                 this.pattern = (this.pattern + 1) % 3;
                 this.patternTimer = 0;
-            }
-        }
 
-        // 射击逻辑
-        if (this.shootCooldown > 0) {
-            this.shootCooldown--;
-        } else {
-            this.shoot();
-            this.shootCooldown = this.shootRate;
+                // 添加模式切换特效
+                createPatternChangeEffect(this.x, this.y);
+            }
+
+            // Boss射击逻辑
+            if (this.shootCooldown > 0) {
+                this.shootCooldown--;
+            } else {
+                this.shoot();
+                this.shootCooldown = this.shootRate;
+            }
         }
 
         return true;
@@ -221,6 +305,14 @@ class Enemy {
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.width/3, 0, Math.PI * 2);
             ctx.fill();
+
+            // 入场动画期间的发光效果
+            if (this.entering) {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.width/2 + 10 * Math.sin(gameTime/5), 0, Math.PI * 2);
+                ctx.fill();
+            }
         }
     }
 
@@ -233,7 +325,7 @@ class Enemy {
                 width: 6,
                 height: 6,
                 speed: ENEMY_BULLET_SPEED,
-                angle: Math.PI/2 // 向下射击
+                angle: Math.PI/2
             });
         } else if (this.type === 'boss') {
             // Boss弹幕模式
@@ -311,6 +403,10 @@ function initGame() {
     bombs = 3;
     gameTime = 0;
     bossSpawned = false;
+    bossIndicator = null;
+
+    // 清除特效容器
+    document.getElementById('effects-container').innerHTML = '';
 
     // 更新UI
     document.getElementById('score').textContent = score;
@@ -343,8 +439,18 @@ function spawnEnemies() {
         let boss = new Enemy('boss', GAME_WIDTH / 2, -100);
         enemies.push(boss);
         bossSpawned = true;
+
+        // 创建Boss位置指示器
+        bossIndicator = {
+            x: boss.x,
+            y: GAME_HEIGHT + 20,
+            width: 40,
+            height: 10,
+            color: '#ff0000'
+        };
+
         document.getElementById('stage').textContent = '关底';
-        document.getElementById('boss-health-text').textContent = 'BOSS';
+        document.getElementById('boss-health-text').textContent = 'BOSS登场中...';
     }
 }
 
@@ -356,11 +462,26 @@ function updateBossHealth() {
             let healthPercent = (boss.health / BOSS_HEALTH) * 100;
             document.getElementById('boss-health-bar').style.width = healthPercent + '%';
 
+            // 根据血量改变血条颜色
+            if (healthPercent > 70) {
+                document.getElementById('boss-health-bar').style.background = 'linear-gradient(to right, #4CAF50, #8BC34A)';
+            } else if (healthPercent > 30) {
+                document.getElementById('boss-health-bar').style.background = 'linear-gradient(to right, #FFC107, #FF9800)';
+            } else {
+                document.getElementById('boss-health-bar').style.background = 'linear-gradient(to right, #F44336, #FF5722)';
+            }
+
             if (boss.health <= 0) {
                 // Boss被击败
                 score += 5000;
                 document.getElementById('score').textContent = score;
                 document.getElementById('boss-health-text').textContent = '击败！';
+
+                // 添加Boss爆炸特效
+                createBossExplosionEffect(boss.x, boss.y);
+
+                // 移除Boss指示器
+                bossIndicator = null;
 
                 // 3秒后重新开始道中
                 setTimeout(() => {
@@ -392,6 +513,9 @@ function checkCollisions() {
 
                 enemy.health -= 5;
 
+                // 添加击中特效
+                createHitEffect(bullet.x, bullet.y);
+
                 // 移除子弹
                 playerBullets.splice(i, 1);
 
@@ -404,6 +528,14 @@ function checkCollisions() {
                 if (enemy.health <= 0) {
                     score += enemy.score;
                     document.getElementById('score').textContent = score;
+
+                    // 添加爆炸特效
+                    if (enemy.type === 'boss') {
+                        createBossExplosionEffect(enemy.x, enemy.y);
+                    } else {
+                        createExplosionEffect(enemy.x, enemy.y, '#ff6666');
+                    }
+
                     enemies.splice(j, 1);
                 }
 
@@ -413,7 +545,7 @@ function checkCollisions() {
     }
 
     // 敌人子弹与玩家碰撞
-    if (player.invincible === 0) {
+    if (player.invincible === 0 && !player.respawning) {
         for (let i = enemyBullets.length - 1; i >= 0; i--) {
             let bullet = enemyBullets[i];
 
@@ -424,21 +556,10 @@ function checkCollisions() {
 
             if (distance < player.hitboxSize/2 + bullet.width/2) {
                 // 玩家被击中
-                lives--;
-                document.getElementById('lives').textContent = lives;
+                player.die();
 
                 // 移除子弹
                 enemyBullets.splice(i, 1);
-
-                // 设置无敌时间
-                player.invincible = 120;
-
-                // 检查游戏是否结束
-                if (lives <= 0) {
-                    endGame();
-                    return;
-                }
-
                 break;
             }
         }
@@ -494,11 +615,30 @@ function gameLoop() {
         }
     }
 
+    // 更新Boss指示器
+    if (bossIndicator && bossSpawned) {
+        let boss = enemies.find(e => e.type === 'boss');
+        if (boss) {
+            bossIndicator.x = boss.x;
+        }
+    }
+
     // 检测碰撞
     checkCollisions();
 
     // 绘制游戏对象
     drawGameObjects();
+
+    // 绘制Boss指示器
+    if (bossIndicator) {
+        ctx.fillStyle = bossIndicator.color;
+        ctx.fillRect(
+            bossIndicator.x - bossIndicator.width/2,
+            bossIndicator.y - bossIndicator.height/2,
+            bossIndicator.width,
+            bossIndicator.height
+        );
+    }
 
     // 继续游戏循环
     animationId = requestAnimationFrame(gameLoop);
@@ -557,6 +697,78 @@ function endGame() {
 // 返回首页
 function goToHomePage() {
     window.location.href = '../../game.html';
+}
+
+// CSS特效函数
+function createCSSEffect(type, x, y, size = 50) {
+    const effectsContainer = document.getElementById('effects-container');
+    const effect = document.createElement('div');
+
+    effect.className = `effect ${type}`;
+    effect.style.left = `${x - size/2}px`;
+    effect.style.top = `${y - size/2}px`;
+    effect.style.width = `${size}px`;
+    effect.style.height = `${size}px`;
+
+    effectsContainer.appendChild(effect);
+
+    // 动画结束后移除元素
+    effect.addEventListener('animationend', () => {
+        effectsContainer.removeChild(effect);
+    });
+}
+
+// 特效函数
+function createHitEffect(x, y) {
+    createCSSEffect('hit-effect', x, y, 20);
+}
+
+function createExplosionEffect(x, y, color) {
+    createCSSEffect('explosion', x, y, 50);
+}
+
+function createBossHitEffect(x, y) {
+    createCSSEffect('explosion', x, y, 60);
+}
+
+function createBossExplosionEffect(x, y) {
+    createCSSEffect('explosion', x, y, 100);
+}
+
+function createPlayerHitEffect(x, y) {
+    createCSSEffect('hit-effect', x, y, 30);
+}
+
+function createPlayerDeathEffect(x, y) {
+    createCSSEffect('player-death', x, y, 60);
+}
+
+function createBossEntranceEffect(x, y) {
+    createCSSEffect('boss-entrance', x, y, 150);
+}
+
+function createPatternChangeEffect(x, y) {
+    createCSSEffect('pattern-change', x, y, 100);
+}
+
+function createBombEffect() {
+    // 添加全屏闪光
+    const effectsContainer = document.getElementById('effects-container');
+    const flash = document.createElement('div');
+    flash.className = 'bomb-effect';
+    effectsContainer.appendChild(flash);
+
+    // 动画结束后移除元素
+    flash.addEventListener('animationend', () => {
+        effectsContainer.removeChild(flash);
+    });
+
+    // 添加冲击波效果
+    createCSSEffect('shockwave', player.x, player.y, 20);
+
+    // 添加多个冲击波
+    setTimeout(() => createCSSEffect('shockwave', player.x, player.y, 40), 100);
+    setTimeout(() => createCSSEffect('shockwave', player.x, player.y, 60), 200);
 }
 
 // 键盘事件处理
