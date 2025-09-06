@@ -245,6 +245,8 @@ function goBack() {
     window.location.href = 'index.html';
 }
 
+window.goBack = goBack;
+
 // 关闭存档详情
 function closeSaveDetail() {
     const detailContent = document.querySelector('.detail-content');
