@@ -30,8 +30,7 @@ let bossIndicator = null;
 // 玩家类
 class Player {
     constructor() {
-        this.x = GAME_WIDTH / 2;
-        this.y = GAME_HEIGHT - 100;
+        this.resetPosition();
         this.size = PLAYER_SIZE;
         this.hitboxSize = PLAYER_HITBOX_SIZE;
         this.speed = PLAYER_SPEED_HIGH;
@@ -41,6 +40,12 @@ class Player {
         this.invincible = 0;
         this.respawning = false;
         this.respawnTimer = 0;
+    }
+
+    // 新增：重置位置到指定位置
+    resetPosition() {
+        this.x = GAME_WIDTH / 2;
+        this.y = GAME_HEIGHT * 5 / 6; // 从下到上六等分点的位置
     }
 
     update() {
@@ -168,6 +173,10 @@ class Player {
         lives--;
         document.getElementById('lives').textContent = lives;
 
+        // 新增：每次被击中后重置Bomb数为3
+        bombs = 3;
+        document.getElementById('bombs').textContent = bombs;
+
         // 添加玩家死亡特效
         createPlayerDeathEffect(this.x, this.y);
 
@@ -181,8 +190,7 @@ class Player {
         if (lives >= 0) {
             this.respawning = true;
             this.respawnTimer = 120;
-            this.x = GAME_WIDTH / 2;
-            this.y = GAME_HEIGHT * 5/6;
+            this.resetPosition(); // 使用重置位置方法
         } else {
             // 游戏结束
             endGame();
@@ -443,7 +451,6 @@ function spawnEnemies() {
         // 创建Boss位置指示器
         bossIndicator = {
             x: boss.x,
-            y: GAME_HEIGHT + 20,
             width: 40,
             height: 10,
             color: '#ff0000'
@@ -629,12 +636,13 @@ function gameLoop() {
     // 绘制游戏对象
     drawGameObjects();
 
-    // 绘制Boss指示器
+    // 绘制Boss指示器 - 修改为在游戏界面内的底部显示
     if (bossIndicator) {
         ctx.fillStyle = bossIndicator.color;
+        // 在游戏界面底部绘制指示器，高度为10px，宽度为40px
         ctx.fillRect(
             bossIndicator.x - bossIndicator.width/2,
-            bossIndicator.y - bossIndicator.height/2,
+            GAME_HEIGHT - 15, // 距离底部15像素
             bossIndicator.width,
             bossIndicator.height
         );
