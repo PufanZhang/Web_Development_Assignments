@@ -13,6 +13,28 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 状态变量 ---
     let isLoginMode = true; // true 为登录模式, false 为注册模式
 
+    function translateErrorMessage(englishMessage) {
+        switch (englishMessage) {
+            case "Username is already taken":
+                return "该用户名已被占用，请换一个。";
+            case "Incorrect password.":
+                return "密码错误";
+            case "Username not found.":
+                return "该账户不存在，请先注册。"
+            case "This account is already logged in elsewhere.":
+                return "该账户已在别处登录，请勿重复登录。";
+            case "Invalid or expired token.":
+                return "登录凭证无效或已过期，请重新登录。";
+            case "Could not create token.":
+            case "Could not create new token.":
+                return "服务器内部错误：无法创建用户凭证。";
+            default:
+                // 对于未知的后端错误，显示一个通用信息，并在控制台打印原始错误
+                console.error("【login.js】: 未知的后端错误:", englishMessage);
+                return "发生未知错误，请重试或联系管理员。";
+        }
+    }
+
     // --- 自动登录逻辑 ---
     async function attemptAutoLogin() {
         const token = localStorage.getItem("jwt_token");
@@ -61,17 +83,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 const response = await auth.login(username, password);
                 console.log("【login.js】: 收到登录响应:", response);
 
-                if (response.success && response.token) {
+                if (response && response.success && response.token) {
                     localStorage.setItem("jwt_token", response.token);
                     localStorage.setItem("user", username);
                     console.log("【login.js】: Token 已写入 localStorage!");
                     showMessage('登录成功!', 'success');
                     window.location.href = 'index.html';
-                } else {
-                    const message = response ? response.message : "登录失败，请重试。";
+                } else if (response && !response.success) {
+                    // 登录失败，显示翻译后的中文错误信息
+                    console.log(`【login.js】: ${isLoginMode ? '登录' : '注册'}过程中发生错误:`, response);
+                    const message = response ? translateErrorMessage(response.message) : "登录失败，请重试。";
                     showMessage(message, 'error');
-                    console.error("【login.js】: 登录失败或响应中缺少 token。", response);
-                    setLoading(false);
+                    setTimeout(() => {
+                        setLoading(false);
+                    },500);
                 }
             } else {
                 // --- 注册逻辑 ---
@@ -85,14 +110,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         toggleMode(username, password);
                     }, 1000);
                 } else {
-                    const message = response ? response.message : "注册失败，请重试。";
+                    const message = response ? translateErrorMessage(response.message) : "注册失败，请重试。";
                     showMessage(message, 'error');
                 }
                 setLoading(false);
             }
         } catch (error) {
             console.error(`【login.js】: ${isLoginMode ? '登录' : '注册'}过程中发生严重错误:`, error);
-            showMessage('请求失败，请检查网络或联系管理员。', 'error');
+            showMessage(translateErrorMessage(error), 'error');
             setLoading(false);
         }
     }
@@ -158,6 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 表单验证
     function validateForm(username, password) {
         if (username.length < 3) return '用户名至少需要3个字符';
+        if (username.length > 20) return '用户名至多20个字符'
         if (password.length < 6) return '密码至少需要6个字符';
         return null;
     }

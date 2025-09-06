@@ -13,6 +13,12 @@ pub enum ModifyValueError {
     InvalidValueName(String),
 }
 
+pub enum LoginOutcome {
+    Success,
+    UserNotFound,
+    IncorrectPassword,
+}
+
 impl From<Error> for ModifyValueError {
     fn from(err: Error) -> Self {
         ModifyValueError::Io(err)
@@ -115,19 +121,19 @@ pub async fn register_user(req: &AuthRequest) -> Result<(), &'static str> {
 }
 
 // 验证用户登录
-pub async fn login_user(req: &AuthRequest) -> Result<bool, &'static str> {
+pub async fn login_user(req: &AuthRequest) -> Result<LoginOutcome, &'static str> {
     let users = read_users().await.map_err(|_| "Failed to read user database")?;
 
     match users.get(&req.username) {
         Some(stored_hash) => {
             let hashed_input = hash_password(&req.password);
             if stored_hash == &hashed_input {
-                Ok(true) // 密码正确
+                Ok(LoginOutcome::Success) // 密码正确
             } else {
-                Ok(false) // 密码错误
+                Ok(LoginOutcome::IncorrectPassword) // 密码错误
             }
         }
-        None => Ok(false), // 用户不存在
+        None => Ok(LoginOutcome::UserNotFound), // 用户不存在
     }
 }
 

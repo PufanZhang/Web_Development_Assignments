@@ -23,19 +23,6 @@ async function apiRequest(endpoint, method = 'GET', body = null) {
 
     try {
         const response = await fetch(`/api${endpoint}`, options);
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({ message: response.statusText }));
-            console.error(`API Error on ${method} ${endpoint}:`, errorData.message);
-            // 如果是 401 未授权，可能是 token 过期，提示并跳转到登录页
-            if (response.status === 401) {
-                alert("登录状态已过期，请重新登录！");
-                localStorage.clear(); // 清理过期的 token
-                window.location.href = 'login.html';
-            } else {
-                alert(`请求失败: ${errorData.message}`);
-            }
-            return null;
-        }
         if (response.status === 204 || response.headers.get('content-length') === '0') {
             return true;
         }

@@ -1,5 +1,5 @@
 use crate::loader::{load_and_pack_map_data, LoadError};
-use crate::database::{self, ModifyValueError};
+use crate::database::{self, ModifyValueError, LoginOutcome};
 use actix_web::{get, post, web, HttpResponse, Responder};
 use crate::models::{AuthRequest, AuthResponse, ModifyValueRequest, PlayerData, LogoutRequest, TokenLoginRequest, LoginWithTokenResponse, ApiLogoutRequest};
 use crate::auth::{create_jwt, AuthenticatedUser};
@@ -65,7 +65,7 @@ pub async fn register(req: web::Json<AuthRequest>) -> impl Responder {
 #[post("/auth/login")]
 pub async fn login(req: web::Json<AuthRequest>, active_users: web::Data<Arc<Mutex<HashSet<String>>>>) -> impl Responder {
     match database::login_user(&req).await {
-        Ok(true) => {
+        Ok(LoginOutcome::Success) => {
             // 检查用户是否已在集合中
             let mut users = active_users.lock().await;
             if users.contains(&req.username) {
@@ -94,9 +94,14 @@ pub async fn login(req: web::Json<AuthRequest>, active_users: web::Data<Arc<Mute
                 }),
             }
         },
-        Ok(false) => HttpResponse::Unauthorized().json(AuthResponse {
+        Ok(LoginOutcome::IncorrectPassword) => HttpResponse::Unauthorized().json(AuthResponse {
             success: false,
-            message: "Invalid username or password.".to_string(),
+            message: "Incorrect password.".to_string(),
+            token: None,
+        }),
+        Ok(LoginOutcome::UserNotFound) => HttpResponse::Unauthorized().json(AuthResponse {
+            success: false,
+            message: "Username not found.".to_string(),
             token: None,
         }),
         Err(msg) => HttpResponse::InternalServerError().json(AuthResponse {
