@@ -186,13 +186,12 @@
     float: right;
 }
 
-/* 大招计时器 */
+/* 大招计时器 - 修改样式以区分不同状态 */
 .buff-timer {
     height: 5px;
-    background-color: #ffeb3b;
     margin-top: 5px;
     border-radius: 2px;
-    transition: width 1s linear;
+    transition: width 0.1s linear;
 }
 
 /* 战斗结果 */
