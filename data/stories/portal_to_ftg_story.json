@@ -12,7 +12,9 @@
     "teleport_action": {
       "speaker": "旁白",
       "dialogue": "你下定了决心，准备迎接不速之客。",
-      "action": "teleport"
+      "action": {
+        "type": "teleport"
+      }
     },
     "stay_action": {
       "speaker": "旁白",

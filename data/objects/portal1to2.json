@@ -8,5 +8,6 @@
     "targetMap": "map2",
     "targetX": 400,
     "targetY": 400
-  }
+  },
+  "singleInteraction": false
 }
