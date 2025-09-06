@@ -12,7 +12,9 @@
     "teleport_action": {
       "speaker": "旁白",
       "dialogue": "你返回了起源之地。",
-      "action": "teleport"
+      "action": {
+        "type": "teleport"
+      }
     },
     "stay_action": {
       "speaker": "旁白",

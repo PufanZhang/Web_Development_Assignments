@@ -32,7 +32,9 @@
     "end": {
       "speaker": "旁白",
       "dialogue": "战斗开始！",
-      "action": "minigameFTG"
+      "action": {
+        "type": "minigameFTG"
+      }
     }
   }
 }
