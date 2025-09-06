@@ -205,7 +205,7 @@ function goBack() {
     } else if (document.getElementById('achievementModal').style.display === 'block') {
         closeModal();
     } else {
-        alert('系统：已在主界面');
+        window.location.href = '/index.html';
     }
 }
 
@@ -276,3 +276,7 @@ function logout() {
 }
 
 window.addEventListener('beforeunload', logout);
+window.openCategory = openCategory;
+window.closeModal = closeModal;
+window.closeDetail = closeDetail;
+window.goBack = goBack;
