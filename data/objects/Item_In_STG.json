@@ -1,0 +1,11 @@
+{
+  "id": "Item_In_STG",
+  "image": "assets/images/Item_STG.png",
+  "x": 200,
+  "y": 400,
+  "width": 50,
+  "height": 50,
+  "storyKey": "story_shooting_intro",
+  "showPrompt": true,
+  "singleInteraction": false
+}

@@ -33,7 +33,7 @@
       "speaker": "旁白",
       "dialogue": "战斗开始！",
       "action": {
-        "type": "minigameFTG"
+        "type": "FTG"
       }
     }
   }

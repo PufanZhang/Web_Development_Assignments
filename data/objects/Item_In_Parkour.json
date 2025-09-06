@@ -1,0 +1,11 @@
+{
+  "id": "Item_In_Parkour",
+  "image": "assets/images/Item_Parkour.png",
+  "x": 600,
+  "y": 200,
+  "width": 50,
+  "height": 50,
+  "storyKey": "story_parkour_intro",
+  "showPrompt": true,
+  "singleInteraction": false
+}

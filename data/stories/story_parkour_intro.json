@@ -1,0 +1,24 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "speaker": "旁白",
+      "dialogue": "前方是康复训练模拟机，要进行康复训练吗？",
+      "options": [
+        { "text": "进行康复训练", "targetNode": "teleport_action" },
+        { "text": "算了吧", "targetNode": "stay_action" }
+      ]
+    },
+    "teleport_action": {
+      "speaker": "旁白",
+      "dialogue": "随着康复训练模拟机嗡嗡的启动声，你的意识陷入了虚拟世界",
+      "action": {
+        "type": "Parkour"
+      }
+    },
+    "stay_action": {
+      "speaker": "旁白",
+      "dialogue": "你决定暂时留在这里，继续探索一番。"
+    }
+  }
+}
