@@ -1,0 +1,22 @@
+{
+  "startNode": "start",
+  "nodes": {
+    "start": {
+      "speaker": "沙发",
+      "dialogue": "这是一个给探望病人的访客设计的沙发。",
+      "nextNode": "end"
+    },
+    "end": {
+      "speaker": "沙发",
+      "dialogue": "沙发有点凹陷，好像不久前有人坐过一样。",
+      "nextNode": "changeValue"
+    },
+    "changeValue": {
+      "speaker": "旁白",
+      "dialogue": "（怀疑度增加了。）",
+      "valueChanges": [
+        { "name": "suspicion", "amount": 50 }
+      ]
+    }
+  }
+}

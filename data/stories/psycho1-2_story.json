@@ -1,0 +1,85 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/characterA.png"
+        },
+        {
+          "id": "psycho1-2",
+          "sprite": "assets/images/characterKidnap.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "放下刀！你在干什么？",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/characterA.png"
+        },
+        {
+          "id": "psycho1-2",
+          "sprite": "assets/images/characterKidnap.png"
+        }
+      ],
+      "speaker": "psycho1-2",
+      "dialogue": "我没病！你们非要把我抓紧来…我没病！你们放我们走！",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/characterA.png"
+        },
+        {
+          "id": "psycho1-2",
+          "sprite": "assets/images/characterKidnap.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "先把刀放下！冷静冷静，你告诉我你想要什么？",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/characterA.png"
+        },
+        {
+          "id": "psycho1-2",
+          "sprite": "assets/images/characterKidnap.png"
+        }
+      ],
+      "speaker": "psycho1-2",
+      "dialogue": "放我出去！要不然……要不然我就杀了她！",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/characterA.png"
+        },
+        {
+          "id": "psycho1-2",
+          "sprite": "assets/images/characterKidnap.png"
+        }
+      ],
+      "speaker": "psycho1-2",
+      "dialogue": "我代替她可以吗？我比她更熟悉这块儿的地形，你挟持我，有利于你离开医院。",
+      "nextNode": "end"
+    },
+    "end": {
+      "speaker": "psycho1-2",
+      "dialogue": "我代替她可以吗？我比她更熟悉这块儿的地形，你挟持我，有利于你离开医院。",
+      "nextNode": "end"
+    }
+  }
+}

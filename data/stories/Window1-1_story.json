@@ -1,0 +1,9 @@
+{
+  "startNode": "start",
+  "nodes": {
+    "start": {
+      "speaker": "窗户",
+      "dialogue": "这里是一家医院的临街高级病房。你看到外面有一个男人行踪有点诡异。"
+    }
+  }
+}

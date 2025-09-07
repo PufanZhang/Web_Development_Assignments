@@ -1,0 +1,19 @@
+{
+  "startNode": "start",
+  "nodes": {
+    "start": {
+      "speaker": "宣传屏幕",
+      "dialogue": "“联合防卫军各界对参与冰川行动的战斗英雄予以最崇高的敬意。”",
+      "nextNode": "node1"
+    },
+    "node1": {
+      "speaker": "宣传屏幕",
+      "dialogue": "“人类防线不断巩固，战争局势即将扭转！”",
+      "nextNode": "node2"
+    },
+    "end": {
+      "speaker": "宣传屏幕",
+      "dialogue": "“防卫军总部：火山星安全基地已完成建设 目前前往火山星特别通路已开放！”"
+    }
+  }
+}

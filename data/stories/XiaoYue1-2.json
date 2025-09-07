@@ -1,0 +1,89 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "scene": [
+        {
+          "id": "刘小月",
+          "sprite": "assets/images/characterA.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/characterKidnap.png"
+        }
+      ],
+      "speaker": "刘小月",
+      "dialogue": "呜呜呜大哥哥…谢谢你救了我！",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        {
+          "id": "刘小月",
+          "sprite": "assets/images/characterA.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/characterKidnap.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "没事没事小朋友你的伤口怎么样？怎么一个人在这里？你的家人呢？我把你送回去吧。",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        {
+          "id": "刘小月",
+          "sprite": "assets/images/characterA.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/characterKidnap.png"
+        }
+      ],
+      "speaker": "刘小月",
+      "dialogue": "我是自己来的…我姐姐这一阵身体不太好，每周都要吃药，我今天是来给她取药的。",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "speaker": "旁白",
+      "dialogue": "你担心惊慌失措的小女孩接下来自己会遇到其他的危险。",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "speaker": "旁白",
+      "dialogue": "但是你自己也昏迷了太长时间，记忆也缺失了不少，你迫切地想找一个人给你解释到底发生了什么…",
+      "nextNode": "node6"
+    },
+    "node6": {
+      "speaker": "旁白",
+      "dialogue": "但是你自己也昏迷了太长时间，记忆也缺失了不少，你迫切地想找一个人给你解释到底发生了什么…",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "speaker": "旁白",
+      "dialogue": "这时，你的电话突然响起。",
+      "nextNode": "node8"
+    },
+    "node8": {
+      "speaker": "旁白",
+      "dialogue": "“唐梓？你醒来了！你在哪里怎么不在病房呢？你收了很严重的伤，不要到处乱跑。”",
+      "nextNode": "node9"
+    },
+    "node9": {
+      "speaker": "旁白",
+      "dialogue": "听上去是一个熟人，你犹豫了……",
+      "options": [
+        {
+          "text": "把小女孩送回家",
+          "targetNode": "teleport_action"
+        },
+        {
+          "text": "回到医院找熟人问清楚到底发生了什么",
+          "targetNode": "stay_action"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "speaker": "旁白",
+      "dialogue": "一出门，耀眼的阳光扑面而来",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "speaker": "旁白",
+      "dialogue": "你脑海中又闪过战舰爆炸时候的白光，头又开始疼了。",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "speaker": "旁白",
+      "dialogue": "摇了摇头，你抬眼看到许多人慌乱的从你面前跑过，而前方有一个包围圈子。",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "speaker": "旁白",
+      "dialogue": "一个穿着病号服的人站在路中间，手中的刀架在小姑娘的脖子上，已经漏出丝丝血痕。。",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "speaker": "旁白",
+      "dialogue": "他面目狰狞，看起来已经神志不清。",
+      "nextNode": "node6"
+    },
+    "node6": {
+      "speaker": "旁白",
+      "dialogue": "你看着周围看热闹的人民，觉得自己有能力且必须做点什么。",
+      "nextNode": "end"
+    },
+    "end": {
+      "speaker": "旁白",
+      "dialogue": "精神病迟疑着松开了小女孩，你猛然冲了上去，和他扭打在了一起。"
+    }
+  }
+}
