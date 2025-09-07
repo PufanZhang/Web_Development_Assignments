@@ -1,8 +1,8 @@
 {
-    "id": "window",
+    "id": "Window1-1",
     
     "x": 800, "y": 200, "width": 50, "height": 50,
 
     "showPrompt": true,
-    "storyKey": "windows"
+    "storyKey": "Window1-1_story"
 }
