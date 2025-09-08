@@ -1,0 +1,39 @@
+{
+  "startNode": "start",
+  "nodes": {
+    "start": {
+      "speaker": "李海峰",
+      "dialogue": "（看到你来，惊喜地站起来）唐梓，你醒啦！你还记得我是谁吗？",
+      "nextNode": "next1"
+    },
+    "next1":{
+        "speaker": "唐梓",
+        "dialogue": "当然记得！忘了谁都不能忘了我的队长……队长我们现在是什么情况？",
+        "nextNode": "next2"
+    },
+    "next2":{
+        "speaker": "李海峰",
+        "dialogue": "（面无表情地低头沉思）看起来你也有比较严重的记忆缺失情况……（抬头看你正在看他，微笑起来）这是正常的情况，你也不用担心……我们当时受到了爆炸产生的巨大冲击波影响，导致记忆产生了一部分缺失，我一开始什么都记不起来，慢慢就好了。",
+        "nextNode": "next3"
+    },
+    "next3":{
+        "speaker": "唐梓",
+        "dialogue": "但是我实在记不起来之前到底发生过什么了……我们是在什么任务中受到了这么严重的伤害啊？",
+        "nextNode": "next4"
+    },
+    "next4":{
+        "speaker": "李海峰",
+        "dialogue": "（沉默）等会有别的部队的代表回来看望我们。到时候我会给大家讲解细节。",
+        "nextNode": "next5"
+    },
+    "next5":{
+        "speaker": "唐梓",
+        "dialogue": "（疑惑地）好吧。"
+    },
+    "action":{
+        "type": "action"
+    }
+
+    
+  }
+}

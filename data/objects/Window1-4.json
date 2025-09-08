@@ -1,5 +1,6 @@
 {
     "name":"Window1-4",
+    "image":"",
     "x": 800, "y": 200, "width": 50, "height": 50,
     
     "storyKey": "Window1-4_story",

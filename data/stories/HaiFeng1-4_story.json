@@ -1,0 +1,88 @@
+{
+  "startNode": "start",
+  "nodes": {
+    "start": {
+      "speaker": "李海峰",
+      "dialogue": "还真是巧啊！没想到唐梓刚从昏迷中苏醒，就为我们联合防卫队保住了一株未来的幼苗呢！",
+      "nextNode": "next1"
+    },
+    "next1":{
+        "speaker": "唐梓",
+        "dialogue": "哈哈哈这没什么的，保护百姓本来就是我应该做的。",
+        "nextNode": "next2"
+    },
+    "next2":{
+        "speaker": "刘小星",
+        "dialogue": "不过你们也真厉害！不愧是“冰山行动”的战斗英雄。",
+        "nextNode": "next3"
+    },
+    "next3":{
+        "speaker": "李海峰",
+        "dialogue": "但是我没能保住我们其他的战友……我对不起他们。",
+        "nextNode": "next4"
+    },
+    "next4":{
+        "speaker": "旁白",
+        "dialogue": "你和刘小星看着李海峰，示意让他说下去。",
+        "nextNode": "next5"
+    },
+    "next5":{
+        "speaker": "李海峰",
+        "dialogue": "那时我们的空间雷达突然发出警报，发现敌人的巨型飞船正在静默潜行靠近太阳系，总部认定这是智械发起的一次偷袭，于是让我带着一支特战队暗中靠近飞船实行原子爆破行动。可没想到，去之前说好回来一起庆功，但是我只带回了唐梓一个人……",
+        "nextNode": "next6"
+    },
+    "next6":{
+        "speaker": "刘小星",
+        "dialogue": "那艘飞船是……？",
+        "nextNode": "next7"
+    },
+    "next7":{
+        "speaker": "李海峰",
+        "dialogue": "对，那艘飞船就是“冰川号”。",
+        "nextNode": "next8"
+    },
+    "next8":{
+        "speaker": "旁白",
+        "dialogue": "你若有所思，你和战友一起在飞船上安装原子弹，暴露后紧急逃脱的记忆逐渐浮现。但这些回忆依然不甚模糊，很多细节仿佛被锁死了一样。",
+        "nextNode": "next9"
+    },
+    "next9":{
+        "speaker": "李海峰",
+        "dialogue": "唐梓，你以后有时间去烈士陵园转转吧，也看看替我们牺牲的战友们，说不定就能多想起来一些事情呢。",
+        "nextNode": "next10",
+        "options": [
+            {
+            "text": "追问",
+            "targetNode": "A"
+            },
+            { "text": "沉思", "targetNode": "B" }
+        ]
+    },
+    "A":{
+        "speaker": "唐梓",
+        "dialogue": "队长，是您把我从飞船上救出来的吗？",
+        "nextNode": "next11"
+    },
+    "next11":{
+        "speaker": "李海峰",
+        "dialogue": "（看着唐梓，犹豫了一会）其实是你把我救了出来。当时“冰川号”马上就要爆炸了，我看你没有及时撤退，就从逃生艇上下来回去找你，结果没想到逃生艇被下了陷阱，反而是找你的我活了下来……",
+        "nextNode": "next12"
+    },
+    "next12":{
+        "speaker": "旁白",
+        "dialogue": "说到这里，海峰留下了眼泪，大家都说不出话。",
+        "nextNode": "B"
+    },
+    "B":{
+        "speaker": "旁白",
+        "dialogue": "又寒暄了几句，李海峰和刘小星就离开了病房，留下你一个人。"
+    },
+    
+
+    "action":{
+        "type": "action"
+    }
+
+    
+  }
+}

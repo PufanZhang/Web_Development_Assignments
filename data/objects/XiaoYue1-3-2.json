@@ -1,0 +1,12 @@
+{
+  "id": "XiaoYue1-3-2",
+  "image": "assets/images/sister.png",
+  "x": 1100,
+  "y": 450,
+  "width": 100,
+  "height": 100,
+  "storyKey": "XiaoYue1-2_story",
+  "singleInteraction": true,
+
+  "showPrompt": true
+}

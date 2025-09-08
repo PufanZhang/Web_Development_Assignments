@@ -1,5 +1,6 @@
 {
     "name":"couch1-3-1",
+    "image":"",
     "x":850, "y": 400, "width": 50, "height": 20,
     "storyKey": "couch1-3-1_story",
     "showPrompt": true,
