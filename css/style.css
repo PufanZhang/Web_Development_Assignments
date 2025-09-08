@@ -30,7 +30,6 @@ body, html {
     background-image: url('../assets/images/player.png');
     background-size: 100px 100px;
 }
-
 .interactable-object {
     position: absolute;
     background-size: 100px 100px;
@@ -105,9 +104,6 @@ body, html {
 
 .dimmed {
     filter: brightness(0.5);
-}
-
-#dialogue-content {
 }
 
 /* --- （调试用）墙体样式 --- */

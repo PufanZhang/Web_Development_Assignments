@@ -175,8 +175,8 @@ async function initializeGame() {
 
         // 使用后端返回的数据来确定初始位置
         const initialMap = playerData.address ? playerData.address.map : "map1";
-        const initialX = playerData.address ? playerData.address.x : 400;
-        const initialY = playerData.address ? playerData.address.y : 300;
+        const initialX = playerData.address ? playerData.address.x : 1000;
+        const initialY = playerData.address ? playerData.address.y : 1000;
 
         await loadMapAt(initialMap, initialX, initialY);
 

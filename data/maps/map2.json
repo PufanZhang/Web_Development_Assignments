@@ -7,5 +7,5 @@
     { "x": 0, "y": 0, "width": 160, "height": 100 },
     { "x": 0, "y": 890, "width": 160, "height": 100 }
   ],
-  "objects": [ "item_in_another_01", "portal2to1", "high_suspicion_item" ]
+  "objects": ["psychol1-2","Screen1-2","XiaoYue1-2"]
 }

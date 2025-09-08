@@ -5,11 +5,11 @@
       "scene": [
         {
           "id": "唐梓",
-          "sprite": "assets/images/characterA.png"
+          "sprite": "assets/images/Tang.jpg"
         },
         {
           "id": "psycho1-2",
-          "sprite": "assets/images/characterKidnap.png"
+          "sprite": "assets/images/shen.png"
         }
       ],
       "speaker": "唐梓",
@@ -20,11 +20,11 @@
       "scene": [
         {
           "id": "唐梓",
-          "sprite": "assets/images/characterA.png"
+          "sprite": "assets/images/Tang.jpg"
         },
         {
           "id": "psycho1-2",
-          "sprite": "assets/images/characterKidnap.png"
+          "sprite": "assets/images/shen.png"
         }
       ],
       "speaker": "psycho1-2",
@@ -35,11 +35,11 @@
       "scene": [
         {
           "id": "唐梓",
-          "sprite": "assets/images/characterA.png"
+          "sprite": "assets/images/Tang.jpg"
         },
         {
           "id": "psycho1-2",
-          "sprite": "assets/images/characterKidnap.png"
+          "sprite": "assets/images/shen.png"
         }
       ],
       "speaker": "唐梓",
@@ -50,11 +50,11 @@
       "scene": [
         {
           "id": "唐梓",
-          "sprite": "assets/images/characterA.png"
+          "sprite": "assets/images/Tang.jpg"
         },
         {
           "id": "psycho1-2",
-          "sprite": "assets/images/characterKidnap.png"
+          "sprite": "assets/images/shen.png"
         }
       ],
       "speaker": "psycho1-2",
@@ -65,11 +65,11 @@
       "scene": [
         {
           "id": "唐梓",
-          "sprite": "assets/images/characterA.png"
+          "sprite": "assets/images/Tang.jpg"
         },
         {
           "id": "psycho1-2",
-          "sprite": "assets/images/characterKidnap.png"
+          "sprite": "assets/images/shen.png"
         }
       ],
       "speaker": "psycho1-2",
@@ -79,7 +79,14 @@
     "end": {
       "speaker": "psycho1-2",
       "dialogue": "我代替她可以吗？我比她更熟悉这块儿的地形，你挟持我，有利于你离开医院。",
-      "nextNode": "end"
+      "nextNode": "end1"
+    },
+    "end1": {
+      "speaker": "旁白",
+      "dialogue": "战斗开始！",
+      "action": {
+        "type": "FTG"
+      }
     }
   }
 }

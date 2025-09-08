@@ -1,11 +1,18 @@
 {
-  "startNode": "start",
+  "startNode": "node_topic",
   "nodes": {
+    "node_topic": {
+      "speaker": "旁白",
+      "dialogue": "你发现了一张报纸",
+      "displayImage": "assets/images/newspaper.jpg",
+      "nextNode": "start"
+    },
     "start": {
       "speaker": "报纸上",
       "dialogue": "一周前，联合防卫队以近乎全军覆没的代价重创智械战舰——冰川号。",
       "nextNode": "end"
     },
+    
     "end": {
       "speaker": "报纸上",
       "dialogue": "除小队队长和一名队员重伤外，其余战士全部牺牲。"

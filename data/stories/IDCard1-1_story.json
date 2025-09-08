@@ -2,8 +2,9 @@
   "startNode": "start",
   "nodes": {
     "start": {
-      "speaker": "身份牌",
-      "dialogue": "联合防卫队队员——唐梓"
+      "speaker": "旁白",
+      "dialogue": "联合防卫队队员——唐梓",
+      "displayImage": "assets/images/ID.png"
     }
   }
 }

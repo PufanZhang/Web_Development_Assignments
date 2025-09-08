@@ -5,11 +5,11 @@
       "scene": [
         {
           "id": "刘小月",
-          "sprite": "assets/images/characterA.png"
+          "sprite": "assets/images/sister.png"
         },
         {
           "id": "唐梓",
-          "sprite": "assets/images/characterKidnap.png"
+          "sprite": "assets/images/Tang.jpg"
         }
       ],
       "speaker": "刘小月",
@@ -20,11 +20,11 @@
       "scene": [
         {
           "id": "刘小月",
-          "sprite": "assets/images/characterA.png"
+          "sprite": "assets/images/sister.png"
         },
         {
           "id": "唐梓",
-          "sprite": "assets/images/characterKidnap.png"
+          "sprite": "assets/images/Tang.jpg"
         }
       ],
       "speaker": "唐梓",
@@ -35,11 +35,11 @@
       "scene": [
         {
           "id": "刘小月",
-          "sprite": "assets/images/characterA.png"
+          "sprite": "assets/images/sister.png"
         },
         {
           "id": "唐梓",
-          "sprite": "assets/images/characterKidnap.png"
+          "sprite": "assets/images/Tang.jpg"
         }
       ],
       "speaker": "刘小月",

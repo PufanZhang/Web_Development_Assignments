@@ -1,7 +1,8 @@
 {
   "id": "IDCard1-1",
-  "image": "assets/images/ID.jpg",
-  "x": 1000, "y": 400, "width": 50, "height": 50,
+  "image": "assets/images/ID.png",
+  "x": 1150, "y": 250, "width": 50, "height": 50,
   "storyKey": "IDCard1-1_story",
+  "singleInteraction": true,
   "showPrompt": true
 }
