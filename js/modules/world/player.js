@@ -1,9 +1,9 @@
-import { PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_SPEED } from '../../config.js';
+import { PLAYER_WIDTH, PLAYER_HEIGHT, PLAYER_SPEED, PLAYER_INITIAL_X, PLAYER_INITIAL_Y } from '../../config.js';
 
 export const player = {
     element: document.getElementById('player'),
-    x: 400,
-    y: 300,
+    x: PLAYER_INITIAL_X,
+    y: PLAYER_INITIAL_Y,
     speed: PLAYER_SPEED,
     width: PLAYER_WIDTH,
     height: PLAYER_HEIGHT,

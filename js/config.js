@@ -3,7 +3,9 @@
 // 玩家相关配置
 export const PLAYER_WIDTH = 100;
 export const PLAYER_HEIGHT = 100;
-export const PLAYER_SPEED = 2; // 玩家的移动速度
+export const PLAYER_SPEED = 2;
+export const PLAYER_INITIAL_X = 800;
+export const PLAYER_INITIAL_Y = 800;
 
 // 交互相关配置
 export const INTERACTION_RADIUS = 150; // 可交互对象的检测半径

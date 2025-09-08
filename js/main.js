@@ -5,7 +5,7 @@ import { handlePlayerCollision } from './modules/world/collision.js';
 import { interactionManager } from './modules/world/interaction.js';
 import { dialogueManager } from './modules/world/dialogue.js';
 import { debugManager } from './debug.js';
-
+import { PLAYER_INITIAL_X, PLAYER_INITIAL_Y} from "./config";
 
 // --- 全局游戏状态 ---
 window.gameMode = 'map'; // 'map' 或 'dialogue'
@@ -175,8 +175,8 @@ async function initializeGame() {
 
         // 使用后端返回的数据来确定初始位置
         const initialMap = playerData.address ? playerData.address.map : "Map1-3-1";
-        const initialX = playerData.address ? playerData.address.x : 700;
-        const initialY = playerData.address ? playerData.address.y : 700;
+        const initialX = playerData.address ? playerData.address.x : PLAYER_INITIAL_X;
+        const initialY = playerData.address ? playerData.address.y : PLAYER_INITIAL_Y;
 
         await loadMapAt(initialMap, initialX, initialY);
 
