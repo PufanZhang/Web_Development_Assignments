@@ -164,7 +164,7 @@ impl PlayerData {
         PlayerData {
             username: username.to_string(),
             address: PlayerPosition {
-                map: "map1".to_string(),
+                map: String::new(),
                 x: 400.0,
                 y: 300.0,
             },
