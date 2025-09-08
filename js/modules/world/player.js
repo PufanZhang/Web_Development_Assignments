@@ -7,8 +7,8 @@ export const player = {
     speed: PLAYER_SPEED,
     width: PLAYER_WIDTH,
     height: PLAYER_HEIGHT,
-    targetX: 0,
-    targetY: 0,
+    targetX: PLAYER_INITIAL_X,
+    targetY: PLAYER_INITIAL_Y,
     keysPressed: { w: false, a: false, s: false, d: false },
 
     init() {

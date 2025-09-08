@@ -1,14 +1,14 @@
 // --- 游戏全局配置文件 ---
 
 // 初始地图
-export const INITIAL_MAP = "Map1";
+export const INITIAL_MAP = "map1";
 
 // 玩家相关配置
 export const PLAYER_WIDTH = 100;
 export const PLAYER_HEIGHT = 100;
 export const PLAYER_SPEED = 2;
 export const PLAYER_INITIAL_X = 800;
-export const PLAYER_INITIAL_Y = 800;
+export const PLAYER_INITIAL_Y = 600;
 
 // 交互相关配置
 export const INTERACTION_RADIUS = 150; // 可交互对象的检测半径

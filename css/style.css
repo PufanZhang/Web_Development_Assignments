@@ -238,3 +238,14 @@ body, html {
 #game-container.visible {
     opacity: 1;
 }
+
+/* --- （调试用）坐标系标尺样式 --- */
+#debug-ruler {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999; /* 一个较高的层级，确保它在地图上，但在UI元素之下 */
+    pointer-events: none; /* 使Canvas对鼠标事件“透明”，这样你仍然可以点击游戏内容 */
+}

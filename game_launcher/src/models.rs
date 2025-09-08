@@ -165,8 +165,8 @@ impl PlayerData {
             username: username.to_string(),
             address: PlayerPosition {
                 map: String::new(),
-                x: 400.0,
-                y: 300.0,
+                x: -1.0,
+                y: -1.0,
             },
             values: initial_values,
             achievements: Vec::new(),
