@@ -1,0 +1,178 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterA.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/characterKidnap.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "（看到你来，惊喜地站起来）唐梓，你还记得我是谁吗？",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterA.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/characterKidnap.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "当然记得！忘了谁都不能忘了队长……那队长我们现在是什么情况？",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterA.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/characterKidnap.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "（面无表情地低头沉思）看起来你也有比较严重的记忆缺失情况……",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterA.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/characterKidnap.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "（抬头看你正在看他，微笑起来）这是正常的情况，你也不用担心……",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterA.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/characterKidnap.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "我们当时受到了爆炸产生的巨大冲击波影响，导致记忆产生了一部分缺失，",
+      "nextNode": "node6"
+    },
+    "node6": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterA.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/characterKidnap.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "但是我实在记不起来之前到底发生过什么了……报纸上的冰川行动是我们执行的任务吗？",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterA.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/characterKidnap.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "我们的战友……他们……这次行动的伤亡怎么会这么大？",
+      "nextNode": "node8"
+    },
+    "node8": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterA.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/characterKidnap.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "（沉默）",
+      "nextNode": "node9"
+    },
+    "node9": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterA.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/characterKidnap.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "我一开始也什么都记不起来，慢慢就好了。",
+      "nextNode": "node10"
+    },
+    "node10": {
+      "speaker": "旁白",
+      "dialogue": "李海峰的沉默",
+      "options": [
+        {
+          "text": "为逝去的队友伤心。",
+          "targetNode": "transport map1-4"
+        },
+        {
+          "text": "有别的难言之隐。",
+          "targetNode": "changeValue"
+        }
+      ]
+    },
+    "changeValue": {
+      "speaker": "旁白",
+      "dialogue": "怀疑度上升了",
+      "valueChanges": [
+        {
+          "name": "suspicion",
+          "amount": 50
+        }
+      ],
+      "nextNode": "node11"
+    },
+    "node11": {
+      "scene":
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterA.png"
+        },
+      "speaker": "李海峰",
+      "dialogue": "（疑惑地）好吧。",
+      "nextNode": "transport map1-4"
+    }
+  }
+}
+
+
+

@@ -1,0 +1,29 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "speaker": "旁白",
+      "dialogue": "你对眼前的一切都充满了疑惑，急切地想知道之前都发生了什么。",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "speaker": "旁白",
+      "dialogue": "你进入了醒来的病房，发现有一个熟悉的面孔坐在沙发上，给你的感觉如此亲切。",
+      "nextNode": "end"
+    },
+    "node3": {
+      "speaker": "旁白",
+      "dialogue": "你脑海中浮现出了你和他并肩作战的画面——",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "speaker": "旁白",
+      "dialogue": "原来他是你的老队长李海峰！",
+      "nextNode": "end"
+    },
+    "end": {
+      "speaker": "旁白",
+      "dialogue": "你心潮澎湃，遇到了一个熟悉的人。"
+    }
+  }
+}
