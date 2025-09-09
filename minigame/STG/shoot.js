@@ -478,15 +478,7 @@ function updateBossHealth() {
         if (boss) {
             let healthPercent = (boss.health / BOSS_HEALTH) * 100;
             document.getElementById('boss-health-bar').style.width = healthPercent + '%';
-
-            // 根据血量改变血条颜色
-            if (healthPercent > 70) {
-                document.getElementById('boss-health-bar').style.background = 'linear-gradient(to right, #4CAF50, #8BC34A)';
-            } else if (healthPercent > 30) {
-                document.getElementById('boss-health-bar').style.background = 'linear-gradient(to right, #FFC107, #FF9800)';
-            } else {
-                document.getElementById('boss-health-bar').style.background = 'linear-gradient(to right, #F44336, #FF5722)';
-            }
+            document.getElementById('boss-health-bar').style.background = 'linear-gradient(to right, #F44336, #FF5722)';
 
             if (boss.health <= 0) {
                 // Boss被击败
