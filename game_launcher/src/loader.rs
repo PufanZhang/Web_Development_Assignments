@@ -77,19 +77,19 @@ pub async fn load_and_pack_map_data(map_id: &str, player_data: &Option<PlayerDat
 
     let all_game_objects: Vec<GameObject> = try_join_all(object_futures).await?;
     println!("  -> 已加载 {} 个物件", all_game_objects.len());
-    
-    let filtered_objects: Vec<GameObject> = all_game_objects
-        .into_iter()
-        .filter(|obj| should_display_object(obj, player_data))
-        .collect();
-    println!("  -> 过滤后剩下 {} 个物件", filtered_objects.len());
 
+    let (visible_objects, latent_objects): (Vec<GameObject>, Vec<GameObject>) = all_game_objects
+        .into_iter()
+        .partition(|obj| should_display_object(obj, player_data));
+    println!("  -> 过滤后剩下 {} 个可见物件和 {} 个潜在物件", visible_objects.len(), latent_objects.len());
 
     let mut asset_manifest = vec![map_info.background.clone()];
-    for obj in &filtered_objects {
+    for obj in &visible_objects {
         asset_manifest.push(obj.image.clone());
     }
-    // 去重
+    for obj in &latent_objects {
+        asset_manifest.push(obj.image.clone());
+    }
     asset_manifest.sort();
     asset_manifest.dedup();
     println!("  -> 生成了包含 {} 个图片的资源清单", asset_manifest.len());
@@ -98,7 +98,8 @@ pub async fn load_and_pack_map_data(map_id: &str, player_data: &Option<PlayerDat
         name: map_info.name,
         background: map_info.background,
         walls: map_info.walls,
-        objects: filtered_objects,
+        objects: visible_objects,
+        latent_objects,
         width: map_info.width,
         height: map_info.height,
         entry_story_key: map_info.entry_story_key,

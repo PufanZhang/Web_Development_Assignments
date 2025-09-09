@@ -1,5 +1,5 @@
 import { gameState, getCurrentUser, loader } from './modules/dataManager.js';
-import { buildMap, clearMap } from './modules/world/builder.js';
+import { buildMap, clearMap, buildObject } from './modules/world/builder.js';
 import { player } from './modules/world/player.js';
 import { handlePlayerCollision } from './modules/world/collision.js';
 import { interactionManager } from './modules/world/interaction.js';
@@ -22,9 +22,90 @@ let currentMap = {
     id: null,
     walls: [],
     interactableObjects: [],
+    latentObjects: [],
     width: 0,
     height: 0
 };
+
+// 检查单个条件
+function checkCondition(condition) {
+    const userValue = gameState.getValue(condition.name);
+    const requiredValue = condition.value;
+
+    // 注意：这里的比较符是 snake_case 格式，与后端 models.rs 中的 Comparison 枚举对应
+    console.log(`正在比较数值：${requiredValue}, 比较类别：${condition.comparison}`);
+    switch (condition.comparison) {
+        case 'greater_than':
+            return userValue > requiredValue;
+        case 'less_than':
+            return userValue < requiredValue;
+        case 'equal':
+            return userValue === requiredValue;
+        case 'greater_than_or_equal':
+            return userValue >= requiredValue;
+        case 'less_than_or_equal':
+            return userValue <= requiredValue;
+        case 'not_equal':
+            return userValue !== requiredValue;
+        default:
+            return false;
+    }
+}
+
+// 检查一个物品的所有条件
+function shouldDisplayObject(obj) {
+    // 如果物品没有 requiredValues 字段，则默认应该显示
+    if (!obj.requiredValues || !obj.requiredValues.conditions) {
+        return true;
+    }
+
+    const { logic, conditions } = obj.requiredValues;
+
+    if (logic && logic.toUpperCase() === 'OR') {
+        // OR 逻辑：只要有一个条件满足即可
+        return conditions.some(checkCondition);
+    } else {
+        // AND 逻辑 (默认逻辑)：所有条件都必须满足
+        return conditions.every(checkCondition);
+    }
+}
+
+// 检查并动态添加物品的主函数
+function checkDynamicObjects() {
+    if (!currentMap.latentObjects || currentMap.latentObjects.length === 0) {
+        return;
+    }
+    console.log(`正在检查 ${currentMap.latentObjects.length} 个潜在物品...`);
+    const newlyVisibleObjectsData = [];
+    const remainingLatentObjects = [];
+
+    // 遍历所有潜在物品，进行分组
+    currentMap.latentObjects.forEach(objData => {
+        if (shouldDisplayObject(objData)) {
+            newlyVisibleObjectsData.push(objData);
+        } else {
+            remainingLatentObjects.push(objData);
+        }
+    });
+
+    // 如果有新出现的物品
+    if (newlyVisibleObjectsData.length > 0) {
+        console.log(`✨ 发现 ${newlyVisibleObjectsData.length} 个新物品可以显示！`);
+        const newInteractableObjects = [];
+
+        newlyVisibleObjectsData.forEach(objData => {
+            const newObject = buildObject(objData);
+            newInteractableObjects.push(newObject);
+        });
+
+        // 更新地图状态
+        currentMap.interactableObjects = currentMap.interactableObjects.concat(newInteractableObjects);
+        currentMap.latentObjects = remainingLatentObjects;
+
+        // 通知交互管理器，可交互物品列表已更新
+        interactionManager.updateInteractables(currentMap.interactableObjects);
+    }
+}
 
 // 预加载图片的函数
 async function preloadImages(imageUrls) {
@@ -109,7 +190,7 @@ async function loadMapAt(mapId, targetX, targetY) {
 
     const setupMap = () => {
         const { interactableObjects, walls, width, height } = buildMap(packedMapData);
-        currentMap = { id: mapId, interactableObjects, walls, width, height };
+        currentMap = { id: mapId, interactableObjects, walls, width, height, latentObjects: packedMapData.latentObjects || [] };
 
         console.log('开始绘制地图标尺……');
         mapView.style.backgroundImage = `url(${packedMapData.background})`;
@@ -164,6 +245,7 @@ async function initializeGame() {
         currentUser = getCurrentUser();
 
         debugManager.init();
+        gameState.onValueChange(checkDynamicObjects);
 
         const handleTeleport = (teleportData) => {
             loadMapAt(teleportData.targetMap, teleportData.targetX, teleportData.targetY);

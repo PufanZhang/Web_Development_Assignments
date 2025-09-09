@@ -1,6 +1,7 @@
 import {debugManager} from './debug.js';
 
 window.playerDataCache = null;
+const onValueChangeCallbacks = [];
 
 // --- 辅助函数：统一处理 API 请求 ---
 async function apiRequest(endpoint, method = 'GET', body = null) {
@@ -80,6 +81,12 @@ export const loader = {
 
 // --- 游戏存档模块 ---
 export const gameState = {
+    onValueChange(callback) {
+        if (typeof callback === 'function') {
+            onValueChangeCallbacks.push(callback);
+        }
+    },
+
     // 从后端加载玩家数据, username 会从 token 中解析，不需要作为参数
     async loadPlayerData() {
         console.log(`正在从服务器加载当前玩家的数据...`);
@@ -140,6 +147,8 @@ export const gameState = {
                 }
                 debugManager.updateValue(valueName, newValue);
                 console.log(`数值 [${valueName}] 同步成功，新值: ${newValue}`);
+                console.log("数值已变更，正在触发回调...");
+                onValueChangeCallbacks.forEach(cb => cb());
             }
         }
     },

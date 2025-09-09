@@ -1,0 +1,15 @@
+{
+  "id": "test",
+  "image": "assets/images/item_01.png",
+  "x": 800, "y": 750, "width": 50, "height": 50,
+  "storyKey": "high_suspicion_story",
+  "singleInteraction": false,
+  "showPrompt": true,
+  "requiredValues": {
+    "logic": "AND",
+    "conditions": [
+      {"name": "suspicion", "comparison": "greater_than_or_equal", "value": 150},
+      {"name": "conch", "comparison": "equal", "value": 0}
+    ]
+  }
+}
