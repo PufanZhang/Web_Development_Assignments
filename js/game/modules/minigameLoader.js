@@ -1,5 +1,5 @@
-import { gameState } from './modules/dataManager.js';
-import { dialogueManager } from './modules/world/dialogue.js';
+import { gameState } from './dataManager.js';
+import { dialogueManager } from './world/dialogue.js';
 
 export const minigameLoader = {
     async load(minigameName, onWinStory, onLoseStory) {

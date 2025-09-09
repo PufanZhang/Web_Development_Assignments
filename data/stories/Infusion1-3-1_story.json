@@ -1,0 +1,18 @@
+{
+  "startNode": "start",
+  "nodes": {
+    "start": {
+      "speaker": "输液架",
+      "dialogue": "你突然想起来，自己醒来这件事连护士都没发现，这个人是怎么发现自己醒来的？",
+      "nextNode": "changeValue"
+    },
+    
+    "changeValue": {
+      "speaker": "旁白",
+      "dialogue": "（怀疑度又增加了。）",
+      "valueChanges": [
+        { "name": "suspicion", "amount": 50 }
+      ]
+    }
+  }
+}

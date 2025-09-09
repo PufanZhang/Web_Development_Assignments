@@ -1,0 +1,12 @@
+{
+  "startNode": "start",
+  "nodes": {
+    "start": {
+      "speaker": "旁白",
+      "dialogue": "你听到外面有嘈杂的声音，决定出门看一看。",
+      "action":{
+        "type":"teleport"
+      }
+    }
+  }
+}

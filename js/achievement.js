@@ -1,5 +1,4 @@
-// 成就数据 - 完全按照您要求的数量
-import { auth, gameState} from "./modules/dataManager.js";
+import { auth, gameState} from "./game/modules/dataManager.js";
 
 const achievementData = {
     memory: [

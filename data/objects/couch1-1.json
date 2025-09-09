@@ -1,7 +1,7 @@
 {
     "id": "couch1-1",
-    
-    "x": 100, "y": 700, "width": 500, "height": 100,
+    "image": "",
+    "x":850, "y": 400, "width": 50, "height": 20,
     "showPrompt": true,
     "storyKey": "couch1-1_story"
 }

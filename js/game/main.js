@@ -4,8 +4,9 @@ import { player } from './modules/world/player.js';
 import { handlePlayerCollision } from './modules/world/collision.js';
 import { interactionManager } from './modules/world/interaction.js';
 import { dialogueManager } from './modules/world/dialogue.js';
-import { debugManager } from './debug.js';
-
+import { debugManager } from './modules/debug.js';
+import { PLAYER_INITIAL_X, PLAYER_INITIAL_Y, INITIAL_MAP } from "./config.js";
+import { initDebugRuler, updateDebugRuler } from './modules/ruler.js';
 
 // --- 全局游戏状态 ---
 window.gameMode = 'map'; // 'map' 或 'dialogue'
@@ -13,6 +14,8 @@ let currentUser = null;
 const gameContainer = document.getElementById('game-container'); // 获取视口容器
 const mapView = document.getElementById('map-view'); // 获取地图容器
 const loadingScreen = document.getElementById('loading-screen');
+let cameraX = 0;
+let cameraY = 0;
 
 // --- 当前地图的状态容器 ---
 let currentMap = {
@@ -67,8 +70,8 @@ function updateCamera() {
     const playerCenterX = player.x + player.width / 2;
     const playerCenterY = player.y + player.height / 2;
 
-    let cameraX = playerCenterX - viewportWidth / 2;
-    let cameraY = playerCenterY - viewportHeight / 2;
+    cameraX = playerCenterX - viewportWidth / 2;
+    cameraY = playerCenterY - viewportHeight / 2;
 
     cameraX = Math.max(0, Math.min(cameraX, currentMap.width - viewportWidth));
     cameraY = Math.max(0, Math.min(cameraY, currentMap.height - viewportHeight));
@@ -108,6 +111,7 @@ async function loadMapAt(mapId, targetX, targetY) {
         const { interactableObjects, walls, width, height } = buildMap(packedMapData);
         currentMap = { id: mapId, interactableObjects, walls, width, height };
 
+        console.log('开始绘制地图标尺……');
         mapView.style.backgroundImage = `url(${packedMapData.background})`;
         mapView.style.backgroundColor = '';
 
@@ -118,6 +122,7 @@ async function loadMapAt(mapId, targetX, targetY) {
         player.show();
 
         gameState.saveLocation(mapId, { x: targetX, y: targetY });
+        console.log(`玩家位置：${targetX}, ${targetY}`);
         console.log(`已传送到: ${packedMapData.name || mapId}`);
     };
 
@@ -146,6 +151,7 @@ function gameLoop() {
         handlePlayerCollision(player, currentMap.walls);
         interactionManager.update(player);
         updateCamera();
+        updateDebugRuler(cameraX, cameraY);
     }
     requestAnimationFrame(gameLoop);
 }
@@ -166,6 +172,7 @@ async function initializeGame() {
         dialogueManager.init();
         interactionManager.init(handleTeleport);
         player.init();
+        initDebugRuler();
 
         const playerData = await gameState.loadPlayerData();
         if (!playerData) {
@@ -174,9 +181,9 @@ async function initializeGame() {
         }
 
         // 使用后端返回的数据来确定初始位置
-        const initialMap = playerData.address ? playerData.address.map : "map1";
-        const initialX = playerData.address ? playerData.address.x : 400;
-        const initialY = playerData.address ? playerData.address.y : 300;
+        const initialMap = playerData.address.map ? playerData.address.map : INITIAL_MAP;
+        const initialX = playerData.address.x !== -1.0 ? playerData.address.x : PLAYER_INITIAL_X;
+        const initialY = playerData.address.y !== -1.0 ? playerData.address.y : PLAYER_INITIAL_Y;
 
         await loadMapAt(initialMap, initialX, initialY);
 

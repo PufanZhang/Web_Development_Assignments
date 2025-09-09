@@ -1,4 +1,4 @@
-import { renderDialogue } from '../../dialogue_renderer.js';
+import { renderDialogue } from '../dialogue_renderer.js';
 import { loader, gameState, getCurrentUser } from '../dataManager.js';
 
 const elements = {

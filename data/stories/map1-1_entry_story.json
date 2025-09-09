@@ -9,7 +9,7 @@
     "node2": {
       "speaker": "旁白",
       "dialogue": "你努力回忆之前都发生了什么,但图像模糊又时断时续，不甚清楚。",
-      "nextNode": "end"
+      "nextNode": "node3"
     },
     "node3": {
       "speaker": "旁白",

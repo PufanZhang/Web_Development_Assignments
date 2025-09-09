@@ -1,7 +1,7 @@
 import { dialogueManager } from './dialogue.js';
 import { INTERACTION_RADIUS, BASE_VISUAL_GAP, GAME_LIST } from '../../config.js';
 import { gameState } from '../dataManager.js';
-import { minigameLoader } from '../../minigameLoader.js';
+import { minigameLoader } from '../minigameLoader.js';
 
 let interactableObjects = [];
 let currentInteractable = null;
