@@ -1,4 +1,4 @@
-import { auth } from './modules/dataManager.js';
+import { auth } from './game/modules/dataManager.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 

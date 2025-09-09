@@ -1,4 +1,4 @@
-import {debugManager} from '../debug.js';
+import {debugManager} from './debug.js';
 
 window.playerDataCache = null;
 

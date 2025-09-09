@@ -4,9 +4,9 @@ import { player } from './modules/world/player.js';
 import { handlePlayerCollision } from './modules/world/collision.js';
 import { interactionManager } from './modules/world/interaction.js';
 import { dialogueManager } from './modules/world/dialogue.js';
-import { debugManager } from './debug.js';
+import { debugManager } from './modules/debug.js';
 import { PLAYER_INITIAL_X, PLAYER_INITIAL_Y, INITIAL_MAP } from "./config.js";
-import { initDebugRuler, updateDebugRuler } from './ruler.js';
+import { initDebugRuler, updateDebugRuler } from './modules/ruler.js';
 
 // --- 全局游戏状态 ---
 window.gameMode = 'map'; // 'map' 或 'dialogue'

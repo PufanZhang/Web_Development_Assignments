@@ -1,4 +1,4 @@
-import { minigameLoader } from "../../js/minigameLoader.js";
+import { minigameLoader } from "../../js/game/modules/minigameLoader.js";
 
 // 游戏常量
 const LANE_WIDTH = 100;

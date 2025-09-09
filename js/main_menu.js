@@ -1,4 +1,4 @@
-import { auth, gameState } from "./modules/dataManager.js";
+import { auth, gameState } from "./game/modules/dataManager.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem("jwt_token");

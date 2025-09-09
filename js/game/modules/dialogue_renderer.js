@@ -1,4 +1,4 @@
-import { gameState } from './modules/dataManager.js';
+import { gameState } from './dataManager.js';
 
 /**
  * 这是我们的“对话渲染画师”。
