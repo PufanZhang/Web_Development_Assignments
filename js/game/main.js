@@ -188,40 +188,61 @@ async function loadMapAt(mapId, targetX, targetY) {
     await preloadImages(packedMapData.assetManifest || []);
     clearMap();
 
-    const setupMap = () => {
-        const { interactableObjects, walls, width, height } = buildMap(packedMapData);
-        currentMap = { id: mapId, interactableObjects, walls, width, height, latentObjects: packedMapData.latentObjects || [] };
+    // 在播放入场故事前，就在后台把地图构建好
+    const { interactableObjects, walls, width, height } = buildMap(packedMapData);
+    currentMap = { id: mapId, interactableObjects, walls, width, height, latentObjects: packedMapData.latentObjects || [] };
+    interactionManager.updateInteractables(currentMap.interactableObjects);
 
-        console.log('开始绘制地图标尺……');
+    // 显示已经构建好的地图和玩家
+    const showMap = () => {
         mapView.style.backgroundImage = `url(${packedMapData.background})`;
         mapView.style.backgroundColor = '';
 
-        interactionManager.updateInteractables(currentMap.interactableObjects);
+        // 显示所有可交互的物体
+        currentMap.interactableObjects.forEach(obj => {
+            if (obj.element) {
+                obj.element.style.display = 'block';
+            }
+        });
+
         player.x = targetX;
         player.y = targetY;
+        updateCamera();
         player.updateStyle();
         player.show();
 
         gameState.saveLocation(mapId, { x: targetX, y: targetY });
         console.log(`玩家位置：${targetX}, ${targetY}`);
         console.log(`已传送到: ${packedMapData.name || mapId}`);
+        mapView.classList.add('visible-map');
     };
 
     if (packedMapData.entryStoryKey) {
         console.log(`发现入场故事: ${packedMapData.entryStoryKey}`);
         player.hide();
+
+        // 隐藏所有可交互的物体
+        currentMap.interactableObjects.forEach(obj => {
+            if (obj.element) {
+                obj.element.style.display = 'none';
+            }
+        });
+        mapView.classList.remove('visible-map');
+
         mapView.style.backgroundImage = '';
         mapView.style.backgroundColor = 'black';
         mapView.style.transform = 'translate(0, 0)';
         try {
-            await dialogueManager.start(packedMapData.entryStoryKey, setupMap);
+            // 故事播放完毕后，直接显示之前构建好的地图
+            await dialogueManager.start(packedMapData.entryStoryKey, showMap);
         } catch (error) {
             console.error("启动入场故事时发生错误:", error);
             console.log("对话系统出现异常，已跳过故事并直接加载地图。");
-            setupMap();
+            showMap();
         }
     } else {
-        setupMap();
+        // 如果没有入场故事，直接显示地图
+        showMap();
     }
 }
 
