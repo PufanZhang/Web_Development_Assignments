@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>跑酷小游戏</title>
+    <title>跑酷小游戏 - 改进版</title>
     <link rel="stylesheet" href="/minigame/Parkour/parkour.css">
 </head>
 <body>
@@ -12,6 +12,8 @@
 
     <div id="ui-layer">
         <div class="score-display">得分: <span id="score">0</span></div>
+        <div class="speed-display">速度: <span id="speed">1.0x</span></div>
+        <div class="time-display">时间: <span id="time">0</span>s</div>
         <div class="controls-info">
             操作: A-左移 D-右移 W-跳跃 S-翻滚
         </div>
@@ -36,6 +38,10 @@
                 <div class="instruction-text">金币 - 触碰收集 (+50分)</div>
             </div>
             <div class="instruction-item">
+                <div class="obstacle-preview finish-line-preview"></div>
+                <div class="instruction-text">终点线 - 触碰获胜</div>
+            </div>
+            <div class="instruction-item">
                 <div class="instruction-text">已收集金币: <span id="coins">0</span></div>
             </div>
         </div>
@@ -48,6 +54,23 @@
                 <button class="restart-btn" id="restart-btn">重新开始</button>
                 <button class="home-btn" id="home-btn">返回首页</button>
             </div>
+        </div>
+
+        <div class="victory-screen" id="victory-screen">
+            <h2>胜利！</h2>
+            <div class="victory-stats">
+                <div>完成时间: <span id="finish-time">0</span>秒</div>
+                <div>最终得分: <span id="victory-score">0</span></div>
+                <div>收集金币: <span id="victory-coins">0</span></div>
+            </div>
+            <div class="button-group">
+                <button class="restart-btn" id="victory-restart-btn">再玩一次</button>
+                <button class="home-btn" id="victory-home-btn">返回首页</button>
+            </div>
+        </div>
+
+        <div class="stuck-warning" id="stuck-warning">
+            困死检测激活！障碍物已清除
         </div>
     </div>
 </div>

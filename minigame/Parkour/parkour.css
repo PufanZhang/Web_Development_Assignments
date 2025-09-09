@@ -16,7 +16,7 @@ body {
 
 #game-container {
     position: relative;
-    width: 700px; /* 增加宽度以容纳说明面板 */
+    width: 700px;
     height: 600px;
     overflow: hidden;
     border-radius: 10px;
@@ -25,7 +25,7 @@ body {
 }
 
 #game-canvas {
-    width: 500px; /* 增加画布宽度 */
+    width: 500px;
     height: 100%;
     background: linear-gradient(to bottom, #87CEEB, #E0F7FA);
     z-index: 1;
@@ -51,18 +51,35 @@ body {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+.speed-display {
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    font-size: 18px;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.time-display {
+    position: absolute;
+    top: 90px;
+    left: 20px;
+    font-size: 18px;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
 .controls-info {
     position: absolute;
     bottom: 20px;
     left: 0;
-    width: 500px; /* 与画布宽度一致 */
+    width: 500px;
     text-align: center;
     color: #fff;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     font-size: 16px;
 }
 
-/* 说明面板样式 */
 .instructions-panel {
     position: relative;
     width: 200px;
@@ -71,7 +88,7 @@ body {
     padding: 20px;
     color: white;
     pointer-events: auto;
-    margin-left: auto; /* 将面板推到右侧 */
+    margin-left: auto;
 }
 
 .instructions-panel h3 {
@@ -107,6 +124,12 @@ body {
     background-color: #8D6E63;
 }
 
+.finish-line-preview {
+    background: linear-gradient(90deg, #00ff00 0%, #00ff00 50%, transparent 50%, transparent 100%);
+    background-size: 20px 100%;
+    background-repeat: repeat-x;
+}
+
 .instruction-text {
     font-size: 16px;
     flex: 1;
@@ -126,6 +149,38 @@ body {
     pointer-events: auto;
     z-index: 20;
     width: 300px;
+}
+
+.victory-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+    display: none;
+    pointer-events: auto;
+    z-index: 25;
+    width: 350px;
+}
+
+.victory-screen h2 {
+    color: #FFD700;
+    font-size: 32px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.victory-stats {
+    margin: 20px 0;
+    font-size: 20px;
+}
+
+.victory-stats div {
+    margin: 10px 0;
 }
 
 .game-over h2 {
@@ -168,4 +223,24 @@ body {
 
 .home-btn:hover {
     background: #0b7dda;
+}
+
+.stuck-warning {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 0, 0, 0.7);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 24px;
+    display: none;
+    z-index: 15;
+    animation: pulseWarning 1s infinite;
+}
+
+@keyframes pulseWarning {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
 }

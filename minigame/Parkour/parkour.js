@@ -6,22 +6,30 @@ const LANE_COUNT = 3;
 const PLAYER_SIZE = 40;
 const OBSTACLE_HEIGHT = 50;
 const COIN_SIZE = 20;
+const FINISH_LINE_HEIGHT = 20;
 const GRAVITY = 0.5;
 const JUMP_FORCE = 12;
 const GAME_SPEED_INITIAL = 5;
-const GAME_SPEED_INCREMENT = 0.0005;
+const GAME_SPEED_INCREMENT = 1; // 每30秒增加的速度
+const STUCK_THRESHOLD = 5; // 困死检测阈值（连续障碍数量）
 
 // 游戏变量
 let canvas, ctx;
 let player;
 let obstacles = [];
 let coins = [];
+let finishLine = null;
 let gameSpeed = GAME_SPEED_INITIAL;
+let baseGameSpeed = GAME_SPEED_INITIAL;
 let score = 0;
 let coinsCollected = 0;
 let gameOver = false;
+let gameWon = false;
 let animationId;
 let gameTime = 0;
+let lastSpeedIncreaseTime = 0;
+let consecutiveObstacles = 0;
+let stuckWarningTimer = 0;
 
 // 玩家类
 class Player {
@@ -37,8 +45,8 @@ class Player {
         this.isRolling = false;
         this.rollTimer = 0;
         this.color = '#FF5722';
-        this.scale = 1; // 新增：缩放因子
-        this.baseY = canvas.height - PLAYER_SIZE - 20; // 新增：基准Y坐标
+        this.scale = 1;
+        this.baseY = canvas.height - PLAYER_SIZE - 20;
     }
 
     update() {
@@ -52,7 +60,7 @@ class Player {
 
             // 使用缩放模拟跳跃高度
             const jumpProgress = 1 - (this.velocityY / JUMP_FORCE);
-            this.scale = 1 + jumpProgress * 0.5; // 跳跃时放大50%
+            this.scale = 1 + jumpProgress * 0.5;
 
             if (this.velocityY <= 0) {
                 this.isJumping = false;
@@ -97,9 +105,9 @@ class Player {
             ctx.fillRect(this.width/2 - 15, -this.height/2 + 15, 5, 5);
             // 嘴巴
             if (this.isJumping) {
-                ctx.fillRect(-this.width/2 + 15, -this.height/2 + 30, 10, 3); // 惊讶的嘴
+                ctx.fillRect(-this.width/2 + 15, -this.height/2 + 30, 10, 3);
             } else {
-                ctx.fillRect(-this.width/2 + 15, -this.height/2 + 30, 10, 2); // 正常的嘴
+                ctx.fillRect(-this.width/2 + 15, -this.height/2 + 30, 10, 2);
             }
         }
 
@@ -116,7 +124,7 @@ class Player {
     roll() {
         if (!this.isRolling && !this.isJumping) {
             this.isRolling = true;
-            this.rollTimer = 30; // 翻滚持续时间
+            this.rollTimer = 30;
             this.height = PLAYER_SIZE / 2;
             this.y = canvas.height - this.height - 20;
         }
@@ -138,24 +146,24 @@ class Player {
 // 障碍物类
 class Obstacle {
     constructor(type, lane) {
-        this.type = type; // 0: 地面障碍, 1: 空中障碍, 2: 断桥
+        this.type = type;
         this.lane = lane;
         // 修改x坐标计算，使障碍物在赛道中间
         this.x = (canvas.width / 2 - LANE_WIDTH / 2) + (lane * LANE_WIDTH) + (LANE_WIDTH - (LANE_WIDTH - 10)) / 2;
-        this.y = -OBSTACLE_HEIGHT; // 从屏幕顶部上方生成
+        this.y = -OBSTACLE_HEIGHT;
         this.width = LANE_WIDTH - 10;
         this.height = OBSTACLE_HEIGHT;
         this.passed = false;
 
         // 根据类型设置颜色和高度
         switch(type) {
-            case 0: // 地面障碍
+            case 0:
                 this.color = '#795548';
                 break;
-            case 1: // 空中障碍
+            case 1:
                 this.color = '#FFC107';
                 break;
-            case 2: // 断桥
+            case 2:
                 this.color = '#8D6E63';
                 break;
         }
@@ -175,7 +183,7 @@ class Obstacle {
         ctx.fillStyle = this.color;
 
         switch(this.type) {
-            case 0: // 地面障碍
+            case 0:
                 ctx.fillRect(this.x, this.y, this.width, this.height);
                 // 添加纹理
                 ctx.fillStyle = '#5D4037';
@@ -183,7 +191,7 @@ class Obstacle {
                     ctx.fillRect(this.x + i, this.y + 5, 10, 5);
                 }
                 break;
-            case 1: // 空中障碍
+            case 1:
                 ctx.fillRect(this.x, this.y, this.width, this.height);
                 // 添加纹理
                 ctx.fillStyle = '#FFA000';
@@ -191,7 +199,7 @@ class Obstacle {
                 ctx.fillRect(this.x + 10, this.y + 25, this.width - 20, 5);
                 ctx.fillRect(this.x + 10, this.y + 40, this.width - 20, 5);
                 break;
-            case 2: // 断桥
+            case 2:
                 ctx.fillRect(this.x, this.y, this.width, this.height);
                 // 添加裂缝效果
                 ctx.fillStyle = '#4E342E';
@@ -222,11 +230,11 @@ class Obstacle {
         if (horizontalCollision && verticalCollision) {
             // 根据障碍物类型和玩家状态判断是否碰撞
             switch(this.type) {
-                case 0: // 地面障碍：跳跃可通过，翻滚不可通过
+                case 0:
                     return !player.isJumping;
-                case 1: // 空中障碍：翻滚可通过，跳跃不可通过
+                case 1:
                     return !player.isRolling;
-                case 2: // 断桥：跳跃可通过，翻滚不可通过
+                case 2:
                     return !player.isJumping;
             }
         }
@@ -298,13 +306,55 @@ class Coin {
     }
 }
 
+// 终点线类
+class FinishLine {
+    constructor() {
+        this.width = LANE_WIDTH * LANE_COUNT;
+        this.height = FINISH_LINE_HEIGHT;
+        this.x = canvas.width - this.width;
+        this.y = -this.height;
+        this.passed = false;
+    }
+
+    update() {
+        this.y += gameSpeed;
+    }
+
+    draw() {
+        // 创建黑白相间的终点线
+        const stripeWidth = 20;
+        for (let i = 0; i < this.width; i += stripeWidth * 2) {
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(this.x + i, this.y, stripeWidth, this.height);
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(this.x + i + stripeWidth, this.y, stripeWidth, this.height);
+        }
+    }
+
+    checkCollision() {
+        const playerBottom = player.baseY + player.height * player.scale;
+        const playerTop = player.baseY - (player.height * (player.scale - 1)) / 2;
+        const finishTop = this.y;
+        const finishBottom = this.y + this.height;
+
+        const horizontalCollision =
+            player.x + player.width > this.x &&
+            player.x < this.x + this.width;
+
+        const verticalCollision =
+            playerBottom > finishTop &&
+            playerTop < finishBottom;
+
+        return horizontalCollision && verticalCollision;
+    }
+}
+
 // 初始化游戏
 function initGame() {
     canvas = document.getElementById('game-canvas');
     ctx = canvas.getContext('2d');
 
-    // 设置画布尺寸
-    canvas.width = 500; // 增加画布宽度
+    canvas.width = 500;
     canvas.height = 600;
 
     // 初始化玩家
@@ -313,15 +363,25 @@ function initGame() {
     // 重置游戏状态
     obstacles = [];
     coins = [];
+    finishLine = null;
     gameSpeed = GAME_SPEED_INITIAL;
+    baseGameSpeed = GAME_SPEED_INITIAL;
     score = 0;
     coinsCollected = 0;
     gameOver = false;
+    gameWon = false;
     gameTime = 0;
+    lastSpeedIncreaseTime = 0;
+    consecutiveObstacles = 0;
+    stuckWarningTimer = 0;
 
     document.getElementById('score').textContent = score;
     document.getElementById('coins').textContent = coinsCollected;
+    document.getElementById('speed').textContent = '1.0x';
+    document.getElementById('time').textContent = '0';
     document.getElementById('game-over').style.display = 'none';
+    document.getElementById('victory-screen').style.display = 'none';
+    document.getElementById('stuck-warning').style.display = 'none';
 
     // 启动游戏循环
     if (animationId) {
@@ -332,12 +392,14 @@ function initGame() {
     // 添加事件监听器
     document.getElementById('restart-btn').addEventListener('click', initGame);
     document.getElementById('home-btn').addEventListener('click', goToHomePage);
+    document.getElementById('victory-restart-btn').addEventListener('click', initGame);
+    document.getElementById('victory-home-btn').addEventListener('click', goToHomePage);
 }
 
 // 生成障碍物
 function generateObstacle() {
     const lane = Math.floor(Math.random() * LANE_COUNT);
-    const type = Math.floor(Math.random() * 3); // 0, 1 或 2
+    const type = Math.floor(Math.random() * 3);
 
     obstacles.push(new Obstacle(type, lane));
 }
@@ -349,7 +411,48 @@ function generateCoin() {
     coins.push(new Coin(lane));
 }
 
-// 绘制背景和赛道
+// 生成终点线
+function generateFinishLine() {
+    finishLine = new FinishLine();
+}
+
+// 困死检测
+function checkIfStuck() {
+    // 检测玩家前方一个屏幕高度内的障碍物数量
+    const obstaclesAhead = obstacles.filter(obs =>
+        obs.y > player.y - canvas.height &&
+        obs.y < player.y &&
+        obs.lane === player.lane
+    );
+
+    if (obstaclesAhead.length >= STUCK_THRESHOLD) {
+        consecutiveObstacles++;
+
+        // 如果连续多帧都检测到困死情况
+        if (consecutiveObstacles > 30) {
+            // 清除玩家所在车道的所有障碍物
+            obstacles = obstacles.filter(obs => obs.lane !== player.lane);
+            consecutiveObstacles = 0;
+
+            // 显示警告信息
+            const warning = document.getElementById('stuck-warning');
+            warning.style.display = 'block';
+            stuckWarningTimer = 120; // 显示2秒（60帧/秒）
+        }
+    } else {
+        consecutiveObstacles = Math.max(0, consecutiveObstacles - 1);
+    }
+
+    // 处理警告显示计时
+    if (stuckWarningTimer > 0) {
+        stuckWarningTimer--;
+        if (stuckWarningTimer === 0) {
+            document.getElementById('stuck-warning').style.display = 'none';
+        }
+    }
+}
+
+// 绘制背景
 function drawBackground() {
     // 绘制天空
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
@@ -386,16 +489,31 @@ function drawBackground() {
 
 // 游戏主循环
 function gameLoop() {
-    if (gameOver) return;
+    if (gameOver || gameWon) return;
 
     // 增加游戏时间
     gameTime++;
-
+    document.getElementById('score').textContent = score;
     // 基于存活时间增加分数
-    if(gameTime % 3 === 0){
+    if(gameTime % (5 - Math.floor(gameTime / 1800)) === 0){
         score += 1;
     }
-    document.getElementById('score').textContent = score;
+
+    // 每30秒增加一次游戏速度
+    const currentTimeInSeconds = Math.floor(gameTime / 60);
+    if (currentTimeInSeconds > 0 && currentTimeInSeconds % 30 === 0 && currentTimeInSeconds !== lastSpeedIncreaseTime) {
+        baseGameSpeed += GAME_SPEED_INCREMENT;
+        lastSpeedIncreaseTime = currentTimeInSeconds;
+        gameSpeed = baseGameSpeed;
+        document.getElementById('speed').textContent = (baseGameSpeed / GAME_SPEED_INITIAL).toFixed(1) + 'x';
+    }
+    // 2分钟时生成终点线
+    if (currentTimeInSeconds >= 120 && !finishLine) {
+        generateFinishLine();
+    }
+
+    // 更新时间和显示
+    document.getElementById('time').textContent = currentTimeInSeconds;
 
     // 清空画布
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -416,6 +534,9 @@ function gameLoop() {
     if (Math.random() < 0.02) {
         generateCoin();
     }
+
+    // 困死检测
+    checkIfStuck();
 
     // 更新和绘制障碍物
     for (let i = obstacles.length - 1; i >= 0; i--) {
@@ -458,10 +579,26 @@ function gameLoop() {
         }
     }
 
-    // 增加游戏速度
-    gameSpeed += GAME_SPEED_INCREMENT;
+    // 更新和绘制终点线
+    if (finishLine) {
+        finishLine.update();
+        finishLine.draw();
 
-    // 继续游戏循环
+        // 检查是否到达终点
+        if (finishLine.checkCollision()) {
+            victory();
+            return;
+        }
+
+        // 如果终点线超出屏幕且未被触碰，游戏继续
+        if (finishLine.y > canvas.height) {
+            finishLine = null;
+        }
+    }
+
+    // 增加游戏速度（平滑加速）
+    gameSpeed += 0.0005;
+
     animationId = requestAnimationFrame(gameLoop);
 }
 
@@ -475,6 +612,17 @@ function endGame() {
     document.getElementById('game-over').style.display = 'block';
 }
 
+// 胜利
+function victory() {
+    gameWon = true;
+    cancelAnimationFrame(animationId);
+
+    document.getElementById('finish-time').textContent = Math.floor(gameTime / 60);
+    document.getElementById('victory-score').textContent = score;
+    document.getElementById('victory-coins').textContent = coinsCollected;
+    document.getElementById('victory-screen').style.display = 'block';
+}
+
 // 返回首页
 function goToHomePage() {
     // 返回主游戏页面
@@ -484,7 +632,7 @@ function goToHomePage() {
 
 // 键盘控制
 document.addEventListener('keydown', (e) => {
-    if (gameOver) return;
+    if (gameOver || gameWon) return;
 
     switch(e.key) {
         case 'a':
