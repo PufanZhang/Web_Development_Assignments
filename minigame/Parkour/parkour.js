@@ -30,6 +30,10 @@ let gameTime = 0;
 let lastSpeedIncreaseTime = 0;
 let consecutiveObstacles = 0;
 let stuckWarningTimer = 0;
+let inTutorial = false;
+let tutorialStep = 0;
+let tutorialCompleted = false;
+let obstacleSpawnPaused = false;
 
 // 玩家类
 class Player {
@@ -374,6 +378,9 @@ function initGame() {
     lastSpeedIncreaseTime = 0;
     consecutiveObstacles = 0;
     stuckWarningTimer = 0;
+    inTutorial = false;
+    tutorialStep = 0;
+    tutorialCompleted = false;
 
     document.getElementById('score').textContent = score;
     document.getElementById('coins').textContent = coinsCollected;
@@ -382,6 +389,12 @@ function initGame() {
     document.getElementById('game-over').style.display = 'none';
     document.getElementById('victory-screen').style.display = 'none';
     document.getElementById('stuck-warning').style.display = 'none';
+
+    if (!tutorialCompleted) {
+        startTutorial();
+    } else {
+        requestAnimationFrame(gameLoop);
+    }
 
     // 启动游戏循环
     if (animationId) {
@@ -418,38 +431,26 @@ function generateFinishLine() {
 
 // 困死检测
 function checkIfStuck() {
-    // 检测玩家前方一个屏幕高度内的障碍物数量
-    const obstaclesAhead = obstacles.filter(obs =>
-        obs.y > player.y - canvas.height &&
-        obs.y < player.y &&
-        obs.lane === player.lane
-    );
+    // 检测玩家前方150px高度内每条车道的障碍物数量
+    const checkHeight = 150;
+    const laneObstacleCount = [0, 0, 0]; // 三条车道的障碍物计数
 
-    if (obstaclesAhead.length >= STUCK_THRESHOLD) {
-        consecutiveObstacles++;
-
-        // 如果连续多帧都检测到困死情况
-        if (consecutiveObstacles > 30) {
-            // 清除玩家所在车道的所有障碍物
-            obstacles = obstacles.filter(obs => obs.lane !== player.lane);
-            consecutiveObstacles = 0;
-
-            // 显示警告信息
-            const warning = document.getElementById('stuck-warning');
-            warning.style.display = 'block';
-            stuckWarningTimer = 120; // 显示2秒（60帧/秒）
+    obstacles.forEach(obs => {
+        // 检查障碍物是否在玩家前方指定高度范围内
+        if (obs.y > 0 && obs.y < checkHeight) {
+            laneObstacleCount[obs.lane]++;
         }
-    } else {
-        consecutiveObstacles = Math.max(0, consecutiveObstacles - 1);
-    }
+    });
 
-    // 处理警告显示计时
-    if (stuckWarningTimer > 0) {
-        stuckWarningTimer--;
-        if (stuckWarningTimer === 0) {
-            document.getElementById('stuck-warning').style.display = 'none';
-        }
+    // 检查是否所有车道都有至少一个障碍物
+    const allLanesBlocked = laneObstacleCount.every(count => count > 0);
+
+    if (allLanesBlocked && !obstacleSpawnPaused) {
+        // 暂停生成障碍物
+        obstacleSpawnPaused = true;
     }
+    else
+        obstacleSpawnPaused = false;
 }
 
 // 绘制背景
@@ -486,10 +487,102 @@ function drawBackground() {
         ctx.stroke();
     }
 }
+//游戏教程
+function startTutorial() {
+    inTutorial = true;
+    tutorialStep = 1;
+
+    // 创建教程UI元素
+    const tutorialUI = document.createElement('div');
+    tutorialUI.id = 'tutorial-ui';
+    tutorialUI.style.cssText = `
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        z-index: 100;
+        max-width: 400px;
+    `;
+    document.getElementById('game-container').appendChild(tutorialUI);
+
+    // 显示第一步教程
+    showTutorialStep();
+}
+
+function showTutorialStep() {
+    const tutorialUI = document.getElementById('tutorial-ui');
+
+    switch(tutorialStep) {
+        case 1:
+            tutorialUI.innerHTML = `
+                <h3>欢迎来到跑酷游戏！</h3>
+                <p>使用 A 和 D 键左右移动角色</p>
+                <button id="tutorial-next">下一步</button>
+            `;
+            break;
+        case 2:
+            tutorialUI.innerHTML = `
+                <h3>跳跃</h3>
+                <p>按 W 键跳跃来避开地面障碍物</p>
+                <button id="tutorial-next">下一步</button>
+            `;
+            break;
+        case 3:
+            tutorialUI.innerHTML = `
+                <h3>翻滚</h3>
+                <p>按 S 键翻滚来避开空中障碍物</p>
+                <button id="tutorial-next">下一步</button>
+            `;
+            break;
+        case 4:
+            tutorialUI.innerHTML = `
+                <h3>收集金币</h3>
+                <p>触碰金色圆圈可以收集金币</p>
+                <p>每个金币+50分</p>
+                <button id="tutorial-next">开始游戏</button>
+            `;
+            break;
+    }
+
+    document.getElementById('tutorial-next').addEventListener('click', nextTutorialStep);
+}
+
+function nextTutorialStep() {
+    tutorialStep++;
+
+    if (tutorialStep > 4) {
+        // 教程结束
+        completeTutorial();
+        return;
+    }
+
+    showTutorialStep();
+}
+
+function completeTutorial() {
+    inTutorial = false;
+    tutorialCompleted = true;
+
+    // 移除教程UI
+    const tutorialUI = document.getElementById('tutorial-ui');
+    if (tutorialUI) {
+        tutorialUI.remove();
+    }
+
+    // 开始游戏循环
+    requestAnimationFrame(gameLoop);
+}
 
 // 游戏主循环
 function gameLoop() {
     if (gameOver || gameWon) return;
+
+    if (inTutorial) return; // 教程期间不执行游戏循环
 
     // 增加游戏时间
     gameTime++;
@@ -526,12 +619,12 @@ function gameLoop() {
     player.draw();
 
     // 生成新障碍物
-    if (Math.random() < 0.03) {
+    if (!inTutorial && !obstacleSpawnPaused && Math.random() < 0.03) {
         generateObstacle();
     }
 
     // 生成新金币
-    if (Math.random() < 0.02) {
+    if (!inTutorial && Math.random() < 0.02) {
         generateCoin();
     }
 
