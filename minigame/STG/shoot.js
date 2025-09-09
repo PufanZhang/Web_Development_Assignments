@@ -22,13 +22,13 @@ let gameState = 'start';
 let score = 0;
 let lives = 3;
 let bombs = 3;
-let isHighSpeed = true;
 let keys = {};
 let animationId;
 let gameTime = 0;
 let bossSpawned = false;
 let bossIndicator = null;
 let bombKeyPressed = false; // 新增：Bomb键按下状态标志
+let gameDifficulty = 1;
 
 // 玩家类
 class Player {
@@ -791,9 +791,9 @@ document.addEventListener('keydown', (e) => {
     keys[e.code] = true;
 
     // 游戏开始屏幕按Z键开始游戏
-    if (gameState === 'start' && (e.code === 'KeyZ' || e.code === 'Space')) {
+/*    if (gameState === 'start' && (e.code === 'KeyZ' || e.code === 'Space')) {
         initGame();
-    }
+    }*/
 });
 
 document.addEventListener('keyup', (e) => {
@@ -809,4 +809,9 @@ document.addEventListener('keyup', (e) => {
 window.onload = function() {
     document.getElementById('restart-btn').addEventListener('click', initGame);
     document.getElementById('home-btn').addEventListener('click', goToHomePage);
+};
+
+window.onload = function() {
+    document.getElementById('easy-mode').addEventListener('click', initGame);
+    document.getElementById('hard-mode').addEventListener('click', initGame);
 };
