@@ -1,24 +1,24 @@
 {
   "startNode": "node1",
-  "nodes":{
+  "nodes": {
     "node1": {
       "speaker": "旁白",
       "dialogue": "小女孩叫刘小月，你害怕她回家路上再遇到危险，决定把小女孩送到家里。",
       "nextNode": "node2"
     },
     "node2": {
-    "scene": [
-      {"id": "刘小月", "sprite": "assets/images/characterA.png"},
-      {"id": "唐梓", "sprite": "assets/images/characterKidnap.png"}
-    ],
-    "speaker": "刘小月",
-    "dialogue": "大哥哥，真是麻烦您啦！刚才在那么危险的情况下救下了我，还辛苦把我送回家。",
-    "nextNode": "node3"
-  },
+      "scene": [
+        { "id": "刘小月", "sprite": "assets/images/characterlxy.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "刘小月",
+      "dialogue": "大哥哥，真是麻烦您啦！刚才在那么危险的情况下救下了我，还辛苦把我送回家。",
+      "nextNode": "node3"
+    },
     "node3": {
       "scene": [
-        {"id": "刘小月", "sprite": "assets/images/characterA.png"},
-        {"id": "唐梓", "sprite": "assets/images/characterKidnap.png"}
+        { "id": "刘小月", "sprite": "assets/images/characterlxy.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
       ],
       "speaker": "刘小月",
       "dialogue": "大哥哥你是做什么的呀？",
@@ -26,35 +26,35 @@
     },
     "node4": {
       "scene": [
-        {"id": "刘小月", "sprite": "assets/images/characterA.png"},
-        {"id": "唐梓", "sprite": "assets/images/characterKidnap.png"}
+        { "id": "刘小月", "sprite": "assets/images/characterlxy.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
       ],
       "speaker": "唐梓",
-      "dialogue": "我是一个军人。",
+      "dialogue": "我是一名军人。",
       "nextNode": "node5"
     },
     "node5": {
       "scene": [
-        {"id": "刘小月", "sprite": "assets/images/characterA.png"},
-        {"id": "唐梓", "sprite": "assets/images/characterKidnap.png"}
+        { "id": "刘小月", "sprite": "assets/images/characterlxy.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
       ],
-      "speaker": "唐梓",
+      "speaker": "刘小月",
       "dialogue": "哇！是联合防卫军吗？我的姐姐也是联合防卫军的军人呢",
       "nextNode": "node6"
     },
     "node6": {
       "scene": [
-        {"id": "刘小月", "sprite": "assets/images/characterA.png"},
-        {"id": "唐梓", "sprite": "assets/images/characterKidnap.png"}
+        { "id": "刘小月", "sprite": "assets/images/characterlxy.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
       ],
-      "speaker": "唐梓",
+      "speaker": "刘小月",
       "dialogue": "我长大也要像哥哥姐姐你们这样，保护弱小的人！",
       "nextNode": "node7"
     },
     "node7": {
       "scene": [
-        {"id": "刘小月", "sprite": "assets/images/characterA.png"},
-        {"id": "唐梓", "sprite": "assets/images/characterKidnap.png"}
+        { "id": "刘小月", "sprite": "assets/images/characterlxy.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
       ],
       "speaker": "唐梓",
       "dialogue": "（欣慰地）我是太空舰队的兵，你的姐姐是哪个部队的呢？",
@@ -62,10 +62,10 @@
     },
     "node8": {
       "scene": [
-        {"id": "刘小月", "sprite": "assets/images/characterA.png"},
-        {"id": "唐梓", "sprite": "assets/images/characterKidnap.png"}
+        { "id": "刘小月", "sprite": "assets/images/characterlxy.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
       ],
-      "speaker": "唐梓",
+      "speaker": "刘小月",
       "dialogue": "信息作战部队！听说她研发了好多高级的病毒，对敌人的飞船上的护盾有很大威胁呢",
       "nextNode": "node9"
     },
@@ -81,26 +81,17 @@
     },
     "node11": {
       "scene": [
-        {"id": "刘小月", "sprite": "assets/images/characterA.png"},
-        {"id": "唐梓", "sprite": "assets/images/characterKidnap.png"}
+        { "id": "刘小月", "sprite": "assets/images/characterlxy.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
       ],
-      "speaker": "唐梓",
-      "dialogue": "我的姐姐很喜欢花，这片花海都是她种下的。之前姐姐在花田玩的时候，有一次把头绳落在了花田里。我找了好久都没找到，哥哥，你这么神通广大，能帮忙找到吗？",
-      "nextNode": "node12"
-    },
-    "node12": {
-      "scene": [
-        {"id": "刘小月", "sprite": "assets/images/characterA.png"},
-        {"id": "唐梓", "sprite": "assets/images/characterKidnap.png"}
-      ],
-      "speaker": "唐梓",
+      "speaker": "刘小月",
       "dialogue": "我的姐姐很喜欢花，这片花海都是她种下的。之前姐姐在花田玩的时候，有一次把头绳落在了花田里。我找了好久都没找到，哥哥，你这么神通广大，能帮忙找到吗？",
       "nextNode": "node13"
     },
     "node13": {
       "scene": [
-        {"id": "刘小月", "sprite": "assets/images/characterA.png"},
-        {"id": "唐梓", "sprite": "assets/images/characterKidnap.png"}
+        { "id": "刘小月", "sprite": "assets/images/characterlxy.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
       ],
       "speaker": "唐梓",
       "dialogue": "有一次姐姐在花田玩的时候，把头绳落在了花田里。我找了好久都没找到，哥哥，你是空军诶，视力肯定很好，能帮我找到吗？",
@@ -117,8 +108,8 @@
     },
     "node14": {
       "scene": [
-        {"id": "刘小月", "sprite": "assets/images/characterA.png"},
-        {"id": "唐梓", "sprite": "assets/images/characterKidnap.png"}
+        { "id": "刘小月", "sprite": "assets/images/characterlxy.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
       ],
       "speaker": "唐梓",
       "dialogue": "小月，哥哥等会儿还要回部队，相信你一定能找到的！",
@@ -126,10 +117,10 @@
     },
     "node15": {
       "scene": [
-        {"id": "刘小月", "sprite": "assets/images/characterA.png"},
-        {"id": "唐梓", "sprite": "assets/images/characterKidnap.png"}
+        { "id": "刘小月", "sprite": "assets/images/characterlxy.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
       ],
-      "speaker": "唐梓",
+      "speaker": "刘小月",
       "dialogue": "嗯嗯那哥哥和我进屋坐坐吧，我姐姐很会泡茶！"
     }
   }
