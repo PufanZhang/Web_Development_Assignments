@@ -791,9 +791,9 @@ document.addEventListener('keydown', (e) => {
     keys[e.code] = true;
 
     // 游戏开始屏幕按Z键开始游戏
-/*    if (gameState === 'start' && (e.code === 'KeyZ' || e.code === 'Space')) {
+    if (gameState === 'start' && (e.code === 'KeyZ' || e.code === 'Space')) {
         initGame();
-    }*/
+    }
 });
 
 document.addEventListener('keyup', (e) => {
@@ -810,8 +810,8 @@ window.onload = function() {
     document.getElementById('restart-btn').addEventListener('click', initGame);
     document.getElementById('home-btn').addEventListener('click', goToHomePage);
 };
-
+/*
 window.onload = function() {
     document.getElementById('easy-mode').addEventListener('click', initGame);
     document.getElementById('hard-mode').addEventListener('click', initGame);
-};
+};*/
