@@ -44,11 +44,15 @@ class Player {
         this.respawning = false;
         this.respawnTimer = 0;
     }
-
-    // 新增：重置位置到指定位置
     resetPosition() {
         this.x = GAME_WIDTH / 2;
-        this.y = GAME_HEIGHT; // 从下到上六等分点的位置
+        this.y = GAME_HEIGHT * 5 / 6;
+    }
+
+    // 新增：重置位置到指定位置
+    respawnPosition() {
+        this.x = GAME_WIDTH / 2;
+        this.y = GAME_HEIGHT;
     }
 
     update() {
@@ -195,7 +199,7 @@ class Player {
             this.respawning = true;
             this.respawning = true;
             this.respawnTimer = 120;
-            this.resetPosition(); // 使用重置位置方法
+            this.respawnPosition(); // 使用重置位置方法
         } else {
             // 游戏结束
             endGame();
