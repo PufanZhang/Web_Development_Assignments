@@ -99,8 +99,9 @@ export const interactionManager = {
 
             dialogueManager.start(interactedObject.storyKey, (endAction) => {
                 // 对话结束后的回调
-                if (endAction && endAction.type === 'teleport' && interactedObject.teleportData) {
-                    onTeleport(interactedObject.teleportData);
+                const teleportData = endAction.teleportData || interactedObject.teleportData;
+                if (endAction && endAction.type === 'teleport' && teleportData) {
+                    onTeleport(teleportData);
                 }
 
                 if (endAction && GAME_LIST.includes(endAction.type)) {
