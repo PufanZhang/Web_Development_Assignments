@@ -48,7 +48,7 @@ class Player {
     // 新增：重置位置到指定位置
     resetPosition() {
         this.x = GAME_WIDTH / 2;
-        this.y = GAME_HEIGHT * 5 / 6; // 从下到上六等分点的位置
+        this.y = GAME_HEIGHT; // 从下到上六等分点的位置
     }
 
     update() {
@@ -57,7 +57,7 @@ class Player {
             this.respawnTimer--;
 
             // 重生动画
-            this.y = Math.min(GAME_HEIGHT * 5/6, this.y - 2);
+            this.y = Math.max(GAME_HEIGHT * 5/6, this.y - 2);
 
             // 重生完成
             if (this.respawning && this.respawnTimer <= 0) {
@@ -174,8 +174,6 @@ class Player {
 
     // 玩家死亡方法
     die() {
-        lives--;
-        document.getElementById('lives').textContent = lives;
 
         // 新增：每次被击中后重置Bomb数为3
         bombs = 3;
@@ -191,7 +189,9 @@ class Player {
         this.invincible = 0;
 
         // 如果还有残机，则重生
-        if (lives >= 0) {
+        if (lives > 0) {
+            lives--;
+            document.getElementById('lives').textContent = lives;
             this.respawning = true;
             this.respawning = true;
             this.respawnTimer = 120;
