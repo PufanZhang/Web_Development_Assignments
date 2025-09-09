@@ -11,7 +11,7 @@ const GRAVITY = 0.5;
 const JUMP_FORCE = 12;
 const GAME_SPEED_INITIAL = 5;
 const GAME_SPEED_INCREMENT = 1; // 每30秒增加的速度
-const STUCK_THRESHOLD = 5; // 困死检测阈值（连续障碍数量）
+const OBSTACLE_SPAWN_PAUSE_DURATION = 30; // 0.5秒（假设60帧/秒）
 
 // 游戏变量
 let canvas, ctx;
@@ -34,6 +34,7 @@ let inTutorial = false;
 let tutorialStep = 0;
 let tutorialCompleted = false;
 let obstacleSpawnPaused = false;
+let obstacleSpawnPauseTimer = 0;
 
 // 玩家类
 class Player {
@@ -448,9 +449,19 @@ function checkIfStuck() {
     if (allLanesBlocked && !obstacleSpawnPaused) {
         // 暂停生成障碍物
         obstacleSpawnPaused = true;
+//        obstacleSpawnPauseTimer = OBSTACLE_SPAWN_PAUSE_DURATION;
     }
     else
         obstacleSpawnPaused = false;
+
+    // 更新暂停计时器
+/*    if (obstacleSpawnPaused) {
+        obstacleSpawnPauseTimer--;
+
+        if (obstacleSpawnPauseTimer <= 0) {
+            obstacleSpawnPaused = false;
+        }
+    }*/
 }
 
 // 绘制背景
@@ -618,6 +629,9 @@ function gameLoop() {
     player.update();
     player.draw();
 
+    // 困死检测
+    checkIfStuck();
+
     // 生成新障碍物
     if (!inTutorial && !obstacleSpawnPaused && Math.random() < 0.03) {
         generateObstacle();
@@ -627,9 +641,6 @@ function gameLoop() {
     if (!inTutorial && Math.random() < 0.02) {
         generateCoin();
     }
-
-    // 困死检测
-    checkIfStuck();
 
     // 更新和绘制障碍物
     for (let i = obstacles.length - 1; i >= 0; i--) {
