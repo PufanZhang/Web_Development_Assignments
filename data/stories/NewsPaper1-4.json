@@ -1,0 +1,46 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "speaker": "报纸",
+      "dialogue": "你在沉思中，再次把目光投向了桌子上那份旧报纸。",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "speaker": "报纸",
+      "dialogue": "你把报纸翻过去，背面印着“冰川行动”的细节：",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "speaker": "报纸",
+      "dialogue": "战队抵达“冰川号”后，特战队员便断开通讯，暗中潜入“冰川号”之中。",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "speaker": "报纸",
+      "dialogue": "一个月后，“冰川号”就停止了向太阳系的靠近。",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "speaker": "报纸",
+      "dialogue": "自此特战队员在“冰川号”内部开始了漫漫五年的爆破行动，最终使这艘最大规模的敌方战舰彻底瘫痪——他们是人类的大英雄！",
+      "nextNode": "node6"
+    },
+    "node6": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "五年？……五年？",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "speaker": "旁白",
+      "dialogue": "你拼命地回忆那五年，但仿佛那五年从来没出现过，唯独能会想起一些破碎的面容。"
+    }
+  }
+}
+

@@ -1,0 +1,174 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "speaker": "旁白",
+      "dialogue": "经过一段时间的寒暄，你把其他看望的战友都送走了，房间里只剩下你、李海峰和刘小星。",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "还真是巧啊！没想到唐梓刚从昏迷中苏醒，就为我们联合防卫队保住了一株未来的幼苗！",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "这没什么的，保护百姓未来就是我应该做的。",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "但是我没能保住我们其他的战友……我对不起他们。",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "speaker": "旁白",
+      "dialogue": "你和刘小星看着李海峰，示意让他说下去。",
+      "nextNode": "node6"
+    },
+    "node6": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "那时我们的空间雷达突然发出警报，发现敌人的巨型飞船正在静默潜行靠近太阳系。总部认定这是智械城发动的一次偷袭，于是让他带着一支特战队暗中靠近飞船安装原子弹破坏行动。",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "可没想到，去之前说好同来一起庆功，但是我只带回了唐梓一个人……",
+      "nextNode": "node8"
+    },
+    "node8": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "那艘飞船是……？",
+      "nextNode": "node9"
+    },
+    "node9": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "对，那艘战舰就是“冰川号”。",
+      "nextNode": "node10"
+    },
+    "node10": {
+      "speaker": "旁白",
+      "dialogue": "你若有所思，脑海中慢慢浮现出你和战友一起飞船上安装炸弹，暴露后紧急逃脱的记忆。",
+      "nextNode": "node11"
+    },
+    "node11": {
+      "speaker": "旁白",
+      "dialogue": "但这些回忆依然不甚模糊，很多细节仿佛被锁住了一样。",
+      "nextNode": "node12"
+    },
+    "node12": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "唐梓，你以后有时间去烈士陵园转转吧，也看看替我们牺牲的战友们，说不定就能多想起来一些事情呢。",
+      "nextNode": "node13"
+    },
+    "node13": {
+      "scene": [
+        {
+          "id": "刘小星",
+          "sprite": "assets/images/characterlxx.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        }
+      ],
+      "options": [
+        {
+          "text": "追问",
+          "targetNode": "node14"
+        },
+        {
+          "text": "沉思",
+          "targetNode": "end"
+        }
+      ]
+    },
+    "node14": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "队长，是您把我从飞船上救出来的吗？",
+      "nextNode": "node15"
+    },
+    "node15": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "实是你把我救了出来。当时“冰川号”马上就要爆炸了，我看你没有及时撤退，就从逃生艇上下来回去找你",
+      "nextNode": "node16"
+    },
+    "node16": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "结果没想到逃生艇被下了陷阱，反而是找你的我活了下来……",
+      "nextNode": "node17"
+    },
+    "node17": {
+      "speaker": "旁白",
+      "dialogue": "说到这里，海峰留下了眼泪，大家都说不出话。",
+      "nextNode": "node18"
+    },
+    "node18": {
+      "speaker": "旁白",
+      "dialogue": "又寒暄了几句，李海峰和刘小星就离开了病房，留你一个人。"
+    },
+    "end": {
+      "speaker": "旁白",
+      "dialogue": "又寒暄了几句，李海峰和刘小星就离开了病房，留你一个人。"
+    }
+  }
+}
