@@ -3,14 +3,8 @@
   "nodes": {
     "node1": {
       "scene": [
-        {
-          "id": "刘小月",
-          "sprite": "assets/images/sister.png"
-        },
-        {
-          "id": "唐梓",
-          "sprite": "assets/images/Tang.jpg"
-        }
+        {"id": "刘小月", "sprite": "assets/images/characterA.png"},
+        {"id": "唐梓", "sprite": "assets/images/characterKidnap.png"}
       ],
       "speaker": "刘小月",
       "dialogue": "呜呜呜大哥哥…谢谢你救了我！",
@@ -18,14 +12,8 @@
     },
     "node2": {
       "scene": [
-        {
-          "id": "刘小月",
-          "sprite": "assets/images/sister.png"
-        },
-        {
-          "id": "唐梓",
-          "sprite": "assets/images/Tang.jpg"
-        }
+        {"id": "刘小月", "sprite": "assets/images/characterA.png"},
+        {"id": "唐梓", "sprite": "assets/images/characterKidnap.png"}
       ],
       "speaker": "唐梓",
       "dialogue": "没事没事小朋友你的伤口怎么样？怎么一个人在这里？你的家人呢？我把你送回去吧。",
@@ -33,14 +21,8 @@
     },
     "node3": {
       "scene": [
-        {
-          "id": "刘小月",
-          "sprite": "assets/images/sister.png"
-        },
-        {
-          "id": "唐梓",
-          "sprite": "assets/images/Tang.jpg"
-        }
+        {"id": "刘小月", "sprite": "assets/images/characterA.png"},
+        {"id": "唐梓", "sprite": "assets/images/characterKidnap.png"}
       ],
       "speaker": "刘小月",
       "dialogue": "我是自己来的…我姐姐这一阵身体不太好，每周都要吃药，我今天是来给她取药的。",
@@ -68,7 +50,7 @@
     },
     "node8": {
       "speaker": "旁白",
-      "dialogue": "“唐梓？你醒来了！你在哪里怎么不在病房呢？你收了很严重的伤，不要到处乱跑。”",
+      "dialogue": "“唐梓？你醒来了！你在哪里怎么不在病房呢？你受了很严重的伤，不要到处乱跑。”",
       "nextNode": "node9"
     },
     "node9": {

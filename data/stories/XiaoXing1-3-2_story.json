@@ -1,0 +1,275 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "scene": [
+        {
+          "id": "刘小月",
+          "sprite": "assets/images/characterlxy.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "刘小星",
+          "sprite": "assets/images/characterlxx.png"
+        }
+      ],
+      "speaker": "刘小月",
+      "dialogue": "姐姐！我刚才在路上被一个超可怕的人劫持了，不过好在这个大哥哥救了我！大哥哥还把我送了回来（指向唐梓）",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        {
+          "id": "刘小月",
+          "sprite": "assets/images/characterlxy.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "刘小星",
+          "sprite": "assets/images/characterlxx.png"
+        }
+      ],
+      "speaker": "刘小星",
+      "dialogue": " （惊讶）小月你没受伤吧！（抬头看向唐梓）谢谢您！快请到屋里来。",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        {
+          "id": "刘小月",
+          "sprite": "assets/images/characterlxy.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "刘小星",
+          "sprite": "assets/images/characterlxx.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "不用了，这是我们军人应该做的。小月没事就好，我要回去了，待会还有事情。",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        {
+          "id": "刘小月",
+          "sprite": "assets/images/characterlxy.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "刘小星",
+          "sprite": "assets/images/characterlxx.png"
+        }
+      ],
+      "speaker": "刘小月",
+      "dialogue": "姐姐你知道吗？这个哥哥也是联合防卫队的！他说他是太空舰队的飞行员哦，说不定你们之前还认识呢。",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "scene": [
+        {
+          "id": "刘小月",
+          "sprite": "assets/images/characterlxy.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "刘小星",
+          "sprite": "assets/images/characterlxx.png"
+        }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "我们之前应该没有见过。您要是太空舰队的飞行员的话，冒昧问一句，您认识唐梓同志吗？",
+      "nextNode": "node6"
+    },
+    "node6": {
+      "scene": [
+        {
+          "id": "刘小月",
+          "sprite": "assets/images/characterlxy.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "刘小星",
+          "sprite": "assets/images/characterlxx.png"
+        }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "我待会要代表我们信息作战部队去探望一下这位“冰山行动”的大功臣！",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "scene": [
+        {
+          "id": "刘小月",
+          "sprite": "assets/images/characterlxy.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "刘小星",
+          "sprite": "assets/images/characterlxx.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "冰山行动”的功臣吗……（沉默）",
+      "nextNode": "node8"
+    },
+    "node8": {
+      "scene": [
+        {
+          "id": "刘小月",
+          "sprite": "assets/images/characterlxy.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "刘小星",
+          "sprite": "assets/images/characterlxx.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "其实，我就是唐梓。",
+      "nextNode": "node9"
+    },
+    "node9": {
+      "scene": [
+        {
+          "id": "刘小月",
+          "sprite": "assets/images/characterlxy.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "刘小星",
+          "sprite": "assets/images/characterlxx.png"
+        }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "（吃惊）您就是唐梓同志？就是那个爆破“冰川号”飞船的唐梓？！",
+      "nextNode": "node10"
+    },
+    "node10": {
+      "scene": [
+        {
+          "id": "刘小月",
+          "sprite": "assets/images/characterlxy.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "刘小星",
+          "sprite": "assets/images/characterlxx.png"
+        }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "那您不仅是我们家的“大救星”，还是人类的大救星！",
+      "nextNode": "node11"
+    },
+    "node11": {
+      "speaker": "旁白",
+      "dialogue": "突然唐梓接到了一个电话。",
+      "nextNode": "node12"
+    },
+    "node12": {
+      "scene": [
+        {
+          "id": "刘小月",
+          "sprite": "assets/images/characterlxy.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "刘小星",
+          "sprite": "assets/images/characterlxx.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "喂，您好……什么？海峰队长！！嗯嗯，嗯…战友们都来了？好的好的！",
+      "nextNode": "node13"
+    },
+    "node13": {
+      "scene": [
+        {
+          "id": "刘小月",
+          "sprite": "assets/images/characterlxy.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "刘小星",
+          "sprite": "assets/images/characterlxx.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "（挂掉电话对刘小星说）小星，别的部队也派出代表来看望了。",
+      "nextNode": "node14"
+    },
+    "node14": {
+      "scene": [
+        {
+          "id": "刘小月",
+          "sprite": "assets/images/characterlxy.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "刘小星",
+          "sprite": "assets/images/characterlxx.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "和我一起参加“冰川行动”的海峰队长也从昏迷里苏醒了！",
+      "nextNode": "node15"
+    },
+    "node15": {
+      "scene": [
+        {
+          "id": "刘小月",
+          "sprite": "assets/images/characterlxy.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "刘小星",
+          "sprite": "assets/images/characterlxx.png"
+        }
+      ],
+      "speaker": "刘小月",
+      "dialogue": "我们快一起回去吧！"
+    }
+  }
+}
