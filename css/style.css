@@ -29,6 +29,9 @@ body, html {
     position: absolute;
     background-image: url('/assets/images/player.png');
     background-size: 100px 100px;
+    cursor: default; /* 明确设置鼠标样式为默认，防止显示为文本光标 */
+    outline: none;   /* 移除浏览器在元素聚焦时可能添加的轮廓 */
+    user-select: none; /* 防止用户意外选中文本或元素 */
 }
 .interactable-object {
     position: absolute;
