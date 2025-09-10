@@ -1,0 +1,12 @@
+{
+  "startNode": "start",
+  "nodes": {
+    "start": {
+      "speaker": "旁白",
+      "dialogue": "出去走走……",
+      "action":{
+        "type":"teleport"
+      }
+    }
+  }
+}

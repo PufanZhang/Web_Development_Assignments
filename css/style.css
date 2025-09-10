@@ -29,6 +29,9 @@ body, html {
     position: absolute;
     background-image: url('/assets/images/player.png');
     background-size: 100px 100px;
+    cursor: default; /* 明确设置鼠标样式为默认，防止显示为文本光标 */
+    outline: none;   /* 移除浏览器在元素聚焦时可能添加的轮廓 */
+    user-select: none; /* 防止用户意外选中文本或元素 */
 }
 .interactable-object {
     position: absolute;
@@ -230,12 +233,22 @@ body, html {
     100% { transform: rotate(360deg); }
 }
 
-/* 游戏容器默认隐藏，等待加载完成 */
+/* 用于加载界面和入场剧情之间的过渡效果 */
 #game-container {
     opacity: 0; /* 默认透明 */
-    transition: opacity 1s ease-in-out; /* 渐入效果 */
+    transition: opacity 0.8s ease-in-out; /* 渐入效果 */
 }
 #game-container.visible {
+    opacity: 1;
+}
+
+/* 用于入场剧情和地图视图之间的过渡效果 */
+#map-view {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+#map-view.visible-map {
     opacity: 1;
 }
 

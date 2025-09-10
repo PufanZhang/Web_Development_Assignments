@@ -6,6 +6,25 @@ export function clearMap() {
     mapElements.forEach(el => el.remove());
 }
 
+const createElement = (data, type) => {
+    const element = document.createElement('div');
+    element.id = data.id;
+    element.className = `map-element ${type}`;
+    element.style.cssText = `
+        left: ${data.x}px; top: ${data.y}px;
+        width: ${data.width}px; height: ${data.height}px;
+        background-image: url(${data.image || ''});
+    `;
+    mapView.appendChild(element);
+    return element;
+};
+
+// 导出一个用于动态创建单个可交互对象的函数
+export function buildObject(data) {
+    const element = createElement(data, 'interactable-object');
+    return { ...data, element, interacted: false };
+}
+
 // 建造新地图的函数
 export function buildMap(mapData) {
     console.log('Building map with data:', mapData);
@@ -22,22 +41,10 @@ export function buildMap(mapData) {
     walls.push({ x: -wallThickness, y: 0, width: wallThickness, height: height });
     walls.push({ x: width, y: 0, width: wallThickness, height: height });
 
-    const createElement = (data, type) => {
-        const element = document.createElement('div');
-        element.id = data.id;
-        element.className = `map-element ${type}`;
-        element.style.cssText = `
-            left: ${data.x}px; top: ${data.y}px;
-            width: ${data.width}px; height: ${data.height}px;
-            background-image: url(${data.image || ''});
-        `;
-        mapView.appendChild(element);
-        return element;
-    };
-
+    // 使用重构后的 buildObject 函数来创建初始对象
     (mapData.objects || []).forEach(data => {
-        const element = createElement(data, 'interactable-object');
-        interactableObjects.push({ ...data, element, interacted: false });
+        const newObject = buildObject(data);
+        interactableObjects.push(newObject);
     });
 
     // （调试用）绘制墙体

@@ -76,7 +76,7 @@ export function renderDialogue(dialogueState, elements, onOptionClick) {
                     case 'equal':
                         if (userValue !== value) shouldShow = false;
                         break;
-                    case 'not_equal':
+                    case 'notEqual':
                         if (userValue === value) shouldShow = false;
                         break;
                 }

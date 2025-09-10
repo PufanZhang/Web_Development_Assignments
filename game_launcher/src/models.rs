@@ -26,14 +26,14 @@ pub struct Condition {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct RequiredValues {
-    #[serde(default = "default_logic")] // 默认为 AND 逻辑
+    #[serde(default = "default_logic")] // 默认为 OR 逻辑
     pub logic: String,
     pub conditions: Vec<Condition>,
 }
 
 // 为 RequiredValues 的 logic 字段提供一个默认值
 fn default_logic() -> String {
-    "AND".to_string()
+    "OR".to_string()
 }
 
 // 游戏物件 (从 object.json 读取)
@@ -110,6 +110,7 @@ pub struct PackedMapData {
     pub background: String,
     pub walls: Vec<Wall>,
     pub objects: Vec<GameObject>,
+    pub latent_objects: Vec<GameObject>,
     pub width: i32,
     pub height: i32,
     pub entry_story_key: Option<String>,
