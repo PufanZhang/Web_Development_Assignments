@@ -102,6 +102,8 @@
       "nextNode": "node13"
     },
     "node13": {
+      "speaker":"旁白",
+      "dialogue":"……",
       "scene": [
         {
           "id": "刘小星",
