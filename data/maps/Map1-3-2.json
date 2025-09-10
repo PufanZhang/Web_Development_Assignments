@@ -2,10 +2,11 @@
   "name": "花房",
   "width": 1600,
   "height": 900,
-  "background": "assets/images/item_01.png",
+  "background": "assets/background/background1-3-2.png",
   "entryStoryKey": "map1-3-2_entry_story",
   "walls": [
-    
+    {"x": 570, "y": 0, "width": 450, "height": 350},
+    {"x": 650, "y": 500, "width": 300, "height": 200}
   ],
   "objects": [ "XiaoYue1-3-2","XiaoXing1-3-2"]
 }
