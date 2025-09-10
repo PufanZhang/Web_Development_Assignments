@@ -27,27 +27,59 @@ export function renderDialogue(dialogueState, elements, onOptionClick) {
     } else {
         characterName.style.display = 'block';
         characterName.innerText = currentNode.speaker;
-        const sceneCharacters = dialogueState.currentScene.map(c => c.id);
-        const displayedCharacters = Array.from(characterContainer.children).map(img => img.dataset.characterId);
-        displayedCharacters.forEach(id => {
-            if (!sceneCharacters.includes(id)) {
-                characterContainer.querySelector(`[data-character-id="${id}"]`).remove();
-            }
-        });
-        dialogueState.currentScene.forEach(character => {
-            let spriteImg = characterContainer.querySelector(`[data-character-id="${character.id}"]`);
-            if (!spriteImg) {
-                spriteImg = document.createElement('img');
-                spriteImg.dataset.characterId = character.id;
+        const scene = dialogueState.currentScene;
+        const speakerId = currentNode.speaker;
+
+        // 1. 清理舞台
+        characterContainer.innerHTML = '';
+        characterContainer.className = 'character-container';
+
+        // 2. 根据场景人数应用不同布局
+        if (scene.length === 1) {
+            // 单人：直接添加，CSS默认居中
+            const character = scene[0];
+            const spriteImg = document.createElement('img');
+            spriteImg.src = character.sprite;
+            characterContainer.appendChild(spriteImg);
+
+        } else if (scene.length === 2) {
+            // 双人：添加 'two-characters' 类，CSS将它们分布在两侧
+            characterContainer.classList.add('two-characters');
+            scene.forEach(character => {
+                const spriteImg = document.createElement('img');
                 spriteImg.src = character.sprite;
+                // 非说话者变暗
+                spriteImg.classList.toggle('dimmed', character.id !== speakerId);
                 characterContainer.appendChild(spriteImg);
-            }
-            if (dialogueState.currentScene.length === 1) {
-                spriteImg.classList.remove('dimmed');
-            } else {
-                spriteImg.classList.toggle('dimmed', character.id !== currentNode.speaker);
-            }
-        });
+            });
+
+        } else if (scene.length > 2) {
+            // 多人：添加 'multi-characters' 类，并创建左右分组
+            characterContainer.classList.add('multi-characters');
+
+            const speakerGroup = document.createElement('div');
+            speakerGroup.className = 'speaker-group';
+
+            const otherGroup = document.createElement('div');
+            otherGroup.className = 'other-group';
+
+            scene.forEach(character => {
+                const spriteImg = document.createElement('img');
+                spriteImg.src = character.sprite;
+
+                if (character.id === speakerId) {
+                    // 说话者放入左侧分组
+                    speakerGroup.appendChild(spriteImg);
+                } else {
+                    // 其他人放入右侧分组并变暗
+                    spriteImg.classList.add('dimmed');
+                    otherGroup.appendChild(spriteImg);
+                }
+            });
+
+            characterContainer.appendChild(speakerGroup);
+            characterContainer.appendChild(otherGroup);
+        }
     }
 
     // --- 渲染选项 ---

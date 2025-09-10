@@ -25,13 +25,17 @@ body, html {
     background-repeat: no-repeat;
 }
 
+#map-view.dialogue-active {
+    filter: brightness(0.75);
+}
+
 #player {
     position: absolute;
     background-image: url('/assets/images/player.png');
     background-size: 100px 100px;
-    cursor: default; /* 明确设置鼠标样式为默认，防止显示为文本光标 */
-    outline: none;   /* 移除浏览器在元素聚焦时可能添加的轮廓 */
-    user-select: none; /* 防止用户意外选中文本或元素 */
+    cursor: default;
+    outline: none;
+    user-select: none;
 }
 .interactable-object {
     position: absolute;
@@ -39,6 +43,9 @@ body, html {
     background-position: center;
     background-repeat: no-repeat;
     transition: opacity 0.5s ease;
+    cursor: default;
+    outline: none;
+    user-select: none;
 }
 
 /* 用于隐藏已交互物品的样式 */
@@ -67,10 +74,10 @@ body, html {
 /* 对话框使用Flexbox布局，以便更好地控制内部结构 */
 #dialogue-box {
     position: absolute;
-    bottom: 5%;
-    left: 10%;
-    right: 10%;
-    min-height: 25%; /* 使用min-height保证最小高度 */
+    bottom: 3%;
+    left: 8%;
+    right: 8%;
+    min-height: 22%; /* 使用min-height保证最小高度 */
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     border-radius: 15px;
@@ -85,24 +92,75 @@ body, html {
 
 #character-container {
     position: absolute;
-    bottom: 0;
+    /* 将容器定位在对话框上方 */
+    bottom: 31%;
     left: 0;
     right: 0;
-    height: 80%; /* 角色活动区域的高度 */
+    /* 设定一个明确的高度，防止立绘溢出到屏幕外 */
+    height: 80%;
+    max-height: 80vh; /* 同时使用 vh 单位确保在不同屏幕比例下的兼容性 */
     z-index: 10;
-    display: flex; /* 使用Flexbox来排列角色 */
-    justify-content: space-around;
-    align-items: flex-end; /* 底部对齐 */
-    gap: 2%; /* 角色之间的间距 */
+    display: flex;
+    /* 默认（单人立绘）居中 */
+    justify-content: center;
+    align-items: flex-end; /* 所有立绘底部对齐 */
     padding: 0 5%; /* 保证角色不会紧贴屏幕边缘 */
+    gap: 2%;
+    pointer-events: none;
+    cursor: default;
+    outline: none;
+    user-select: none;
 }
 
 /* 容器内所有角色立绘的通用样式 */
 #character-container img {
-    height: 100%;
-    object-fit: contain;
-    /* 所有的立绘都将拥有柔和的过渡效果，无论是出现、消失还是光影变化 */
+    /* 限制图片最大高度为父容器高度，防止溢出 */
+    max-height: 100%;
+    /* 限制图片最大宽度，防止过宽的图片溢出 */
+    max-width: 50%; /* 对于单张图片，最大宽度设为容器的一半，避免过大 */
+    object-fit: contain; /* 保持图片原始比例缩放 */
     transition: all 0.4s ease-in-out;
+}
+
+/* 双人立绘的布局 */
+#character-container.two-characters {
+    justify-content: space-between; /* 将两个立绘分别推向容器的两侧 */
+}
+#character-container.two-characters img {
+    max-width: 40%; /* 稍微减小最大宽度，为中间留出空隙 */
+}
+
+
+/* 多人（3个及以上）立绘的布局 */
+#character-container.multi-characters {
+    justify-content: space-between; /* 将“说话者”和“其他人”两个组推向两侧 */
+}
+
+/* 为多人场景下的分组添加样式 */
+#character-container .speaker-group,
+#character-container .other-group {
+    display: flex;
+    align-items: flex-end;
+    height: 100%;
+    flex-basis: 55%;
+}
+
+/* 说话者组（左侧） */
+#character-container .speaker-group {
+    justify-content: flex-start;
+}
+/* 其他人组（右侧） */
+#character-container .other-group {
+    justify-content: flex-end;
+    /* 防止组内图片宽度超出组的边界 */
+    flex-wrap: nowrap;
+    overflow: hidden;
+}
+
+#character-container .other-group img {
+    /* 为右侧的多个立绘创建一些重叠效果 */
+    margin-left: -10%;
+    max-width: 40%;
 }
 
 .dimmed {

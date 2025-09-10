@@ -7,7 +7,8 @@ const elements = {
     characterName: document.getElementById('character-name'),
     dialogueText: document.getElementById('dialogue-text'),
     dialogueOptionsContainer: document.getElementById('dialogue-options-container'),
-    itemImageContainer: document.getElementById('item-image-container')
+    itemImageContainer: document.getElementById('item-image-container'),
+    mapView: document.getElementById('map-view')
 };
 
 let state = {};
@@ -35,6 +36,9 @@ export const dialogueManager = {
         onDialogueEndCallback = onEnd;
         window.gameMode = 'dialogue';
         elements.dialogueView.classList.add('active');
+        if (elements.mapView) {
+            elements.mapView.classList.add('dialogue-active');
+        }
         state = {
             story: story,
             currentNodeId: story.startNode,
@@ -102,6 +106,9 @@ export const dialogueManager = {
         window.gameMode = 'map';
         elements.dialogueView.classList.remove('active');
         elements.itemImageContainer.style.display = 'none';
+        if (elements.mapView) {
+            elements.mapView.classList.remove('dialogue-active');
+        }
         if (onDialogueEndCallback) {
             onDialogueEndCallback(state.endAction);
         }
