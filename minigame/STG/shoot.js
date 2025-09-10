@@ -10,6 +10,17 @@ const PLAYER_SPEED_LOW = 3;
 const BULLET_SPEED = 8;
 const ENEMY_BULLET_SPEED = 4;
 const BOSS_HEALTH = 1000;
+// 难度配置
+const DIFFICULTY_SETTINGS = {
+    easy: {
+        smallEnemyShootRate: 120, // 简单难度小敌机射击速率
+        bossShootRate: 60         // 简单难度Boss射击速率
+    },
+    hard: {
+        smallEnemyShootRate: 60,  // 困难难度小敌机射击速率
+        bossShootRate: 30         // 困难难度Boss射击速率
+    }
+};
 
 // 游戏变量
 let canvas, ctx;
@@ -28,7 +39,7 @@ let gameTime = 0;
 let bossSpawned = false;
 let bossIndicator = null;
 let bombKeyPressed = false; // 新增：Bomb键按下状态标志
-let gameDifficulty = 1;
+let currentDifficulty = 'easy'; // 默认难度
 
 // 玩家类
 class Player {
@@ -215,18 +226,21 @@ class Enemy {
         this.y = y;
         this.entering = true;
 
+        // 根据当前难度设置射击速率
+        const difficultySettings = DIFFICULTY_SETTINGS[currentDifficulty];
+
         if (type === 'small') {
             this.width = 30;
             this.height = 30;
             this.health = 10;
-            this.shootRate = 60;
+            this.shootRate = difficultySettings.smallEnemyShootRate; // 使用难度设置
             this.speed = 2;
             this.score = 100;
         } else if (type === 'boss') {
             this.width = 100;
             this.height = 100;
             this.health = BOSS_HEALTH;
-            this.shootRate = 30;
+            this.shootRate = difficultySettings.bossShootRate; // 使用难度设置
             this.speed = 1;
             this.pattern = 0;
             this.patternTimer = 0;
@@ -708,6 +722,12 @@ function endGame() {
 function goToHomePage() {
     const result = { success: false };
     window.parent.postMessage({ type: 'closeMinigame', result: result }, '*');
+}
+
+// 选择难度
+function selectDifficulty(difficulty) {
+    currentDifficulty = difficulty;
+    initGame();
 }
 
 // CSS特效函数
