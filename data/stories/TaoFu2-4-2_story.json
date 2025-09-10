@@ -1,0 +1,64 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "scene": [
+        { "id": "陶孚", "sprite": "assets/images/charactertf.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "陶孚",
+      "dialogue": "恭喜！唐梓同志，恭喜你完成任务，成功从训练基地结业。",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "唐梓，恭喜！我就知道你没有问题的，这下我们又成战友了，欢迎你！",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "speaker": "旁白",
+      "dialogue": "突然，李海峰和一个老人从远处走来，陶孚看到他们后，不由得感到心惊",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        { "id": "陶孚", "sprite": "assets/images/charactertf.png" },
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" }
+      ],
+      "speaker": "陶孚",
+      "dialogue": "父亲，您怎么来了？",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "scene": [
+        { "id": "陶晓光", "sprite": "assets/images/charactertxg.png" },
+        { "id": "陶孚", "sprite": "assets/images/charactertf.png" }
+      ],
+      "speaker": "陶晓光",
+      "dialogue": "陶孚同志……还有李海峰、刘小星、唐梓同志，我代表联合国执委会宣布联合国执委会常委会最新战略安排，同时代表代表联合防卫队作战指挥室转战争顾问团任务安排……",
+      "nextNode": "node6"
+    },
+    "node6": {
+      "scene": [
+        { "id": "陶晓光", "sprite": "assets/images/charactertxg.png" },
+        { "id": "陶孚", "sprite": "assets/images/charactertf.png" }
+      ],
+      "speaker": "陶晓光",
+      "dialogue": "任命李海峰同志为队长，陶孚、刘小星、唐梓同志为作战顾问，从即日起脱离原有编制，返回联合防卫队总部，接受新的任务。（说完抬起眼看了看大家，缓缓说道）孩子们，你们这次要夺取的，是人类的希望。",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "speaker": "旁白",
+      "dialogue": "大家都被这个突如其来的消息打的错愕不已。不一会，唐梓反应了过来，眼中早已充满了泪花。他终于能回到战场——这个他最熟悉的地方",
+      "nextNode": "node8"
+    },
+    "node8": {
+      "speaker": "旁白",
+      "dialogue": "但大家不知道的是，与此同时，有两位他们无比熟悉的人已经悄悄地来到了他们身边……"
+    }
+  }
+}

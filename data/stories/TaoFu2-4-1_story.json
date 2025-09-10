@@ -1,0 +1,40 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "scene": [
+        { "id": "陶孚", "sprite": "assets/images/charactertf.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "陶孚",
+      "dialogue": "唐梓，经过这一段时间的训练，你的实力已经有了大幅的跃升，说不定已经恢复到了巅峰的水平。",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        { "id": "陶孚", "sprite": "assets/images/charactertf.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "陶孚",
+      "dialogue": "今天是结业考核，你就向所有人证明一下战斗英雄真正的实力吧！",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        { "id": "陶孚", "sprite": "assets/images/charactertf.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "谢谢您，陶孚教官！感谢您这一段时间内对我和李队长康复训练的辛勤付出！我一定会成功结业，复员太空舰队！",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        { "id": "陶孚", "sprite": "assets/images/charactertf.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "陶孚",
+      "dialogue": "加油！我相信你！"
+    }
+  }
+}

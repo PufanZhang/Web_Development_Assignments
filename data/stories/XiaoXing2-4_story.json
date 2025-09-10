@@ -1,0 +1,50 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "（看到你走来，兴奋地向你招招手）唐梓！",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "诶你来了！",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "那当然了，别忘了我说过我会看着你复员的。",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "来，你收下这个（摘下自己的手链）这是我的幸运符。你带上这个，一定会全部顺利通过的！",
+      "nextNode": "node6"
+    },
+    "node6": {
+      "speaker": "旁白",
+      "dialogue": "【获得记忆碎片：幸运符】",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "speaker": "旁白",
+      "dialogue": "你看着戴在自己手上的幸运符，想起好久之前也有过这么一个东西来着，可能想不起来是谁送给你的了。但不知为何，你一下子就充满了信心。"
+    }
+  }
+}

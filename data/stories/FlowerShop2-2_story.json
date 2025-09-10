@@ -1,0 +1,93 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "唐梓，你看这个花瓶怎么样？里面还插着几朵花呢。",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "speaker": "旁白",
+      "dialogue": "这是一个很精致的花瓶，简约而不失大气。里面插着几朵如燃烧的火焰一样鲜红的花，虽然你不认识这是哪种花，但是你觉得这种花有一种独特的美感。",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "我觉得很好看啊，和你们家的风格很搭配。",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "那我就买这个了，希望他能和刘小月“相处融洽”。（抬起头，看着唐梓,从花瓶中抽出一枝花）你知道这是什么花吗？",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "options": [
+        {
+          "text": "不知道…",
+          "targetNode": "node8"
+        },
+        {
+          "text": "牡丹？",
+          "targetNode": "node8"
+        }
+      ]
+    },
+    "node8": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "我看你真的是一点不懂啊！这叫红掌花。（把那朵花塞到你手里），你知道吗，红掌花的花语是——",
+      "nextNode": "node9"
+    },
+    "node9": {
+      "speaker": "旁白",
+      "dialogue": "【获得记忆碎片：红掌花】",
+      "nextNode": "node10"
+    },
+    "node10": {
+      "speaker": "旁白",
+      "dialogue": "就在这时，旁边的人群突然传来一声惊呼，有一个老人不小心卡到了超市楼梯的拐角处。",
+      "nextNode": "node11"
+    },
+    "node11": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "（把花塞了回去）小星，我去帮帮他。",
+      "nextNode": "node12"
+    },
+    "node12": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "（微笑着看着你）嗯，快去吧！这是你应该做的。",
+      "nextNode": "node13"
+    },
+    "node13": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "（等唐梓走远后，喃喃道）“永不放弃的希望”！"
+    }
+  }
+}

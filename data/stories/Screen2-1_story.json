@@ -1,0 +1,19 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "speaker": "宣传屏幕",
+      "dialogue": "陶晓光表示：完善人类联合防卫队战线，坚决隐藏人类聚居地坐标。",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "speaker": "宣传屏幕",
+      "dialogue": "开辟新天地：齐心协力，踔厉奋发，把火山星建设成为人类的新家园！",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "speaker": "宣传屏幕",
+      "dialogue": "谢家兵表示：要坚持联合国对联合防卫队的指挥权，提高全军政治性。"
+    }
+  }
+}

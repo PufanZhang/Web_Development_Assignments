@@ -1,0 +1,162 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "唐梓！",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "小星？怎么是你？",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "（嘟笑）小月在家里和朋友们打闹，把花瓶打碎啦！我来买一个新的。你倒是，怎么一个人来到这里？",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "（心情沮丧讲了在训练中心的事）",
+      "nextNode": "node6"
+    },
+    "node6": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "在我眼里你可不是一个会退缩的人啊！你现在可是到了最顶端的尖刀连，执行的可都是最机要关键的任务，你现在这个样子……",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "（表情沮丧，没说话）",
+      "nextNode": "node8"
+    },
+    "node8": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "（看到你的失落，把话咽了回去）其实……根本没有太大压力。其实你可以偷偷对自己的要求放低一点，俗话说，“老虎也有打盹的时候”，更何况肉体凡胎呢？你之前过过过这个高点，那么只要你努力训练一定也能恢复实力的！",
+      "nextNode": "node9"
+    },
+    "node9": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "可我觉得能力下降了，那些肌肉记忆的动作也做不到位了。",
+      "nextNode": "node10"
+    },
+    "node10": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "没关系的唐梓，又不是让你现在出任务，来日方长慢慢来会总能做到位的。",
+      "nextNode": "node11"
+    },
+    "node11": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "再说了，你从加入防卫队的第一天就做到完美无缺了吗？你之前训练时遇到的困难，在冰川行动那么大的困难（比如），都被你克服了吗？",
+      "nextNode": "node12"
+    },
+    "node12": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "不要再说沮丧了！多笑笑！像这样（双手在脸上做出微笑的动作）",
+      "nextNode": "node13"
+    },
+    "node13": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "（被刘小星逗乐了）好的，我知道了！不过陶孚教官可是严厉的很啊。",
+      "nextNode": "node14"
+    },
+    "node14": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "陶孚？你是对他不了解，其实他真的是一个粗中有细、很关心下属的人！我觉得是蛮好相处的一个人。你要是和他说你的遭遇，他肯定会鼓励你的。",
+      "nextNode": "node19"
+    },
+    "node19": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "他是防卫队最高层四元老之一的陶晓光的公子！他刚调入特战连训练队的时候，大伙都以为是靠他老爸吃皇粮来的。不过也是真金不怕火炼，说起战机驾驶，他也未必比你差多少呢。",
+      "nextNode": "node15"
+    },
+    "node15": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "嗯，谢谢你！我心情好多了！",
+      "nextNode": "node16"
+    },
+    "node16": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "（拍了拍你的肩）害，没事，你上次救下我妹妹，我还没好好谢谢你呢。正好，这条街走到头有一家我很喜欢的饭店，我请你吃饭！",
+      "nextNode": "node17"
+    },
+    "node17": {
+      "speaker": "旁白",
+      "dialogue": "听了刘小星的安慰，你的心情好了很多。忽然想起，很久前在充满恐惧和恐慌的时候，也有过这么一个人安慰过你。可能是时间太久了吧，你已经记不起是谁，但是免不了对刘小星产生了一些亲切感，仿佛一见如故。",
+      "nextNode": "node18"
+    },
+    "node18": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "好呀，那我们走吧！"
+    }
+  }
+}
