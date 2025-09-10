@@ -1,0 +1,22 @@
+{
+  "username": "75375352",
+  "address": {
+    "map": "Map1-4",
+    "x": 1358.0,
+    "y": 370.0
+  },
+  "values": {
+    "conch": 1,
+    "suspicion": 150
+  },
+  "mapStates": {
+    "Map1-4": {
+      "removedObjects": [
+        "NewsPaper1-4",
+        "door1-4"
+      ]
+    }
+  },
+  "achievements": [],
+  "tools": []
+}
