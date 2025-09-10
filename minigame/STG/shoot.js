@@ -8,12 +8,15 @@ const PLAYER_HITBOX_SIZE = 8;
 const PLAYER_SPEED_HIGH = 7;
 const PLAYER_SPEED_LOW = 3;
 const BULLET_SPEED = 8;
-const ENEMY_BULLET_SPEED = 4;
 const BOSS_HEALTH = 1000;
 // 难度配置
+const ENEMY_BULLET_SPEED = {
+    easy: 3,
+    hard: 4
+};
 const DIFFICULTY_SETTINGS = {
     easy: {
-        smallEnemyShootRate: 120, // 简单难度小敌机射击速率
+        smallEnemyShootRate: 180, // 简单难度小敌机射击速率
         bossShootRate: 60         // 简单难度Boss射击速率
     },
     hard: {
@@ -228,7 +231,6 @@ class Enemy {
 
         // 根据当前难度设置射击速率
         const difficultySettings = DIFFICULTY_SETTINGS[currentDifficulty];
-
         if (type === 'small') {
             this.width = 30;
             this.height = 30;
@@ -248,7 +250,7 @@ class Enemy {
             this.targetY = 150;
         }
 
-        this.shootCooldown = this.shootRate;
+        this.shootCooldown = 60;
     }
 
     update() {
@@ -348,6 +350,7 @@ class Enemy {
     }
 
     shoot() {
+        const currentBulletSpeed = ENEMY_BULLET_SPEED[currentDifficulty];
         if (this.type === 'small') {
             // 小敌机射击
             enemyBullets.push({
@@ -355,7 +358,7 @@ class Enemy {
                 y: this.y + this.height/2,
                 width: 6,
                 height: 6,
-                speed: ENEMY_BULLET_SPEED,
+                speed: currentBulletSpeed,
                 angle: Math.PI/2
             });
         } else if (this.type === 'boss') {
@@ -370,7 +373,7 @@ class Enemy {
                             y: this.y + this.height/2,
                             width: 8,
                             height: 8,
-                            speed: ENEMY_BULLET_SPEED * 0.7,
+                            speed: currentBulletSpeed * 0.7,
                             angle: angle
                         });
                     }
@@ -387,7 +390,7 @@ class Enemy {
                             y: this.y + this.height/2,
                             width: 8,
                             height: 8,
-                            speed: ENEMY_BULLET_SPEED,
+                            speed: currentBulletSpeed,
                             angle: angle + (i * 0.2)
                         });
                     }
@@ -401,7 +404,7 @@ class Enemy {
                             y: this.y + this.height/2,
                             width: 8,
                             height: 8,
-                            speed: ENEMY_BULLET_SPEED * 0.8,
+                            speed: currentBulletSpeed * 0.8,
                             angle: angle
                         });
                     }
