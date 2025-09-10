@@ -1,0 +1,35 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "condition": "训练分greater than30",
+      "trueNode": "node2",
+      "falseNode": "node8"
+    },
+    "node2": {
+      "speaker": "旁白",
+      "dialogue": "你真的要离开吗？",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "options": [
+        { "text": "离开训练基地", "targetNode": "node4" },
+        { "text": "再练练", "targetNode": "node7" }
+      ]
+    },
+    "node4": {
+      "speaker": "旁白",
+      "dialogue": "虽然完成了今天的训练科目，但是你明显感到这些曾经引以为豪的技术变得力不从心，于是倍感焦虑。",
+      "action": "teleport map2-2"
+    },
+
+    "node7": {
+      "speaker": "旁白",
+      "dialogue": "你觉得你的动作还没到位，决定继续训练。"
+    },
+    "node8": {
+      "speaker": "旁白",
+      "dialogue": "你还没有完成今天的训练科目！完成后才能离开这里哦。"
+    }
+  }
+}
