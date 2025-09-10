@@ -1,12 +1,12 @@
 {
-  "username": "6666666",
+  "username": "5554242",
   "address": {
     "map": "",
     "x": -1.0,
     "y": -1.0
   },
   "values": {
-    "suspicion": 150,
+    "suspicion": 100,
     "conch": 0
   },
   "mapStates": {},

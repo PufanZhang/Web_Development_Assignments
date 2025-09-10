@@ -269,7 +269,11 @@
         }
       ],
       "speaker": "刘小月",
-      "dialogue": "我们快一起回去吧！"
+      "dialogue": "我们快一起回去吧！",
+      "action":{
+        "type":"teleport"
+      }
+      
     }
   }
 }

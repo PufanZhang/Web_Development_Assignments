@@ -99,15 +99,19 @@ export const interactionManager = {
 
             dialogueManager.start(interactedObject.storyKey, (endAction) => {
                 // 对话结束后的回调
-                const teleportData = endAction.teleportData || interactedObject.teleportData;
-                if (endAction && endAction.type === 'teleport' && teleportData) {
-                    onTeleport(teleportData);
-                }
+                if (endAction){
+                    const teleportData = endAction.teleportData || interactedObject.teleportData;
+                    if ( endAction.type === 'teleport' && teleportData) {
+                        onTeleport(teleportData);
+                    }
 
-                if (endAction && GAME_LIST.includes(endAction.type)) {
-                    console.log(`接收到 ${endAction.type} 动作，正在加载游戏...`);
-                    minigameLoader.load(endAction.type, endAction.onWin, endAction.onLose);
+                    if (GAME_LIST.includes(endAction.type)) {
+                        console.log(`接收到 ${endAction.type} 动作，正在加载游戏...`);
+                        minigameLoader.load(endAction.type, endAction.onWin, endAction.onLose);
+                    }
                 }
+                
+                
 
                 // 只有当 singleInteraction 为 true 时，才将其标记为已交互并隐藏
                 if (interactedObject.singleInteraction) {

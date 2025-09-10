@@ -84,6 +84,30 @@
           "targetNode": "stay_action"
         }
       ]
+    },
+    "teleport_action": {
+      "speaker": "旁白",
+      "dialogue": "……",
+      "action":{
+        "type":"teleport",
+        "teleportData": {
+          "targetMap": "Map1-3-2",
+          "targetX": 800,
+          "targetY": 500
+        }
+      }
+    },
+    "stay_action": {
+      "speaker": "旁白",
+      "dialogue": "……",
+      "action":{
+        "type":"teleport",
+        "teleportData": {
+          "targetMap": "Map1-3-1",
+          "targetX": 800,
+          "targetY": 800
+        }
+      }
     }
   }
 }

@@ -203,7 +203,7 @@ function setupEventListeners() {
     });
 
     // 9. 成功后返回剧情
-    elements.backToStory.addEventListener('click', returnToStory);
+    elements.backToStory.addEventListener('click', returnSuccess);
     
     // 10. 失败后重试
     elements.tryAgain.addEventListener('click', returnToStory);
@@ -379,6 +379,16 @@ function returnToStory() {
     elements.cluesSection.classList.add('hidden');
     elements.passwordSection.classList.add('hidden');
     const result = { success: false };
+    window.parent.postMessage({ type: 'closeMinigame', result: result }, '*');
+}
+function returnSuccess() {
+    // 这里可以添加返回剧情的逻辑，例如：
+    // 1. 隐藏游戏相关界面
+    elements.successScreen.classList.add('hidden');
+    elements.failureScreen.classList.add('hidden');
+    elements.cluesSection.classList.add('hidden');
+    elements.passwordSection.classList.add('hidden');
+    const result = { success: true };
     window.parent.postMessage({ type: 'closeMinigame', result: result }, '*');
 }
 
