@@ -4,6 +4,7 @@
     "node1": {
       "speaker": "报纸",
       "dialogue": "你在沉思中，再次把目光投向了桌子上那份旧报纸。",
+      "displayImage": "assets/images/newspaper.jpg",
       "nextNode": "node2"
     },
     "node2": {
@@ -43,4 +44,3 @@
     }
   }
 }
-

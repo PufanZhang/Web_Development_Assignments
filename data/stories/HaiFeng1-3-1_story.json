@@ -127,13 +127,18 @@
       "options": [
         {
           "text": "为逝去的队友伤心。",
-          "targetNode": "transport map1-4"
+          "targetNode": "node10"
         },
         {
           "text": "有别的难言之隐。",
           "targetNode": "changeValue"
         }
       ]
+    },
+    "node10": {
+      "action": {
+        "type": "teleport"
+      }
     },
     "changeValue": {
       "speaker": "旁白",
@@ -153,7 +158,9 @@
       },
       "speaker": "李海峰",
       "dialogue": "（疑惑地）好吧。",
-      "nextNode": "transport map1-4"
+      "action": {
+        "type": "teleport"
+      }
     }
   }
 }

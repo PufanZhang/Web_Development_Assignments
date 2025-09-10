@@ -1,8 +1,8 @@
 {
   "id": "psychol1-2",
   "image": "assets/images/shen.png",
-  "x": 1000,
-  "y": 350,
+  "x": 800,
+  "y": 500,
   "width": 120,
   "height": 180,
   "showPrompt": true,
