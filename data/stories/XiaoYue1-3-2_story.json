@@ -1,0 +1,63 @@
+{
+  "startNode": "node11",
+  "nodes": {
+    "node11": {
+      "scene": [
+        {"id": "刘小月", "sprite": "assets/images/characterA.png"},
+        {"id": "唐梓", "sprite": "assets/images/characterKidnap.png"}
+      ],
+      "speaker": "刘小月",
+      "dialogue": "我的姐姐很喜欢花，这片花海都是她种下的。之前姐姐在花田玩的时候，有一次把头绳落在了花田里。我找了好久都没找到，哥哥，你这么神通广大，能帮忙找到吗？",
+      "nextNode": "node13"
+    },
+    
+    "node13": {
+      "scene": [
+        {"id": "刘小月", "sprite": "assets/images/characterA.png"},
+        {"id": "唐梓", "sprite": "assets/images/characterKidnap.png"}
+      ],
+      "speaker": "刘小月",
+      "dialogue": "有一次姐姐在花田玩的时候，把头绳落在了花田里。我找了好久都没找到，哥哥，你是空军诶，视力肯定很好，能帮我找到吗？",
+      "options": [
+        {
+          "text": "帮忙找头绳",
+          "targetNode": "node16"
+        },
+        {
+          "text": "推辞",
+          "targetNode": "node14"
+        }
+      ]
+    },
+    "node16": {
+      "speaker": "旁白",
+      "dialogue": "一个解密小游戏",
+      "action": {
+        "type": "jiemi",
+        "onWin": "jiemi_win_story",
+        "onLose": "jiemi_lose_story"
+      }
+    },
+    "node14": {
+      "scene": [
+        {"id": "刘小月", "sprite": "assets/images/characterA.png"},
+        {"id": "唐梓", "sprite": "assets/images/characterKidnap.png"}
+      ],
+      "speaker": "唐梓",
+      "dialogue": "小月，哥哥等会儿还要回部队，相信你一定能找到的！",
+      "nextNode": "node15"
+    },
+    "node15": {
+      "scene": [
+        {"id": "刘小月", "sprite": "assets/images/characterA.png"},
+        {"id": "唐梓", "sprite": "assets/images/characterKidnap.png"}
+      ],
+      "speaker": "刘小月",
+      "dialogue": "嗯嗯那哥哥和我进屋坐坐吧，我姐姐很会泡茶！"
+    }
+  }
+}
+
+
+
+  

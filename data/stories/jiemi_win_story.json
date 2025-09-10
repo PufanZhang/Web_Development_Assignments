@@ -7,7 +7,7 @@
       "valueChanges": [
         { "name": "conch", "amount": 1, "absolute": true }
       ],
-      "scene":{"id":"A","sprite":"assets/images/tousheng.png"}
+      "displayImage": "assets/images/tousheng.png"
     }
   }
 }

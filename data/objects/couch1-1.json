@@ -3,5 +3,6 @@
     "image": "",
     "x":850, "y": 400, "width": 50, "height": 20,
     "showPrompt": true,
+    "singleInteraction": true,
     "storyKey": "couch1-1_story"
 }
