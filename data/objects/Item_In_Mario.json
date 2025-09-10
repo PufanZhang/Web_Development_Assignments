@@ -1,0 +1,11 @@
+{
+  "id": "Item_In_Mario",
+  "image": "assets/images/Item_Mario.png",
+  "x": 600,
+  "y": 600,
+  "width": 50,
+  "height": 50,
+  "storyKey": "story_mario_intro",
+  "showPrompt": true,
+  "singleInteraction": false
+}
