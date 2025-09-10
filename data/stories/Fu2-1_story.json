@@ -1,0 +1,49 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "scene": [
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+        { "id": "陶孚", "sprite": "assets/images/charactertf.png" }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "教官你好！我是原太空舰队特战部队唐梓，今天来到这里参加复员康复训练！",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+        { "id": "陶孚", "sprite": "assets/images/charactertf.png" }
+      ],
+      "speaker": "陶孚",
+      "dialogue": "（严肃、温和地）你好，唐梓同志！我部早已接到命令，并组织学习了你们特战队的光辉事迹！",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+        { "id": "陶孚", "sprite": "assets/images/charactertf.png" }
+      ],
+      "speaker": "陶孚",
+      "dialogue": "我部将尽己所能，帮助你和海峰同志回复身体素质，也希望你们能尽快适应我们尖刀连的节奏。",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+        { "id": "陶孚", "sprite": "assets/images/charactertf.png" }
+      ],
+      "speaker": "陶孚",
+      "dialogue": "最后，我代表尖刀连训练基地全体同志欢迎你和新队长的到来！",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "scene": [
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+        { "id": "陶孚", "sprite": "assets/images/charactertf.png" }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "（感激地）谢谢你们！我们必将竭尽全力，为人类解放事业肝脑涂地亦在所不辞！"
+    }
+  }
+}
