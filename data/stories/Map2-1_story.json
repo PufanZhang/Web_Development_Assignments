@@ -1,0 +1,24 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "speaker": "旁白",
+      "dialogue": "你身体的康复速度很快，没过多长时间就出院，开始做复员的准备。",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "speaker": "旁白",
+      "dialogue": "但长时间的昏迷让你的身体变得虚弱，你需要一些康复训练来恢复体能，为以后高强度的战争做好准备。",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "speaker": "旁白",
+      "dialogue": "上级高度重视你的能力，把你和海峰队长一起调入了尖刀连，让海峰队长转任尖刀连队长。",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "speaker": "旁白",
+      "dialogue": "并请专家为你们制定了康复计划，希望你们早日能为人类做出更大的贡献。"
+    }
+  }
+}

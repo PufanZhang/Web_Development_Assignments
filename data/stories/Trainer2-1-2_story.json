@@ -1,0 +1,40 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "scene": [
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+        { "id": "管理员", "sprite": "assets/images/charactergly.png" }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "您好，请问这里是体能训练基地吗？",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+        { "id": "管理员", "sprite": "assets/images/charactergly.png" }
+      ],
+      "speaker": "管理员",
+      "dialogue": "同志您好，请问您要恢复体能吗？我们这里是全球最顶尖的体能训练场！",
+      "options": [
+        {
+          "text": "加入训练",
+          "action": "minigameG4"
+        },
+        {
+          "text": "推辞：不了吧，我现在还没安排这个训练",
+          "targetNode": "node4"
+        }
+      ]
+    },
+    "node4": {
+      "scene": [
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+        { "id": "管理员", "sprite": "assets/images/charactergly.png" }
+      ],
+      "speaker": "管理员",
+      "dialogue": "好的，您需要的时候再找我就行，我一直在这！"
+    }
+  }
+}

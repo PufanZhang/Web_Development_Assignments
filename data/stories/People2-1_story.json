@@ -1,0 +1,74 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "scene": [
+        { "id": "路人", "sprite": "assets/images/characterlr.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "路人",
+      "dialogue": "哇！您就是那个战斗英雄唐梓吗！我们专门学习了您的英雄事迹，您能给我们讲讲“冰川行动”的传奇故事吗？",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "speaker": "旁白",
+      "dialogue": "还没等你反应过来，旁边的战士们都闻讯而至，把你围了个水泄不通。",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        { "id": "路人", "sprite": "assets/images/characterlr.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "路人",
+      "dialogue": "请问您是怎么在冰川号上执行任务的？",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        { "id": "路人", "sprite": "assets/images/characterlr.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "路人",
+      "dialogue": "请问您是怎么在冰川号上坚持住五年之久的？",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "scene": [
+        { "id": "路人", "sprite": "assets/images/characterlr.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "路人",
+      "dialogue": "请问为什么您要断开和地球的无线电通讯？",
+      "nextNode": "node6"
+    },
+    "node6": {
+      "scene": [
+        { "id": "路人", "sprite": "assets/images/characterlr.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "路人",
+      "dialogue": "请问您在冰川号上看到过机械本体了吗？……",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "speaker": "旁白",
+      "dialogue": "这些问题就像潮水一般涌入了你记忆中最空白的地方。你只要一开始思考、回忆，就不由得感到头脑发痛。面对着这些期待的目光，你感到手足无措。",
+      "nextNode": "node8"
+    },
+    "node8": {
+      "scene": [
+        { "id": "陶孚", "sprite": "assets/images/charactertf.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+        { "id": "路人", "sprite": "assets/images/characterlr.png" }
+      ],
+      "speaker": "陶孚",
+      "dialogue": "（生气）嘿嘿嘿！你们都在这干嘛呢？不好好回去训练？我告诉你们不要在这围着战斗英雄，有没有一点纪律性？真想知道回头我们开一个学习班，让唐梓同志亲自给你们上几课！",
+      "nextNode": "node9"
+    },
+    "node9": {
+      "speaker": "旁白",
+      "dialogue": "人群一哄而散。但你在那里还是有些彷徨，怅然若失……"
+    }
+  }
+}
