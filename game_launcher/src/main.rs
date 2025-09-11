@@ -139,7 +139,7 @@ async fn main() -> io::Result<()> {
                     .service(handlers::modify_value)
                     .service(handlers::create_manual_save)
                     .service(handlers::load_manual_save)
-                    .service(handlers::get_save_file_names)
+                    .service(handlers::get_all_savefile_intros)
                     .service(handlers::get_all_achievements_status)
             )
             .service(Files::new("/js", "./js"))

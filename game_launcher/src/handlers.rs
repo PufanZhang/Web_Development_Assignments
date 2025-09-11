@@ -282,16 +282,17 @@ pub async fn modify_value(req: web::Json<ModifyValueRequest>, user: Authenticate
 #[post("/player/savefile/{save_name}")]
 pub async fn create_manual_save(
     path: web::Path<String>,
-    data: web::Json<PlayerData>,
-    user: AuthenticatedUser
+    mut data: web::Json<PlayerData>,
+    user: AuthenticatedUser,
 ) -> impl Responder {
     let save_name = path.into_inner();
     if data.username != user.username {
         return HttpResponse::Forbidden().finish();
     }
 
-    match database::save_file(&save_name, &data).await {
-        Ok(response) => HttpResponse::Ok().json(response),
+    // 调用新的数据库函数，传入可变的 data
+    match database::create_manual_save(&save_name, &mut data).await {
+        Ok(_) => HttpResponse::Ok().finish(),
         Err(_) => HttpResponse::InternalServerError().body("Failed to save player file."),
     }
 }
@@ -311,9 +312,10 @@ pub async fn load_manual_save(path: web::Path<String>, user: AuthenticatedUser) 
 }
 
 #[get("/player/enquire_all_savefiles")]
-pub async fn get_save_file_names(user: AuthenticatedUser) -> impl Responder {
-    match database::get_manual_save_names(&user.username).await {
-        Ok(names) => HttpResponse::Ok().json(names),
+pub async fn get_all_savefile_intros(user: AuthenticatedUser) -> impl Responder {
+    // 调用新的数据库函数 get_all_save_display_data
+    match database::get_all_save_display_data(&user.username).await {
+        Ok(data) => HttpResponse::Ok().json(data),
         Err(_) => HttpResponse::InternalServerError().finish(),
     }
 }

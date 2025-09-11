@@ -1,4 +1,4 @@
-use crate::models::{AuthRequest, ModifyValueResponse, PlayerData, UnlockedAchievement};
+use crate::models::{AuthRequest, ModifyValueResponse, PlayerData, UnlockedAchievement, SaveFileIntro, SaveFileDisplayData};
 use crate::achievements;
 use sha2::{Digest, Sha256};
 use std::collections::HashMap;
@@ -6,6 +6,7 @@ use std::path::PathBuf;
 use tokio::fs;
 use tokio::io::AsyncWriteExt;
 use std::io::{Error, ErrorKind};
+use chrono::Local;
 
 
 #[derive(Debug)]
@@ -50,6 +51,15 @@ fn get_save_file_path(username: &str) -> PathBuf {
         std::fs::create_dir_all(&dir).expect("Failed to create save files directory");
     }
     dir.join(format!("{}.json", username))
+}
+
+fn get_save_intro_path(save_name: &str) -> PathBuf {
+    // 确保 `savefile_intro` 文件夹存在
+    let dir = PathBuf::from("./data/savefile_intro");
+    if !dir.exists() {
+        std::fs::create_dir_all(&dir).expect("Failed to create savefile_intro directory");
+    }
+    dir.join(format!("{}.json", save_name))
 }
 
 // SHA256 加密密码
@@ -211,10 +221,14 @@ pub async fn modify_player_value(
     })
 }
 
-pub async fn save_file(save_name: &str, data: &PlayerData) -> Result<(), Error> {
-    let path = get_save_file_path(&data.username);
+// 一个专门用于手动存档的函数
+pub async fn create_manual_save(save_name: &str, data: &mut PlayerData) -> Result<(), Error> {
+    // 1. 获取当前时间并更新 PlayerData 对象
+    let now = Local::now();
+    data.save_time = Some(now.format("%Y-%m-%d %H:%M:%S").to_string());
 
-    // 读取已有的存档，如果文件不存在或解析失败，则创建一个新的空存档集合
+    // 2. 读取存档集合文件
+    let path = get_save_file_path(&data.username);
     let mut saves: HashMap<String, PlayerData> = if path.exists() {
         let content = fs::read_to_string(&path).await?;
         serde_json::from_str(&content).unwrap_or_else(|_| HashMap::new())
@@ -222,10 +236,10 @@ pub async fn save_file(save_name: &str, data: &PlayerData) -> Result<(), Error> 
         HashMap::new()
     };
 
-    // 插入或更新指定名称的存档
+    // 3. 插入或更新带有最新时间的存档数据
     saves.insert(save_name.to_string(), data.clone());
 
-    // 将更新后的存档集合写回文件
+    // 4. 将更新后的存档集合写回文件
     let content = serde_json::to_string_pretty(&saves)?;
     fs::write(path, content).await
 }
@@ -241,28 +255,59 @@ pub async fn load_save_file(username: &str, save_name: &str) -> Result<(), Error
     let saves: HashMap<String, PlayerData> = serde_json::from_str(&content)?;
 
     // 从存档集合中找到对应的存档点
-    if let Some(player_data_to_load) = saves.get(save_name) {
-        // 如果找到了，就调用现有的 save_player_data 函数，
-        save_player_data(player_data_to_load).await
+    if let Some(mut player_data_to_load) = saves.get(save_name).cloned() {
+        // 在加载存档前，先读取玩家当前的成就
+        let current_player_data = load_player_data(username).await?;
+
+        // 用当前玩家的成就覆盖掉存档文件里的成就
+        player_data_to_load.achievements = current_player_data.achievements;
+
+        // 保存整合了最新成就的存档数据
+        save_player_data(&player_data_to_load).await
     } else {
-        // 如果没找到指定名称的存档，返回“未找到”错误
         Err(Error::new(ErrorKind::NotFound, "Specified save name not found."))
     }
 }
 
-pub async fn get_manual_save_names(username: &str) -> Result<Vec<String>, Error> {
-    let path = get_save_file_path(username);
+pub async fn get_all_save_display_data(username: &str) -> Result<Vec<SaveFileDisplayData>, Error> {
+    let save_collection_path = get_save_file_path(username);
 
-    if !path.exists() {
-        // 如果存档文件不存在，说明没有任何存档，返回一个空列表
-        return Ok(Vec::new());
+    if !save_collection_path.exists() {
+        return Ok(Vec::new()); // 如果没有任何存档，返回空列表
     }
-    let content = fs::read_to_string(&path).await?;
+
+    // 1. 读取包含所有手动存档数据的集合文件
+    let content = fs::read_to_string(&save_collection_path).await?;
     let saves: HashMap<String, PlayerData> = serde_json::from_str(&content)?;
 
-    // 提取所有的 key (也就是存档名) 并返回
-    let names = saves.keys().cloned().collect();
-    Ok(names)
+    let mut display_data_list = Vec::new();
+
+    // 2. 遍历每一个存档
+    for (save_name, player_data) in saves {
+        let intro_path = get_save_intro_path(&save_name);
+
+        // 3. 读取对应的静态介绍文件
+        if intro_path.exists() {
+            let intro_content = fs::read_to_string(&intro_path).await?;
+            if let Ok(intro) = serde_json::from_str::<SaveFileIntro>(&intro_content) {
+                // 4. 组合数据
+                let display_data = SaveFileDisplayData {
+                    id: intro.id,
+                    file_name: intro.file_name,
+                    // 关键：save_time 从 PlayerData 中获取，如果不存在则提供一个默认值
+                    save_time: player_data.save_time.unwrap_or_else(|| "N/A".to_string()),
+                    location: intro.location,
+                    description: intro.description,
+                    progress: intro.progress,
+                };
+                display_data_list.push(display_data);
+            }
+        }
+    }
+
+    // 5. 按 ID 排序后返回
+    display_data_list.sort_by_key(|data| data.id);
+    Ok(display_data_list)
 }
 
 // --- 开发者模式函数 --- //
