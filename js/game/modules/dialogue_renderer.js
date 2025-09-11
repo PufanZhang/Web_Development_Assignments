@@ -93,22 +93,22 @@ export function renderDialogue(dialogueState, elements, onOptionClick) {
                 const userValue = gameState.getValue(name);
 
                 switch (comparison) {
-                    case 'greaterOrEqual':
+                    case 'greater_than_or_equal':
                         if (userValue < value) shouldShow = false;
                         break;
-                    case 'greater':
+                    case 'greater_than':
                         if (userValue <= value) shouldShow = false;
                         break;
-                    case 'lessOrEqual':
+                    case 'less_than_or_equal':
                         if (userValue > value) shouldShow = false;
                         break;
-                    case 'less':
+                    case 'less_than':
                         if (userValue >= value) shouldShow = false;
                         break;
                     case 'equal':
                         if (userValue !== value) shouldShow = false;
                         break;
-                    case 'notEqual':
+                    case 'not_equal':
                         if (userValue === value) shouldShow = false;
                         break;
                 }

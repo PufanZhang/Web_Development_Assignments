@@ -1,0 +1,10 @@
+{
+  "name": "作战指挥室",
+  "width": 1600,
+  "height": 900,
+  "background": "assets/background/background2-3.png",
+  "walls": [
+    
+  ],
+  "objects": []
+}

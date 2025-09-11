@@ -31,9 +31,6 @@
       ],
       "speaker": "刘小星",
       "dialogue": "那我就买这个了，希望他能和刘小月“相处融洽”。（抬起头，看着唐梓,从花瓶中抽出一枝花）你知道这是什么花吗？",
-      "nextNode": "node7"
-    },
-    "node7": {
       "options": [
         {
           "text": "不知道…",
@@ -87,7 +84,10 @@
         { "id": "刘小星", "sprite": "assets/images/characterlxx.png" }
       ],
       "speaker": "刘小星",
-      "dialogue": "（等唐梓走远后，喃喃道）“永不放弃的希望”！"
+      "dialogue": "（等唐梓走远后，喃喃道）“永不放弃的希望”！",
+      "action":{
+        "type":"teleport"
+      }
     }
   }
 }

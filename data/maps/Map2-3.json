@@ -1,0 +1,18 @@
+{
+  "name": "超市",
+  "width": 1600,
+  "height": 900,
+  "background": "assets/background/background2-3.png",
+  "entryStoryKey": "Map2-3_entry_story",
+  "walls": [
+    { "x": 300, "y": 300, "width": 100, "height": 400 },
+    { "x": 500, "y": 300, "width": 100, "height": 400 },
+    { "x": 750, "y": 100, "width": 100, "height": 600 },
+    { "x": 0, "y": 0, "width": 1600, "height": 150 },
+    { "x": 1000, "y": 300, "width": 100, "height": 400 },
+    { "x": 1200, "y": 300, "width": 100, "height": 400 },
+    { "x": 0, "y": 800, "width": 600, "height": 80 },
+    { "x": 1000, "y": 800, "width": 600, "height": 80 }
+  ],
+  "objects": ["older2-3"]
+}

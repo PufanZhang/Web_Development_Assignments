@@ -1,0 +1,19 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "speaker": "旁白",
+      "dialogue": "外星人在通往传送阵的路上设置了重重陷阱，你的运载工具已不能使用",
+      "options": [
+        { "text": "徒步前往", "targetNode": "teleport_action" }
+      ]
+    },
+    "teleport_action": {
+      "speaker": "旁白",
+      "dialogue": "前路唯有一条，但你充满决心",
+      "action": {
+        "type": "Mario"
+      }
+    }
+  }
+}

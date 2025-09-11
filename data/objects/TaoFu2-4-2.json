@@ -1,0 +1,20 @@
+{
+    "id": "TaoFu2-4-2",
+    "image": "assets/images/ID.png",
+    "x":800, "y": 500, "width": 50, "height": 20,
+    "showPrompt": true,
+    "singleInteraction": true,
+    "storyKey": "TaoFu2-4-2_story",
+    "requiredValues": {
+      "logic": "AND",
+      "conditions": [
+        {"name": "exam2", "comparison": "greater_than_or_equal", "value":1},
+        {"name": "exam2", "comparison": "greater_than_or_equal", "value": 1}
+      ]
+    },
+    "teleportData": {
+      "targetMap": "Map3-1",
+      "targetX": 100,
+      "targetY": 500
+    }
+}

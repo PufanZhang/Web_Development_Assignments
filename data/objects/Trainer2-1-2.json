@@ -1,0 +1,8 @@
+{
+    "id": "Trainer2-1-2",
+    "image": "assets/images/charactertz.png",
+    "x":300, "y": 300, "width": 50, "height": 20,
+    "showPrompt": true,
+    "singleInteraction": false,
+    "storyKey": "Trainer2-1-2_story"
+}

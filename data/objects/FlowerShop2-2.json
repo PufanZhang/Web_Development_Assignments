@@ -1,0 +1,13 @@
+{
+    "id":"FlowerShop2-2",
+    "x": 720,"y": 200,"width": 160,"height": 150,
+    "image": "",
+    "storyKey": "FlowerShop2-2_story",
+    "showPrompt": true,
+    "singleInteraction": false,
+    "teleportData": { 
+      "targetMap": "Map2-3",
+      "targetX": 800,
+      "targetY": 800
+    }
+}

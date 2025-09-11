@@ -17,19 +17,24 @@
       ],
       "speaker": "管理员",
       "dialogue": "同志您好，请问您要训练飞行技术吗？我们这里是全球最顶尖的飞机训练场！",
-      "nextNode": "node3"
-    },
-    "node3": {
       "options": [
         {
           "text": "加入训练",
-          "action": "minigameFTG"
+          "targetNode": "node6"
         },
         {
           "text": "推辞",
           "targetNode": "node4"
         }
       ]
+    },
+    "node6":{
+      "speaker":"旁白",
+      "dialogue":"开始训练",
+      "action":{
+        "type":"STG"
+      },
+      "valueChanges":[{"name":"Trainscore","amount":1}]
     },
     "node4": {
       "scene": [

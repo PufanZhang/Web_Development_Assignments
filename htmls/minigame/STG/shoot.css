@@ -1,0 +1,312 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to bottom, #1a2980, #26d0ce);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    color: white;
+}
+
+#game-container {
+    display: flex;
+    width: 1200px;
+    height: 900px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+#game-board {
+    width: 700px;
+    height: 840px;
+    position: relative;
+    margin: 30px 0 30px 30px;
+    background-color: #000;
+    border: 2px solid #444;
+}
+
+#game-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+#effects-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+#game-info {
+    width: 400px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.info-section {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #444;
+}
+
+.info-section h3 {
+    margin-bottom: 15px;
+    color: #ffcc00;
+    border-bottom: 1px solid #444;
+    padding-bottom: 5px;
+}
+
+.stat {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.label {
+    color: #aaa;
+}
+
+.instruction {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.key {
+    display: inline-block;
+    width: 80px;
+    padding: 3px 8px;
+    background-color: #333;
+    border: 1px solid #555;
+    border-radius: 4px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.desc {
+    color: #ccc;
+}
+
+#boss-health-container {
+    height: 20px;
+    background-color: #333;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+#boss-health-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, #ff0000, #ff9900);
+    transition: width 0.3s;
+}
+
+#boss-health-text {
+    text-align: center;
+    color: #ff9900;
+}
+
+.screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    z-index: 100;
+    width: 400px;
+}
+
+#game-start-screen {
+    display: block;
+}
+
+#game-over-screen {
+    display: none;
+}
+
+.screen h2 {
+    margin-bottom: 20px;
+    color: #ffcc00;
+    font-size: 32px;
+}
+
+.screen p {
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.game-btn {
+    padding: 12px 24px;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#restart-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+#restart-btn:hover {
+    background-color: #45a049;
+}
+
+#home-btn {
+    background-color: #2196F3;
+    color: white;
+}
+
+#home-btn:hover {
+    background-color: #0b7dda;
+}
+
+/* 新增：特效样式 */
+.effect {
+    position: absolute;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* 爆炸特效 */
+.explosion {
+    width: 50px;
+    height: 50px;
+    background: radial-gradient(circle, #ffcc00, #ff6600, transparent);
+    border-radius: 50%;
+    animation: explosion-anim 0.8s forwards;
+}
+
+@keyframes explosion-anim {
+    0% { transform: scale(0); opacity: 1; }
+    100% { transform: scale(3); opacity: 0; }
+}
+
+/* 击中特效 */
+.hit-effect {
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, #ffffff, #ffcc00, transparent);
+    border-radius: 50%;
+    animation: hit-anim 0.4s forwards;
+}
+
+@keyframes hit-anim {
+    0% { transform: scale(0); opacity: 1; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* 玩家死亡特效 */
+.player-death {
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, #00ccff, #0066ff, transparent);
+    border-radius: 50%;
+    animation: player-death-anim 1s forwards;
+}
+
+@keyframes player-death-anim {
+    0% { transform: scale(0); opacity: 1; }
+    50% { transform: scale(2); opacity: 0.8; }
+    100% { transform: scale(3); opacity: 0; }
+}
+
+/* Boss登场特效 */
+.boss-entrance {
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, #9900ff, #6600cc, transparent);
+    border-radius: 50%;
+    animation: boss-entrance-anim 1.5s forwards;
+}
+
+@keyframes boss-entrance-anim {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.5); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 0; }
+}
+
+/* 玩家重生特效 */
+.player-respawn {
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle, #00ff00, #00cc00, transparent);
+    border-radius: 50%;
+    animation: player-respawn-anim 1s infinite;
+}
+
+@keyframes player-respawn-anim {
+    0%, 100% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.5); opacity: 0.3; }
+}
+
+/* 模式切换特效 */
+.pattern-change {
+    width: 100px;
+    height: 100px;
+    border: 3px solid #00ccff;
+    border-radius: 50%;
+    animation: pattern-change-anim 1s forwards;
+}
+
+@keyframes pattern-change-anim {
+    0% { transform: scale(0); opacity: 1; }
+    100% { transform: scale(2); opacity: 0; }
+}
+
+/* Bomb特效 */
+.bomb-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.8), transparent);
+    animation: bomb-flash 0.5s forwards;
+    pointer-events: none;
+    z-index: 5;
+}
+
+@keyframes bomb-flash {
+    0% { opacity: 0.8; }
+    100% { opacity: 0; }
+}
+
+/* 冲击波特效 */
+.shockwave {
+    position: absolute;
+    border: 2px solid #ff3366;
+    border-radius: 50%;
+    animation: shockwave-anim 1s forwards;
+}
+
+@keyframes shockwave-anim {
+    0% { transform: scale(0); opacity: 0.8; }
+    100% { transform: scale(10); opacity: 0; }
+}

@@ -1,0 +1,151 @@
+{
+  "startNode": "node2",
+  "nodes": {
+    "node2": {
+      "scene": [
+        { "id": "老人", "sprite": "assets/images/characterlr.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "老人",
+      "dialogue": "孩子，大娘真好好谢谢你，没有你我还得在那多卡好长时间。谢谢你小伙子，大娘都不知道怎么感谢你呀。",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+        { "id": "老人", "sprite": "assets/images/characterlr.png" }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "不用了大娘，这都是我应该做的。",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        { "id": "老人", "sprite": "assets/images/characterlr.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "老人",
+      "dialogue": "（看看自己手头的东西，掏出一个笔记本）小伙子，大娘送你一个笔记本吧，收下吧，好歹是大娘的一份心意。",
+      "options": [
+        { "text": "啊……大娘您真是太客气了，那好吧，这个我就收下了。您以后多注意，小心不要再出这种意外", "targetNode": "node6" },
+        { "text": "不用不用了，这都是我应该做的，您先回吧，我这边还有事", "targetNode": "node12" }
+      ]
+    },
+    "node6": {
+      "scene": [
+        { "id": "大娘", "sprite": "assets/images/characterdn.png" }
+      ],
+      "speaker": "大娘",
+      "dialogue": "好的好的小伙子，那你就在这边吧，大娘先走了哈",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "speaker": "旁白",
+      "dialogue": "【获得重要道具：笔记本】",
+      "nextNode": "node8"
+    },
+    "node8": {
+      "speaker": "旁白",
+      "dialogue": "你站在街的这边，看着大娘渐行渐远。忽然，大娘转过头来,站在那里凝望着你。",
+      "nextNode": "node9"
+    },
+    "node9": {
+      "speaker": "旁白",
+      "dialogue": "你有些不知所措，不知道为什么大娘会对自己有如此怪异的不舍。",
+      "nextNode": "node10"
+    },
+    "node10": {
+      "speaker": "旁白",
+      "dialogue": "你转过头看到刘小星站在对面,她对你笑了笑。再转回来望向大娘的方向，那位大娘已经不见了。",
+      "action":{
+        "type":"teleport",
+         "teleportData": {
+            "targetMap": "Map2-4",
+            "targetX": 800,
+            "targetY": 800
+            }
+        }
+    },
+    "node12": {
+      "speaker": "旁白",
+      "dialogue": "你走入了旁边一家商店。进去之后，商店的商品目录吸引了你的注意力",
+      "nextNode": "node13"
+    },
+    "node13": {
+      "scene": [
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "能量化药丸、强化激素、飞云鞋……这怎么会卖这些东西？",
+      "nextNode": "node14"
+    },
+    "node14": {
+      "speaker": "旁白",
+      "dialogue": "你走近商品，看上面写着说明的字样：1. 能量化药丸，能让你在短时间内大幅提升体力；2. 强化激素，能让你一段时间内身体素质大幅增强；3. 飞云鞋，能让你一段时间内获得飞一般的感觉",
+      "nextNode": "node15"
+    },
+    "node15": {
+      "options": [
+        { "text": "购买能量化药丸 200元", "targetNode": "node17",
+        "requiredValue": {
+            "name": "money",
+            "comparison": "greater_than_or_equal",
+            "value": 200
+        }},
+        { "text": "购买强化激素 200元", "targetNode": "node18",
+         "requiredValue": {
+            "name": "money",
+            "comparison": "greater_than_or_equal",
+            "value": 200
+        }
+        },
+        { "text": "购买飞云鞋 200元", "targetNode": "node19",
+         "requiredValue": {
+            "name": "money",
+            "comparison": "greater_than_or_equal",
+            "value": 200
+        }
+        },
+        { "text": "什么都不买", "targetNode": "node21" }
+      ]
+    },
+    "node17": {
+      "speaker": "旁白",
+      "dialogue": "你已成功购买 能量化药丸，金币 -200",
+      "nextNode": "node21",
+      "valueChanges": [
+        { "name": "money", "value": -200 }
+      ]
+
+    },
+    "node18": {
+      "speaker": "旁白",
+      "dialogue": "你已成功购买 强化激素，金币 -200",
+      "nextNode": "node21",
+      "valueChanges": [
+        { "name": "money", "value": -200 }
+      ]
+    },
+    "node19": {
+      "speaker": "旁白",
+      "dialogue": "你已成功购买 飞云鞋，金币 -200",
+      "nextNode": "node21",
+      "valueChanges": [
+        { "name": "money", "value": -200 }
+      ]
+    },
+    "node21": {
+      "speaker": "旁白",
+      "dialogue": "过了一会，你看到大娘已经走远了，就从超市走了出来，看到刘小星站在路对面，粲然一笑。",
+      "action":{
+        "type":"teleport",
+        "teleportData": {
+            "targetMap": "Map2-4",
+            "targetX": 800,
+            "targetY": 800
+        }
+      }
+      
+    }
+  }
+}

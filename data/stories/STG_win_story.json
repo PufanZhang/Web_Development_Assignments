@@ -1,0 +1,16 @@
+{
+  "startNode": "start",
+  "nodes": {
+    "start": {
+      "scene": [
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+        { "id": "管理员", "sprite": "assets/images/charactergly.png" }
+      ],
+      "speaker": "管理员",
+      "dialogue": "恭喜！你可以进行其他科目的考核了",
+      "valueChanges": [
+        { "name": "exam1", "amount": 1 }
+      ]
+    }
+  }
+}

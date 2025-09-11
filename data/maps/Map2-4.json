@@ -1,0 +1,12 @@
+{
+  "name": "太空训练基地",
+  "width": 1600,
+  "height": 900,
+  "background": "assets/background/background2-1.png",
+  "entryStoryKey": "Map2-4_entry_story",
+  "walls": [
+    {"x": 0, "y": 0, "width": 1600, "height": 200},
+    {"x": 1200, "y": 200, "width": 200, "height": 100}
+  ],
+  "objects": ["TaoFu2-4-1","XiaoXing2-4","Trainer2-4-2","Trainer2-4-1"]
+}

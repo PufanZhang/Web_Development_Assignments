@@ -1,0 +1,18 @@
+{
+    "id": "Door2-1",
+    "image": "",
+    "x":800, "y": 150, "width": 50, "height": 20,
+    "showPrompt": true,
+    "singleInteraction": false,
+    "requiredValues":{
+      "conditions": [
+        { "name":"Trainscore","comparison":"greater_than_or_equal", "value": 3}
+      ]
+    },
+    "storyKey": "Door2-1_story",
+    "teleportData": {
+      "targetMap": "Map2-2",
+      "targetX": 400,
+      "targetY": 400
+    }
+}

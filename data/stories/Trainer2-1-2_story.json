@@ -20,13 +20,21 @@
       "options": [
         {
           "text": "加入训练",
-          "action": "minigameG4"
+          "targetNode": "node6"
         },
         {
-          "text": "推辞：不了吧，我现在还没安排这个训练",
+          "text": "推辞",
           "targetNode": "node4"
         }
       ]
+    },
+    "node6":{
+      "speaker":"旁白",
+      "dialogue":"开始训练",
+      "action":{
+        "type":"Parkour"
+      },
+      "valueChanges":[{"name":"Trainscore","amount":1}]
     },
     "node4": {
       "scene": [
