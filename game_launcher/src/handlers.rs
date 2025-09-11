@@ -11,7 +11,10 @@ use crate::models::FrontendAchievement;
 use std::collections::HashMap;
 
 #[get("/map_data/{map_id}")]
-pub async fn get_map_data( map_id: web::Path<String>, user: AuthenticatedUser) -> impl Responder {
+pub async fn get_map_data( map_id: web::Path<String>,
+                           user: AuthenticatedUser,
+                           last_music_sent: web::Data<Arc<Mutex<HashMap<String, String>>>>,
+) -> impl Responder {
     // 从 token 里拿到用户名
     let username = user.username;
 
@@ -19,7 +22,29 @@ pub async fn get_map_data( map_id: web::Path<String>, user: AuthenticatedUser) -
     let player_data = player_data_result.ok();
 
     match load_and_pack_map_data(&map_id, &player_data).await {
-        Ok(data) => HttpResponse::Ok().json(data),
+        Ok(mut data) => { // 将 data 设为可变
+            let mut music_state = last_music_sent.lock().await;
+            let last_music = music_state.get(&username).cloned();
+
+            match (&data.music, last_music) {
+                (Some(current_music), Some(last)) if current_music == &last => {
+                    // 音乐相同，从数据包中移除，不发送
+                    data.music = None;
+                }
+                (Some(current_music), _) => {
+                    // 音乐不同或之前没有音乐，更新状态
+                    music_state.insert(username.clone(), current_music.clone());
+                }
+                (None, Some(_)) => {
+                    // 新地图没有音乐，但之前有，移除记录
+                    music_state.remove(&username);
+                }
+                _ => {
+                    // 两边都没有音乐，什么都不用做
+                }
+            }
+            HttpResponse::Ok().json(data)
+        },
         Err(LoadError::NotFound) => {
             HttpResponse::NotFound().body(format!("Map '{}' not found.", map_id))
         }
@@ -257,16 +282,17 @@ pub async fn modify_value(req: web::Json<ModifyValueRequest>, user: Authenticate
 #[post("/player/savefile/{save_name}")]
 pub async fn create_manual_save(
     path: web::Path<String>,
-    data: web::Json<PlayerData>,
-    user: AuthenticatedUser
+    mut data: web::Json<PlayerData>,
+    user: AuthenticatedUser,
 ) -> impl Responder {
     let save_name = path.into_inner();
     if data.username != user.username {
         return HttpResponse::Forbidden().finish();
     }
 
-    match database::save_file(&save_name, &data).await {
-        Ok(response) => HttpResponse::Ok().json(response),
+    // 调用新的数据库函数，传入可变的 data
+    match database::create_manual_save(&save_name, &mut data).await {
+        Ok(_) => HttpResponse::Ok().finish(),
         Err(_) => HttpResponse::InternalServerError().body("Failed to save player file."),
     }
 }
@@ -286,9 +312,10 @@ pub async fn load_manual_save(path: web::Path<String>, user: AuthenticatedUser) 
 }
 
 #[get("/player/enquire_all_savefiles")]
-pub async fn get_save_file_names(user: AuthenticatedUser) -> impl Responder {
-    match database::get_manual_save_names(&user.username).await {
-        Ok(names) => HttpResponse::Ok().json(names),
+pub async fn get_all_savefile_intros(user: AuthenticatedUser) -> impl Responder {
+    // 调用新的数据库函数 get_all_save_display_data
+    match database::get_all_save_display_data(&user.username).await {
+        Ok(data) => HttpResponse::Ok().json(data),
         Err(_) => HttpResponse::InternalServerError().finish(),
     }
 }

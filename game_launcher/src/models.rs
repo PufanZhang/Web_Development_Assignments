@@ -96,6 +96,8 @@ pub struct MapInfo {
     pub height: i32,
     #[serde(default)]
     pub entry_story_key: Option<String>,
+    #[serde(default)]
+    pub music: Option<String>,
 }
 
 fn default_width() -> i32 { 800 }
@@ -115,6 +117,7 @@ pub struct PackedMapData {
     pub height: i32,
     pub entry_story_key: Option<String>,
     pub asset_manifest: Vec<String>, // 资源清单
+    pub music: Option<String>,
 }
 
 // 登录/注册时，前端发送过来的 JSON 格式
@@ -157,6 +160,8 @@ pub struct PlayerData {
     pub map_states: HashMap<String, MapState>,
     pub achievements: Vec<String>,
     pub tools: Vec<String>,
+    #[serde(rename = "saveTime", skip_serializing_if = "Option::is_none", default)]
+    pub save_time: Option<String>,
 }
 
 // 为新用户创建默认存档
@@ -173,6 +178,7 @@ impl PlayerData {
             achievements: Vec::new(),
             tools: Vec::new(),
             map_states: HashMap::new(),
+            save_time: None,
         }
     }
 }
@@ -271,4 +277,28 @@ pub struct FrontendAchievement {
     pub icon: String,
     pub completed: bool,
     pub achievement_type: String, // 加上分类信息
+}
+
+// 用于手动存档时，展示给前端的存档简介
+#[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct SaveFileIntro {
+    pub id: i32,
+    pub file_name: String,
+    #[serde(default)]
+    pub save_time: String,
+    pub location: String,
+    pub description: String,
+    pub progress: i32,
+}
+
+#[derive(Serialize, Debug, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct SaveFileDisplayData {
+    pub id: i32,
+    pub file_name: String,
+    pub save_time: String, // 这个时间将从 PlayerData 中获取
+    pub location: String,
+    pub description: String,
+    pub progress: i32,
 }

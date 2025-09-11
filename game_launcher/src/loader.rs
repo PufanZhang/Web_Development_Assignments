@@ -104,6 +104,7 @@ pub async fn load_and_pack_map_data(map_id: &str, player_data: &Option<PlayerDat
         height: map_info.height,
         entry_story_key: map_info.entry_story_key,
         asset_manifest,
+        music: map_info.music,
     };
 
     println!("✅ 地图 {} 打包完成！", map_id);

@@ -99,8 +99,8 @@ export const interactionManager = {
 
             dialogueManager.start(interactedObject.storyKey, (endAction) => {
 
-                // 只有当 singleInteraction 为 true 时，才将其标记为已交互并隐藏
-                if (interactedObject.singleInteraction) {
+                // 对话结束后的回调
+                if (interactedObject.singleInteraction) { // 只有当 singleInteraction 为 true 时，才将其标记为已交互并隐藏
                     interactedObject.interacted = true;
                     interactedObject.element.classList.add('hidden');
                     currentInteractable = null;
@@ -114,16 +114,20 @@ export const interactionManager = {
                     }
                 }
 
-                // 对话结束后的回调
                 if (endAction){
                     const teleportData = endAction.teleportData || interactedObject.teleportData;
-                    if ( endAction.type === 'teleport' && teleportData) {
+                    if (endAction.type === 'teleport' && teleportData) {
                         onTeleport(teleportData);
                     }
 
                     if (GAME_LIST.includes(endAction.type)) {
                         console.log(`接收到 ${endAction.type} 动作，正在加载游戏...`);
                         minigameLoader.load(endAction.type, endAction.onWin, endAction.onLose);
+                    }
+
+                    if (endAction.type === 'saveFile' && endAction.saveFileName) {
+                        console.log(`存档名称${endAction.saveFileName}正在存档...`);
+                        gameState.createSaveFile(endAction.saveFileName);
                     }
                 }
             });
