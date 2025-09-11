@@ -342,10 +342,18 @@ pub async fn get_all_achievements_status(user: AuthenticatedUser) -> impl Respon
     for (filename, achievement_details) in all_achievements {
         let completed = player_data.achievements.contains(&filename);
 
+        // 根据完成状态决定使用哪个 description
+        let description = if completed {
+            achievement_details.description_completed.clone()
+        } else {
+            achievement_details.description_uncompleted.clone()
+        };
+
         let frontend_achievement = FrontendAchievement {
             id: filename,
             name: achievement_details.name.clone(),
-            description: achievement_details.description.clone(),
+            r#abstract: achievement_details.r#abstract.clone(),
+            description, // 使用上面逻辑判断得出的 description
             icon: achievement_details.icon.clone(),
             completed,
             achievement_type: achievement_details.achievement_type.clone(),

@@ -238,7 +238,10 @@ pub struct Achievement {
     #[serde(rename = "type")]
     pub achievement_type: String,
     pub name: String,
-    pub description: String,
+    #[serde(default)]
+    pub r#abstract: String,
+    pub description_uncompleted: String,
+    pub description_completed: String,
     pub icon: String,
     pub required_values: RequiredValues,
     #[serde(skip)]
@@ -248,8 +251,9 @@ pub struct Achievement {
 #[derive(Serialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct FrontendAchievement {
-    pub id: String, // 我们用文件名作为唯一 ID
+    pub id: String, // 用文件名作为唯一 ID
     pub name: String,
+    pub r#abstract: String,
     pub description: String,
     pub icon: String,
     pub completed: bool,
