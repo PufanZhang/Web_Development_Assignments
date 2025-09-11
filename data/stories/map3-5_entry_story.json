@@ -1,0 +1,15 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "speaker": "旁白",
+      "dialogue": "你和你的小队回到了空间站，虽然顺利完成了既定任务，但你们都知道，有两个战友已经永远回不来了。",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "speaker": "旁白",
+      "dialogue": "降落后，你看到李海峰和唐槿辞正在那里等待你们归来。",
+      "nextNode": "node3"
+    }
+  }
+}

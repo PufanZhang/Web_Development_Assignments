@@ -1,0 +1,35 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "speaker": "旁白",
+      "dialogue": "你被二叔带去了他的办公室。",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "speaker": "旁白",
+      "dialogue": "这时他的手机铃声突然响了起来。",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "紧急要开个会，你可以在我办公室看看有没有对你的训练有帮助的书籍。",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "speaker": "旁白",
+      "dialogue": "二叔走出办公室，你在他办公室的书柜前翻找起来。",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "speaker": "旁白",
+      "dialogue": "满柜的深色书籍中，一个烫金的封皮的书引起了你的注意。"
+    }
+  }
+}

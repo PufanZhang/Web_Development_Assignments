@@ -1,0 +1,73 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node2": {
+      "speaker": "旁白",
+      "dialogue": "你抽出了那本“书”，看到扉页上写着：长大后，我就成为了你。",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "speaker": "旁白",
+      "dialogue": "再翻几页，你发现这好像是一本日记。",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "speaker": "旁白",
+      "dialogue": "只是，这上面的事件，怎么跟你的经历这么像呢。",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "speaker": "旁白",
+      "dialogue": "“2220.8.20 参加冰川行动”",
+      "nextNode": "node6"
+    },
+    "node6": {
+      "speaker": "旁白",
+      "dialogue": "“2225.8.31 在医院醒来，救下了小月……”",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "speaker": "旁白",
+      "dialogue": "今天是 11.1 号，但日记并没有停止在此，而是白纸黑字写着——",
+      "nextNode": "node8"
+    },
+    "node8": {
+      "speaker": "旁白",
+      "dialogue": "“12.30 检修仓 我要快点挣脱束缚。”",
+      "nextNode": "node9"
+    },
+    "node9": {
+      "speaker": "旁白",
+      "dialogue": "“12.31 地球 我要救下他们。”",
+      "nextNode": "node10"
+    },
+    "node10": {
+      "speaker": "旁白",
+      "dialogue": "“1.1 世界 我要解开真相。”",
+      "nextNode": "node11"
+    },
+    "node11": {
+      "speaker": "旁白",
+      "dialogue": "“你只要帮我全部完成，或者找到全部的它们，你的所有愿望就会实现。”",
+      "nextNode": "node12"
+    },
+    "node12": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "这到底是谁的日记本？“你”是谁，“我”又是谁？",
+      "nextNode": "node13"
+    },
+    "node13": {
+      "speaker": "旁白",
+      "dialogue": "你知道的，对于日记，时间和地点很重要。",
+      "action": {
+        "type": "teleport"
+      }
+    }
+  }
+}

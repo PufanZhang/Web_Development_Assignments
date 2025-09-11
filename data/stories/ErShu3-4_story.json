@@ -1,0 +1,81 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "scene": [
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "唐梓，你们是要去行动了吗？",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "嗯，我们这就去给敌人“唱响挽歌”。",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "我刚才给你的飞机安装了“自动防御系统”，危机的时候，它能救你一命。",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "好的，谢谢二叔了！",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "（突然，你看到二叔身后的机场上闪过一个黑影）那是谁？！",
+      "nextNode": "node6"
+    },
+    "node6": {
+      "scene": [
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "（转过头看过去）你在说什么，那里没有什么人呀。",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "（不放心地凝视）好吧，那可能是我多虑了……那我就准备出发了，等我凯旋吧。"
+    }
+  }
+}
