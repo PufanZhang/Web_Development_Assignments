@@ -1,0 +1,227 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "speaker": "旁白",
+      "dialogue": "你挥去纪念碑上的尘土。",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "父亲，“冰川行动”重创了敌人，但却是以牺牲几乎所有队员的代价……而我如今甚至无法回忆起跟我一起作战的队友都是谁……",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "不过如今，组织再次接纳和信任了我——您能看见吗!我们这次行动的胜败，关系着人类的未来和希望！",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "父亲，您知道吗，命运的齿轮终于又要开始转动了……",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "speaker": "旁白",
+      "dialogue": "你的话顿住了，耳边传来脚步声……抬起头，你愣住了……",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "（震惊）请问您是？",
+      "nextNode": "node22"
+    },
+    "node22": {
+      "speaker": "旁白",
+      "dialogue": "来人并未回答你，而是走到你父亲的碑旁，上了一炷香。",
+      "nextNode": "node23"
+    },
+    "node23": {
+      "speaker": "旁白",
+      "dialogue": "你回过神来仔细打量他，在此并不凉爽的天气身着黑色的长袖长裤，把全身上下都包裹住。那眉眼与你父亲有八分像。",
+      "nextNode": "node8"
+    },
+    "node8": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "？",
+      "dialogue": "唐梓，我叫唐槿辞，是你的二叔。",
+      "nextNode": "node9"
+    },
+    "node9": {
+      "speaker": "旁白",
+      "dialogue": "他伸出手，你握住。他的手冰冷，但脸上的笑容却很温和。",
+      "nextNode": "node10"
+    },
+    "node10": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "（怀疑）嗯？我从来没听父亲说过，他有任何弟弟。",
+      "nextNode": "node11"
+    },
+    "node11": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "哥哥当年去世的时候，你还小，而我作为军舰相关的博士，多年来从事着军方的科研保密任务，前一段时间刚结束封闭训练。",
+      "nextNode": "node12"
+    },
+    "node12": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "而那时你正值“冰川行动”期间，所以不认识我也是应该的。他们都说，我和哥哥真像……",
+      "nextNode": "node13"
+    },
+    "node13": {
+      "speaker": "旁白",
+      "dialogue": "二叔伸手摸了摸父亲的碑，眼中的悲痛不是作假。",
+      "nextNode": "node14"
+    },
+    "node14": {
+      "speaker": "旁白",
+      "dialogue": "印象中父亲的身影早就模糊。这么多年来，每一次执行任务收到的伤痛都是自己抗下；每一次看见队友牺牲在自己面前时的悲伤，每一次看见智械那仿佛无坚不摧的母舰时的无力，都要自己承受和消化。",
+      "nextNode": "node15"
+    },
+    "node15": {
+      "speaker": "旁白",
+      "dialogue": "二叔的出现，好似给好好补了父亲这一位置在你成长中的缺位。你开始思考是否要继续相信他！你知道的，一切有运，都是自己选择的结果。",
+      "nextNode": "node16"
+    },
+    "node16": {
+      "speaker": "旁白",
+      "options": [
+        { "text": "相信", "targetNode": "node24" },
+        { "text": "不相信", "targetNode": "node24" }
+      ]
+    },
+    "node24": {
+      "speaker": "旁白",
+      "dialogue": "请记住你的选择！不过你知道的，命运会反复出题，直到你找到最终的答案。",
+      "nextNode": "node17"
+    },
+    "node17": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "二叔，那你现在是在哪里工作啊？",
+      "nextNode": "node18"
+    },
+    "node18": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "我现在在联合国护卫队，跟你在一个地方，担任空军飞行队总工程师。",
+      "nextNode": "node19"
+    },
+    "node19": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "走吧，跟我一起回军队，现在距离“火山行动”的时间越来越近，你要抓紧时间完成相关的训练。",
+      "nextNode": "node20"
+    },
+    "node20": {
+      "speaker": "旁白",
+      "dialogue": "你看着二叔的脸，就在一瞬间，你突然有一种被大雨淋透的感觉。你不知道这是为什么，但是你分明感到内心里回忆的枷锁突然松动了。",
+      "nextNode": "node20_2"
+    },
+    "node20_2": {
+      "speaker": "旁白",
+      "dialogue": "许多回忆模糊地奔涌出来。空间站、海螺发带、红掌花、幸运符……一切的一切到底是谁的回忆呢？",
+      "nextNode": "node20_3"
+    },
+    "node20_3": {
+      "speaker": "旁白",
+      "dialogue": "仿佛有一个人，好久之前来过到你的身边……",
+      "action": {
+        "type": "teleport"
+      }
+    }
+  }
+}
