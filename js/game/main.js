@@ -7,6 +7,7 @@ import { dialogueManager } from './modules/world/dialogue.js';
 import { debugManager } from './modules/debug.js';
 import { PLAYER_INITIAL_X, PLAYER_INITIAL_Y, INITIAL_MAP } from "./config.js";
 import { initDebugRuler, updateDebugRuler } from './modules/ruler.js';
+import { achievementNotifier } from './modules/achievementNotifier.js';
 
 // --- 全局游戏状态 ---
 window.gameMode = 'map'; // 'map' 或 'dialogue'
@@ -265,6 +266,7 @@ async function initializeGame() {
     const loadingPromise = (async () => {
         currentUser = getCurrentUser();
 
+        achievementNotifier.init();
         debugManager.init();
         gameState.onValueChange(checkDynamicObjects);
 
