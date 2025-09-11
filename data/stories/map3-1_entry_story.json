@@ -1,0 +1,264 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "scene": [
+        {
+          "id": "陶晓光",
+          "sprite": "assets/images/charactertxg.png"
+        }
+      ],
+      "speaker": "陶晓光",
+      "dialogue": "长期以来，我们在和智械的战争中一直处于下风，但科技上的代差并不是最重要的原因。经过战争顾问团分析研究，我们认为最大的弱点在于信息的不对称。",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        {
+          "id": "陶晓光",
+          "sprite": "assets/images/charactertxg.png"
+        }
+      ],
+      "speaker": "陶晓光",
+      "dialogue": "零点纪元开始以来，尽管我们及时的使用光量子屏蔽技术隐藏了人类聚居区，但我们人类的领域边界已经完全暴露在智械的眼中；另一方面，我们对智械生存区的宇宙坐标可谓是一无所知——这就导致了我们一直处于被单方面威慑的被动状况中。",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "的确，所以智械为了扩大优势，就要千方百计地进入我们的屏蔽区内部，探求到人类聚居区的具体宇宙坐标",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "“冰川号”或许就是为了这个目的才静默进我们的屏蔽区的吧。不过他们最终已经暴露了，为什么不趁机把信号传出去呢？",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "scene": [
+        {
+          "id": "陶晓光",
+          "sprite": "assets/images/charactertxg.png"
+        }
+      ],
+      "speaker": "陶晓光",
+      "dialogue": "不，他们不是为了这个目的......（看了大家一眼，把话咽了回去）但总而言之，据可靠情报，目前智械尚且没有掌握我们的安全区的详细坐标",
+      "nextNode": "node6"
+    },
+    "node6": {
+      "scene": [
+        {
+          "id": "陶晓光",
+          "sprite": "assets/images/charactertxg.png"
+        }
+      ],
+      "speaker": "陶晓光",
+      "dialogue": "所以我们一定要趁这个机会，打他个措手不及，反过来获取到他们的坐标。",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "可是指挥官，我们的战舰已经几乎完全封锁在安全区的边界了，这种情况下又该如何得知敌人的坐标呢？",
+      "nextNode": "node8"
+    },
+    "node8": {
+      "scene": [
+        {
+          "id": "陶晓光",
+          "sprite": "assets/images/charactertxg.png"
+        }
+      ],
+      "speaker": "陶晓光",
+      "dialogue": "兵不厌诈。在我们的“三十六计”中，我认为非“苦肉计”不能实现我们的战略目的。",
+      "nextNode": "node9"
+    },
+    "node9": {
+      "scene": [
+        {
+          "id": "陶晓光",
+          "sprite": "assets/images/charactertxg.png"
+        }
+      ],
+      "speaker": "陶晓光",
+      "dialogue": "（打开地图，指着上面的内容）经过我们顾问团讨论，把任务安排在这里——",
+      "nextNode": "node10"
+    },
+    "node10": {
+      "scene": [
+        {
+          "id": "刘小星",
+          "sprite": "assets/images/characterlxx.png"
+        }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "这是，火山星？我印象里最近几年中，这是联合国开发署的重点开发地点，各地都在向火山星移民，大家都说这里必定会成为一个新的财富风口......",
+      "nextNode": "node11"
+    },
+    "node11": {
+      "scene": [
+        {
+          "id": "陶晓光",
+          "sprite": "assets/images/charactertxg.png"
+        }
+      ],
+      "speaker": "陶晓光",
+      "dialogue": "没错，其实这也是我们计划的一部分。火山星的位置恰好接近边界线附近，而它有一个特殊的卫星——火卫一。",
+      "nextNode": "node12"
+    },
+    "node12": {
+      "scene": [
+        {
+          "id": "陶晓光",
+          "sprite": "assets/images/charactertxg.png"
+        }
+      ],
+      "speaker": "陶晓光",
+      "dialogue": "（指向地图）这是唯一一颗有一段公转轨道穿过安全屏蔽区附近的天体。或许因为敌人的技术限制，他们的传送技术无法直接到达我们的安全区内部",
+      "nextNode": "node13"
+    },
+    "node13": {
+      "scene": [
+        {
+          "id": "陶晓光",
+          "sprite": "assets/images/charactertxg.png"
+        }
+      ],
+      "speaker": "陶晓光",
+      "dialogue": "因此如果想潜入，只能借助火卫一。他们应该早就想到这个中转站了，只是一直忌惮我们也同时重视这颗卫星，会在安全区内设置重型火力埋伏他们罢了。",
+      "nextNode": "node15"
+    },
+    "node15": {
+      "scene": [
+        {
+          "id": "陶孚",
+          "sprite": "assets/images/charactertf.png"
+        }
+      ],
+      "speaker": "陶孚",
+      "dialogue": "我明白了，父亲。您的意思是假意暴露我们在火山星的宇宙坐标和火力分布，引诱敌人使用空间传送门在火卫一上登陆，然后反向追踪到敌人的宇宙坐标吗？",
+      "nextNode": "node16"
+    },
+    "node16": {
+      "scene": [
+        {
+          "id": "陶晓光",
+          "sprite": "assets/images/charactertxg.png"
+        },
+        {
+          "id": "陶孚",
+          "sprite": "assets/images/charactertf.png"
+        }
+      ],
+      "speaker": "陶晓光",
+      "dialogue": "（赞赏地看着陶孚））没错，孙子曰，“上兵莫过于伐谋”。我们就是要引诱敌人一步步落入我们给他们设置好的圈套中。",
+      "nextNode": "node17"
+    },
+    "node17": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "但是……火山星上有13万老百姓啊。",
+      "nextNode": "node18"
+    },
+    "node18": {
+      "scene": [
+        {
+          "id": "陶晓光",
+          "sprite": "assets/images/charactertxg.png"
+        }
+      ],
+      "speaker": "陶晓光",
+      "dialogue": "他们就是我们引诱敌人最大的筹码。据情报显示，敌人之所以会和我们陷入对峙，一个重要的原因就是他们的空间穿梭技术有限，这或许是因为他们“硅基生物”的生命体征有关。",
+      "nextNode": "node19"
+    },
+    "node19": {
+      "scene": [
+        {
+          "id": "陶晓光",
+          "sprite": "assets/images/charactertxg.png"
+        }
+      ],
+      "speaker": "陶晓光",
+      "dialogue": "所以为了优化升级他们的穿越技术，他们必须抓捕足够的人类作为实验素材——这是我们对于他们抓捕人类原因的合理推断。",
+      "nextNode": "node20"
+    },
+    "node20": {
+      "scene": [
+        {
+          "id": "陶晓光",
+          "sprite": "assets/images/charactertxg.png"
+        }
+      ],
+      "speaker": "陶晓光",
+      "dialogue": "所以，只要把火山星暴露出来，他们就不可能放过这块大肥肉——这就是弃马——将军！指挥室把这次行动命名为“火山行动”，也是取我们的胜利会如火山喷发一样疾风骤雨之意。",
+      "nextNode": "node21"
+    },
+    "node21": {
+      "scene": [
+        {
+          "id": "陶晓光",
+          "sprite": "assets/images/charactertxg.png"
+        }
+      ],
+      "speaker": "陶晓光",
+      "dialogue": "孩子们，具体任务策划就交给本次行动的李海峰队长。我们联合国执委会和联合防卫队作战指挥室会许可你们调动一切可调动的资源，火山星上13万百姓的生命和战局形势能否扭转就都托付在你们身上了！",
+      "nextNode": "node22"
+    },
+    "node22": {
+      "scene": [
+        {
+          "id": "陶晓光",
+          "sprite": "assets/images/charactertxg.png"
+        }
+      ],
+      "speaker": "陶晓光",
+      "dialogue": "所以，只要把火山星暴露出来，他们就不可能放过这块大肥肉——这就是弃马——将军！指挥室把这次行动命名为“火山行动”，也是取我们的胜利会如火山喷发一样疾风骤雨之意。",
+      "nextNode": "node23"
+    },
+    "node23": {
+      "scene": [
+        {
+          "id": "陶晓光",
+          "sprite": "assets/images/charactertxg.png"
+        }
+      ],
+      "speaker": "陶晓光",
+      "dialogue": "人类的战斗英雄们，成败在此一举，务必毕其功于一役，力求一击即中，不容有失！",
+      "nextNode": "node24"
+    },
+    "node24": {
+      "speaker": "旁白",
+      "dialogue": "你感到有一股强烈的使命感降临到你的身上——就像多年前，冰川行动出征的那一刻一样。",
+      "nextNode": "node25"
+    },
+    "node25": {
+      "speaker": "旁白",
+      "dialogue": "你眼中饱含热泪，决心为了自己热爱的土地奉献出自己的一切。",
+      "action": {
+        "type": "teleport"
+      }
+    }
+  }
+}
+

@@ -1,0 +1,11 @@
+{
+  "name": "空间站",
+  "width": 1600,
+  "height": 900,
+  "background": "assets/background/background3-3.png",
+  "entryStoryKey": "Map3-5_entry_story",
+  "walls": [
+    
+  ],
+  "objects": []
+}

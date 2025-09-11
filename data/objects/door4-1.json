@@ -1,0 +1,12 @@
+{
+    "id": "door4-1",
+    "image": "",
+    "x": 1350, "y": 300, "width": 100, "height": 100,
+    "storyKey": "door4-1_story",
+    "showPrompt": true,
+    "teleportData": {
+      "targetMap": "map4-2",
+      "targetX": 100,
+      "targetY": 500
+    }
+}
