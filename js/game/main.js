@@ -5,7 +5,7 @@ import { handlePlayerCollision } from './modules/world/collision.js';
 import { interactionManager } from './modules/world/interaction.js';
 import { dialogueManager } from './modules/world/dialogue.js';
 import { debugManager } from './modules/debug.js';
-import { PLAYER_INITIAL_X, PLAYER_INITIAL_Y, INITIAL_MAP } from "./config.js";
+import { PLAYER_INITIAL_X, PLAYER_INITIAL_Y, INITIAL_MAP, VOLUME } from "./config.js";
 import { initDebugRuler, updateDebugRuler } from './modules/ruler.js';
 import { achievementNotifier } from './modules/achievementNotifier.js';
 import { audioManager } from './modules/audioManager.js';
@@ -270,7 +270,7 @@ async function initializeGame() {
     const loadingPromise = (async () => {
         currentUser = getCurrentUser();
 
-        audioManager.init(0.7);
+        audioManager.init(VOLUME);
         achievementNotifier.init();
         debugManager.init();
         gameState.onValueChange(checkDynamicObjects);

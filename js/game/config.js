@@ -3,6 +3,9 @@
 // 初始地图
 export const INITIAL_MAP = "map1";
 
+// 背景音乐音量
+export const VOLUME = 0.7;
+
 // 玩家相关配置
 export const PLAYER_WIDTH = 100;
 export const PLAYER_HEIGHT = 100;
