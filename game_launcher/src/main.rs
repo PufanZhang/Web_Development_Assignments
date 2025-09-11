@@ -4,6 +4,7 @@ mod models;
 mod database;
 mod auth;
 mod dev_mode;
+mod achievements;
 
 use actix_files::Files;
 use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
@@ -12,7 +13,8 @@ use std::env;
 use std::sync::Arc;
 use tokio::sync::Mutex;
 use std::net::TcpListener;
-use std::io;
+use std::io::{self, BufRead};
+use tokio::sync::mpsc;
 
 // 专门处理根路径"/"的请求，重定向到login.html
 #[get("/")]
@@ -20,7 +22,7 @@ async fn index() -> impl Responder {
     HttpResponse::Found().append_header(("Location", "/login.html")).finish()
 }
 
-// 从起始端口开始，查找一个可用的 TCP 端口
+/// 从起始端口开始，查找一个可用的 TCP 端口
 fn find_available_port(host: &str, start_port: u16) -> Option<u16> {
     let mut port = start_port;
     println!("🔎 正在从端口 {} 开始寻找可用端口...", port);
@@ -51,6 +53,27 @@ async fn main() -> io::Result<()> {
     const HOST: &str = "127.0.0.1";
     const START_PORT: u16 = 8080;
 
+    let current_dir = env::current_dir().unwrap_or_default();
+    println!("💡 当前工作目录: {:?}", current_dir);
+
+    println!("🩺 正在进行文件完整性健康检查...");
+    let required_dirs = vec!["assets", "data", "htmls", "js", "css", "minigame"];
+    let mut all_ok = true;
+    for dir_name in required_dirs {
+        let dir_path = current_dir.join(dir_name);
+        if !dir_path.exists() {
+            eprintln!("❌ 致命错误: 必需的文件夹 '{}' 未找到! 请确保游戏文件完整且未被移动。", dir_path.display());
+            all_ok = false;
+        }
+    }
+
+    // 如果有任何必需的文件夹缺失，则优雅地退出程序
+    if !all_ok {
+        pause_and_exit();
+        return Ok(());
+    }
+    println!("✅ 文件完整性检查通过。");
+
     // 自动寻找一个空闲端口
     let port = match find_available_port(HOST, START_PORT) {
         Some(p) => p,
@@ -67,12 +90,35 @@ async fn main() -> io::Result<()> {
 
     let active_users = web::Data::new(Arc::new(Mutex::new(HashSet::<String>::new())));
 
+    // 1. 创建一个容量为 32 的通道
+    let (tx, rx) = mpsc::channel::<String>(32);
+
+    // 2. 创建一个独立的系统线程，专门用于读取标准输入
+    std::thread::spawn(move || {
+        let stdin = io::stdin();
+        for line in stdin.lock().lines() {
+            match line {
+                Ok(line_content) => {
+                    // 使用 blocking_send，因为它是在同步线程里调用
+                    if tx.blocking_send(line_content).is_err() {
+                        // 如果发送失败 (比如接收端被关闭了)，就退出循环
+                        break;
+                    }
+                }
+                Err(_) => break, // 如果读取出错，也退出
+            }
+        }
+    });
+
     let game_url = format!("http://{}:{}/login.html", HOST, port);
 
-    let current_dir = env::current_dir().unwrap_or_default();
-    println!("💡 当前工作目录: {:?}", current_dir);
     println!("游戏服务器启动中...");
     let active_users_for_dev_mode = active_users.clone();
+
+    tokio::spawn(dev_mode::developer_mode_processor(
+        rx,
+        active_users_for_dev_mode,
+    ));
 
     let server = HttpServer::new(move || {
         App::new()
@@ -91,6 +137,7 @@ async fn main() -> io::Result<()> {
                     .service(handlers::create_manual_save)
                     .service(handlers::load_manual_save)
                     .service(handlers::get_save_file_names)
+                    .service(handlers::get_all_achievements_status)
             )
             .service(Files::new("/js", "./js"))
             .service(Files::new("/css", "./css"))
@@ -118,9 +165,6 @@ async fn main() -> io::Result<()> {
 
     println!("\n游戏服务中... 请不要关闭此窗口。");
     println!("按 Ctrl+C 即可退出服务器。");
-    tokio::spawn(dev_mode::developer_mode_processor(
-        active_users_for_dev_mode,
-    ));
     // 运行服务器 (这是一个阻塞调用，会一直运行直到程序退出)
     server.run().await
 }
