@@ -1,128 +1,129 @@
-import { auth, gameState} from "./game/modules/dataManager.js";
+import { auth, gameState, achievements } from "./game/modules/dataManager.js";
 
-const achievementData = {
-    memory: [
-        {
-            id: 1,
-            name: '记忆碎片 Alpha',
-            description: '发现了来自量子档案库的第一个记忆碎片。这个碎片包含了人类与星智慧体首次接触的回声，保存在结晶化的神经模式中。',
-            completed: true,
-            icon: '🌟'
-        },
-        {
-            id: 2,
-            name: '记忆碎片 Beta',
-            description: '获取了包含童年经历的第二个记忆碎片，这些记忆被上传到神经网络中。这些保存的记忆展示了数字融合时代之前的生活。',
-            completed: true,
-            icon: '🎮'
-        },
-        {
-            id: 3,
-            name: '记忆碎片 Gamma',
-            description: '访问了揭示量子革命记忆的第三个碎片。体验那些构建我们数字现实基础的人们的希望和梦想。',
-            completed: false,
-            icon: '⚛️'
-        },
-        {
-            id: 4,
-            name: '记忆碎片 Delta',
-            description: '解锁了包含合成友谊协议的第四个碎片。见证意识转移早期人类与AI关系的演变过程。',
-            completed: false,
-            icon: '🔗'
-        },
-        {
-            id: 5,
-            name: '记忆碎片 Epsilon',
-            description: '解码了保存第一个数字爱情故事的第五个碎片。这些记忆展示了情感连接如何在新时代超越物理界限。',
-            completed: false,
-            icon: '💫'
-        },
-        {
-            id: 6,
-            name: '完整档案',
-            description: '成功将所有记忆碎片组装成主意识档案。你现在拥有人类经验和进化的完整数字历史。',
-            completed: false,
-            icon: '🧠'
-        }
-    ],
-    decrypt: [
-        {
-            id: 1,
-            name: '密码破解者',
-            description: '使用基础神经接口和模式识别算法成功解密了你的第一个量子加密数据流。',
-            completed: false,
-            icon: '🔍'
-        },
-        {
-            id: 2,
-            name: '密码大师',
-            description: '使用增强认知算法和深度学习神经网络破解了高级加密协议，进行复杂的模式分析。',
-            completed: true,
-            icon: '🧠'
-        },
-        {
-            id: 3,
-            name: '量子解码器',
-            description: '掌握了所有三个级别的量子加密，获得了对机密数字档案和禁忌知识数据库的访问权限。',
-            completed: false,
-            icon: '⚛️'
-        }
-    ],
-    character: [
-        {
-            id: 1,
-            name: '解锁 ARIA-7',
-            description: '成功激活了高级AI伙伴ARIA-7，配备预测算法和时间分析能力，用于战略任务规划。',
-            completed: false,
-            icon: '🤖'
-        },
-        {
-            id: 2,
-            name: '解锁 NEXUS',
-            description: '启动了战术机器人NEXUS，这是一个配备先进武器系统和战场协调协议的战斗专用单位。',
-            completed: false,
-            icon: '⚔️'
-        },
-        {
-            id: 3,
-            name: '解锁 LUNA',
-            description: '激活了量子法师LUNA，通过先进全息投影系统掌握数字法术和现实操控的大师。',
-            completed: true,
-            icon: '🔮'
-        },
-        {
-            id: 4,
-            name: '解锁 守护者',
-            description: '唤醒了传说中的守护者协议，拥有全球防护能力和古代智慧档案的终极防御系统。',
-            completed: false,
-            icon: '🛡️'
-        }
-    ],
-    mission: [
-        {
-            id: 1,
-            name: '首次接触',
-            description: '成功完成了你在数字领域的第一个任务，与量子意识网络建立了联系。',
-            completed: true,
-            icon: '🎯'
-        },
-        {
-            id: 2,
-            name: '深度渗透',
-            description: '完成了高级隐秘任务，渗透安全数据要塞而未触发任何安全协议或警报。',
-            completed: false,
-            icon: '👁️'
-        },
-        {
-            id: 3,
-            name: '最终协议',
-            description: '执行了终极任务序列，获得了对主AI网络的控制权，按照你的意志重塑数字宇宙。',
-            completed: false,
-            icon: '👑'
-        }
-    ]
-};
+// const achievementData = {
+//     memory: [
+//         {
+//             id: 1,
+//             name: '记忆碎片 Alpha',
+//             description: '发现了来自量子档案库的第一个记忆碎片。这个碎片包含了人类与星智慧体首次接触的回声，保存在结晶化的神经模式中。',
+//             completed: true,
+//             icon: '🌟'
+//         },
+//         {
+//             id: 2,
+//             name: '记忆碎片 Beta',
+//             description: '获取了包含童年经历的第二个记忆碎片，这些记忆被上传到神经网络中。这些保存的记忆展示了数字融合时代之前的生活。',
+//             completed: true,
+//             icon: '🎮'
+//         },
+//         {
+//             id: 3,
+//             name: '记忆碎片 Gamma',
+//             description: '访问了揭示量子革命记忆的第三个碎片。体验那些构建我们数字现实基础的人们的希望和梦想。',
+//             completed: false,
+//             icon: '⚛️'
+//         },
+//         {
+//             id: 4,
+//             name: '记忆碎片 Delta',
+//             description: '解锁了包含合成友谊协议的第四个碎片。见证意识转移早期人类与AI关系的演变过程。',
+//             completed: false,
+//             icon: '🔗'
+//         },
+//         {
+//             id: 5,
+//             name: '记忆碎片 Epsilon',
+//             description: '解码了保存第一个数字爱情故事的第五个碎片。这些记忆展示了情感连接如何在新时代超越物理界限。',
+//             completed: false,
+//             icon: '💫'
+//         },
+//         {
+//             id: 6,
+//             name: '完整档案',
+//             description: '成功将所有记忆碎片组装成主意识档案。你现在拥有人类经验和进化的完整数字历史。',
+//             completed: false,
+//             icon: '🧠'
+//         }
+//     ],
+//     decrypt: [
+//         {
+//             id: 1,
+//             name: '密码破解者',
+//             description: '使用基础神经接口和模式识别算法成功解密了你的第一个量子加密数据流。',
+//             completed: false,
+//             icon: '🔍'
+//         },
+//         {
+//             id: 2,
+//             name: '密码大师',
+//             description: '使用增强认知算法和深度学习神经网络破解了高级加密协议，进行复杂的模式分析。',
+//             completed: true,
+//             icon: '🧠'
+//         },
+//         {
+//             id: 3,
+//             name: '量子解码器',
+//             description: '掌握了所有三个级别的量子加密，获得了对机密数字档案和禁忌知识数据库的访问权限。',
+//             completed: false,
+//             icon: '⚛️'
+//         }
+//     ],
+//     character: [
+//         {
+//             id: 1,
+//             name: '解锁 ARIA-7',
+//             description: '成功激活了高级AI伙伴ARIA-7，配备预测算法和时间分析能力，用于战略任务规划。',
+//             completed: false,
+//             icon: '🤖'
+//         },
+//         {
+//             id: 2,
+//             name: '解锁 NEXUS',
+//             description: '启动了战术机器人NEXUS，这是一个配备先进武器系统和战场协调协议的战斗专用单位。',
+//             completed: false,
+//             icon: '⚔️'
+//         },
+//         {
+//             id: 3,
+//             name: '解锁 LUNA',
+//             description: '激活了量子法师LUNA，通过先进全息投影系统掌握数字法术和现实操控的大师。',
+//             completed: true,
+//             icon: '🔮'
+//         },
+//         {
+//             id: 4,
+//             name: '解锁 守护者',
+//             description: '唤醒了传说中的守护者协议，拥有全球防护能力和古代智慧档案的终极防御系统。',
+//             completed: false,
+//             icon: '🛡️'
+//         }
+//     ],
+//     mission: [
+//         {
+//             id: 1,
+//             name: '首次接触',
+//             description: '成功完成了你在数字领域的第一个任务，与量子意识网络建立了联系。',
+//             completed: true,
+//             icon: '🎯'
+//         },
+//         {
+//             id: 2,
+//             name: '深度渗透',
+//             description: '完成了高级隐秘任务，渗透安全数据要塞而未触发任何安全协议或警报。',
+//             completed: false,
+//             icon: '👁️'
+//         },
+//         {
+//             id: 3,
+//             name: '最终协议',
+//             description: '执行了终极任务序列，获得了对主AI网络的控制权，按照你的意志重塑数字宇宙。',
+//             completed: false,
+//             icon: '👑'
+//         }
+//     ]
+// };
 
+let achievementData = {};
 // 当前打开的分类
 let currentCategory = null;
 
@@ -211,35 +212,66 @@ function goBack() {
 // 更新进度显示
 function updateProgress() {
     ['memory', 'decrypt', 'character', 'mission'].forEach(category => {
-        const total = achievementData[category].length;
-        const completedCount = achievementData[category].filter(ach => ach.completed).length;
-        const progressPercent = (completedCount / total) * 100;
+        // 如果 achievementData 中没有这个分类，就使用一个空数组作为默认值
+        const achievementsInCategory = achievementData[category] || [];
 
-        document.getElementById(`${category}-progress`).textContent = completedCount;
-        const progressFill = document.querySelector(`.${category}-progress`);
-        if (progressFill) {
-            progressFill.style.width = progressPercent + '%';
+        const total = achievementsInCategory.length;
+        const completedCount = achievementsInCategory.filter(ach => ach.completed).length;
+
+        // 当 total 为 0 时，progressPercent 会是 NaN，需要处理一下
+        const progressPercent = total > 0 ? (completedCount / total) * 100 : 0;
+
+        const progressCountElement = document.getElementById(`${category}-progress`);
+        if (progressCountElement) {
+            progressCountElement.textContent = completedCount;
+        }
+
+        const progressFillElement = document.querySelector(`.${category}-progress`);
+        if (progressFillElement) {
+            progressFillElement.style.width = progressPercent + '%';
         }
     });
 }
 
 // 初始化进度条
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     const token = localStorage.getItem("jwt_token");
 
-    if (token) {
-        console.log("【main_menu.js】: 检测到 token，正在通知后端恢复在线状态...");
-        gameState.loadPlayerData().then(playerData => {
-            if (playerData) {
-                console.log("【main_menu.js】: 后端状态已恢复。欢迎回来, ", playerData.username);
-            } else {
-                console.alert("Token 无效或已过期，请重新登录。");
-                localStorage.clear();
-                window.location.href = 'login.html';
-            }
-        });
+    if (!token) {
+        alert("登录状态已过期，请重新登录。");
+        localStorage.clear();
+        window.location.href = 'login.html';
+        return;
     }
-    updateProgress();
+
+    console.log("【achievement.js】: 正在恢复玩家在线状态...");
+    try {
+        // 步骤 1: 首先恢复玩家登录状态并加载数据
+        const playerData = await gameState.loadPlayerData();
+        if (!playerData) {
+            // 如果恢复失败，说明 token 可能无效，直接跳转登录页
+            throw new Error("无法恢复玩家会话，请重新登录。");
+        }
+        console.log("【achievement.js】: 玩家状态已恢复。欢迎回来, ", playerData.username);
+
+        // 步骤 2: 成功后再加载所有成就信息
+        console.log("【achievement.js】: 正在加载成就数据...");
+        const achievementsData = await achievements.loadAll();
+        if (!achievementsData) {
+            throw new Error("加载成就数据失败。");
+        }
+
+        // 步骤 3: 使用获取到的数据更新页面
+        console.log("【achievement.js】: 所有数据加载完毕，正在更新页面。");
+        achievementData = achievementsData; // 将获取的数据赋给全局变量
+        updateProgress(); // 使用新数据更新进度条
+
+    } catch (error) {
+        console.error(error.message);
+        alert(error.message); // 向用户显示更具体的错误信息
+        localStorage.clear();
+        window.location.href = 'login.html';
+    }
 });
 
 // 点击模态框外部关闭弹窗

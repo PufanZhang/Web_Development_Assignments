@@ -1,0 +1,14 @@
+{
+  "id": 6,
+  "type": "memory",
+  "name": "记忆碎片 Alpha",
+  "description": "发现了来自量子档案库的第一个记忆碎片。这个碎片包含了人类与星智慧体首次接触的回声，保存在结晶化的神经模式中。",
+  "icon": "🌟",
+  "requiredValues": {
+    "logic": "AND",
+    "conditions": [
+      {"name": "suspicion", "comparison": "greater_than_or_equal", "value": 150},
+      {"name": "conch", "comparison": "equal", "value": 0}
+    ]
+  }
+}

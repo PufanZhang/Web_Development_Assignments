@@ -1,4 +1,5 @@
 use crate::models::{AuthRequest, ModifyValueResponse, PlayerData};
+use crate::achievements;
 use sha2::{Digest, Sha256};
 use std::collections::HashMap;
 use std::path::PathBuf;
@@ -175,6 +176,7 @@ pub async fn modify_player_value(
     let current_value = player_data.values.get_mut(value_name).unwrap();
     *current_value += amount;
     let new_value = *current_value;
+    achievements::check_and_unlock_achievements(&mut player_data).await;
 
     // 4. 把修改后的完整数据存回去
     save_player_data(&player_data).await?;
@@ -257,6 +259,7 @@ pub async fn modify_player_value_dev(username: &str, value_name: &str, amount: i
     let current_value = player_data.values.get_mut(value_name).unwrap();
     *current_value += amount;
     let new_value = *current_value;
+    achievements::check_and_unlock_achievements(&mut player_data).await;
 
     // 4. 保存修改后的数据
     if let Err(e) = save_player_data(&player_data).await {
@@ -282,6 +285,7 @@ pub async fn set_player_value_dev(username: &str, value_name: &str, new_value: i
     // 3. 直接设置新值 (unwrap 是安全的)
     let value_to_set = player_data.values.get_mut(value_name).unwrap();
     *value_to_set = new_value;
+    achievements::check_and_unlock_achievements(&mut player_data).await;
 
     // 4. 保存修改后的数据
     if let Err(e) = save_player_data(&player_data).await {

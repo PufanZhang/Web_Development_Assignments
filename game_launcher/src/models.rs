@@ -230,3 +230,28 @@ pub struct ApiLogoutRequest {
     pub token: String,
     pub username: String,
 }
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct Achievement {
+    pub id: i32,
+    #[serde(rename = "type")]
+    pub achievement_type: String,
+    pub name: String,
+    pub description: String,
+    pub icon: String,
+    pub required_values: RequiredValues,
+    #[serde(skip)]
+    pub filename: String,
+}
+
+#[derive(Serialize, Debug, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct FrontendAchievement {
+    pub id: String, // 我们用文件名作为唯一 ID
+    pub name: String,
+    pub description: String,
+    pub icon: String,
+    pub completed: bool,
+    pub achievement_type: String, // 加上分类信息
+}

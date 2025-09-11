@@ -199,6 +199,17 @@ export const gameState = {
     }
 };
 
+export const achievements = {
+    async loadAll() {
+        console.log("正在从服务器加载所有成就信息...");
+        const data = await apiRequest(`/achievements/all`);
+        if (data) {
+            console.log("✅ 成功加载所有成就信息！", data);
+        }
+        return data;
+    }
+};
+
 // --- 辅助函数 ---
 export function getCurrentUser() {
     return localStorage.getItem("user");

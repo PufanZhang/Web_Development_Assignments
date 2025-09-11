@@ -3,7 +3,7 @@ use actix_web::web;
 use std::collections::HashSet;
 use std::sync::Arc;
 use tokio::io::{stdin, AsyncBufReadExt, BufReader};
-use tokio::sync::Mutex;
+use tokio::sync::{mpsc, Mutex};
 
 // 辅助函数：处理带符号的数值字符串（例如 "+100" 或 "-10"）
 fn parse_signed_amount(amount_str: &str) -> Result<i32, String> {
@@ -36,20 +36,29 @@ async fn get_sole_active_user(
 }
 
 pub async fn developer_mode_processor(
+    mut receiver: mpsc::Receiver<String>,
     active_users: web::Data<Arc<Mutex<HashSet<String>>>>,
 ) {
     println!("\n💡 提示：输入 'developer mode' 进入开发者模式。");
     let mut lines = BufReader::new(stdin()).lines();
     let mut in_developer_mode = false;
 
-    while let Ok(Some(line)) = lines.next_line().await {
+    while let Some(line) = receiver.recv().await {
         let input = line.trim();
+
+        if input.is_empty() {
+            continue;
+        }
 
         if input == "developer mode" {
             in_developer_mode = !in_developer_mode;
             if in_developer_mode {
                 println!("✅ 已进入开发者模式。");
                 println!("   - 输入 'exit' 退出开发者模式。");
+                println!("   - 命令格式: [可选: 用户名] <变量名> <数值>");
+                println!("   - 例如: score +100");
+                println!("   - 例如: set gold 9999");
+                println!("   - 例如: alice set hp 50");
             } else {
                 println!("🚪 已退出开发者模式。");
             }

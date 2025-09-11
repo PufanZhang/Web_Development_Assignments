@@ -637,6 +637,7 @@ dependencies = [
  "futures",
  "jsonwebtoken",
  "lazy_static",
+ "once_cell",
  "opener",
  "serde",
  "serde_json",
