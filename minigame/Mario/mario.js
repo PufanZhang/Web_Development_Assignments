@@ -1,5 +1,5 @@
 import { MAP_CONFIG, MAP_DATA, STARS } from './mario_map.js';
-import { minigameLoader } from "../../js/minigameLoader.js";
+import { minigameLoader } from "../../js/game/modules/minigameLoader.js";
 
 // 游戏状态
 const GameState = {

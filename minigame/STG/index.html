@@ -7,78 +7,86 @@
     <link rel="stylesheet" href="/minigame/STG/shoot.css">
 </head>
 <body>
-<div id="game-container">
-    <div id="game-board">
-        <canvas id="game-canvas"></canvas>
+    <div id="game-container">
+        <div id="game-board">
+            <canvas id="game-canvas"></canvas>
 
-        <!-- 新增：特效容器 -->
-        <div id="effects-container"></div>
-    </div>
-    <div id="game-info">
-        <div class="info-section">
-            <h3>游戏信息</h3>
-            <div class="stat">
-                <span class="label">分数:</span>
-                <span id="score">0</span>
+            <!-- 新增：特效容器 -->
+            <div id="effects-container"></div>
+        </div>
+        <div id="game-info">
+            <div class="info-section">
+                <h3>游戏信息</h3>
+                <div class="stat">
+                    <span class="label">分数:</span>
+                    <span id="score">0</span>
+                </div>
+                <div class="stat">
+                    <span class="label">残机:</span>
+                    <span id="lives">3</span>
+                </div>
+                <div class="stat">
+                    <span class="label">Bomb:</span>
+                    <span id="bombs">3</span>
+                </div>
+                <div class="stat">
+                    <span class="label">关卡:</span>
+                    <span id="stage">道中</span>
+                </div>
             </div>
-            <div class="stat">
-                <span class="label">残机:</span>
-                <span id="lives">3</span>
+
+            <div class="info-section">
+                <h3>操作说明</h3>
+                <div class="instruction">
+                    <span class="key">↑↓←→</span>
+                    <span class="desc">移动自机</span>
+                </div>
+                <div class="instruction">
+                    <span class="key">Z</span>
+                    <span class="desc">射击</span>
+                </div>
+                <div class="instruction">
+                    <span class="key">X</span>
+                    <span class="desc">使用Bomb</span>
+                </div>
+                <div class="instruction">
+                    <span class="key">Shift</span>
+                    <span class="desc">切换高低速</span>
+                </div>
             </div>
-            <div class="stat">
-                <span class="label">Bomb:</span>
-                <span id="bombs">3</span>
-            </div>
-            <div class="stat">
-                <span class="label">关卡:</span>
-                <span id="stage">道中</span>
+
+            <div class="info-section">
+                <h3>BOSS血量</h3>
+                <div id="boss-health-container">
+                    <div id="boss-health-bar"></div>
+                </div>
+                <div id="boss-health-text">未出现</div>
             </div>
         </div>
+    </div>
 
-        <div class="info-section">
-            <h3>操作说明</h3>
-            <div class="instruction">
-                <span class="key">↑↓←→</span>
-                <span class="desc">移动自机</span>
-            </div>
-            <div class="instruction">
-                <span class="key">Z</span>
-                <span class="desc">射击</span>
-            </div>
-            <div class="instruction">
-                <span class="key">X</span>
-                <span class="desc">使用Bomb</span>
-            </div>
-            <div class="instruction">
-                <span class="key">Shift</span>
-                <span class="desc">切换高低速</span>
-            </div>
-        </div>
-
-        <div class="info-section">
-            <h3>BOSS血量</h3>
-            <div id="boss-health-container">
-                <div id="boss-health-bar"></div>
-            </div>
-            <div id="boss-health-text">未出现</div>
+    <div id="game-over-screen" class="screen">
+        <h2>游戏结束</h2>
+        <p>最终得分: <span id="final-score">0</span></p>
+        <div class="button-group">
+            <button id="restart-btn" class="game-btn">重新开始</button>
+            <button id="home-btn" class="game-btn">返回首页</button>
         </div>
     </div>
-</div>
-
-<div id="game-over-screen" class="screen">
-    <h2>游戏结束</h2>
-    <p>最终得分: <span id="final-score">0</span></p>
-    <div class="button-group">
-        <button id="restart-btn" class="game-btn">重新开始</button>
-        <button id="home-btn" class="game-btn">返回首页</button>
+    <!--
+    <div id="game-start-screen" class="screen">
+        <h2>STG射击游戏</h2>
+        <p>按Z键开始游戏</p>
     </div>
-</div>
+    -->
+    <div id="difficulty-select-screen" class="screen">
+        <h2>选择难度</h2>
+        <div class="button-group">
+            <button id="easy-mode" class="game-btn">简单模式</button>
+            <button id="hard-mode" class="game-btn">困难模式</button>
+        </div>
+    </div>
 
-<div id="game-start-screen" class="screen">
-    <h2>STG射击游戏</h2>
-    <p>按Z键开始游戏</p>
-</div>
-
-<script type="module" src="/minigame/STG/shoot.js"></script>
+    <script type="module" src="/minigame/STG/shoot.js"></script>
 </body>
 </html>
