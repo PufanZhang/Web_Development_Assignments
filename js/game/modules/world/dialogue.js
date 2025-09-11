@@ -14,6 +14,7 @@ const elements = {
 let state = {};
 const storyCache = {};
 let onDialogueEndCallback = null;
+let animationVideoElement = null;
 
 export const dialogueManager = {
     init() {
@@ -33,6 +34,34 @@ export const dialogueManager = {
             storyCache[storyKey] = storyData;
         }
         const story = storyCache[storyKey];
+
+        // 检查故事数据中是否有 animation 字段
+        if (story.animation) {
+            // 创建 video 元素
+            console.log(`检测到动画资源 ${story.animation}`);
+            animationVideoElement = document.createElement('video');
+            animationVideoElement.src = story.animation;
+            animationVideoElement.loop = true;
+            animationVideoElement.muted = true; // 这是为了确保能在大多数浏览器上自动播放
+            animationVideoElement.playsInline = true;
+
+            // 设置全屏样式
+            animationVideoElement.style.position = 'fixed';
+            animationVideoElement.style.top = '0';
+            animationVideoElement.style.left = '0';
+            animationVideoElement.style.width = '100vw';
+            animationVideoElement.style.height = '100vh';
+            animationVideoElement.style.objectFit = 'cover';
+            // 确保视频在对话框后面，但在地图前面
+            animationVideoElement.style.zIndex = '9';
+
+            // 将 video 元素添加到 body 中并播放
+            document.body.appendChild(animationVideoElement);
+            animationVideoElement.play().catch(error => {
+                console.error("入场动画播放失败:", error);
+            });
+        }
+
         onDialogueEndCallback = onEnd;
         window.gameMode = 'dialogue';
         elements.dialogueView.classList.add('active');
@@ -103,6 +132,13 @@ export const dialogueManager = {
     },
 
     end() {
+        if (animationVideoElement) {
+            animationVideoElement.pause();
+            if (animationVideoElement.parentNode) {
+                animationVideoElement.parentNode.removeChild(animationVideoElement);
+            }
+            animationVideoElement = null;
+        }
         window.gameMode = 'map';
         elements.dialogueView.classList.remove('active');
         elements.itemImageContainer.style.display = 'none';
