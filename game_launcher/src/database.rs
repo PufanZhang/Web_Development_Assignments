@@ -1,4 +1,5 @@
-use crate::models::{AuthRequest, ModifyValueResponse, PlayerData};
+use crate::models::{AuthRequest, ModifyValueResponse, PlayerData, UnlockedAchievement};
+use crate::achievements;
 use sha2::{Digest, Sha256};
 use std::collections::HashMap;
 use std::path::PathBuf;
@@ -176,13 +177,37 @@ pub async fn modify_player_value(
     *current_value += amount;
     let new_value = *current_value;
 
+    // 调用成就检查函数，并接收新解锁的成就 ID 列表
+    let newly_unlocked_ids = achievements::check_and_unlock_achievements(&mut player_data).await;
+    let mut unlocked_achievements_details = None;
+
+    if !newly_unlocked_ids.is_empty() {
+        // 如果有新解锁的成就，获取所有成就的定义
+        if let Ok(all_achievements) = achievements::get_all_achievements().await {
+            let mut details = Vec::new();
+            for id in newly_unlocked_ids {
+                // 根据 ID 找到对应的成就详情
+                if let Some(achievement) = all_achievements.get(&id) {
+                    details.push(UnlockedAchievement {
+                        id: id.clone(),
+                        name: achievement.name.clone(),
+                        icon: achievement.icon.clone(),
+                        achievement_type: achievement.achievement_type.clone(),
+                    });
+                }
+            }
+            unlocked_achievements_details = Some(details);
+        }
+    }
+
     // 4. 把修改后的完整数据存回去
     save_player_data(&player_data).await?;
 
-    // 5. 返回成功信息和新的数值
+    // 5. 返回成功信息、新的数值以及新解锁的成就列表
     Ok(ModifyValueResponse {
         value_name: value_name.to_string(),
         new_value,
+        unlocked_achievements: unlocked_achievements_details,
     })
 }
 
@@ -257,6 +282,7 @@ pub async fn modify_player_value_dev(username: &str, value_name: &str, amount: i
     let current_value = player_data.values.get_mut(value_name).unwrap();
     *current_value += amount;
     let new_value = *current_value;
+    achievements::check_and_unlock_achievements(&mut player_data).await;
 
     // 4. 保存修改后的数据
     if let Err(e) = save_player_data(&player_data).await {
@@ -282,6 +308,7 @@ pub async fn set_player_value_dev(username: &str, value_name: &str, new_value: i
     // 3. 直接设置新值 (unwrap 是安全的)
     let value_to_set = player_data.values.get_mut(value_name).unwrap();
     *value_to_set = new_value;
+    achievements::check_and_unlock_achievements(&mut player_data).await;
 
     // 4. 保存修改后的数据
     if let Err(e) = save_player_data(&player_data).await {

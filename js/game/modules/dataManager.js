@@ -1,4 +1,5 @@
-import {debugManager} from './debug.js';
+import { debugManager } from './debug.js';
+import { achievementNotifier } from './achievementNotifier.js';
 
 window.playerDataCache = null;
 const onValueChangeCallbacks = [];
@@ -147,6 +148,12 @@ export const gameState = {
                 }
                 debugManager.updateValue(valueName, newValue);
                 console.log(`数值 [${valueName}] 同步成功，新值: ${newValue}`);
+                if (response.unlockedAchievements && response.unlockedAchievements.length > 0) {
+                    console.log(`🎉 恭喜！解锁了 ${response.unlockedAchievements.length} 个新成就!`);
+                    response.unlockedAchievements.forEach(ach => {
+                        achievementNotifier.show(ach);
+                    });
+                }
                 console.log("数值已变更，正在触发回调...");
                 onValueChangeCallbacks.forEach(cb => cb());
             }
@@ -196,6 +203,17 @@ export const gameState = {
             console.error(`手动存档 [${saveName}] 创建失败。`);
             alert("存档失败，请稍后再试。");
         }
+    }
+};
+
+export const achievements = {
+    async loadAll() {
+        console.log("正在从服务器加载所有成就信息...");
+        const data = await apiRequest(`/achievements/all`);
+        if (data) {
+            console.log("✅ 成功加载所有成就信息！", data);
+        }
+        return data;
     }
 };
 

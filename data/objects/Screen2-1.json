@@ -1,0 +1,8 @@
+{
+    "id": "Screen2-1",
+    "image": "",
+    "x":1200, "y": 200, "width": 50, "height": 20,
+    "showPrompt": true,
+    "singleInteraction": true,
+    "storyKey": "Screen2-1_story"
+}

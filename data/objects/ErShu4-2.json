@@ -1,0 +1,9 @@
+{
+    "id":"ErShu4-2",
+    "x": 400,"y": 450,"width": 160,"height": 90,
+    "image": "assets/images/ErShu.png",
+
+    "showPrompt": true,
+    "singleInteraction": true,
+    "storyKey": "Tang3-4_story"
+}

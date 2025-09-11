@@ -17,16 +17,11 @@
       ],
       "speaker": "管理员",
       "dialogue": "同志您好，您是今天来结业考核的唐梓同志吧！欢迎来到飞机训练基地！",
-      "action": "minigameG3",
-      "nextNode": "node4"
-    },
-    "node4": {
-      "scene": [
-        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
-        { "id": "管理员", "sprite": "assets/images/charactergly.png" }
-      ],
-      "speaker": "管理员",
-      "dialogue": "恭喜！你可以进行其他科目的考核了"
+      "action":{
+        "type":"STG",
+        "onWin": "STG_win_story",
+        "onLose": "STG_lose_story"
+      }
     }
   }
 }

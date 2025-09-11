@@ -1,0 +1,11 @@
+{
+  "name": "战略指导室",
+  "width": 1600,
+  "height": 900,
+  "background": "assets/background/background3-3.png",
+  "entryStoryKey": "Map4-4_entry_story",
+  "walls": [
+    
+  ],
+  "objects": ["HaiFeng4-1","door4-1"]
+}

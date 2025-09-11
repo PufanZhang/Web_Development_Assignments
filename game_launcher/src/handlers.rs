@@ -6,6 +6,9 @@ use crate::auth::{create_jwt, AuthenticatedUser};
 use std::collections::HashSet;
 use std::sync::Arc;
 use tokio::sync::Mutex;
+use crate::achievements;
+use crate::models::FrontendAchievement;
+use std::collections::HashMap;
 
 #[get("/map_data/{map_id}")]
 pub async fn get_map_data( map_id: web::Path<String>, user: AuthenticatedUser) -> impl Responder {
@@ -315,4 +318,53 @@ pub async fn logout(
             HttpResponse::Unauthorized().body("Invalid token provided in payload.")
         }
     }
+}
+
+#[get("/achievements/all")]
+pub async fn get_all_achievements_status(user: AuthenticatedUser) -> impl Responder {
+    // 1. 加载当前玩家的数据
+    let player_data_result = database::load_player_data(&user.username).await;
+    if player_data_result.is_err() {
+        return HttpResponse::NotFound().body("Player data not found.");
+    }
+    let player_data = player_data_result.unwrap();
+
+    // 2. 获取所有成就的定义
+    let all_achievements_result = achievements::get_all_achievements().await;
+    if all_achievements_result.is_err() {
+        return HttpResponse::InternalServerError().body("Failed to load achievements data.");
+    }
+    let all_achievements = all_achievements_result.unwrap();
+
+    // 3. 组合数据，按分类整理
+    let mut categorized_achievements: HashMap<String, Vec<FrontendAchievement>> = HashMap::new();
+
+    for (filename, achievement_details) in all_achievements {
+        let completed = player_data.achievements.contains(&filename);
+
+        // 根据完成状态决定使用哪个 description
+        let description = if completed {
+            achievement_details.description_completed.clone()
+        } else {
+            achievement_details.description_uncompleted.clone()
+        };
+
+        let frontend_achievement = FrontendAchievement {
+            id: filename,
+            name: achievement_details.name.clone(),
+            r#abstract: achievement_details.r#abstract.clone(),
+            description, // 使用上面逻辑判断得出的 description
+            icon: achievement_details.icon.clone(),
+            completed,
+            achievement_type: achievement_details.achievement_type.clone(),
+        };
+
+        // 放入对应的分类，如果分类不存在则创建
+        categorized_achievements
+            .entry(achievement_details.achievement_type)
+            .or_default()
+            .push(frontend_achievement);
+    }
+
+    HttpResponse::Ok().json(categorized_achievements)
 }

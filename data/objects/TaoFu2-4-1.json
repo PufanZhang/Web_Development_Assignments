@@ -1,0 +1,8 @@
+{
+    "id": "TaoFu2-4-1",
+    "image": "assets/images/ID.png",
+    "x":800, "y": 500, "width": 50, "height": 20,
+    "showPrompt": true,
+    "singleInteraction": true,
+    "storyKey": "TaoFu2-4-1_story"
+}

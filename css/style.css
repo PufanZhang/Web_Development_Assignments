@@ -170,7 +170,7 @@ body, html {
 /* --- （调试用）墙体样式 --- */
 .wall {
     position: absolute;
-    opacity: 0; /* 以后不需要显示墙体的时候就把这里设置成0就好 */
+    opacity: 1; /* 以后不需要显示墙体的时候就把这里设置成0就好 */
     background-color: rgba(255, 0, 0, 1); /* 半透明红色，方便看清范围 */
     z-index: 500; /* 层级比玩家低一点，免得挡住我们的主角 */
 }
@@ -319,4 +319,59 @@ body, html {
     height: 100%;
     z-index: 999; /* 一个较高的层级，确保它在地图上，但在UI元素之下 */
     pointer-events: none; /* 使Canvas对鼠标事件“透明”，这样你仍然可以点击游戏内容 */
+}
+
+/* --- 成就通知样式 --- */
+#achievement-notifier-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1001; /* 比返回主页按钮更高 */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none; /* 让鼠标可以穿透容器 */
+}
+
+.achievement-notification {
+    background-color: rgba(20, 20, 40, 0.85);
+    color: #fff;
+    border: 2px solid #a885d8;
+    border-radius: 10px;
+    padding: 12px 18px;
+    width: 320px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    font-family: 'SimHei', 'Microsoft YaHei', sans-serif;
+    opacity: 0;
+    transform: translateX(110%); /* 初始位置在屏幕外右侧 */
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.achievement-notification.visible {
+    opacity: 1;
+    transform: translateX(0); /* 移动到屏幕内 */
+}
+
+.ach-header {
+    font-size: 14px;
+    color: #c0c0c0;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #555;
+    padding-bottom: 6px;
+}
+
+.ach-body {
+    display: flex;
+    align-items: center;
+}
+
+.ach-icon {
+    font-size: 36px; /* Emoji图标大小 */
+    margin-right: 15px;
+    line-height: 1;
+}
+
+.ach-name {
+    font-size: 18px;
+    font-weight: bold;
 }

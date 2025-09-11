@@ -8,5 +8,5 @@
     {"x": 0, "y": 0, "width": 1600, "height": 200},
     {"x": 1200, "y": 200, "width": 200, "height": 100}
   ],
-  "objects": []
+  "objects": ["Fu2-1","People2-1","Trainer2-1-1","Trainer2-1-2","Door2-1","Screen2-1"]
 }
