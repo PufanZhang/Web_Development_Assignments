@@ -8,6 +8,7 @@ import { debugManager } from './modules/debug.js';
 import { PLAYER_INITIAL_X, PLAYER_INITIAL_Y, INITIAL_MAP } from "./config.js";
 import { initDebugRuler, updateDebugRuler } from './modules/ruler.js';
 import { achievementNotifier } from './modules/achievementNotifier.js';
+import { audioManager } from './modules/audioManager.js';
 
 // --- 全局游戏状态 ---
 window.gameMode = 'map'; // 'map' 或 'dialogue'
@@ -174,6 +175,9 @@ async function loadMapAt(mapId, targetX, targetY) {
         alert(`地图 "${mapId}" 加载失败，请检查文件或网络！`);
         return;
     }
+    if (packedMapData.music) {
+        audioManager.playMusic(packedMapData.music);
+    }
 
     // 1.5. 从存档中获取此地图上已移除的物体列表
     const removedObjectIds = gameState.getRemovedObjects(mapId);
@@ -266,6 +270,7 @@ async function initializeGame() {
     const loadingPromise = (async () => {
         currentUser = getCurrentUser();
 
+        audioManager.init(0.7);
         achievementNotifier.init();
         debugManager.init();
         gameState.onValueChange(checkDynamicObjects);

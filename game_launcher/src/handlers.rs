@@ -11,7 +11,10 @@ use crate::models::FrontendAchievement;
 use std::collections::HashMap;
 
 #[get("/map_data/{map_id}")]
-pub async fn get_map_data( map_id: web::Path<String>, user: AuthenticatedUser) -> impl Responder {
+pub async fn get_map_data( map_id: web::Path<String>,
+                           user: AuthenticatedUser,
+                           last_music_sent: web::Data<Arc<Mutex<HashMap<String, String>>>>,
+) -> impl Responder {
     // 从 token 里拿到用户名
     let username = user.username;
 
@@ -19,7 +22,29 @@ pub async fn get_map_data( map_id: web::Path<String>, user: AuthenticatedUser) -
     let player_data = player_data_result.ok();
 
     match load_and_pack_map_data(&map_id, &player_data).await {
-        Ok(data) => HttpResponse::Ok().json(data),
+        Ok(mut data) => { // 将 data 设为可变
+            let mut music_state = last_music_sent.lock().await;
+            let last_music = music_state.get(&username).cloned();
+
+            match (&data.music, last_music) {
+                (Some(current_music), Some(last)) if current_music == &last => {
+                    // 音乐相同，从数据包中移除，不发送
+                    data.music = None;
+                }
+                (Some(current_music), _) => {
+                    // 音乐不同或之前没有音乐，更新状态
+                    music_state.insert(username.clone(), current_music.clone());
+                }
+                (None, Some(_)) => {
+                    // 新地图没有音乐，但之前有，移除记录
+                    music_state.remove(&username);
+                }
+                _ => {
+                    // 两边都没有音乐，什么都不用做
+                }
+            }
+            HttpResponse::Ok().json(data)
+        },
         Err(LoadError::NotFound) => {
             HttpResponse::NotFound().body(format!("Map '{}' not found.", map_id))
         }

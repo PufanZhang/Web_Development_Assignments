@@ -96,6 +96,8 @@ pub struct MapInfo {
     pub height: i32,
     #[serde(default)]
     pub entry_story_key: Option<String>,
+    #[serde(default)]
+    pub music: Option<String>,
 }
 
 fn default_width() -> i32 { 800 }
@@ -115,6 +117,7 @@ pub struct PackedMapData {
     pub height: i32,
     pub entry_story_key: Option<String>,
     pub asset_manifest: Vec<String>, // 资源清单
+    pub music: Option<String>,
 }
 
 // 登录/注册时，前端发送过来的 JSON 格式

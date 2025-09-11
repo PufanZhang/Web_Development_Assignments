@@ -15,6 +15,7 @@ use tokio::sync::Mutex;
 use std::net::TcpListener;
 use std::io::{self, BufRead};
 use tokio::sync::mpsc;
+use std::collections::HashMap;
 
 // 专门处理根路径"/"的请求，重定向到login.html
 #[get("/")]
@@ -89,6 +90,7 @@ async fn main() -> io::Result<()> {
     };
 
     let active_users = web::Data::new(Arc::new(Mutex::new(HashSet::<String>::new())));
+    let last_music_sent = web::Data::new(Arc::new(Mutex::new(HashMap::<String, String>::new())));
 
     // 1. 创建一个容量为 32 的通道
     let (tx, rx) = mpsc::channel::<String>(32);
@@ -123,6 +125,7 @@ async fn main() -> io::Result<()> {
     let server = HttpServer::new(move || {
         App::new()
             .app_data(active_users.clone())
+            .app_data(last_music_sent.clone())
             .service(
                 web::scope("/api")
                     .service(handlers::register)

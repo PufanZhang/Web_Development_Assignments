@@ -48,10 +48,6 @@ export const auth = {
         return await apiRequest('/auth/login', 'POST', {username, password});
     },
 
-    async logout(username) {
-        return await apiRequest('/auth/logout', 'POST', {username});
-    },
-
     async loginWithToken(token) {
         return await apiRequest('/auth/login_with_token', 'POST', {token});
     }
@@ -202,6 +198,18 @@ export const gameState = {
         } else {
             console.error(`手动存档 [${saveName}] 创建失败。`);
             alert("存档失败，请稍后再试。");
+        }
+    },
+
+    async loadSaveFile(saveName) {
+        console.log(`正在读取手动存档，名称: [${saveName}]...`);
+        const response = await apiRequest(`/player/loadfile/${saveName}`, 'POST');
+        if (response) {
+            console.log(`✅ 手动存档 [${saveName}] 读取成功！`);
+            alert(`存档点已读取：${saveName}`);
+        } else {
+            console.error(`手动存档 [${saveName}] 读取失败。`);
+            alert("读取存档失败，请稍后再试。");
         }
     }
 };
