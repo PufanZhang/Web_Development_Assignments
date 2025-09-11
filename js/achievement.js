@@ -153,7 +153,7 @@ function openCategory(category) {
         if (ach.completed) item.classList.add('completed');
         item.innerHTML = `
             <h4><span class="achievement-icon">${ach.icon}</span> ${ach.name}</h4>
-            <p>${ach.description}</p>
+            <p>${ach.abstract}</p>
         `;
         item.onclick = () => showAchievementDetail(ach);
         grid.appendChild(item);

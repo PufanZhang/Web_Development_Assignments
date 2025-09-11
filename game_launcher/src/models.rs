@@ -198,6 +198,19 @@ pub struct ModifyValueRequest {
 pub struct ModifyValueResponse {
     pub value_name: String,
     pub new_value: i32, // 修改后的新数值
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub unlocked_achievements: Option<Vec<UnlockedAchievement>>,
+}
+
+// 通知前端新解锁成就的结构体
+#[derive(Serialize, Debug, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct UnlockedAchievement {
+    pub id: String,
+    pub name: String,
+    pub icon: String,
+    #[serde(rename = "type")]
+    pub achievement_type: String,
 }
 
 #[derive(serde::Deserialize, Debug)]
@@ -238,7 +251,10 @@ pub struct Achievement {
     #[serde(rename = "type")]
     pub achievement_type: String,
     pub name: String,
-    pub description: String,
+    #[serde(default)]
+    pub r#abstract: String,
+    pub description_uncompleted: String,
+    pub description_completed: String,
     pub icon: String,
     pub required_values: RequiredValues,
     #[serde(skip)]
@@ -248,8 +264,9 @@ pub struct Achievement {
 #[derive(Serialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct FrontendAchievement {
-    pub id: String, // 我们用文件名作为唯一 ID
+    pub id: String, // 用文件名作为唯一 ID
     pub name: String,
+    pub r#abstract: String,
     pub description: String,
     pub icon: String,
     pub completed: bool,

@@ -1,4 +1,5 @@
-import {debugManager} from './debug.js';
+import { debugManager } from './debug.js';
+import { achievementNotifier } from './achievementNotifier.js';
 
 window.playerDataCache = null;
 const onValueChangeCallbacks = [];
@@ -147,6 +148,12 @@ export const gameState = {
                 }
                 debugManager.updateValue(valueName, newValue);
                 console.log(`数值 [${valueName}] 同步成功，新值: ${newValue}`);
+                if (response.unlockedAchievements && response.unlockedAchievements.length > 0) {
+                    console.log(`🎉 恭喜！解锁了 ${response.unlockedAchievements.length} 个新成就!`);
+                    response.unlockedAchievements.forEach(ach => {
+                        achievementNotifier.show(ach);
+                    });
+                }
                 console.log("数值已变更，正在触发回调...");
                 onValueChangeCallbacks.forEach(cb => cb());
             }
