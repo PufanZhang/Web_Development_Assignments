@@ -192,11 +192,10 @@ class MarioGame {
         for (const checkpoint of MAP_DATA.checkpoints) {
             // 简单的距离检测
             const dx = this.player.x - checkpoint.x;
-            const dy = this.player.y - checkpoint.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distance < 50) {
-                this.lastCheckpoint = { ...checkpoint };
+            if (dx >= 0) {
+                this.lastCheckpoint.x = checkpoint.x;
+                this.lastCheckpoint.y = checkpoint.y;
             }
         }
     }
