@@ -20,7 +20,7 @@ async fn index() -> impl Responder {
     HttpResponse::Found().append_header(("Location", "/login.html")).finish()
 }
 
-// 从起始端口开始，查找一个可用的 TCP 端口
+/// 从起始端口开始，查找一个可用的 TCP 端口
 fn find_available_port(host: &str, start_port: u16) -> Option<u16> {
     let mut port = start_port;
     println!("🔎 正在从端口 {} 开始寻找可用端口...", port);
@@ -51,6 +51,27 @@ async fn main() -> io::Result<()> {
     const HOST: &str = "127.0.0.1";
     const START_PORT: u16 = 8080;
 
+    let current_dir = env::current_dir().unwrap_or_default();
+    println!("💡 当前工作目录: {:?}", current_dir);
+
+    println!("🩺 正在进行文件完整性健康检查...");
+    let required_dirs = vec!["assets", "data", "htmls", "js", "css", "minigame"];
+    let mut all_ok = true;
+    for dir_name in required_dirs {
+        let dir_path = current_dir.join(dir_name);
+        if !dir_path.exists() {
+            eprintln!("❌ 致命错误: 必需的文件夹 '{}' 未找到! 请确保游戏文件完整且未被移动。", dir_path.display());
+            all_ok = false;
+        }
+    }
+
+    // 如果有任何必需的文件夹缺失，则优雅地退出程序
+    if !all_ok {
+        pause_and_exit();
+        return Ok(());
+    }
+    println!("✅ 文件完整性检查通过。");
+
     // 自动寻找一个空闲端口
     let port = match find_available_port(HOST, START_PORT) {
         Some(p) => p,
@@ -69,8 +90,6 @@ async fn main() -> io::Result<()> {
 
     let game_url = format!("http://{}:{}/login.html", HOST, port);
 
-    let current_dir = env::current_dir().unwrap_or_default();
-    println!("💡 当前工作目录: {:?}", current_dir);
     println!("游戏服务器启动中...");
     let active_users_for_dev_mode = active_users.clone();
 
