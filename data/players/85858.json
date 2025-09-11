@@ -1,0 +1,30 @@
+{
+  "username": "85858",
+  "address": {
+    "map": "Map1-3-2",
+    "x": 754.0,
+    "y": 798.0
+  },
+  "values": {
+    "Trainscore": 0,
+    "suspicion": 100,
+    "exam1": 0,
+    "exam2": 0,
+    "money": 0,
+    "conch": 0
+  },
+  "mapStates": {
+    "map2": {
+      "removedObjects": [
+        "XiaoYue1-2"
+      ]
+    },
+    "map1": {
+      "removedObjects": [
+        "door1-1"
+      ]
+    }
+  },
+  "achievements": [],
+  "tools": []
+}

@@ -1,7 +1,7 @@
 // --- 游戏全局配置文件 ---
 
 // 初始地图
-export const INITIAL_MAP = "Map2-1";
+export const INITIAL_MAP = "map1";
 
 // 玩家相关配置
 export const PLAYER_WIDTH = 100;
