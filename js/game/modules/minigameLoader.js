@@ -1,5 +1,6 @@
 import { gameState } from './dataManager.js';
 import { dialogueManager } from './world/dialogue.js';
+import {GAME_LIST} from "../config";
 
 export const minigameLoader = {
     async load(minigameName, onWinStory, onLoseStory) {
@@ -40,13 +41,34 @@ export const minigameLoader = {
                     gameState.loadPlayerData().then(playerData => {
                         if (playerData) {
                             console.log("【minigameLoader.js】: 后端状态已恢复。欢迎回来, ", playerData.username);
+                            let endStory = null;
                             if (result.success && onWinStory) {
-                                dialogueManager.start(onWinStory);
+                               endStory = onWinStory;
                             } else if (!result.success && onLoseStory) {
-                                dialogueManager.start(onLoseStory);
+                                endStory = onLoseStory;
+                            }
+                            if (endStory) {
+                                dialogueManager.start(endStory, (endAction) => {
+                                    if (endAction){
+                                        const teleportData = endAction.teleportData || interactedObject.teleportData;
+                                        if (endAction.type === 'teleport' && teleportData) {
+                                            onTeleport(teleportData);
+                                        }
+
+                                        if (GAME_LIST.includes(endAction.type)) {
+                                            console.log(`接收到 ${endAction.type} 动作，正在加载游戏...`);
+                                            minigameLoader.load(endAction.type, endAction.onWin, endAction.onLose);
+                                        }
+
+                                        if (endAction.type === 'saveFile' && endAction.saveFileName) {
+                                            console.log(`存档名称${endAction.saveFileName}正在存档...`);
+                                            gameState.createSaveFile(endAction.saveFileName);
+                                        }
+                                    }
+                                });
                             }
                         } else {
-                            alert("Token 无效或已过期，请重新登录。"); // 使用 alert 替代 console.alert
+                            alert("Token 无效或已过期，请重新登录。");
                             localStorage.clear();
                             window.location.href = 'login.html';
                         }
