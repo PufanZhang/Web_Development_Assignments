@@ -1,0 +1,54 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "speaker": "旁白",
+      "dialogue": "你快速返回了战略指挥室参加作战会议，看看智械是否有什么异常的动向。结果一进门就看到二叔和唐海峰站在桌子的两侧，剑拔弩张。",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        },
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "你说你守在监控室指挥三个小队，结果现在你告诉我检测探头全坏掉了，我们现在对智械的行动一无所知？",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        },
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "昨天各个位置的探头还是正常的，怎么你一到监控室来就坏了。",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        },
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "（怒喝）李海峰！你别颠倒黑白，监测探头是怎么坏的，你必须给我一个解释！"
+    }
+  }
+}

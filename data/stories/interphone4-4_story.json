@@ -1,0 +1,117 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "scene": [
+        { "id": "战士甲", "sprite": "assets/images/characternpc.png" },
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+      ],
+      "speaker": "战士甲",
+      "dialogue": "队长！总工！检测探头已恢复工作，我们在A、B区发现了传送门。",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        { "id": "战士乙", "sprite": "assets/images/characternpc.png" },
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+      ],
+      "speaker": "战士乙",
+      "dialogue": "C、D区发现传送门。",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        { "id": "战士丙", "sprite": "assets/images/characternpc.png" },
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+      ],
+      "speaker": "战士丙",
+      "dialogue": "E、F区发现传送门。",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        { "id": "陶孚", "sprite": "assets/images/charactertf.png" },
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+      ],
+      "speaker": "陶孚",
+      "dialogue": "怎么会如此？没想到只在这么短短检测探头失效期，敌人就布置了六扇传送门！",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "scene": [
+        { "id": "陶孚", "sprite": "assets/images/charactertf.png" },
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+      ],
+      "speaker": "陶孚",
+      "dialogue": "队长，我觉得我们不能再等了，我们现在就出动，从A区开始安装追踪器并摧毁传送门！",
+      "nextNode": "node6"
+    },
+    "node6": {
+      "scene": [
+        { "id": "唐槿辞", "sprite": "assets/images/charactertjc.png" },
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "……（怒视着李海峰，一言不发）",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "scene": [
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" },
+        { "id": "唐槿辞", "sprite": "assets/images/charactertjc.png" }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "（略加思考）我同意，宜早不宜迟。唐梓，你也带领空战小队和行动小队协同作战，时刻准备阻击敌人的其他传送门的突袭。",
+      "nextNode": "node8"
+    },
+    "node8": {
+      "scene": [
+        { "id": "唐槿辞", "sprite": "assets/images/charactertjc.png" },
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "（怒吼）李海峰！战机刚刚才被不明人物做了什么，传送门的数量也完全出乎我们的意料！我认为现在应该中止火山行动，立刻、马上，安排按计划撤离！",
+      "nextNode": "node13"
+    },
+    "node13": {
+      "scene": [
+        { "id": "唐槿辞", "sprite": "assets/images/charactertjc.png" },
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "事情远比我们想的复杂，我们不能再在这里孤注一掷！",
+      "nextNode": "node9"
+    },
+    "node9": {
+      "scene": [
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" },
+        { "id": "唐槿辞", "sprite": "assets/images/charactertjc.png" }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "（拍桌）唐槿辞！司令官派你来是来协调行动，最终决策还没有你说话的份！现在是箭在弦上不得不发，我以我火山行动总指挥的身份拒绝采纳你的建议！",
+      "nextNode": "node10"
+    },
+    "node10": {
+      "scene": [
+        { "id": "唐槿辞", "sprite": "assets/images/charactertjc.png" },
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "李海峰！我不知道你怎么想的，但是你肯定也看出现在局势不对了，你要让孩子们送死吗？",
+      "nextNode": "node11"
+    },
+    "node11": {
+      "scene": [
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" },
+        { "id": "唐槿辞", "sprite": "assets/images/charactertjc.png" }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "我看你就是想趁机夺权，你有这个权力吗？我说了，火山行动继续按照原计划进行，不得延误战机，除非联合国执委会就地免除我火山行动总指挥的职务！",
+      "nextNode": "node12"
+    },
+    "node12": {
+      "speaker": "旁白",
+      "dialogue": "一时间，指挥室陷入了一片沉默。最后陶孚拉着你走出去，不管如何，军人的天职首先是服从。你们决定按照原计划推进火山行动。"
+    }
+  }
+}

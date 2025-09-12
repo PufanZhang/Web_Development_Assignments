@@ -1,0 +1,75 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "speaker": "旁白",
+      "dialogue": "你看到剪刀上有监测探头的金属丝，应该是有人人为破坏了它。",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "speaker": "旁白",
+      "dialogue": "你现在的怀疑对象是",
+      "options": [
+        {
+          "text": "二叔",
+          "targetNode": "changeValue2"
+        },
+        {
+          "text": "李海峰",
+          "targetNode": "changeValue1"
+        },
+        {
+          "text": "黑影",
+          "targetNode": "changeValue2"
+        }
+      ]
+    },
+    "node6": {
+      "speaker": "旁白",
+      "dialogue": "你不知道是否应该信任面前的几人，你只想快点找出真正的传送门是哪个。",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "speaker": "旁白",
+      "dialogue": "日记本！黑影！奥对那艘战机上没准留下了什么线索……要回检修仓看看……",
+      "nextNode": "node8"
+    },
+    "node8": {
+      "speaker": "旁白",
+      "dialogue": "12:31 马上就要到了！日记本上的话又浮现在你眼前——“12:31 地球 我要救下他们”。",
+      "nextNode": "node9"
+    },
+    "node9": {
+      "speaker": "旁白",
+      "dialogue": "必须马上回到检修仓！",
+      "nextNode": "node10"
+    },
+    "node10": {
+      "action": {
+        "type": "马里奥小游戏"
+      },
+      "nextNode": "node11"
+    },
+    "node11": {
+      "action": {
+        "type": "teleport"
+      }
+    },
+    "changeValue1": {
+      "speaker": "旁白",
+      "dialogue": "怀疑度上升了",
+      "valueChanges": [
+        { "name": "suspicion", "amount": 50 }
+      ],
+      "nextNode": "node6"
+    },
+    "changeValue2": {
+      "speaker": "旁白",
+      "dialogue": "怀疑度下降了",
+      "valueChanges": [
+        { "name": "suspicion", "amount": -50 }
+      ],
+      "nextNode": "node6"
+    }
+  }
+}
