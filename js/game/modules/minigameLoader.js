@@ -1,9 +1,7 @@
 import { gameState } from './dataManager.js';
-import { dialogueManager } from './world/dialogue.js';
-import {GAME_LIST} from "../config";
 
 export const minigameLoader = {
-    async load(minigameName, onWinStory, onLoseStory) {
+    async load(minigameName, onMinigameEnd) {
         // 1. 暂停主游戏逻辑，并隐藏主游戏容器
         window.gameMode = 'minigame';
         const mainGameContainer = document.getElementById('game-container');
@@ -17,13 +15,13 @@ export const minigameLoader = {
         document.body.appendChild(iframe);
 
         // 2. 设置消息监听器，用于接收来自 iframe 的关闭请求
-        const messageHandler = (event) => {
+        const messageHandler = async (event) => {
             // 安全性检查：确保消息来自 iframe
             if (event.source !== iframe.contentWindow) {
                 return;
             }
 
-            const { type, result } = event.data;
+            const {type, result} = event.data;
 
             if (type === 'closeMinigame') {
                 console.log(`小游戏 '${minigameName}' 已结束，结果:`, result);
@@ -38,41 +36,18 @@ export const minigameLoader = {
                 const token = localStorage.getItem("jwt_token"); // 自动重连逻辑
                 if (token) {
                     console.log("【minigameLoader.js】: 检测到 token，正在通知后端恢复在线状态...");
-                    gameState.loadPlayerData().then(playerData => {
-                        if (playerData) {
-                            console.log("【minigameLoader.js】: 后端状态已恢复。欢迎回来, ", playerData.username);
-                            let endStory = null;
-                            if (result.success && onWinStory) {
-                               endStory = onWinStory;
-                            } else if (!result.success && onLoseStory) {
-                                endStory = onLoseStory;
-                            }
-                            if (endStory) {
-                                dialogueManager.start(endStory, (endAction) => {
-                                    if (endAction){
-                                        const teleportData = endAction.teleportData || interactedObject.teleportData;
-                                        if (endAction.type === 'teleport' && teleportData) {
-                                            onTeleport(teleportData);
-                                        }
-
-                                        if (GAME_LIST.includes(endAction.type)) {
-                                            console.log(`接收到 ${endAction.type} 动作，正在加载游戏...`);
-                                            minigameLoader.load(endAction.type, endAction.onWin, endAction.onLose);
-                                        }
-
-                                        if (endAction.type === 'saveFile' && endAction.saveFileName) {
-                                            console.log(`存档名称${endAction.saveFileName}正在存档...`);
-                                            gameState.createSaveFile(endAction.saveFileName);
-                                        }
-                                    }
-                                });
-                            }
-                        } else {
-                            alert("Token 无效或已过期，请重新登录。");
-                            localStorage.clear();
-                            window.location.href = 'login.html';
-                        }
-                    });
+                    // 等待玩家数据加载完成，以确保在线状态恢复
+                    const playerData = await gameState.loadPlayerData();
+                    if (playerData) {
+                        console.log("【minigameLoader.js】: 后端状态已恢复。欢迎回来, ", playerData.username);
+                    } else {
+                        alert("Token 无效或已过期，请重新登录。");
+                        localStorage.clear();
+                        window.location.href = 'login.html';
+                    }
+                }
+                if (onMinigameEnd) {
+                    onMinigameEnd(result);
                 }
                 window.gameMode = 'map';
             }

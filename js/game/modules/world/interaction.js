@@ -92,19 +92,50 @@ export const interactionManager = {
     },
 
     init(onTeleport) {
+        // 创建一个可重用的 endAction 处理器
+        const processEndAction = (endAction, contextObject) => {
+            if (!endAction) return;
+
+            // 处理传送
+            const teleportData = endAction.teleportData || (contextObject && contextObject.teleportData);
+            if (endAction.type === 'teleport' && teleportData) {
+                onTeleport(teleportData);
+                return; // 传送后中断后续事件处理
+            }
+
+            // 处理小游戏
+            if (GAME_LIST.includes(endAction.type)) {
+                console.log(`接收到 ${endAction.type} 动作，正在加载游戏...`);
+                minigameLoader.load(endAction.type, (result) => {
+                    // 小游戏结束后，根据结果决定下一个故事
+                    const nextStoryKey = result.success ? endAction.onWin : endAction.onLose;
+                    if (nextStoryKey) {
+                        dialogueManager.start(nextStoryKey, (nextEndAction) => {
+                            processEndAction(nextEndAction, null);
+                        });
+                    }
+                });
+                return; // 中断处理，等待小游戏结束
+            }
+
+            // 处理存档
+            if (endAction.type === 'saveFile' && endAction.saveFileName) {
+                console.log(`存档名称${endAction.saveFileName}正在存档...`);
+                gameState.createSaveFile(endAction.saveFileName);
+            }
+        };
+
         window.addEventListener('keydown', (e) => {
             if (window.gameMode !== 'map' || e.key !== 'e' || !currentInteractable) return;
 
             const interactedObject = currentInteractable;
 
             dialogueManager.start(interactedObject.storyKey, (endAction) => {
-
                 // 对话结束后的回调
-                if (interactedObject.singleInteraction) { // 只有当 singleInteraction 为 true 时，才将其标记为已交互并隐藏
+                if (interactedObject.singleInteraction) {
                     interactedObject.interacted = true;
                     interactedObject.element.classList.add('hidden');
                     currentInteractable = null;
-                    // 获取当前地图ID并记录该物体已被移除
                     const currentLocation = gameState.loadLocation();
                     if (currentLocation && currentLocation.map) {
                         console.log(`移除物体：${interactedObject.id}`)
@@ -114,22 +145,8 @@ export const interactionManager = {
                     }
                 }
 
-                if (endAction){
-                    const teleportData = endAction.teleportData || interactedObject.teleportData;
-                    if (endAction.type === 'teleport' && teleportData) {
-                        onTeleport(teleportData);
-                    }
-
-                    if (GAME_LIST.includes(endAction.type)) {
-                        console.log(`接收到 ${endAction.type} 动作，正在加载游戏...`);
-                        minigameLoader.load(endAction.type, endAction.onWin, endAction.onLose);
-                    }
-
-                    if (endAction.type === 'saveFile' && endAction.saveFileName) {
-                        console.log(`存档名称${endAction.saveFileName}正在存档...`);
-                        gameState.createSaveFile(endAction.saveFileName);
-                    }
-                }
+                // 直接调用统一的处理器
+                processEndAction(endAction, interactedObject);
             });
         });
     },
