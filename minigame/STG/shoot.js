@@ -511,13 +511,14 @@ function updateBossHealth() {
                 bossIndicator = null;
 
                 // 3秒后重新开始道中
-                setTimeout(() => {
+                /*setTimeout(() => {
                     bossSpawned = false;
                     document.getElementById('stage').textContent = '道中';
                     document.getElementById('boss-health-text').textContent = '未出现';
                     document.getElementById('boss-health-bar').style.width = '0%';
                     gameTime = 0;
-                }, 3000);
+                }, 3000);*/
+                victory();
             }
         }
     }
@@ -722,9 +723,18 @@ function endGame() {
     document.getElementById('game-over-screen').style.display = 'block';
 }
 
+// 胜利
+function victory() {
+    gameState = 'victory';
+    cancelAnimationFrame(animationId);
+
+    document.getElementById('victory-score').textContent = score;
+    document.getElementById('victory-screen').style.display = 'block';
+}
+
 // 返回首页
-function goToHomePage() {
-    const result = { success: false };
+function goToHomePage(result) {
+    //const result = { success: false };
     window.parent.postMessage({ type: 'closeMinigame', result: result }, '*');
 }
 
@@ -828,7 +838,15 @@ document.addEventListener('keyup', (e) => {
 // 初始化事件监听器
 window.onload = function() {
     document.getElementById('restart-btn').addEventListener('click', initGame);
-    document.getElementById('home-btn').addEventListener('click', goToHomePage);
+    document.getElementById('home-btn').addEventListener('click', function() {
+        const result = {success : false}
+        goToHomePage(result);
+    });
+    document.getElementById('victory-restart-btn').addEventListener('click', initGame);
+    document.getElementById('victory-home-btn').addEventListener('click', function() {
+        const result = {success : true}
+        goToHomePage(result);
+    });
     document.getElementById('easy-mode').addEventListener('click', function() {
         selectDifficulty('easy');
     });
