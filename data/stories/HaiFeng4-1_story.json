@@ -1,0 +1,221 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "按照火卫一现在的运行轨迹和速度，我们明天凌晨就会驶出地球的防护区，暴露在智械的视野中，它们肯定会立刻派遣先遣部队进行传送门的安装。",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "战况紧急，我建议先让群众有序撤离火山星，防止战况焦灼产生不必要的牺牲。",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "不可以。火山星上并没有防御设备，如果贸然撤离，反而更加危险。",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "您在说什么啊？那些居民可不知道自己这个新家园马上要成为新的战场，而且就算有防御设备他们也没有做过备战演习吧？",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "队长，我坚持应该立刻电令火山星基地组织群众撤退！",
+      "nextNode": "node6"
+    },
+    "node6": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "（面无表情）这件事没有商量的余地，你不要再跟我争执了。不告诉他们是为了一个稳定的后方，这是在提升我们的胜利的筹码。",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "……",
+      "nextNode": "node8"
+    },
+    "node8": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "我接下来安排一下作战计划。一共分为三组：陶孚率领行动小组，在面前敌人的传送门安装道路部署原子爆破装置；刘小星负责领侦信息作战小组，在背后解密入敌人的传送门，追踪敌人的来源坐标；唐梓率领空战小组，看住火卫一的领空全域，及其在边界上制压作战的情况。",
+      "nextNode": "node9"
+    },
+    "node9": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "现在我们所处在火卫一的地下堡垒中，这里相对来说是最安全的地方。我们正在全面监控地面上的动向，带检测到敌人的传送门安装完毕后，三组立即就位。",
+      "nextNode": "node10"
+    },
+    "node10": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "唐梓，刚才的战斗辛苦你了，你是留在这里指挥还是带着队员先去准备？",
+      "options": [
+        {
+          "text": "离开地下堡垒",
+          "targetNode": "node11"
+        },
+        {
+          "text": "留在地下堡垒指挥",
+          "targetNode": "node17"
+        }
+      ]
+    },
+    "node11": {
+      "speaker": "旁白",
+      "dialogue": "你觉得李海峰很奇怪，从空间站那时就开始觉得奇怪……",
+      "nextNode": "node12"
+    },
+    "node12": {
+      "speaker": "旁白",
+      "dialogue": "在战友都沉寂流浪牺牲在子宙击无边无际的黑暗中时，他毫无反应，直接就开始布置下一阶段的任务，这时候又坚决反对火山星群众的撤离。",
+      "nextNode": "node13"
+    },
+    "node13": {
+      "speaker": "旁白",
+      "dialogue": "印象中李海峰并不是一个没有人情味的人，还是新兵的时候，他就是你们的队长。那时他说伤痕是战士们的功勋；那时他说我们做军人的，有责任保护每一个群众；战友和苍生向来是被他护在身后的，硝烟和战火也不曾成为他退后的借口。",
+      "nextNode": "node14"
+    },
+    "node14": {
+      "speaker": "旁白",
+      "dialogue": "是他变了？还是你太没有大局观了？还是他有别的战略部署？你不知道自己的选择到底对不对……",
+      "nextNode": "changeValue"
+    },
+    "changeValue": {
+      "speaker": "旁白",
+      "dialogue": "怀疑度上升了",
+      "valueChanges": [
+        { "name": "suspicion", "amount": 50 }
+      ],
+      "nextNode": "node17"
+    },
+    "node16": {
+      "speaker": "旁白",
+      "dialogue": "迷茫的时候，你下意识想到了二叔。你记得当时你回来后队长和二叔好像有奇怪的眼神交流。你决定去问个清楚。",
+      "nextNode": "node17"
+    },
+    "node17": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "我觉得你做出了正确的选择。有其他队员在地面巡逻，而咱们对智械更为熟悉，应该负责总体的指挥。",
+      "nextNode": "node18"
+    },
+    "node18": {
+      "speaker": "旁白",
+      "dialogue": "不过监控室只有我有限权限，可以去问问总工程师有什么需要协助的地方。",
+      "nextNode": "node19"
+    },
+    "node19": {
+      "speaker": "唐梓",
+      "dialogue": "好的，那我去找二叔。"
+    }
+  }
+}
