@@ -1,0 +1,72 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "speaker": "旁白",
+      "dialogue": "你挣脱了绳子，开始缓步在战机旁检视。检修仓很静，静到只有你一个人的呼吸声。",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "speaker": "旁白",
+      "dialogue": "突然前方传来了金属碰撞的声音，你抬头看到不远处的那艘战斗机的驾驶舱位置有一个黑影。",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "你是谁？为什么要破坏战机",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "speaker": "旁白",
+      "dialogue": "你快步爬上战机，终于看清了那黑影的面容——是一个身着黑衣、带着面具的人。",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "speaker": "旁白",
+      "dialogue": "你突然想起不久前在空间站看到的那个黑影——你确信这是同一个人，一定是来破坏火山行动的敌人。",
+      "nextNode": "node6"
+    },
+    "node6": {
+      "speaker": "旁白",
+      "dialogue": "你看不见这个人的面容，但注意到了她肩上飘扬的长发。你看见她正在往战机上传什么程序，于是迅速冲过去，和她扭打在一起。",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "action":{
+        "type":"解绳子小游戏"
+      },
+      "nextNode": "node8"
+    },
+    "node8": {
+      "speaker": "旁白",
+      "dialogue": "经过一阵厮打，黑影逐渐处于下风，她深深看了你一眼，后转身跑入黑暗中。",
+      "nextNode": "node9"
+    },
+    "node9": {
+      "speaker": "旁白",
+      "dialogue": "熟悉的感觉又涌上心头，她的眼神，与送你笔记本的大娘如出一撤。你在和她交战的时候从她身上扯下来了一个东西——好像是一个发绳，上面挂着海螺的装饰品。",
+      "nextNode": "node10"
+    },
+    "node10": {
+      "speaker": "旁白",
+      "dialogue": "你本想继续追上去，但她早已消失不见。",
+      "nextNode": "node13"
+    },
+    "node13": {
+      "speaker": "旁白",
+      "dialogue": "身侧的对讲机突然响了起来，是队长的召集信号。他召集所有人迅速回到战略指挥室召开作战会议。",
+      "nextNode": "node14"
+    },
+    "node14": {
+      "action": {
+        "type": "teleport"
+      }
+    }
+  }
+}

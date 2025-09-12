@@ -1,0 +1,203 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "speaker": "旁白",
+      "dialogue": "你敲门，走进二叔的办公室。他坐在书桌前，正在沉思着什么，手里翻着那个烫金的日记本。",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "（看到你进来，抬头）唐梓，我刚要去找你。",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "二叔，队长坚决反对撤退火山星上的居民。",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "嗯？（略加思考）那你怎么过来了？他现在在哪？",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "他自己在监控室里指挥各组行动。",
+      "nextNode": "node6"
+    },
+    "node6": {
+      "speaker": "旁白",
+      "dialogue": "听到这，二叔的表情透着凝重，缓缓站起身来。",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "scene": [
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "李海峰……他自己怎么监控得过来，我有权限，我去帮他……那你一会帮我去检修仓检查一下你们空战小组的战斗机。",
+      "nextNode": "node8"
+    },
+    "node8": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "那我待会是应该带着队员外出巡航，还是在地下堡垒指挥作战？",
+      "nextNode": "node9"
+    },
+    "node9": {
+      "scene": [
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "……我无法给你答案或者帮你抉择，但是无论你怎么选，都将决定你的人生和未来的命运。",
+      "nextNode": "node10"
+    },
+    "node10": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "我记得您曾说过，您不会对我人生的重要抉择出建议。您是怕我后来怨恨您的建议吗？ ",
+      "nextNode": "node11"
+    },
+    "node11": {
+      "speaker": "旁白",
+      "dialogue": "唐槿辞低着头沉默，你看到他手中无意识地翻动着那本日记。",
+      "nextNode": "node12"
+    },
+    "node12": {
+      "speaker": "旁白",
+      "dialogue": "是也不是……有时我宁愿那天看到的是从未来射向我正中眉心的子弹，也不愿是那枯萎的凋谢的毫无生机的红掌花……",
+      "nextNode": "node13"
+    },
+    "node13": {
+      "scene": [
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "她？……（你想起了冰川行动和不久前太空站中失去的同伴）是你很珍视的战友吗？",
+      "nextNode": "node14"
+    },
+    "node14": {
+      "speaker": "旁白",
+      "dialogue": "二叔没有说话，拍拍你。你感受到他的手比原来更凉了。",
+      "nextNode": "node15"
+    },
+    "node15": {
+      "speaker": "旁白",
+      "dialogue": "窗户大开着，风一吹，黑色的长服呼呼作响，他看起来摇摇欲坠。他好似无意识地拍了拍桌上的日记本，走了出去。",
+      "nextNode": "node16"
+    },
+    "node16": {
+      "speaker": "旁白",
+      "dialogue": "（走到门口时，停了一下，自言自语般）也是你很珍视的战友。",
+      "nextNode": "node17"
+    },
+    "node17": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "（二叔走后，仔细回想二叔的话）检修仓……我好像在哪里看到过这个地方。",
+      "nextNode": "node18"
+    },
+    "node18": {
+      "speaker": "旁白",
+      "dialogue": "（视线落在二叔桌上摊开的日记本上）哦天哪……“12.30 检修仓，我要快点挣脱束缚”。",
+      "nextNode": "node19"
+    },
+    "node19": {
+      "speaker": "旁白",
+      "dialogue": "（如果在第二幕获得笔记本则开启）】你发现二叔的笔记本和那时那个大娘送你的笔记本一模一样，而你恰好带着那个笔记本，于是你决定偷偷把二叔的日记本拿走，把那个笔记本放了进去……",
+      "nextNode": "node20"
+    },
+    "node20": {
+      "speaker": "旁白",
+      "dialogue": "你决定只身前往检修仓，觉得从那里能找到你想要的答案",
+      "action": {
+        "type": "teleport"
+      }
+    }
+  }
+}
