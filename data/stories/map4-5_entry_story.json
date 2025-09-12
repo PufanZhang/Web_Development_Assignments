@@ -1,0 +1,74 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "speaker": "旁白",
+      "dialogue": "你刚带领空战小队来到检修仓，就听到团队无线电频道里炸开了锅。",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        { "id": "刘小星", "sprite": "assets/images/characternpc.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "信息作战小队报告！我们从A区传送门无法追踪到任何坐标，这个传送门是假的！",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        { "id": "陶孚", "sprite": "assets/images/charactertf.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "陶孚",
+      "dialogue": "看来这么多传送门都是在故布疑阵，只有一个是真正的传送门……那我们可要加快脚步了，队长，恐怕我们的时间不足以破坏所有传送门了。",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "预备小队！准备启动行星发动机，我们随时准备撤离！",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "scene": [
+        { "id": "预备小队", "sprite": "assets/images/characternpc.png" },
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+      ],
+      "speaker": "预备小队",
+      "dialogue": "（频道安静了一会）报告指挥！行星发动机疑似受到全频段信号屏蔽，无法正常启动！",
+      "nextNode": "node6"
+    },
+    "node6": {
+      "scene": [
+        { "id": "李海峰", "sprite": "assets/images/characterlhf.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "……滋滋滋……滋滋……",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "speaker": "旁白",
+      "dialogue": "或许是信号屏蔽的原因，你的无线电频道听不到任何东西。但无线电短线之前的消息，无疑让你的心凉透了。",
+      "nextNode": "node8"
+    },
+    "node8": {
+      "speaker": "旁白",
+      "dialogue": "现在你们既找不到真正的传送门在哪里，又在撤退前发现行星发动机也被信号屏蔽而未能启动，所有人就这么暴露在智械的视野中，。",
+      "nextNode": "node9"
+    },
+    "node9": {
+      "speaker": "旁白",
+      "dialogue": "而智械随时都有可能通过真正的传送门往此处派兵发起突袭。",
+      "nextNode": "node10"
+    },
+    "node10": {
+      "speaker": "旁白",
+      "dialogue": "该怎么办？就在这时，你看到远处的天际线有一道从天而降的光柱，然后是一声震耳欲聋的巨响——你的直觉告诉你，真正的传送门，启动了。"
+    }
+  }
+}

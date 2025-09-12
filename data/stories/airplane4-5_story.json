@@ -1,0 +1,59 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "speaker": "旁白",
+      "dialogue": "你和智械有着丰富的作战经验，因此清楚地知道：如果陶孚的行动小队被困在那里，那他们就只有全军覆没这个结局。"
+    ,
+      "nextNode": "node2"
+    },
+    "node2": {
+      "speaker": "旁白",
+      "dialogue": "你突然明白了日记上“我要救下他们”的含义。可事到如今，只有你和你的空战小组还有扭转局势的最后一点希望。",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "整队！（队员们站成一排）同志们，看样子敌人远比我们想象的要狡猾地多。"
+    ,
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "现在我们的战友要直面智械军团的冲击，我们不能眼睁睁看着他们送死！"
+    ,
+      "nextNode": "node5"
+    },
+    "node5": {
+      "scene": [
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "虽然可能是以卵击石，但我想我们应该尽最后一点力，掩护我们前线的同胞们顺利撤退，谋求活的希望！",
+      "nextNode": "node6"
+    },
+    "node6": {
+      "scene": [
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "同志们，这大概率是我们参军以来最后一次任务了……不想参与的主动离队！",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "speaker": "旁白",
+      "dialogue": "（无人离队）看来大家都是真英雄，真好汉！出发！",
+      "nextNode": "node8"
+    },
+    "node8": {
+      "speaker": "旁白",
+      "dialogue": "你们义无反顾，前往了最后的战场。"
+    }
+  }
+}
