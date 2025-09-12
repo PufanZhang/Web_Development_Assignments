@@ -143,6 +143,38 @@ body {
     display: none;
 }
 
+.victory-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+    display: none;
+    pointer-events: auto;
+    z-index: 25;
+    width: 350px;
+}
+
+.victory-screen h2 {
+    color: #FFD700;
+    font-size: 32px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.victory-stats {
+    margin: 20px 0;
+    font-size: 20px;
+}
+
+.victory-stats div {
+    margin: 10px 0;
+}
+
 .screen h2 {
     margin-bottom: 20px;
     color: #ffcc00;
