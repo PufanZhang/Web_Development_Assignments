@@ -1,6 +1,10 @@
 import { auth, gameState } from "./game/modules/dataManager.js";
+import { audioManager } from "./game/modules/audioManager.js";
+import {VOLUME, MAIN_MUSIC } from "./game/config.js";
 
 document.addEventListener('DOMContentLoaded', () => {
+    audioManager.init(VOLUME);
+    audioManager.playMusic(MAIN_MUSIC);
     const token = localStorage.getItem("jwt_token");
 
     if (token) {

@@ -1,6 +1,11 @@
 import { auth } from './game/modules/dataManager.js';
+import { audioManager } from "./game/modules/audioManager.js";
+import { VOLUME, LOGIN_MUSIC } from "./game/config.js";
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    audioManager.init(VOLUME);
+    audioManager.playMusic(LOGIN_MUSIC);
 
     // --- DOM 元素获取 ---
     const usernameInput = document.getElementById("username");

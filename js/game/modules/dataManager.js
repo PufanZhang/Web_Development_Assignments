@@ -202,15 +202,24 @@ export const gameState = {
     },
 
     async loadSaveFile(saveName) {
-        console.log(`正在读取手动存档，名称: [${saveName}]...`);
+        console.log(`正在加载手动存档，名称: [${saveName}]...`);
         const response = await apiRequest(`/player/loadfile/${saveName}`, 'POST');
         if (response) {
             console.log(`✅ 手动存档 [${saveName}] 读取成功！`);
-            alert(`存档点已读取：${saveName}`);
+            return true;
         } else {
             console.error(`手动存档 [${saveName}] 读取失败。`);
-            alert("读取存档失败，请稍后再试。");
+            return false;
         }
+    },
+
+    async getAllSaveFiles() {
+        console.log("正在向服务器请求所有存档信息...");
+        const data = await apiRequest('/player/enquire_all_savefiles');
+        if (data) {
+            console.log("✅ 成功获取所有存档信息！", data);
+        }
+        return data;
     }
 };
 
