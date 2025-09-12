@@ -3,8 +3,12 @@
 // 初始地图
 export const INITIAL_MAP = "map4-1";
 
-// 背景音乐音量
+// 背景音乐设置
 export const VOLUME = 0.7;
+export const ACHIEVEMENT_MUSIC = "/assets/music/Anthurium.mp3";
+export const MAIN_MUSIC = "/assets/music/Anthurium.mp3";
+export const SAVE_MUSIC = "/assets/music/Anthurium.mp3";
+export const LOGIN_MUSIC = "/assets/music/Anthurium.mp3";
 
 // 玩家相关配置
 export const PLAYER_WIDTH = 100;

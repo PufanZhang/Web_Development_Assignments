@@ -1,4 +1,6 @@
 import { auth, gameState, achievements } from "./game/modules/dataManager.js";
+import { audioManager } from "./game/modules/audioManager.js";
+import {VOLUME, ACHIEVEMENT_MUSIC } from "./game/config.js";
 
 // const achievementData = {
 //     memory: [
@@ -235,6 +237,8 @@ function updateProgress() {
 
 // 初始化进度条
 document.addEventListener('DOMContentLoaded', async function() {
+    audioManager.init(VOLUME);
+    audioManager.playMusic(ACHIEVEMENT_MUSIC);
     const token = localStorage.getItem("jwt_token");
 
     if (!token) {

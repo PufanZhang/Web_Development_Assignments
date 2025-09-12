@@ -482,7 +482,9 @@ body::before {
     color: #00ffff;
     padding: 15px;
     border-radius: 50%;
-    cursor: pointer;
+    cursor: default;
+    outline: none;
+    user-select: none;
     font-size: 20px;
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
@@ -522,7 +524,9 @@ body::before {
     font-size: 48px;
     color: #000;
     position: relative;
-    overflow: hidden;
+    cursor: default;
+    outline: none;
+    user-select: none;
 }
 
 .achievement-badge::before {
@@ -552,6 +556,9 @@ body::before {
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    cursor: default;
+    outline: none;
+    user-select: none;
 }
 
 #achievementDescription {
@@ -564,6 +571,9 @@ body::before {
     margin-right: auto;
     color: #a0a0ff;
     letter-spacing: 1px;
+    cursor: default;
+    outline: none;
+    user-select: none;
 }
 
 .achievement-status {
@@ -576,6 +586,9 @@ body::before {
     text-transform: uppercase;
     font-weight: 700;
     letter-spacing: 2px;
+    cursor: default;
+    outline: none;
+    user-select: none;
 }
 
 .status-text {

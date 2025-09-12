@@ -14,7 +14,7 @@ body {
             linear-gradient(135deg, #000814 0%, #001d3d 50%, #003566 100%);
     min-height: 100vh;
     color: #fff;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 /* 科技背景效果 */
@@ -291,7 +291,7 @@ body {
 
 .save-stats-mini {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 15px;
     margin-bottom: 20px;
     z-index: 2;
@@ -349,50 +349,6 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 212, 255, 0.6);
     transition: width 0.8s ease;
-}
-
-/* 新建存档卡片 */
-.new-save-card {
-    background: linear-gradient(135deg,
-    rgba(0, 255, 136, 0.05) 0%,
-    rgba(0, 200, 100, 0.05) 100%);
-    border-radius: 20px;
-    padding: 40px 25px;
-    border: 2px dashed rgba(0, 255, 136, 0.4);
-    cursor: pointer;
-    transition: all 0.4s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    min-height: 200px;
-}
-
-.new-save-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(0, 255, 136, 0.8);
-    box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
-}
-
-.new-save-icon {
-    font-size: 48px;
-    color: #00ff88;
-    margin-bottom: 15px;
-    font-weight: 300;
-}
-
-.new-save-text h3 {
-    font-size: 20px;
-    color: #00ff88;
-    margin-bottom: 8px;
-    font-weight: 700;
-}
-
-.new-save-text p {
-    font-size: 14px;
-    color: #66ff99;
-    opacity: 0.8;
 }
 
 /* 存档详情页面 */
@@ -536,15 +492,18 @@ body {
 }
 
 .save-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    display: flex;
+    justify-content: space-between;
     gap: 20px;
+    flex-wrap: wrap;
 }
 
 .stat-item {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    flex-basis: 200px; /* 给一个基础宽度，防止挤压 */
+    flex-grow: 1;
 }
 
 .stat-label {
@@ -561,8 +520,8 @@ body {
     font-weight: 700;
 }
 
-/* 进度部分 */
-.progress-section, .achievement-section {
+/* 进度与描述部分 */
+.progress-section, .description-section {
     background: rgba(0, 20, 40, 0.9);
     border-radius: 20px;
     padding: 30px;
@@ -588,22 +547,13 @@ body {
     font-size: 28px;
 }
 
-.view-achievements-btn {
-    background: rgba(0, 212, 255, 0.1);
-    border: 1px solid rgba(0, 212, 255, 0.5);
-    color: #00d4ff;
-    padding: 8px 16px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
-    transition: all 0.3s ease;
+.save-description {
+    font-size: 16px;
+    color: #aaccff;
+    line-height: 1.7;
+    white-space: pre-wrap; /* 尊重原文的换行 */
 }
 
-.view-achievements-btn:hover {
-    background: rgba(0, 212, 255, 0.2);
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
-}
 
 .progress-grid {
     display: grid;
@@ -656,88 +606,13 @@ body {
     background: linear-gradient(90deg, #00d4ff 0%, #0099cc 100%);
 }
 
-.side-progress {
-    background: linear-gradient(90deg, #00ff88 0%, #00cc66 100%);
-}
-
-.collect-progress {
-    background: linear-gradient(90deg, #ff6b00 0%, #cc5500 100%);
-}
-
-/* 成就统计 */
-.achievement-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-}
-
-.achievement-category {
-    background: rgba(0, 212, 255, 0.05);
-    padding: 20px;
-    border-radius: 15px;
-    border: 1px solid rgba(0, 212, 255, 0.2);
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    transition: all 0.3s ease;
-}
-
-.achievement-category:hover {
-    background: rgba(0, 212, 255, 0.1);
-    transform: translateY(-3px);
-}
-
-.category-icon {
-    font-size: 32px;
-    width: 50px;
-    text-align: center;
-}
-
-.category-info {
-    flex: 1;
-}
-
-.category-name {
-    display: block;
-    font-size: 16px;
-    color: #66ccff;
-    font-weight: 600;
-    margin-bottom: 5px;
-}
-
-.category-count {
-    display: block;
-    font-size: 18px;
-    color: #00d4ff;
-    font-weight: 700;
-}
-
-.category-progress {
-    width: 60px;
-}
-
-.mini-progress-bar {
-    width: 100%;
-    height: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.mini-progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #00d4ff 0%, #0099cc 100%);
-    border-radius: 10px;
-    transition: width 0.8s ease;
-    box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
-}
-
 /* 操作按钮 */
 .action-buttons {
     display: flex;
     gap: 20px;
     justify-content: center;
     flex-wrap: wrap;
+    margin-top: 10px;
 }
 
 .action-btn {
@@ -772,102 +647,49 @@ body {
     box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
 }
 
-.delete-btn:hover {
-    background: rgba(255, 100, 100, 0.2);
-    border-color: #ff6464;
-    color: #ff6464;
-    box-shadow: 0 10px 30px rgba(255, 100, 100, 0.3);
+.confirm-btn-green {
+    background: rgba(0, 255, 136, 0.2);
+    border: 2px solid rgba(0, 255, 136, 0.5);
+    color: #00ff88;
 }
 
-.export-btn:hover {
-    background: rgba(255, 200, 0, 0.2);
-    border-color: #ffc800;
-    color: #ffc800;
-    box-shadow: 0 10px 30px rgba(255, 200, 0, 0.3);
+.confirm-btn-green:hover {
+    background: rgba(0, 255, 136, 0.3);
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
 }
 
-/* 确认弹窗 */
-.confirm-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    z-index: 2000;
-    backdrop-filter: blur(10px);
-}
-
-.modal-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: linear-gradient(135deg, rgba(0, 20, 40, 0.95), rgba(0, 40, 80, 0.95));
+/* 无存档信息样式 */
+.no-saves-message {
+    background: linear-gradient(135deg,
+    rgba(0, 212, 255, 0.05) 0%,
+    rgba(0, 100, 150, 0.05) 100%);
     border-radius: 20px;
-    padding: 40px;
-    border: 2px solid rgba(0, 212, 255, 0.5);
-    box-shadow: 0 0 60px rgba(0, 212, 255, 0.3);
-    min-width: 400px;
+    padding: 60px 30px;
+    border: 2px dashed rgba(0, 212, 255, 0.3);
     text-align: center;
+    margin-top: 25px;
 }
 
-.modal-header h3 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 24px;
-    color: #00d4ff;
+.no-saves-icon {
+    font-size: 64px;
+    color: rgba(0, 212, 255, 0.5);
     margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    font-weight: 300;
 }
 
-.modal-body p {
+.no-saves-message h3 {
+    font-size: 24px;
+    color: rgba(0, 212, 255, 0.8);
+    margin-bottom: 15px;
+    font-weight: 700;
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+}
+
+.no-saves-message p {
     font-size: 16px;
     color: #66ccff;
-    margin-bottom: 30px;
-    line-height: 1.6;
-}
-
-.modal-actions {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-}
-
-.modal-btn {
-    padding: 12px 25px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 600;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-    min-width: 120px;
-}
-
-.cancel-btn {
-    background: rgba(100, 100, 100, 0.2);
-    border: 2px solid rgba(150, 150, 150, 0.5);
-    color: #999;
-}
-
-.cancel-btn:hover {
-    background: rgba(150, 150, 150, 0.3);
-    color: #ccc;
-}
-
-.confirm-btn {
-    background: rgba(255, 100, 100, 0.2);
-    border: 2px solid rgba(255, 100, 100, 0.5);
-    color: #ff6464;
-}
-
-.confirm-btn:hover {
-    background: rgba(255, 100, 100, 0.3);
-    box-shadow: 0 0 20px rgba(255, 100, 100, 0.4);
+    opacity: 0.8;
 }
 
 /* 响应式设计 */
@@ -905,10 +727,6 @@ body {
         flex-direction: column;
         align-items: center;
     }
-
-    .achievement-stats {
-        grid-template-columns: 1fr;
-    }
 }
 
 @media (max-width: 480px) {
@@ -919,11 +737,5 @@ body {
 
     .save-name {
         font-size: 28px;
-    }
-
-    .modal-content {
-        margin: 20px;
-        min-width: auto;
-        width: calc(100% - 40px);
     }
 }
