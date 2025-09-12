@@ -1,8 +1,13 @@
 {
     "id":"XiaoGuang3-1",
     "image":"assets/images/shen.png",
-    "x": 800, "y": 200, "width": 50, "height": 100,
+    "x": 400, "y": 600, "width": 50, "height": 100,
     
     "storyKey": "XiaoGuang3-1_story",
-    "showPrompt": true
+    "showPrompt": true,
+    "teleportData": {
+      "targetMap": "Map3-2",
+      "targetX": 400,
+      "targetY": 500
+    }
 } 

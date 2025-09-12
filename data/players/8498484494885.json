@@ -1,0 +1,25 @@
+{
+  "username": "8498484494885",
+  "address": {
+    "map": "Map2-1",
+    "x": 968.0,
+    "y": 510.0
+  },
+  "values": {
+    "suspicion": 100,
+    "money": 0,
+    "Trainscore": 1,
+    "exam2": 0,
+    "exam1": 0,
+    "conch": 0
+  },
+  "mapStates": {
+    "Map2-1": {
+      "removedObjects": [
+        "Fu2-1"
+      ]
+    }
+  },
+  "achievements": [],
+  "tools": []
+}
