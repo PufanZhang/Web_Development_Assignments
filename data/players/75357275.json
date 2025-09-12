@@ -1,0 +1,37 @@
+{
+  "username": "75357275",
+  "address": {
+    "map": "map4-1",
+    "x": 576.0,
+    "y": 0.0
+  },
+  "values": {
+    "exam1": 0,
+    "exam2": 0,
+    "suspicion": 100,
+    "Trainscore": 0,
+    "money": 0,
+    "conch": 0
+  },
+  "mapStates": {
+    "map3-4": {
+      "removedObjects": [
+        "HaiFeng3-4",
+        "ErShu3-4"
+      ]
+    },
+    "map3-5": {
+      "removedObjects": [
+        "ErShu3-5",
+        "HaiFeng3-4"
+      ]
+    },
+    "Map3-1": {
+      "removedObjects": [
+        "XiaoGuang3-1"
+      ]
+    }
+  },
+  "achievements": [],
+  "tools": []
+}

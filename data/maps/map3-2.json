@@ -3,7 +3,7 @@
   "width": 1600,
   "height": 900,
   "background": "assets/background/background3-2.png",
-  "entryStoryKey": "Map3-2_entry_story",
+  "entryStoryKey": "map3-2_entry_story",
   "walls": [
     {"x": 0, "y": 0, "width": 1600, "height": 300},
     {"x": 0, "y": 200, "width": 200, "height": 600},

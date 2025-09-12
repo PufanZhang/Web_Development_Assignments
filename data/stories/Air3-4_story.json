@@ -5,7 +5,7 @@
       "scene": [
         {
           "id": "刘小星",
-          "sprite": "assets/images/characterlxs.png"
+          "sprite": "assets/images/characterlxx.png"
         }
       ],
       "speaker": "刘小星",
@@ -27,7 +27,7 @@
       "scene": [
         {
           "id": "刘小星",
-          "sprite": "assets/images/characterlxs.png"
+          "sprite": "assets/images/characterlxx.png"
         }
       ],
       "speaker": "刘小星",
@@ -49,7 +49,7 @@
       "scene": [
         {
           "id": "刘小星",
-          "sprite": "assets/images/characterlxs.png"
+          "sprite": "assets/images/characterlxx.png"
         }
       ],
       "speaker": "刘小星",
@@ -86,46 +86,9 @@
       "speaker": "旁白",
       "dialogue": "你从太空站出发前往边界，不一会就被敌人发现。你主动暴露了自己的坐标，很快敌人的战舰就逐渐把你们包围起来。",
       "action": {
-        "type": "G3飞机大战",
-        "nextNode": "node15"
-      }
-    },
-    "node15": {
-      "speaker": "旁白",
-      "dialogue": "在你高超技术的驱攻下，敌人很快就乱了阵脚。直觉告诉你机会到了，你决定佯装失误，给敌人卖个破绽。",
-      "nextNode": "node16"
-    },
-    "node16": {
-      "speaker": "旁白",
-      "dialogue": "可就在这时，自动防御系统突然启动了，系统直接接管了你的操作，驱动飞船朝着安全的地方驶去。",
-      "nextNode": "node17"
-    },
-    "node17": {
-      "scene": [
-        {
-          "id": "唐梓",
-          "sprite": "assets/images/charactertz.png"
-        }
-      ],
-      "speaker": "唐梓",
-      "dialogue": "怎么会这样……这下该怎么办——对了，赶紧切换到手动操作……",
-      "nextNode": "node19"
-    },
-    "node19": {
-      "speaker": "旁白",
-      "dialogue": "你紧急把模式转为手动操作，而就在这耽误的几秒中，两位队友的战机已经被敌人击毁。",
-      "nextNode": "node20"
-    },
-    "node20": {
-      "speaker": "旁白",
-      "dialogue": "你强忍心中的悲痛，调转方向将战斗机推进干扰区。",
-      "nextNode": "node21"
-    },
-    "node21": {
-      "speaker": "旁白",
-      "dialogue": "就在敌人击中的那一瞬间，你从机舱中弹出，乘坐逃生飞艇往空间站飞去，而敌人忙于捕捉你丢下的战舰，并没有追击你们。",
-      "action": {
-        "type": "teleport"
+        "type": "STG",
+        "onWin": "STG_win1_story",
+        "onLose": "STG_lose1_story"
       }
     }
   }

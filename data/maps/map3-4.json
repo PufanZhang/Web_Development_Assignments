@@ -2,10 +2,10 @@
   "name": "空间站",
   "width": 1600,
   "height": 900,
-  "background": "assets/background/background3-3.png",
-  "entryStoryKey": "Map3-4_entry_story",
+  "background": "assets/background/background2-1.png",
+  "entryStoryKey": "map3-4_entry_story",
   "walls": [
     
   ],
-  "objects": []
+  "objects": ["HaiFeng3-4","ErShu3-4","Air3-4","door3-4"]
 }

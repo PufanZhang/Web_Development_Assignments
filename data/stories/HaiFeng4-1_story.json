@@ -215,7 +215,10 @@
     },
     "node19": {
       "speaker": "唐梓",
-      "dialogue": "好的，那我去找二叔。"
+      "dialogue": "好的，那我去找二叔。",
+      "action": {
+        "type": "teleport"
+      }
     }
   }
 }

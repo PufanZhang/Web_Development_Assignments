@@ -1,0 +1,12 @@
+{
+    "id": "door3-4",
+    "image": "assets/images/dairy.png",
+    "x": 1350, "y": 300, "width": 100, "height": 100,
+    "showPrompt": true,
+    "storyKey": "door3-4_story",
+    "teleportData": {
+        "targetMap": "map3-5",
+        "targetX": 500,
+        "targetY": 500
+    }
+}

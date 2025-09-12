@@ -1,0 +1,8 @@
+{
+    "id":"ErShu3-4",
+    "x": 400,"y": 800,"width": 160,"height": 90,
+    "image": "assets/images/ErShu.png",
+    "showPrompt": true,
+    "singleInteraction": true,
+    "storyKey": "ErShu3-4_story"
+}

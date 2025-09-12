@@ -1,7 +1,13 @@
 {
     "id":"dairy3-3",
-    "x": 100,"y": 100,"width": 1600,"height": 900,
-    "storyKey": "dairy3-3_story",
+    "image":"assets/images/dairy0.png",
+    "x":1000,"y": 600,"width": 50,"height": 50,
+    "storyKey": "dairy_story",
     "showPrompt": true,
-    "singleInteraction": false
+    "singleInteraction": false,
+    "teleportData": {
+      "targetMap": "map3-4",
+      "targetX": 500,
+      "targetY": 500
+    }
 }

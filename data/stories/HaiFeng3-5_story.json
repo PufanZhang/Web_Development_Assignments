@@ -155,7 +155,7 @@
       "scene": [
         {
           "id": "刘小星",
-          "sprite": "assets/images/characterlxs.png"
+          "sprite": "assets/images/characterlxx.png"
         },
         {
           "id": "唐梓",
@@ -170,7 +170,7 @@
       "scene": [
         {
           "id": "刘小星",
-          "sprite": "assets/images/characterlxs.png"
+          "sprite": "assets/images/characterlxx.png"
         },
         {
           "id": "唐梓",
@@ -189,7 +189,7 @@
         },
         {
           "id": "刘小星",
-          "sprite": "assets/images/characterlxs.png"
+          "sprite": "assets/images/characterlxx.png"
         }
       ],
       "speaker": "唐梓",
@@ -208,7 +208,10 @@
         }
       ],
       "speaker": "李海峰",
-      "dialogue": "（拍拍唐梓）这才对嘛，我们出发！"
+      "dialogue": "（拍拍唐梓）这才对嘛，我们出发！",
+      "action":{
+        "type": "teleport"
+      }
     }
   }
 }

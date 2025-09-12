@@ -1,14 +1,16 @@
 {
-  "startNode": "node1",
+  "startNode": "node2",
   "nodes": {
     "node2": {
       "speaker": "旁白",
       "dialogue": "你抽出了那本“书”，看到扉页上写着：长大后，我就成为了你。",
+      "displayImage": "assets/images/dairy.png",
       "nextNode": "node3"
     },
     "node3": {
       "speaker": "旁白",
       "dialogue": "再翻几页，你发现这好像是一本日记。",
+      "displayImage": "assets/images/dairy.png",
       "nextNode": "node4"
     },
     "node4": {
@@ -19,36 +21,43 @@
     "node5": {
       "speaker": "旁白",
       "dialogue": "“2220.8.20 参加冰川行动”",
+      "displayImage": "assets/images/dairy1.png",
       "nextNode": "node6"
     },
     "node6": {
       "speaker": "旁白",
       "dialogue": "“2225.8.31 在医院醒来，救下了小月……”",
+      "displayImage": "assets/images/dairy1.png",
       "nextNode": "node7"
     },
     "node7": {
       "speaker": "旁白",
       "dialogue": "今天是 11.1 号，但日记并没有停止在此，而是白纸黑字写着——",
+      "displayImage": "assets/images/dairy1.png",
       "nextNode": "node8"
     },
     "node8": {
       "speaker": "旁白",
       "dialogue": "“12.30 检修仓 我要快点挣脱束缚。”",
+      "displayImage": "assets/images/dairy1.png",
       "nextNode": "node9"
     },
     "node9": {
       "speaker": "旁白",
       "dialogue": "“12.31 地球 我要救下他们。”",
+      "displayImage": "assets/images/dairy1.png",
       "nextNode": "node10"
     },
     "node10": {
       "speaker": "旁白",
       "dialogue": "“1.1 世界 我要解开真相。”",
+      "displayImage": "assets/images/dairy1.png",
       "nextNode": "node11"
     },
     "node11": {
       "speaker": "旁白",
       "dialogue": "“你只要帮我全部完成，或者找到全部的它们，你的所有愿望就会实现。”",
+      "displayImage": "assets/images/dairy2.png",
       "nextNode": "node12"
     },
     "node12": {

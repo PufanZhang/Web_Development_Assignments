@@ -5,5 +5,12 @@
 
     "showPrompt": true,
     "singleInteraction": false,
-    "storyKey": "HaiFeng4-1_story"
+    "storyKey": "HaiFeng4-1_story",
+    "teleportData": {
+        "targetMap": "map4-2",
+        "targetX": 500,
+        "targetY": 500
+    }
+    
+
 }

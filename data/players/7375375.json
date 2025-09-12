@@ -1,0 +1,19 @@
+{
+  "username": "7375375",
+  "address": {
+    "map": "map3-4",
+    "x": 1224.0,
+    "y": 338.0
+  },
+  "values": {
+    "Trainscore": 0,
+    "money": 0,
+    "suspicion": 100,
+    "conch": 0,
+    "exam2": 0,
+    "exam1": 0
+  },
+  "mapStates": {},
+  "achievements": [],
+  "tools": []
+}

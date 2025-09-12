@@ -7,6 +7,10 @@
   "height": 100,
   "storyKey": "XiaoYue1-2_story",
   "singleInteraction": true,
-
+  "requiredValues": {
+    "conditions": [
+      { "name": "help", "comparison": "greater_than_or_equal", "value": 1 }
+    ]
+  },
   "showPrompt": true
 }

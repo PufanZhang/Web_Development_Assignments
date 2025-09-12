@@ -1,9 +1,9 @@
 {
     "id":"airplane4-3",
-    "x": 400,"y": 450,"width": 160,"height": 90,
-    "image": "assets/images/characterlhf.png",
+    "x": 300,"y": 200,"width": 160,"height": 90,
+    "image": "assets/images/black.png",
 
     "showPrompt": true,
-    "singleInteraction": false,
+    "singleInteraction": true,
     "storyKey": "airplane4-3_story"
 }

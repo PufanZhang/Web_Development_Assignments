@@ -1,9 +1,14 @@
 {
     "id":"Air3-4",
-    "x": 400,"y": 450,"width": 160,"height": 90,
-    "image": "assets/images/characterlhf.png",
+    "x": 800,"y": 450,"width": 160,"height": 90,
+    "image": "assets/images/sister.png",
 
     "showPrompt": true,
     "singleInteraction": false,
-    "storyKey": "Air3-4_story"
+    "storyKey": "Air3-4_story",
+    "teleportData": {
+        "targetMap": "map3-5",
+        "targetX": 500,
+        "targetY": 500
+    }
 }
