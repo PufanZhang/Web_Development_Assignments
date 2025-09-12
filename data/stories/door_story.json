@@ -1,0 +1,10 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "action": {
+        "type": "teleport"
+      }
+    }
+  }
+}

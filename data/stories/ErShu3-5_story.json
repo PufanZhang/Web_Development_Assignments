@@ -1,0 +1,144 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "scene": [
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "如何，完成任务了吗？",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "……",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "……没关系的，任务失败也……下次还有机会……",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "任务成功了。",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "scene": [
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "啊？（下意识瞥了一下站在一边的李海峰）成功了，那……",
+      "nextNode": "node6"
+    },
+    "node6": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "（抬起头，怒目而视）为什么你的防御系统让我的飞机在最关键的时候失控了？！如果不是突然失控，他们的飞机就能趁我第一次近身搏斗时脱离战斗……（哽咽）",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "scene": [
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "……",
+      "nextNode": "node8"
+    },
+    "node8": {
+      "speaker": "旁白",
+      "dialogue": "这时，一直在一旁倾听的刘小星跑了过来，抱住了蹲在地上流泪的你。",
+      "nextNode": "node9"
+    },
+    "node9": {
+      "scene": [
+        {
+          "id": "刘小星",
+          "sprite": "assets/images/characterlxs.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "（轻声）既然这样，那请坚持下去，不要输。欢迎回来。",
+      "nextNode": "node10"
+    },
+    "node10": {
+      "speaker": "旁白",
+      "dialogue": "你突然恍惚，从“一路顺风”到“欢迎回来”，从“氧气面罩”到“拥抱”，自从二叔出现后，你被封锁的记忆仿佛真的一下子打开了闸门，仿佛一切都经历过，一切都如此熟悉。",
+      "nextNode": "node12"
+    },
+    "node12": {
+      "speaker": "旁白",
+      "dialogue": "你双眼蒙眬，在泪光中，看到一个模糊的身影在远处向你招手。面容模糊，轮廓却如那样清晰，仿佛就在你的身边。",
+      "nextNode": "node14"
+    },
+    "node14": {
+      "speaker": "旁白",
+      "dialogue": "【解锁记忆碎片：拥抱】"
+    }
+  }
+}

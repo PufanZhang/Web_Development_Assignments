@@ -1,7 +1,7 @@
-import { getCurrentUser } from "../../js/modules/dataManager.js"
+import { getCurrentUser } from "../../js/game/modules/dataManager.js"
 // import { player } from "../../js/modules/world/player.js"
 import { fightManager } from "./fight.js"
-import { minigameLoader } from "../../js/minigameLoader.js";
+import { minigameLoader } from "../../js/game/modules/minigameLoader.js";
 
 // --- 全局游戏状态 ---
 // window.gameMode = "map" // 'map' 或 'dialogue'

@@ -1,0 +1,214 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        },
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "（面无表情）我为两位英雄的牺牲感到惋惜。（你注意到队长一边说着话，一边凝视着唐槿辞一眼）",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        },
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "但越是牺牲，我们越是不能放弃。“挽歌”行动的顺利进行，给我们的火山行动开了一个好头。",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        },
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "接下来我要公布下一阶段的行动计划：敌人收到我们的情报后，一定会趁着火卫一穿越出安全区的窗口期登陆。",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        },
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "我们估计他们会在火卫一上安装传送点，这样就可以以卫一为跳板直逼火山星。",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        },
+        {
+          "id": "唐槿辞",
+          "sprite": "assets/images/charactertjc.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "所以我们的计划是提前潜伏在火卫一上，等敌人传送门安装撤退后，我们用他们的传送门反向取得敌人的宇宙坐标，然后使用原子爆破装置摧毁这些传送点。",
+      "nextNode": "node6"
+    },
+    "node6": {
+      "scene": [
+        {
+          "id": "陶孚",
+          "sprite": "assets/images/charactertf.png"
+        },
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        }
+      ],
+      "speaker": "陶孚",
+      "dialogue": "可是火卫一在外界有相当长的暴露时间，如果他们趁这个窗口期包围我们怎么办？",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        },
+        {
+          "id": "陶孚",
+          "sprite": "assets/images/charactertf.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "其实我们在一年前就已经谋划过这个计划。火卫一的背面已经安装了行星发动机，在我们获取敌人坐标后，会立刻启动行星发动机，用尽可能快的速度驱动火卫一进入安全区。",
+      "nextNode": "node8"
+    },
+    "node8": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        },
+        {
+          "id": "陶孚",
+          "sprite": "assets/images/charactertf.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "具体安排等我们抵达火山星后我会公布给大家，现在我们必须尽快行动，在敌人反应过来前潜伏在火卫一上。",
+      "nextNode": "node9"
+    },
+    "node9": {
+      "scene": [
+        {
+          "id": "陶孚",
+          "sprite": "assets/images/charactertf.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "陶孚",
+      "dialogue": "（拍拍唐梓的肩膀）唐梓，现在我们来不及悲伤了。我们必须振作起来，我们的身后是火山星，是战场的最前线，是我们拼死也要守护的13万百姓！",
+      "nextNode": "node10"
+    },
+    "node10": {
+      "scene": [
+        {
+          "id": "陶孚",
+          "sprite": "assets/images/charactertf.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "陶孚",
+      "dialogue": "如果我们失手，他们大概率都要为我们陪葬；如果我们成功，将对战局带来突破性的转机！",
+      "nextNode": "node11"
+    },
+    "node11": {
+      "scene": [
+        {
+          "id": "刘小星",
+          "sprite": "assets/images/characterlxs.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "（拉起唐梓）我和你一样，也眼睁睁见过很多次战友在身边牺牲，但是我一直相信，只要我们牢牢地记住他们，他们就不曾离去。",
+      "nextNode": "node12"
+    },
+    "node12": {
+      "scene": [
+        {
+          "id": "刘小星",
+          "sprite": "assets/images/characterlxs.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "假如未来的某天我们胜利了，我们再抬头看到浩瀚的星空，那闪烁的无边星云似海，就是他们回来看我们了。",
+      "nextNode": "node13"
+    },
+    "node13": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        },
+        {
+          "id": "刘小星",
+          "sprite": "assets/images/characterlxs.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "嗯…我知道了，我们要尽可能夺取最后的胜利！",
+      "nextNode": "node14"
+    },
+    "node14": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        },
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "（拍拍唐梓）这才对嘛，我们出发！"
+    }
+  }
+}

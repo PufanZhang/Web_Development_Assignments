@@ -1,4 +1,4 @@
-import { minigameLoader } from "../../js/minigameLoader.js";
+import { minigameLoader } from "../../js/game/modules/minigameLoader.js";
 
 // 游戏常量
 const GAME_WIDTH = 700;
@@ -451,7 +451,8 @@ function initGame() {
     document.getElementById('boss-health-text').textContent = '未出现';
     document.getElementById('boss-health-bar').style.width = '0%';
 
-    document.getElementById('game-start-screen').style.display = 'none';
+//    document.getElementById('game-start-screen').style.display = 'none';
+    document.getElementById('difficulty-select-screen').style.display = 'none';
     document.getElementById('game-over-screen').style.display = 'none';
 
     // 启动游戏循环
@@ -810,9 +811,9 @@ document.addEventListener('keydown', (e) => {
     keys[e.code] = true;
 
     // 游戏开始屏幕按Z键开始游戏
-    if (gameState === 'start' && (e.code === 'KeyZ' || e.code === 'Space')) {
-        initGame();
-    }
+    //if (gameState === 'start' && (e.code === 'KeyZ' || e.code === 'Space')) {
+    //    initGame();
+    //}
 });
 
 document.addEventListener('keyup', (e) => {
@@ -828,9 +829,10 @@ document.addEventListener('keyup', (e) => {
 window.onload = function() {
     document.getElementById('restart-btn').addEventListener('click', initGame);
     document.getElementById('home-btn').addEventListener('click', goToHomePage);
+    document.getElementById('easy-mode').addEventListener('click', function() {
+        selectDifficulty('easy');
+    });
+    document.getElementById('hard-mode').addEventListener('click', function() {
+        selectDifficulty('hard');
+    });
 };
-/*
-window.onload = function() {
-    document.getElementById('easy-mode').addEventListener('click', initGame);
-    document.getElementById('hard-mode').addEventListener('click', initGame);
-};*/

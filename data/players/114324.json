@@ -1,22 +1,22 @@
 {
-  "username": "49484",
+  "username": "114324",
   "address": {
-    "map": "Map2-3",
-    "x": 600.0,
-    "y": 508.0
+    "map": "Map3-1",
+    "x": 1254.0,
+    "y": 694.0
   },
   "values": {
+    "exam2": 0,
+    "Trainscore": 0,
     "money": 0,
-    "Trainscore": 4,
     "exam1": 0,
     "conch": 0,
-    "suspicion": 100,
-    "exam2": 0
+    "suspicion": 100
   },
   "mapStates": {
-    "Map2-3": {
+    "Map3-1": {
       "removedObjects": [
-        "older2-3"
+        "XiaoGuang3-1"
       ]
     }
   },

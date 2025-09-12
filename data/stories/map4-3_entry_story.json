@@ -1,0 +1,54 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "speaker": "旁白",
+      "dialogue": "你飞奔去检修仓。推开厚重的铁门，打开手电筒，你走进那个漆黑的仓库.月光照在那数千艘战机的金属外壳上，泛出银白色的光芒。",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "speaker": "旁白",
+      "dialogue": "这时你听到了，身后的脚步声",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "谁？",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "speaker": "旁白",
+      "dialogue": "不等你反应过来，头上被重重的敲了一下，接着便失去了意识。",
+      "nextNode": "node6"
+    },
+    "node6": {
+      "speaker": "旁白",
+      "dialogue": "不知过了多久，你醒过来，发现自己被束缚住。你环顾四周，虽然认不出这里究竟是哪，但应当是检修仓的一处仓库中。",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "speaker": "旁白",
+      "dialogue": "你受到袭击必然是有人想要阻止你对战机进行检修……日记本中的话再一次浮现在你眼前“你要快点挣脱束缚！",
+      "nextNode": "node8"
+    },
+    "node8": {
+      "action":{
+        "type":"解绳子小游戏"
+      }
+    },
+    "node9": {
+      "speaker": "旁白",
+      "dialogue": "【完成游戏在 1min 以内】成就：恭喜你完成任务一：快点挣脱束缚"
+    },
+    "node10": {
+      "speaker": "旁白",
+      "dialogue": "【完成游戏在 1min 以外】"
+    }
+  }
+}

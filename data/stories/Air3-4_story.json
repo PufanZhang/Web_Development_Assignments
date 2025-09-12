@@ -1,0 +1,132 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "scene": [
+        {
+          "id": "刘小星",
+          "sprite": "assets/images/characterlxs.png"
+        }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "唐梓，你要出发了吗？",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "嗯。我要去给敌人们送“请柬”，让他们准时来找我们这‘吃大餐’！",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        {
+          "id": "刘小星",
+          "sprite": "assets/images/characterlxs.png"
+        }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "加油！这任务很危险吧，不过对于你们应该是没问题的！",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "嗯我经历过比这危险得多的任务，这点危险对我来说算不上什么。（拍拍刘小星的肩膀）真的考验还在后面。",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "scene": [
+        {
+          "id": "刘小星",
+          "sprite": "assets/images/characterlxs.png"
+        }
+      ],
+      "speaker": "刘小星",
+      "dialogue": "（接过唐梓手上的氧气面罩，帮唐梓带到脸上）一路顺风。",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "speaker": "旁白",
+      "dialogue": "唐梓戴上氧气面罩后，突然愣在原地，怅然若失。",
+      "nextNode": "node8"
+    },
+    "node8": {
+      "speaker": "旁白",
+      "dialogue": "她突然感到，这个场景如此熟悉，格外真实，仿佛之前曾无数次演过无数遍。无数次让她在奔走枪林弹雨的战场前，得到安心和慰藉。",
+      "nextNode": "node10"
+    },
+    "node10": {
+      "speaker": "旁白",
+      "dialogue": "【解锁记忆碎片：氧气面罩】",
+      "nextNode": "node11"
+    },
+    "node11": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "我出发了。",
+      "nextNode": "node12"
+    },
+    "node12": {
+      "speaker": "旁白",
+      "dialogue": "你从太空站出发前往边界，不一会就被敌人发现。你主动暴露了自己的坐标，很快敌人的战舰就逐渐把你们包围起来。",
+      "action": {
+        "type": "G3飞机大战",
+        "nextNode": "node15"
+      }
+    },
+    "node15": {
+      "speaker": "旁白",
+      "dialogue": "在你高超技术的驱攻下，敌人很快就乱了阵脚。直觉告诉你机会到了，你决定佯装失误，给敌人卖个破绽。",
+      "nextNode": "node16"
+    },
+    "node16": {
+      "speaker": "旁白",
+      "dialogue": "可就在这时，自动防御系统突然启动了，系统直接接管了你的操作，驱动飞船朝着安全的地方驶去。",
+      "nextNode": "node17"
+    },
+    "node17": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "怎么会这样……这下该怎么办——对了，赶紧切换到手动操作……",
+      "nextNode": "node19"
+    },
+    "node19": {
+      "speaker": "旁白",
+      "dialogue": "你紧急把模式转为手动操作，而就在这耽误的几秒中，两位队友的战机已经被敌人击毁。",
+      "nextNode": "node20"
+    },
+    "node20": {
+      "speaker": "旁白",
+      "dialogue": "你强忍心中的悲痛，调转方向将战斗机推进干扰区。",
+      "nextNode": "node21"
+    },
+    "node21": {
+      "speaker": "旁白",
+      "dialogue": "就在敌人击中的那一瞬间，你从机舱中弹出，乘坐逃生飞艇往空间站飞去，而敌人忙于捕捉你丢下的战舰，并没有追击你们。",
+      "action": {
+        "type": "teleport"
+      }
+    }
+  }
+}

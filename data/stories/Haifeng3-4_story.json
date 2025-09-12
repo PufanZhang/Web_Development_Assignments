@@ -1,0 +1,48 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "我来交代一下任务细节。我们此次任务主要目的是伪装成正常的巡航舰队，并在飞船上携带火山星的相关情报。",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "故意把自己暴露给敌人，让敌人截获飞船上的情报后乘坐逃生飞船返回太空站。",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "scene": [
+        {
+          "id": "李海峰",
+          "sprite": "assets/images/characterlhf.png"
+        }
+      ],
+      "speaker": "李海峰",
+      "dialogue": "本次行动代号，“挽歌”。由唐桢亲自率领空战小队出发！任务明确了吗？",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        {
+          "id": "唐梓",
+          "sprite": "assets/images/charactertz.png"
+        }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "收到，空战小队整队！跟我出发！"
+    }
+  }
+}
