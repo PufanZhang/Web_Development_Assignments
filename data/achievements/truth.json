@@ -1,0 +1,16 @@
+{
+  "id": 3,
+  "type": "mission",
+  "name": "我要解开真相",
+  "abstract": "阿巴阿巴",
+  "descriptionUncompleted": "???",
+  "descriptionCompleted": "你挣脱了肉体的束缚，也为救援战友争取了希望。现在，所有的线索都已汇聚：二叔意味深长的话语、日记本上诡异的记录、李海峰反常的命令、黑影那熟悉又陌生的眼神、以及那枚海螺发绳……当你在决战中听到她那句‘帮我种下一百朵红掌花’的离别之语时，记忆的闸门轰然打开。你终于解开了真相：‘冰川行动’的惨痛记忆、与小星在绝境中的相濡以沫、她的两次牺牲、以及二叔其实就是未来绝望的自己……这一切的轮回与苦难，你都已然明了。",
+  "icon": "🌟",
+  "requiredValues": {
+    "logic": "AND",
+    "conditions": [
+      {"name": "suspicion", "comparison": "greater_than_or_equal", "value": 150},
+      {"name": "conch", "comparison": "equal", "value": 0}
+    ]
+  }
+}

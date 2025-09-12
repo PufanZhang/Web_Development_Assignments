@@ -1,0 +1,16 @@
+{
+  "id": 1,
+  "type": "decrypt",
+  "name": "忘川计划",
+  "abstract": "阿巴阿巴",
+  "descriptionUncompleted": "你一直在问自己，冰川号上的五年，到底发生了什么。",
+  "descriptionCompleted": "人类空域突然出现一艘无动力巨型金属飞船“冰川号”，其实际身份为智械打造的实验性兵器“忘川”。在督战队总司令陶晓光的暗中配合下，忘川被静默推送至太阳系附近并故意暴露。PUA特战小队奉命潜入并爆破该舰，成功解除其对地球的直接威胁。然而，其真实目的是诱捕人类：特战队员被捕后成为时空穿梭技术的实验对象，后被修改记忆并遣返，其中队长李海峰被植入间谍指令。冰川号最终自毁，掩盖实验真相。",
+  "icon": "🌟",
+  "requiredValues": {
+    "logic": "AND",
+    "conditions": [
+      {"name": "suspicion", "comparison": "greater_than_or_equal", "value": 150},
+      {"name": "conch", "comparison": "equal", "value": 0}
+    ]
+  }
+}

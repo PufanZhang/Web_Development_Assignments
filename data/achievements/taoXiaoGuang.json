@@ -1,0 +1,16 @@
+{
+  "id": 3,
+  "type": "character",
+  "name": "陶晓光",
+  "abstract": "阿巴阿巴",
+  "descriptionUncompleted": "???",
+  "descriptionCompleted": "联合防卫队最高决策层‘四元老’之一，陶孚的父亲。一位深谙谋略、为达目的不惜代价的冷酷战略家。‘火山行动’实则是他精心设计的苦肉计，以十三万民众为诱饵，意图重创智械。他的宏图背后是对人性的漠视与对权力的极致运用，最终因阴谋败露而锒铛入狱。他的存在揭示了战争中最黑暗的一面：最致命的威胁，有时并非来自明处的敌人。",
+  "icon": "🌟",
+  "requiredValues": {
+    "logic": "AND",
+    "conditions": [
+      {"name": "suspicion", "comparison": "greater_than_or_equal", "value": 150},
+      {"name": "conch", "comparison": "equal", "value": 0}
+    ]
+  }
+}

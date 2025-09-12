@@ -1,0 +1,16 @@
+{
+  "id": 3,
+  "type": "decrypt",
+  "name": "时光流浪者",
+  "abstract": "阿巴阿巴",
+  "descriptionUncompleted": "不知不觉中，一个神秘的黑影来到了你的身边。",
+  "descriptionCompleted": "她就是刘小星——并非你记忆中在联合防卫队信息部工作的那位，而是从“冰川号”智械实验室的时空实验场中意外逃脱、并借助混乱的时间流提前抵达现在的、“真正”的刘小星。她在智械的折磨中获悉了“火山行动”实为陷阱的真相，并偷偷开发了能破解传送门护盾的病毒。她隐藏在阴影中，破坏战机系统是想阻止你参与必死的行动，打晕你是想将你替换出任务序列，由她自己去完成那自我牺牲的使命。她的所有行动，都只为兑现在冰川号上未能完成的承诺：让你活下来。唐梓，还记得吗，她还在拥抱你。",
+  "icon": "🌟",
+  "requiredValues": {
+    "logic": "AND",
+    "conditions": [
+      {"name": "suspicion", "comparison": "greater_than_or_equal", "value": 150},
+      {"name": "conch", "comparison": "equal", "value": 0}
+    ]
+  }
+}

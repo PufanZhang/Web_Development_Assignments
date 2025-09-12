@@ -1,0 +1,16 @@
+{
+  "id": 1,
+  "type": "character",
+  "name": "刘小月",
+  "abstract": "阿巴阿巴",
+  "descriptionUncompleted": "???",
+  "descriptionCompleted": "天真烂漫的小女孩，刘小星的妹妹。她是你在苏醒后遇到的第一个需要你保护的人，也是将你从自我怀疑的漩涡中拉回现实的天使。她的笑容是对‘英雄’最纯粹的定义，无需惊天动地的战功，仅仅是路见不平的援手。正是护送她回家的决定，阴差阳错地为你与刘小星的重逢铺下了第一块基石，让你破碎的世界重新找到了一个温暖的坐标。",
+  "icon": "🌟",
+  "requiredValues": {
+    "logic": "AND",
+    "conditions": [
+      {"name": "suspicion", "comparison": "greater_than_or_equal", "value": 150},
+      {"name": "conch", "comparison": "equal", "value": 0}
+    ]
+  }
+}

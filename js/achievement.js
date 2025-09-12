@@ -138,10 +138,10 @@ function openCategory(category) {
 
     // 设置标题
     const categoryNames = {
-        memory: '记忆碎片收集',
+        memory: '记忆碎片',
         decrypt: '解密大师',
-        character: '角色收集者',
-        mission: '任务指挥官'
+        character: '角色收集',
+        mission: '任务完成'
     };
     title.textContent = categoryNames[category] || '成就详情';
 
