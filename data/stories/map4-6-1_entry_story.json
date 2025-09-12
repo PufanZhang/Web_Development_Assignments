@@ -1,0 +1,35 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "speaker": "旁白",
+      "dialogue": "你们顺着光柱的方向前进，最后发现是D区的传送门在发光——原来这才是唯一的真传送门。"
+    ,
+      "nextNode": "node2"
+    },
+    "node2": {
+      "speaker": "旁白",
+      "dialogue": "你透过舷窗向下望去，智械的先锋部队已经通过传送门开始出现，而陶孚的阵地就在不远处——但你清楚，那种阵地在智械大军面前不堪一击。",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "speaker": "旁白",
+      "dialogue": "就在这时，无线电突然恢复了通讯。",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        { "id": "唐槿辞", "sprite": "assets/images/charactertjc.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "唐槿辞",
+      "dialogue": "全体队员，能接收到信号吗？我们经过突击抢修，已经消除了全频段信号屏蔽的影响——行星发动机也能顺利启动了！我们现在要集中所有力量破坏掉那个传送门，然后启动行星发动机快速回到安全区！",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "action":{
+        "type":"飞机大战小游戏"
+      }
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "speaker": "旁白",
+      "dialogue": "大家听到这个消息后都备受鼓舞，于是各种武器的弹药倾泻而出，企图要把传送门轰成灰烬。但没过多久大家就意识到，传送门被一个无形的保护罩保护了起来，所有弹药都被保护罩吸了进去。",
+      "nextNode": "node2"
+    },
+    "node2": {
+      "speaker": "旁白",
+      "dialogue": "就在这时，你突然听到一位女人的声音，“唐梓，我们可以战胜他们的！”。",
+      "nextNode": "node3"
+    },
+    "node3": {
+      "speaker": "旁白",
+      "dialogue": "唐梓扭过头，看到副驾驶抽下头盔，露出了眼睛，那眼睛他不会忘。",
+      "nextNode": "node9"
+    },
+    "node9": {
+      "speaker": "旁白",
+      "dialogue": "在检修仓，就是这双眼睛的主人意图“破坏”战机。",
+      "nextNode": "node4"
+    },
+    "node4": {
+      "scene": [
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+        { "id": "黑影", "sprite": "assets/images/characternpc.png" }
+      ],
+      "speaker": "唐梓",
+      "dialogue": "你到底是谁？又为什么出现在这里？！【拔出手枪指向黑影】",
+      "nextNode": "node5"
+    },
+    "node5": {
+      "scene": [
+        { "id": "黑影", "sprite": "assets/images/characternpc.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "黑影",
+      "dialogue": "唐梓，你先冷静地听我说。智械马上就要攻来了，现在那个防护罩只有我开发的病毒才能破除。我会驾驶这艘战舰冲向防护罩，通过飞船与传送门接口相连并将我研发的机器病毒导入，这样防护罩就会失效……",
+      "nextNode": "node6"
+    },
+    "node6": {
+      "scene": [
+        { "id": "黑影", "sprite": "assets/images/characternpc.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "黑影",
+      "dialogue": "之后我会在传送门上安装追踪器，你们要马上反推演智械的具体方位，并趁他们不备开始反攻！你一定要逃脱这场危机，我会独自面对今天这一切……",
+      "nextNode": "node7"
+    },
+    "node7": {
+      "scene": [
+        { "id": "黑影", "sprite": "assets/images/characternpc.png" },
+        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+      ],
+      "speaker": "黑影",
+      "dialogue": "再见了唐梓，记得帮我种下一百朵红掌花，都种在朝阳的方向。",
+      "nextNode": "node8"
+    },
+    "node8": {
+      "speaker": "旁白",
+      "dialogue": "【获得记忆碎片：离别的轻语】"
+    }
+  }
+}
