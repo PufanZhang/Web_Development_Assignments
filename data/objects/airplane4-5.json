@@ -1,0 +1,14 @@
+{
+    "id":"airplane4-5",
+    "x": 300,"y": 200,"width": 160,"height": 90,
+    "image": "assets/images/sister.png",
+
+    "showPrompt": true,
+    "singleInteraction": false,
+    "storyKey": "airplane4-5_story",
+    "teleportData": {
+      "targetMap": "map4-6",
+      "targetX": 500,
+      "targetY": 500
+    }
+}

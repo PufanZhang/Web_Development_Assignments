@@ -1,0 +1,14 @@
+{
+  "name": "检修仓",
+  "width": 1600,
+  "height": 900,
+  "background": "assets/background/background4-3.png",
+  "entryStoryKey": "map4-5_entry_story",
+  "walls": [
+    {"x": 0, "y": 0, "width": 550, "height": 280},
+    {"x": 0, "y": 610, "width": 550, "height": 300},
+    {"x": 1020, "y": 0, "width": 600, "height": 280},
+    {"x": 1020, "y": 610, "width": 600, "height": 300}
+  ],
+  "objects": ["airplane4-5"]
+}

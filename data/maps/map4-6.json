@@ -1,0 +1,10 @@
+{
+  "name": "决战之地",
+  "width": 1600,
+  "height": 900,
+  "background": "assets/background/background4-3.png",
+  "entryStoryKey": "map4-6_entry_story",
+  "walls": [
+  ],
+  "objects": ["airplane4-5"]
+}

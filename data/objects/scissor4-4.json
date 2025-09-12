@@ -1,0 +1,15 @@
+{
+  "id": "scissor4-4",
+  "image": "",
+  "x": 620,
+  "y": 570,
+  "width": 120,
+  "height": 180,
+  "showPrompt": true,
+  "teleportData": {
+      "targetMap": "map4-5",
+      "targetX": 400,
+      "targetY": 400
+    },
+  "storyKey": "scissor4-4_story"
+}

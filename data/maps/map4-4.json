@@ -16,5 +16,5 @@
     {"x": 650, "y": 300, "width": 300, "height": 100},
     {"x": 1500, "y": 700, "width": 100, "height": 200}
   ],
-  "objects": ["HaiFeng4-1","door4-1"]
+  "objects": ["interphone4-4","scissor4-4"]
 }

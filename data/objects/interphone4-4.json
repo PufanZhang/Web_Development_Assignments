@@ -1,0 +1,11 @@
+{
+  "id": "interphone4-4",
+  "image": "",
+  "x": 920,
+  "y": 600,
+  "width": 80,
+  "height": 120,
+  "storyKey": "interphone4-4_story",
+  "showPrompt": true,
+  "singleInteraction": false
+}

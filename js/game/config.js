@@ -1,7 +1,7 @@
 // --- 游戏全局配置文件 ---
 
 // 初始地图
-export const INITIAL_MAP = "map3-1";
+export const INITIAL_MAP = "map4-1";
 
 // 背景音乐音量
 export const VOLUME = 0.7;
