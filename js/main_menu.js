@@ -1,17 +1,47 @@
-import { auth, gameState } from "./game/modules/dataManager.js";
+import { gameState } from "./game/modules/dataManager.js";
 import { audioManager } from "./game/modules/audioManager.js";
 import {VOLUME, MAIN_MUSIC } from "./game/config.js";
+
+let tutorialData = [];
+let currentTutorialIndex = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
     audioManager.init(VOLUME);
     audioManager.playMusic(MAIN_MUSIC);
-    const token = localStorage.getItem("jwt_token");
 
+    // 获取所有交互元素
+    const particlesContainer = document.getElementById('particles');
+    const startButton = document.querySelector('.menu-buttons .start-btn');
+    const saveButton = document.querySelector('.menu-buttons .save-btn');
+    const achievementButton = document.querySelector('.menu-buttons .achievement-btn');
+    const aboutButton = document.querySelector('.menu-buttons .about-btn');
+    const logoutButton = document.querySelector('.login-btn');
+    const showTutorialBtn = document.getElementById('show-tutorial-btn');
+
+    // 新手教程UI元素
+    const tutorialConfirmOverlay = document.getElementById('tutorial-confirm-overlay');
+    const confirmYesBtn = document.getElementById('confirm-tutorial-yes');
+    const confirmNoBtn = document.getElementById('confirm-tutorial-no');
+    const tutorialMainOverlay = document.getElementById('tutorial-main-overlay');
+    const tutorialCloseBtn = document.getElementById('tutorial-close');
+    const tutorialImage = document.getElementById('tutorial-image');
+    const tutorialDescription = document.getElementById('tutorial-description');
+    const tutorialPrevBtn = document.getElementById('tutorial-prev');
+    const tutorialNextBtn = document.getElementById('tutorial-next');
+    const tutorialProgress = document.getElementById('tutorial-progress');
+
+    // 恢复登录
+    const token = localStorage.getItem("jwt_token");
     if (token) {
         console.log("【main_menu.js】: 检测到 token，正在通知后端恢复在线状态...");
         gameState.loadPlayerData().then(playerData => {
             if (playerData) {
                 console.log("【main_menu.js】: 后端状态已恢复。欢迎回来, ", playerData.username);
+                if (!playerData.address || playerData.address.map === '') {
+                    console.log("检测到新玩家，准备启动新手教程...");
+                    tutorialConfirmOverlay.style.display = 'flex';
+                    if (window.playerDataCache?.address) window.playerDataCache.address.map = 'tutorialFinished';
+                }
             } else {
                 showNotification("Token 无效或已过期，请重新登录。");
                 localStorage.clear();
@@ -19,14 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-    // 获取所有交互元素
-    const particlesContainer = document.getElementById('particles');
-    const startButton = document.querySelector('.start-btn');
-    const saveButton = document.querySelector('.save-btn');
-    const achievementButton = document.querySelector('.achievement-btn');
-    const aboutButton = document.querySelector('.about-btn');
-    const logoutButton = document.querySelector('.login-btn'); // 这个按钮现在是登出功能
 
     // 1. 创建粒子背景效果
     function createParticles() {
@@ -108,14 +130,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function logout() {
         const token = localStorage.getItem('jwt_token');
-        const user = localStorage.getItem('user');
         if (token) {
             const data = {
                 token: token,
-                username: user,
+                playerData: window.playerDataCache
             };
             const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
-            navigator.sendBeacon('/api/auth/logout', blob);
+            navigator.sendBeacon('/api/player/logout', blob);
         }
     }
 
@@ -161,4 +182,90 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 页面加载完成时初始化 ---
     createParticles();
+
+
+    // 从服务器加载教程数据
+    async function loadTutorialData() {
+        try {
+            const response = await fetch('/data/tutorial.json');
+            if (!response.ok) throw new Error('教程文件加载失败!');
+            tutorialData = await response.json();
+            return true;
+        } catch (error) {
+            console.error(error);
+            showNotification('无法加载新手教程，请稍后再试。');
+            return false;
+        }
+    }
+
+    // 根据索引显示特定教程页面
+    function showTutorialPage(index) {
+        if (!tutorialData || tutorialData.length === 0) return;
+
+        const page = tutorialData[index];
+        tutorialImage.src = page.image;
+        tutorialDescription.textContent = page.description;
+        tutorialProgress.textContent = `${index + 1} / ${tutorialData.length}`;
+
+        // 判断是否为最后一页
+        if (index === tutorialData.length - 1) {
+            tutorialNextBtn.textContent = '启航！';
+        } else {
+            tutorialNextBtn.textContent = '下一页';
+        }
+
+        // 控制按钮的可见性
+        tutorialPrevBtn.style.visibility = index === 0 ? 'hidden' : 'visible';
+        tutorialNextBtn.style.visibility = 'visible'; // “下一页”或“启航”按钮始终可见
+    }
+
+    // 开始教程
+    async function startTutorial() {
+        tutorialConfirmOverlay.style.display = 'none';
+        const success = await loadTutorialData();
+        if (success && tutorialData.length > 0) {
+            currentTutorialIndex = 0;
+            showTutorialPage(currentTutorialIndex);
+            tutorialMainOverlay.style.display = 'flex';
+        }
+    }
+
+    // 关闭所有教程弹窗
+    function closeTutorial() {
+        tutorialConfirmOverlay.style.display = 'none';
+        tutorialMainOverlay.style.display = 'none';
+    }
+
+    // --- 教程事件监听器 ---
+    if (confirmYesBtn) confirmYesBtn.addEventListener('click', startTutorial);
+    if (confirmNoBtn) confirmNoBtn.addEventListener('click', closeTutorial);
+    if (tutorialCloseBtn) tutorialCloseBtn.addEventListener('click', closeTutorial);
+
+    if (tutorialNextBtn) {
+        tutorialNextBtn.addEventListener('click', () => {
+            // 判断当前是不是最后一页
+            if (currentTutorialIndex < tutorialData.length - 1) {
+                currentTutorialIndex++;
+                showTutorialPage(currentTutorialIndex);
+            } else {
+                closeTutorial();
+            }
+        });
+    }
+
+    if (tutorialPrevBtn) {
+        tutorialPrevBtn.addEventListener('click', () => {
+            if (currentTutorialIndex > 0) {
+                currentTutorialIndex--;
+                showTutorialPage(currentTutorialIndex);
+            }
+        });
+    }
+
+    if (showTutorialBtn) {
+        showTutorialBtn.addEventListener('click', () => {
+            tutorialConfirmOverlay.style.display = 'none';
+            startTutorial();
+        });
+    }
 });

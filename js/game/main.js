@@ -291,7 +291,7 @@ async function initializeGame() {
         }
 
         // 使用后端返回的数据来确定初始位置
-        const initialMap = playerData.address.map ? playerData.address.map : INITIAL_MAP;
+        const initialMap = playerData.address.map && playerData.address.map !== 'tutorialFinished' ? playerData.address.map : INITIAL_MAP;
         const initialX = playerData.address.x !== -1.0 ? playerData.address.x : PLAYER_INITIAL_X;
         const initialY = playerData.address.y !== -1.0 ? playerData.address.y : PLAYER_INITIAL_Y;
 
