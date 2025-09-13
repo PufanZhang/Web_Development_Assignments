@@ -162,6 +162,15 @@ function updateCamera() {
     mapView.style.transform = `translate(-${cameraX}px, -${cameraY}px)`;
 }
 
+// 处理入场剧情结束后动作的函数
+function processEntryStoryEndAction(endAction) {
+    if (!endAction) return;
+    if (endAction.type === 'saveFile' && endAction.saveFileName) {
+        console.log(`入场故事结束，触发存档动作: ${endAction.saveFileName}`);
+        gameState.createSaveFile(endAction.saveFileName);
+    }
+}
+
 // --- 地图传送 ---
 async function loadMapAt(mapId, targetX, targetY) {
     console.log(`正在加载地图: ${mapId}...`);
@@ -243,8 +252,10 @@ async function loadMapAt(mapId, targetX, targetY) {
         mapView.style.backgroundColor = 'black';
         mapView.style.transform = 'translate(0, 0)';
         try {
-            // 故事播放完毕后，直接显示之前构建好的地图
-            await dialogueManager.start(packedMapData.entryStoryKey, showMap);
+            await dialogueManager.start(packedMapData.entryStoryKey, (endAction) => {
+                processEntryStoryEndAction(endAction);
+                showMap();
+            });
         } catch (error) {
             console.error("启动入场故事时发生错误:", error);
             console.log("对话系统出现异常，已跳过故事并直接加载地图。");
