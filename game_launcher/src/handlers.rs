@@ -1,7 +1,7 @@
 use crate::loader::{load_and_pack_map_data, LoadError};
 use crate::database::{self, ModifyValueError, LoginOutcome};
 use actix_web::{get, post, web, HttpResponse, Responder};
-use crate::models::{AuthRequest, AuthResponse, ModifyValueRequest, PlayerData, LogoutRequest, TokenLoginRequest, LoginWithTokenResponse, ApiLogoutRequest};
+use crate::models::{AuthRequest, AuthResponse, ModifyValueRequest, PlayerData, LogoutRequest, TokenLoginRequest, LoginWithTokenResponse, ApiLogoutRequest, PlayTimeResponse};
 use crate::auth::{create_jwt, AuthenticatedUser};
 use std::collections::HashSet;
 use std::sync::Arc;
@@ -9,6 +9,7 @@ use tokio::sync::Mutex;
 use crate::achievements;
 use crate::models::FrontendAchievement;
 use std::collections::HashMap;
+use chrono::Utc;
 
 #[get("/map_data/{map_id}")]
 pub async fn get_map_data( map_id: web::Path<String>,
@@ -105,6 +106,17 @@ pub async fn login(req: web::Json<AuthRequest>, active_users: web::Data<Arc<Mute
                 });
             }
 
+            // 登录成功后，更新时间戳
+            let username = req.username.clone();
+            tokio::spawn(async move {
+                if let Ok(mut player_data) = database::load_player_data(&username).await {
+                    player_data.last_login_timestamp = Utc::now().timestamp();
+                    if let Err(e) = database::save_player_data(&player_data).await {
+                        eprintln!("[Login Timestamp Error] Failed to save for user '{}': {}", username, e);
+                    }
+                }
+            });
+
             // 如果不存在，则将其加入集合
             users.insert(req.username.clone());
 
@@ -168,12 +180,19 @@ pub async fn login_with_token(
                 Ok(new_token) => {
                     // 5. 加载玩家数据
                     match database::load_player_data(&username).await {
-                        Ok(player_data) => HttpResponse::Ok().json(LoginWithTokenResponse {
-                            success: true,
-                            message: "Login successful!".to_string(),
-                            token: Some(new_token),
-                            player_data: Some(player_data),
-                        }),
+                        Ok(mut player_data) => {
+                            // 记录登录时间戳并保存
+                            player_data.last_login_timestamp = Utc::now().timestamp();
+                            if database::save_player_data(&player_data).await.is_err() {
+                                eprintln!("Error saving login timestamp for user '{}'", username);
+                            }
+                            HttpResponse::Ok().json(LoginWithTokenResponse {
+                                success: true,
+                                message: "Login successful!".to_string(),
+                                token: Some(new_token),
+                                player_data: Some(player_data), // 返回更新了时间戳的数据
+                            })
+                        },
                         Err(_) => HttpResponse::NotFound().json(LoginWithTokenResponse {
                             success: false,
                             message: "Player data not found.".to_string(),
@@ -216,11 +235,25 @@ pub async fn logout_and_save(payload: web::Json<LogoutRequest>, active_users: we
             // 3. 从在线用户列表中移除该用户
             let mut users = active_users.lock().await;
             users.remove(&username);
-            println!("User '{}' logged out and data saved.", username);
 
-            // 4. 保存玩家数据
-            match database::save_player_data(&payload.player_data).await {
-                Ok(_) => HttpResponse::Ok().finish(),
+            let mut player_data_to_save = payload.into_inner().player_data;
+            let current_timestamp = Utc::now().timestamp();
+
+            // 使用 payload 中的时间戳计算本次会话时长
+            if player_data_to_save.last_login_timestamp > 0 {
+                let session_duration = current_timestamp - player_data_to_save.last_login_timestamp;
+                if session_duration > 0 {
+                    // 将计算出的时长累加到总时长上
+                    player_data_to_save.total_play_time_seconds += session_duration as u64;
+                }
+            }
+
+            // 4. 保存更新了时长的玩家数据
+            match database::save_player_data(&player_data_to_save).await {
+                Ok(_) => {
+                    println!("User '{}' logged out and data saved.", username);
+                    HttpResponse::Ok().finish()
+                },
                 Err(e) => {
                     eprintln!("Failed to save player data on logout for user '{}': {}", username, e);
                     HttpResponse::InternalServerError().finish()
@@ -231,18 +264,6 @@ pub async fn logout_and_save(payload: web::Json<LogoutRequest>, active_users: we
             // 如果 token 无效或过期
             HttpResponse::Unauthorized().body("Invalid token provided in payload.")
         }
-    }
-}
-
-#[post("/player/save")]
-pub async fn save_player_data(data: web::Json<PlayerData>, user: AuthenticatedUser) -> impl Responder {
-    // 确保请求体里的 username 和 token 里的是同一个人
-    if data.username != user.username {
-        return HttpResponse::Forbidden().finish();
-    }
-    match database::save_player_data(&data).await {
-        Ok(_) => HttpResponse::Ok().finish(),
-        Err(_) => HttpResponse::InternalServerError().finish(),
     }
 }
 
@@ -335,6 +356,23 @@ pub async fn logout(
                 return HttpResponse::Forbidden().body("Username in request body does not match token.");
             }
 
+            // 登出时更新游戏时长
+            let username_clone = username_from_token.clone();
+            tokio::spawn(async move {
+                if let Ok(mut player_data) = database::load_player_data(&username_clone).await {
+                    let current_timestamp = Utc::now().timestamp();
+                    if player_data.last_login_timestamp > 0 {
+                        let session_duration = current_timestamp - player_data.last_login_timestamp;
+                        if session_duration > 0 {
+                            player_data.total_play_time_seconds += session_duration as u64;
+                            if let Err(e) = database::save_player_data(&player_data).await {
+                                eprintln!("[Logout Playtime Error] Failed to save for user '{}': {}", username_clone, e);
+                            }
+                        }
+                    }
+                }
+            });
+
             let mut users = active_users.lock().await;
             users.remove(&username_from_token);
             println!("User '{}' logged out via API.", username_from_token);
@@ -377,7 +415,7 @@ pub async fn get_all_achievements_status(user: AuthenticatedUser) -> impl Respon
         };
 
         let frontend_achievement = FrontendAchievement {
-            id: filename,
+            id: achievement_details.id.clone(),
             name: achievement_details.name.clone(),
             r#abstract: achievement_details.r#abstract.clone(),
             description, // 使用上面逻辑判断得出的 description
@@ -394,4 +432,25 @@ pub async fn get_all_achievements_status(user: AuthenticatedUser) -> impl Respon
     }
 
     HttpResponse::Ok().json(categorized_achievements)
+}
+
+#[get("/player/playtime")]
+pub async fn get_play_time(user: AuthenticatedUser) -> impl Responder {
+    match database::load_player_data(&user.username).await {
+        Ok(player_data) => {
+            let mut total_play_time = player_data.total_play_time_seconds;
+            let current_timestamp = Utc::now().timestamp();
+
+            // 如果玩家在线，则要加上本次登录到目前为止的时间，实现实时更新
+            if player_data.last_login_timestamp > 0 && current_timestamp > player_data.last_login_timestamp {
+                let current_session_duration = (current_timestamp - player_data.last_login_timestamp) as u64;
+                total_play_time += current_session_duration;
+            }
+
+            HttpResponse::Ok().json(PlayTimeResponse {
+                total_play_time_seconds: total_play_time,
+            })
+        },
+        Err(_) => HttpResponse::NotFound().body("Player data not found."),
+    }
 }

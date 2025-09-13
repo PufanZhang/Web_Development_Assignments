@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>火山行动 · 终局</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: "Microsoft YaHei", sans-serif;
+            color: white;
+            background: url('ending.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .credits-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 20px;
+            background: rgba(0, 0, 0, 0.5); /* 半透明遮罩，文字更清晰 */
+        }
+
+        .credits {
+            text-align: center;
+            animation: scroll-up 50s linear forwards;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 50px;
+        }
+
+        p {
+            font-size: 20px;
+            line-height: 1.8;
+            margin: 40px 0;
+        }
+
+        .stats {
+            font-size: 18px;
+            color: #FFD700;
+        }
+
+        .thanks {
+            font-size: 26px;
+            margin-top: 80px;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes scroll-up {
+            0% {
+                transform: translateY(100%);
+            }
+            100% {
+                transform: translateY(-150%);
+            }
+        }
+
+        @keyframes blink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.4; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="credits-container">
+    <div class="credits">
+        <h1>火山行动 · 终局</h1>
+
+        <p>
+            那一天，战场的天空被炽白的光芒照亮。<br>
+            D区的真传送门被彻底摧毁，但代价惨重——<br>
+            许多战友永远留在了火山脚下。
+        </p>
+
+        <p>
+            黑影的牺牲击碎了智械的防护屏障，<br>
+            她的背影，消失在朝阳的方向，<br>
+            那一句“帮我种下一百朵红掌”，<br>
+            将成为你余生无法忘记的誓言。
+        </p>
+
+        <p>
+            唐槿辞带着残部撤回安全区，<br>
+            李海峰依旧在指挥席上注视着战士们的归来。<br>
+            陶孚，一如既往地笑着，仿佛什么都没发生过。
+        </p>
+
+        <p>
+            你……见证了这一切，并亲手改写了结局。<br>
+            但故事，真的结束了吗？<br>
+            或许，在某个角落，智械的信号仍在回荡……<br>
+            而风，从未停歇。
+        </p>
+
+        <p class="stats">
+            通关时间：4小时33分　摧毁传送门数量：5/6<br>
+            已收集记忆碎片：3/4　怀疑度最终值：18%
+        </p>
+
+        <p class="thanks">—— 感谢你的游玩 ——</p>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('keydown', () => {
+        window.location.href = 'index.html';
+    });
+</script>
+
+</body>
+</html>
