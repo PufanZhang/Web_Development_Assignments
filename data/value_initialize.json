@@ -2,10 +2,9 @@
   "suspicion": 100,
   "conch": 0,
   "Trainscore": 0,
-  "exam1": 0,
-  "exam2": 0,
-  "money": 0,
-  "help":0,
+  "exam1":0,
+  "exam2":0,
+  "money":0,
   "old":0,
   "notebook":0,
   "tousheng":0,
@@ -24,5 +23,6 @@
   "shengzi":0,
   "maliao":0,
   "suipian":0,
-  "reachEnd":0
+  "help": 0,
+  "reachEnd": 0
 }
