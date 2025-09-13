@@ -4,6 +4,6 @@
     "image": "assets/images/black.png",
 
     "showPrompt": true,
-    "singleInteraction": true,
+    "singleInteraction": false,
     "storyKey": "airplane4-3_story"
 }

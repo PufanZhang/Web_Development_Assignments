@@ -45,7 +45,7 @@
     },
     "node7": {
       "action":{
-        "type":"FTG"
+        "type":"Rope"
       }
     }
     

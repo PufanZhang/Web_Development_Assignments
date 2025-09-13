@@ -1,0 +1,240 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    color: white;
+}
+
+.game-container {
+    width: 800px;
+    height: 600px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.timer, .ropes-left {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#time-left {
+    color: #ffcc00;
+}
+
+#ropes-count {
+    color: #4caf50;
+}
+
+.game-board {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.rope {
+    position: absolute;
+    cursor: grab;
+    transition: stroke 0.3s ease;
+}
+
+.rope-end {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: grab;
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rope-end:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+}
+
+.rope-end.dragging {
+    cursor: grabbing;
+    transform: scale(1.3);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+}
+
+.rope.solved {
+    animation: fadeOut 0.5s forwards;
+}
+
+.rope-end.solved {
+    animation: popOut 0.5s forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+@keyframes popOut {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+.game-controls {
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #4caf50, #2e7d32);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#hint-btn {
+    background: linear-gradient(135deg, #2196f3, #0d47a1);
+}
+
+#reset-btn {
+    background: linear-gradient(135deg, #f44336, #b71c1c);
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #1a2980, #26d0ce);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    width: 400px;
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #ffcc00;
+}
+
+.modal-content p {
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.modal-content button {
+    margin: 10px;
+    min-width: 120px;
+}
+
+.hint-active .rope:not(.hint) {
+    opacity: 0.3;
+}
+
+.hint-active .rope.hint {
+    filter: drop-shadow(0 0 8px gold);
+}
+
+/* 添加以下样式到现有的 rope.css 文件中 */
+
+/* 被阻挡的绳子样式 */
+.rope.blocked {
+    opacity: 0.5;
+}
+
+.rope-end.blocked {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* 网格点样式（调试用） */
+.grid-point {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-2px, -2px);
+}
+
+/* 绳子层级指示器 */
+.rope::after {
+    content: attr(data-layer);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 10px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 2px 4px;
+    border-radius: 3px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.rope:hover::after {
+    opacity: 1;
+}

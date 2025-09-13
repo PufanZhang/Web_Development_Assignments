@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>解绳子小游戏</title>
+    <link rel="stylesheet" href="/minigame/Rope/rope.css">
+</head>
+<body>
+<div class="game-container">
+    <div class="game-header">
+        <div class="timer">
+            <span>剩余时间: </span>
+            <span id="time-left">02:00</span>
+        </div>
+        <div class="ropes-left">
+            <span>剩余绳子: </span>
+            <span id="ropes-count">0</span>
+        </div>
+    </div>
+
+    <div class="game-board" id="game-board">
+        <!-- 绳子将通过JavaScript动态生成 -->
+    </div>
+
+    <div class="game-controls">
+        <button id="hint-btn">提示</button>
+        <button id="reset-btn">重置本关</button>
+    </div>
+</div>
+
+<div id="victory-screen" class="modal">
+    <div class="modal-content">
+        <h2>恭喜你！</h2>
+        <p>你成功解开了所有绳子！</p>
+        <p>用时: <span id="completion-time">00:00</span></p>
+        <button id="next-level-btn">下一关</button>
+        <button id="return-btn">返回主游戏</button>
+    </div>
+</div>
+
+<div id="fail-screen" class="modal">
+    <div class="modal-content">
+        <h2>时间到！</h2>
+        <p>很遗憾，你没有在规定时间内解开所有绳子。</p>
+        <button id="retry-btn">再试一次</button>
+        <button id="fail-return-btn">返回主游戏</button>
+    </div>
+</div>
+
+<script type="module" src="/minigame/Rope/rope.js"></script>
+</body>
+</html>
