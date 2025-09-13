@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const characterCompleted = achievementCounts.character || 0;
         const suspicionValue = gameState.getValue('suspicion');
 
-        const line1 = `通关时间：${formattedTime}　解锁人物数量：${characterCompleted}/4`;
+        const line1 = `游戏时间：${formattedTime}　解锁人物数量：${characterCompleted}/4`;
         const line2 = `已收集记忆碎片：${memoryCompleted}/6　怀疑度最终值：${suspicionValue}%`;
         statsElement.innerHTML = `${line1}<br>${line2}`;
     } catch (error) {
@@ -47,3 +47,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 document.addEventListener('keydown', () => {
     window.location.href = 'index.html';
 });
+
+function logout() {
+    const token = localStorage.getItem('jwt_token');
+    const user = localStorage.getItem('user');
+    if (token) {
+        const data = {
+            token: token,
+            username: user,
+        };
+        const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+        navigator.sendBeacon('/api/auth/logout', blob);
+    }
+}
+
+window.addEventListener('beforeunload', logout);
