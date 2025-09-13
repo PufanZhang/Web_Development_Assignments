@@ -168,6 +168,11 @@ async function loadMapAt(mapId, targetX, targetY) {
     interactionManager.updateInteractables([]);
     interactionManager.update(player);
 
+    // 0. 如果已经到达结局，直接跳转到结局页面
+    if (mapId === 'end') {
+        window.location.href = 'ending.html';
+    }
+
     // 1. 调用 loader 来获取打包好的地图数据
     const packedMapData = await loader.loadMap(mapId);
     if (!packedMapData) {

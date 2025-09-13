@@ -1,5 +1,5 @@
-import { debugManager } from './debug.js';
-import { achievementNotifier } from './achievementNotifier.js';
+import {debugManager} from './debug.js';
+import {achievementNotifier} from './achievementNotifier.js';
 
 window.playerDataCache = null;
 const onValueChangeCallbacks = [];
@@ -220,6 +220,24 @@ export const gameState = {
             console.log("✅ 成功获取所有存档信息！", data);
         }
         return data;
+    },
+
+    async getFormattedPlaytime() {
+        console.log("正在向服务器请求游戏总时长...");
+        const data = await apiRequest('/player/playtime');
+
+        if (data && typeof data.playtime === 'number') {
+            const totalSeconds = data.playtime;
+            console.log(`✅ 成功获取游戏总时长: ${totalSeconds} 秒`);
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+
+            return `${hours}小时${minutes}分钟${seconds}秒`;
+        } else {
+            console.error("获取游戏总时长失败或返回格式不正确。");
+            return "无法获取";
+        }
     }
 };
 
@@ -231,6 +249,24 @@ export const achievements = {
             console.log("✅ 成功加载所有成就信息！", data);
         }
         return data;
+    },
+
+    async getCategoryCompletionCounts() {
+        // 调用 loadAll 函数拿到所有数据
+        const allAchievements = await this.loadAll();
+        if (!allAchievements) {
+            console.error("无法获取成就数据，无法计算完成数量。");
+            return {};
+        }
+
+        const counts = {};
+        // 遍历所有分类
+        for (const category in allAchievements) {
+            counts[category] = allAchievements[category].filter(ach => ach.completed).length;
+        }
+
+        console.log("✅ 各分类成就完成数统计完毕:", counts);
+        return counts;
     }
 };
 

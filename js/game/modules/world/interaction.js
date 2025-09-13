@@ -123,6 +123,11 @@ export const interactionManager = {
                 console.log(`存档名称${endAction.saveFileName}正在存档...`);
                 gameState.createSaveFile(endAction.saveFileName);
             }
+
+            if (endAction.type === 'end') {
+                gameState.saveLocation('end');
+                window.location.href = 'ending.html';
+            }
         };
 
         window.addEventListener('keydown', (e) => {
