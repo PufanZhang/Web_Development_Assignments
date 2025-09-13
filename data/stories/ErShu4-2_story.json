@@ -185,11 +185,21 @@
     "node18": {
       "speaker": "旁白",
       "dialogue": "（视线落在二叔桌上摊开的日记本上）哦天哪……“12.30 检修仓，我要快点挣脱束缚”。",
-      "nextNode": "node19"
+      "options":[
+        {"text": "你发现二叔的笔记本和那时那个大娘送你的笔记本一模一样", 
+         "targetNode": "node19",
+         "requiredValue": {
+            "name": "notebook",
+            "comparison":"greater_than_or_equal",
+            "value": 1
+         }
+        },
+        {"text": "你没有发现什么异常", "targetNode": "node20"}
+      ]
     },
     "node19": {
       "speaker": "旁白",
-      "dialogue": "（如果在第二幕获得笔记本则开启）】你发现二叔的笔记本和那时那个大娘送你的笔记本一模一样，而你恰好带着那个笔记本，于是你决定偷偷把二叔的日记本拿走，把那个笔记本放了进去……",
+      "dialogue": "而你恰好带着那个笔记本，于是你决定偷偷把二叔的日记本拿走，把那个笔记本放了进去……",
       "nextNode": "node20"
     },
     "node20": {

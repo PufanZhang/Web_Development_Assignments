@@ -14,22 +14,8 @@
     },
     "node3": {
       "speaker": "旁白",
-      "dialogue": "就在这时，无线电突然恢复了通讯。",
-      "nextNode": "node4"
-    },
-    "node4": {
-      "scene": [
-        { "id": "唐槿辞", "sprite": "assets/images/charactertjc.png" },
-        { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
-      ],
-      "speaker": "唐槿辞",
-      "dialogue": "全体队员，能接收到信号吗？我们经过突击抢修，已经消除了全频段信号屏蔽的影响——行星发动机也能顺利启动了！我们现在要集中所有力量破坏掉那个传送门，然后启动行星发动机快速回到安全区！",
-      "nextNode": "node5"
-    },
-    "node5": {
-      "action":{
-        "type":"飞机大战小游戏"
-      }
+      "dialogue": "就在这时，无线电突然恢复了通讯。"
     }
+
   }
 }

@@ -53,7 +53,10 @@
     },
     "node8": {
       "speaker": "旁白",
-      "dialogue": "你们义无反顾，前往了最后的战场。"
+      "dialogue": "你们义无反顾，前往了最后的战场。",
+      "action": {
+        "type": "teleport"
+      }
     }
   }
 }

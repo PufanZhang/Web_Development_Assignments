@@ -24,7 +24,7 @@
     "node4": {
       "scene": [
         { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
-        { "id": "黑影", "sprite": "assets/images/characternpc.png" }
+        { "id": "黑影", "sprite": "assets/images/black.png" }
       ],
       "speaker": "唐梓",
       "dialogue": "你到底是谁？又为什么出现在这里？！【拔出手枪指向黑影】",
@@ -32,7 +32,7 @@
     },
     "node5": {
       "scene": [
-        { "id": "黑影", "sprite": "assets/images/characternpc.png" },
+        { "id": "黑影", "sprite": "assets/images/black.png" },
         { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
       ],
       "speaker": "黑影",
@@ -41,7 +41,7 @@
     },
     "node6": {
       "scene": [
-        { "id": "黑影", "sprite": "assets/images/characternpc.png" },
+        { "id": "黑影", "sprite": "assets/images/black.png" },
         { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
       ],
       "speaker": "黑影",
@@ -50,7 +50,7 @@
     },
     "node7": {
       "scene": [
-        { "id": "黑影", "sprite": "assets/images/characternpc.png" },
+        { "id": "黑影", "sprite": "assets/images/black.png" },
         { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
       ],
       "speaker": "黑影",

@@ -19,9 +19,6 @@
     "node13": {
       "speaker": "旁白",
       "dialogue": "身侧的对讲机突然响了起来，是队长的召集信号。他召集所有人迅速回到战略指挥室召开作战会议。",
-      "nextNode": "node14"
-    },
-    "node14": {
       "action": {
         "type": "teleport"
       }

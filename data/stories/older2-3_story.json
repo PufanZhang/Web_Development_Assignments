@@ -37,6 +37,9 @@
       ],
       "speaker": "大娘",
       "dialogue": "好的好的小伙子，那你就在这边吧，大娘先走了哈",
+      "valueChanges":[
+        { "name": "notebook", "amount": 1 }
+      ],
       "nextNode": "node7"
     },
     "node7": {

@@ -1,0 +1,54 @@
+{
+  "username": "4849849",
+  "address": {
+    "map": "map4-4",
+    "x": 398.0,
+    "y": 150.0
+  },
+  "values": {
+    "old": 2,
+    "money": 0,
+    "exam2": 0,
+    "exam1": 0,
+    "help": 0,
+    "suspicion": 200,
+    "Trainscore": 0,
+    "conch": 0
+  },
+  "mapStates": {
+    "map4-3": {
+      "removedObjects": [
+        "tousheng4-3"
+      ]
+    },
+    "map4-4": {
+      "removedObjects": [
+        "scissor4-4"
+      ]
+    },
+    "map4-2": {
+      "removedObjects": [
+        "ErShu4-2"
+      ]
+    }
+  },
+  "achievements": [
+    "memoryGamma",
+    "memoryAlpha",
+    "memoryEpsilon",
+    "tangJinCi",
+    "memoryZeta",
+    "schedule",
+    "memoryDelta",
+    "vagrant",
+    "hell",
+    "untie",
+    "liuXiaoYue",
+    "taoXiaoGuang",
+    "heiYing",
+    "truth",
+    "mario",
+    "memoryBeta"
+  ],
+  "tools": []
+}
