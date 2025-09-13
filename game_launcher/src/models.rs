@@ -159,9 +159,12 @@ pub struct PlayerData {
     #[serde(rename = "mapStates", default)]
     pub map_states: HashMap<String, MapState>,
     pub achievements: Vec<String>,
-    pub tools: Vec<String>,
     #[serde(rename = "saveTime", skip_serializing_if = "Option::is_none", default)]
     pub save_time: Option<String>,
+    #[serde(rename = "totalPlayTimeSeconds", default)]
+    pub total_play_time_seconds: u64,
+    #[serde(rename = "lastLoginTimestamp", default)]
+    pub last_login_timestamp: i64,
 }
 
 // 为新用户创建默认存档
@@ -176,9 +179,10 @@ impl PlayerData {
             },
             values: initial_values,
             achievements: Vec::new(),
-            tools: Vec::new(),
             map_states: HashMap::new(),
             save_time: None,
+            total_play_time_seconds: 0,
+            last_login_timestamp: 0,
         }
     }
 }
@@ -270,7 +274,7 @@ pub struct Achievement {
 #[derive(Serialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct FrontendAchievement {
-    pub id: String, // 用文件名作为唯一 ID
+    pub id: i32,
     pub name: String,
     pub r#abstract: String,
     pub description: String,
@@ -301,4 +305,10 @@ pub struct SaveFileDisplayData {
     pub location: String,
     pub description: String,
     pub progress: i32,
+}
+
+#[derive(Serialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct PlayTimeResponse {
+    pub total_play_time_seconds: u64,
 }
