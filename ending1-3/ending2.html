@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>游戏结局</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: black;
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+        }
+        #bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            transition: opacity 2s ease;
+        }
+        .ending-container {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            z-index: 2;
+            overflow: hidden;
+            height: 100%;
+            cursor: pointer;
+            transition: opacity 2s ease;
+        }
+        .ending-text {
+            font-size: 20px;
+            color: white;
+            text-align: center;
+            white-space: pre-line;
+            line-height: 1.7;
+            padding-bottom: 50px;
+            text-shadow: 0 0 4px rgba(255,255,255,0.8),
+            0 0 8px rgba(200,200,255,0.4);
+            position: relative;
+            transform: translateY(100%);
+            transition: transform linear;
+            display: none;
+        }
+        .click-tip {
+            position: absolute;
+            bottom: 40px;
+            width: 100%;
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            font-size: 16px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+    </style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+
+<div class="ending-container" id="container">
+    <div class="ending-text" id="scroll-text-1">
+        结局二  与我仰春
+
+        “帮我种下一百朵红掌花，都种在朝阳的方向。”
+        这句话如同最后一把钥匙，终于打开了你那尘封已久的记忆闸门。
+        那在你心中周旋已久的轮廓，也终于浮出了她的面容——而这一切都要从冰川行动说起。
+        原来，为众人所知的“冰川行动”，本身就是一个巨大的阴谋。
+        你终于想起了当年参与“冰川行动”的全体成员，而刘小星亦在其中。
+        你们特战队员进入冰川号飞船后，立刻被智械所捕获，成为了他们的实验样本。
+        在那几年中，智械用你们的身体不停的做实验，意图将人类作为自己时空穿梭的载体。
+        在那些艰难痛苦的日子中，是小星和你一起患难与共，你们逐渐把彼此视为家人，视为最珍视的人。
+        你和小星每天彼此鼓劲，一同谋划逃出生天：你为她编制了海螺发带，她一次次鼓励你逃跑、反抗。
+
+        最后，在你们所有成员的共同谋划下，“冰川号”被成功爆破，你们本想乘坐逃生飞艇撤退回地球。
+        但在临走时被智械发现，李海峰被智械进行了思维控制，送回地球成为了安插在人类中的卧底。
+        刘小星牺牲自己将你推入救生舱，自己被智械带走去到了神秘的地方。
+        “冰川号”爆炸时放出了七彩的光，这种光一瞬间内清除掉了所有人的记忆，脑中只剩下那耀眼的光……
+        ——原来，那副黑影面具下的面容，正是多年后小星的模样！
+        你还清晰地记得，在“冰川号”她把你推入逃生飞船的时候，
+        说的也是这句“帮我种下一百朵红掌花，都种在朝阳的方向。”
+    </div>
+
+    <div class="ending-text" id="scroll-text-2">
+        【唐梓】你是……小星？
+
+        【黑影】（看着唐梓，眼中噙满了泪）好久不见，欢迎回来。（眯着眼，对唐梓粲然一笑）
+
+        小星不再给你说话的机会，而是果断地启动了她之前在你的战舰上植入的病毒——
+        你突然被送入救生飞艇，从战舰中弹了出去，
+        眼看着那个未来的刘小星驾驶着自己的飞船冲向毁灭。
+        随着巨大的闪光，你看到敌人的防护罩真的开始塌缩了，
+        无线电频道里现在的刘小星也兴奋地汇报她成功追踪到了敌人的宇宙坐标。
+        大家趁这个机会，把所有火力都集中到了传送门上，
+        终于在大部队抵达之前摧毁了这扇危险的传送门。
+        而行星发动机及时启动，“火山行动”取得了圆满的成功，
+        人类和智械的战局得到了根本的改变，人类不再处在被单方面威慑的被动情形，
+        而是终于能势均力敌，在战争中打出一片局面了
+    </div>
+
+    <div class="ending-text" id="scroll-text-3">
+        “火山行动”结束后，你再一次陷入了漫长的昏迷中，
+        而在你昏迷的时候，曾经的元老陶晓光和老队长李海峰都因间谍和贪污罪锒铛入狱。
+        苏醒后在和医生的交谈中，你才知道自己身体有着神奇的能力——
+        你是天生最适合时间回溯的体质，
+        只需要依靠从智械处截获的武器中研制而出的最新科技，结合你的身体体质，再与曾经的老物件产生交互，
+        就能实现时间回溯的目的。
+        在与智械的战争中，你保护了地球上的亿万生灵，但唯独护不住她。
+        与记忆一同复苏的，是你对她在患难之中培养出的深深的爱。
+        每次闭眼，脑海中浮现的都是小星驾驶战机奔向死亡的场景……
+        时间穿越！对你可以时间穿越！
+        记忆的复苏和多年的练习让你重新掌握了时间回溯的能力。
+        技术人员告诉你，只需要在笔记本上重复之前写过的内容，就可以利用最新的技术回到过去。
+        睁开眼，眼前是父亲的纪念堂，那个在堂前祭拜的少年疑惑的看着你，
+        你抓住脑中一闪而过的念头，将梓字的部首分开，对他说
+        “唐梓，我叫唐槿辞，你的二叔。”
+        原来时间是闭环，原来日记本扉页上的那句话，其实是一个谜题：
+        “长大后，我就成为了你。”是将后面所有的你我进行交换。
+    </div>
+
+    <div class="ending-text" id="scroll-text-4">
+        你写下 “12.30 火山星 我要快点挣脱束缚。”
+        “12.31 地球 我要救下他们。”
+        “1.1 世界 我要解开真相。”
+        “你只要帮我全部完成，
+        或者找到全部的它们，
+        你的所有愿望就会实现。”
+
+        其实你是想告诉原来的唐梓
+        “12.30 火山星 你要快点挣脱束缚。”
+        “12.31 地球 你要救下他们。”
+        “1.1 世界 你要解开真相。”
+        “我只要帮你全部完成，
+        或者找到全部的它们，
+        我的所有愿望就会实现。”
+
+        此刻的我是未来的我 我请求这个时间线的你，
+        救救她，小星我的爱人，快点挣脱束缚，
+        阻止她登上飞机，阻止她，换回她，
+        你代替她成为那个为救人民于水火的那个人。
+        你打开日记本，想写下这些，却发现这本日记每页上都写着同样的话……
+        （完）
+    </div>
+
+    <div class="click-tip" id="click-tip">点击继续滚动 ▼</div>
+</div>
+
+<script>
+    // ======== 背景部分 ========
+    const canvas = document.getElementById('bg');
+    const ctx = canvas.getContext('2d');
+    let w, h, stars = [], particles = [];
+    function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize); resize();
+
+    function initStars(num) {
+        stars = [];
+        for (let i = 0; i < num; i++) {
+            stars.push({ x: Math.random() * w, y: Math.random() * h, size: Math.random() * 1.5, speed: Math.random() * 0.1 + 0.02 });
+        }
+    }
+    function initParticles(num) {
+        particles = [];
+        for (let i = 0; i < num; i++) {
+            particles.push({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 4 + 2, alpha: Math.random() * 0.5 + 0.2, dx: Math.random() * 0.2 - 0.1, dy: Math.random() * 0.2 - 0.1 });
+        }
+    }
+    function drawGrid() {
+        ctx.strokeStyle = "rgba(0, 180, 255, 0.05)";
+        ctx.lineWidth = 1;
+        let gridSize = 120;
+        for (let x = 0; x < w; x += gridSize) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+        for (let y = 0; y < h; y += gridSize) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+    }
+    function draw() {
+        let g = ctx.createLinearGradient(0, 0, 0, h);
+        g.addColorStop(0, "#000010"); g.addColorStop(1, "#001020");
+        ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+        drawGrid();
+        ctx.fillStyle = "white";
+        for (let star of stars) { ctx.globalAlpha = 0.6; ctx.beginPath(); ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2); ctx.fill(); star.y += star.speed; if (star.y > h) star.y = 0; }
+        for (let p of particles) { ctx.globalAlpha = p.alpha; ctx.fillStyle = "rgba(0,255,255,0.5)"; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill(); p.x += p.dx; p.y += p.dy; if (p.x < -p.r) p.x = w + p.r; if (p.x > w + p.r) p.x = -p.r; if (p.y < -p.r) p.y = h + p.r; if (p.y > h + p.r) p.y = -p.r; }
+        ctx.globalAlpha = 1; requestAnimationFrame(draw);
+    }
+    initStars(200); initParticles(30); draw();
+
+    // ======== 滚动逻辑 ========
+    const container = document.getElementById("container");
+    const tip = document.getElementById("click-tip");
+    const speedPerPixelFirst = 0.006; // 第一阶段慢
+    const speedPerPixelSecond = 0.003; // 第二阶段快
+    const extraScroll = -20; // 停靠高度
+
+    function playSegment(segmentId, onComplete) {
+        const el = document.getElementById(segmentId);
+        el.style.display = "block";
+        const containerHeight = container.offsetHeight;
+        const textHeight = el.offsetHeight;
+        const stopPosition = -(textHeight - containerHeight - extraScroll);
+        const durationFirst = (containerHeight + Math.abs(stopPosition)) * speedPerPixelFirst;
+
+        el.style.transition = `transform ${durationFirst}s linear`;
+        el.style.transform = "translateY(100%)";
+        setTimeout(() => { el.style.transform = `translateY(${stopPosition}px)`; }, 50);
+
+        setTimeout(() => {
+            tip.classList.add("show-tip");
+            const continueScroll = () => {
+                tip.classList.remove("show-tip");
+                container.removeEventListener("click", continueScroll);
+                const finalDistance = -textHeight;
+                const durationSecond = (Math.abs(finalDistance - stopPosition)) * speedPerPixelSecond;
+                el.style.transition = `transform ${durationSecond}s linear`;
+                el.style.transform = `translateY(${finalDistance}px)`;
+                setTimeout(() => {
+                    el.style.display = "none";
+                    if (onComplete) onComplete();
+                }, durationSecond * 1000);
+            };
+            container.addEventListener("click", continueScroll);
+        }, durationFirst * 1000);
+    }
+
+    // 顺序播4段
+    playSegment("scroll-text-1", () => {
+        playSegment("scroll-text-2", () => {
+            playSegment("scroll-text-3", () => {
+                playSegment("scroll-text-4", () => {
+                    container.style.opacity = 0;
+                    canvas.style.opacity = 0;
+                });
+            });
+        });
+    });
+</script>
+</body>
+</html>
