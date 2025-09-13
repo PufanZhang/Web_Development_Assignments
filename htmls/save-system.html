@@ -7,6 +7,20 @@
     <link rel="stylesheet" href="/css/save-system.css">
 </head>
 <body>
+<div class="confirm-modal" id="restrictionModal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>功能锁定</h3>
+        </div>
+        <div class="modal-body">
+            <p>亲爱的时间旅行者，为了让您能完整地体验游戏，需要先抵达任意一个结局，才能解锁自由读档的功能哦！快去创造属于你的结局吧！</p>
+        </div>
+        <div class="modal-actions">
+            <button class="modal-btn confirm-btn-green" onclick="goBack()">返回主界面</button>
+        </div>
+    </div>
+</div>
+
 <div class="save-container" id="saveContainer">
     <div class="tech-background"></div>
 
@@ -39,7 +53,7 @@
 
 <div class="save-detail" id="saveDetail"></div>
 
-<div class="confirm-modal" id="loadConfirmModal">
+<div class="confirm-modal" id="loadConfirmModal" style="display: none;">
     <div class="modal-content">
         <div class="modal-header">
             <h3>加载成功</h3>

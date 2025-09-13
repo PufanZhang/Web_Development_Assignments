@@ -1,55 +1,8 @@
-// 存档数据 - 删除支线和收集品进度
-import { auth, gameState} from "./game/modules/dataManager.js";
+import { auth, gameState } from "./game/modules/dataManager.js";
 import { audioManager } from "./game/modules/audioManager.js";
 import { VOLUME, SAVE_MUSIC } from "./game/config.js";
 
 let saveData = [];
-
-// const saveData = [
-//     {
-//         id: 1,
-//         name: '量子探索者',
-//         level: '量子迷宫 - 第七层',
-//         playTime: '24小时 36分钟',
-//         lastSave: '2024-01-15 14:30',
-//         mainProgress: 75,
-//         achievements: {
-//             memory: { completed: 3, total: 6 },
-//             decrypt: { completed: 1, total: 3 },
-//             character: { completed: 2, total: 4 },
-//             mission: { completed: 2, total: 3 }
-//         }
-//     },
-//     {
-//         id: 2,
-//         name: '数字游侠',
-//         level: '虚拟城市 - 中央区',
-//         playTime: '18小时 22分钟',
-//         lastSave: '2024-01-14 20:15',
-//         mainProgress: 45,
-//         achievements: {
-//             memory: { completed: 2, total: 6 },
-//             decrypt: { completed: 0, total: 3 },
-//             character: { completed: 1, total: 4 },
-//             mission: { completed: 1, total: 3 }
-//         }
-//     },
-//     {
-//         id: 3,
-//         name: '赛博武士',
-//         level: '神经网络 - 深层节点',
-//         playTime: '42小时 18分钟',
-//         lastSave: '2024-01-13 16:45',
-//         mainProgress: 90,
-//         achievements: {
-//             memory: { completed: 5, total: 6 },
-//             decrypt: { completed: 3, total: 3 },
-//             character: { completed: 4, total: 4 },
-//             mission: { completed: 3, total: 3 }
-//         }
-//     }
-// ];
-
 let currentSaveId = null;
 
 // 初始化页面
@@ -62,7 +15,17 @@ document.addEventListener('DOMContentLoaded', function() {
         gameState.loadPlayerData().then(playerData => {
             if (playerData) {
                 console.log("【main_menu.js】: 后端状态已恢复。欢迎回来, ", playerData.username);
-                loadAllSaveFiles();
+                const hasReachedEnd = gameState.getValue('reachEnd');
+                if (hasReachedEnd === 1) {
+                    // 如果 reachEnd 是 1，说明已经通过关，正常加载存档列表
+                    console.log("检测到通关记录，存档系统完全开放！");
+                    loadAllSaveFiles();
+                } else {
+                    // 如果不是 1，说明还没通过关，显示限制弹窗
+                    console.log("未检测到通关记录，限制读档功能。");
+                    document.getElementById('saveContainer').classList.add('blurred'); // 虚化背景
+                    document.getElementById('restrictionModal').style.display = 'flex'; // 显示弹窗
+                }
             } else {
                 console.alert("Token 无效或已过期，请重新登录。");
                 localStorage.clear();
@@ -70,7 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    generateSaveCards();
 });
 
 async function loadAllSaveFiles() {
@@ -226,21 +188,25 @@ function enterGame() {
     window.location.href = 'game.html';
 }
 
-// 点击模态框外部关闭
+// 点击模态框外部关闭 (只对加载确认弹窗有效)
 window.onclick = function(event) {
-    const modal = document.getElementById('confirmModal');
-    if (event.target === modal) {
-        closeConfirmModal();
+    const loadModal = document.getElementById('loadConfirmModal');
+    if (event.target === loadModal) {
+        closeLoadConfirmModal();
     }
 }
 
-// 键盘事件
+// 键盘事件 (Escape 键关闭)
 document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
-        if (document.getElementById('confirmModal').style.display === 'block') {
-            closeConfirmModal();
-        } else if (document.getElementById('saveDetail').style.display === 'block') {
+        const loadModal = document.getElementById('loadConfirmModal');
+        const saveDetail = document.getElementById('saveDetail');
+
+        if (loadModal.style.display === 'flex') {
+            closeLoadConfirmModal();
+        } else if (saveDetail.style.display === 'block') {
             closeSaveDetail();
+            window.location.href = 'index.html';
         }
     }
 });
