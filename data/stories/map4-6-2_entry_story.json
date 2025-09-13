@@ -59,7 +59,115 @@
     },
     "node8": {
       "speaker": "旁白",
-      "dialogue": "【获得记忆碎片：离别的轻语】"
+      "dialogue": "【获得记忆碎片：离别的轻语】",
+      "valueChanges": [
+        {
+          "name": "libie",
+          "amount": 1
+        },{
+          "name": "suipian",
+          "amount": 1
+        },{
+          "name": "reachEnd",
+          "amount": 1,
+          "absolute": 1
+
+        }
+      ],
+      "options": [
+        {
+          "text": "【结局一 记忆碎片收集＜5片】",
+          "requiredValue": {
+            "name": "suipian",
+            "comparison": "less_than_or_equal",
+            "value": 4
+          },
+          "nextNode":"jiejuyi"
+        },{
+          "text": "【结局二 记忆碎片收集≥5片】",
+          "requiredValue": {
+            "name": "suipian",
+            "comparison": "greater_than_or_equal",
+            "value": 5
+          },
+          "nextNode":"jiejuer"
+        },{
+          "text": "【结局三 任务一完成】",
+          "requiredValue": {
+            "name": "shengzi",
+            "comparison": "greater_than_or_equal",
+            "value": 1
+          },
+          "nextNode":"jiejusan"
+        },{
+          "text": "【结局四 哗变】",
+          "requiredValue": {
+            "name": "suspicion",
+            "comparison": "greater_than_or_equal",
+            "value": 450
+          },
+          "nextNode":"jiejusi"
+        }
+      ]
+    },
+    "jiejuyi":{
+  
+      "action": {
+        "type": "end"
+      }
+
+    },
+    "jiejuer":{
+      "valueChanges":[
+        {
+          "name": "wujian",
+          "amount": 1
+        },{
+          "name": "shiguang",
+          "amount": 1
+        },{
+          "name": "heiying",
+          "amount": 1
+        },{
+          "name": "jinci",
+          "amount": 1
+        }
+      ],
+      "action": {
+        "type": "end"
+      }
+
+    },
+    "jiejusan":{
+      "valueChanges":[
+        {
+          "name": "xiaoguang",
+          "amount": 1
+        },{
+          "name": "wangchuan",
+          "amount": 1
+        }
+      ],
+      "action": {
+        "type": "end"
+      }
+
+    },
+    "jiejusi":{
+      "valueChanges":[
+        {
+          "name": "xiaoguang",
+          "amount": 1
+        },{
+          "name": "wangchuan",
+          "amount": 1
+        }
+      ],
+      "action": {
+        "type": "end"
+      }
+
     }
+
   }
 }

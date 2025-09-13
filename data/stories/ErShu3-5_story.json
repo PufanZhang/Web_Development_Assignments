@@ -138,7 +138,16 @@
     },
     "node14": {
       "speaker": "旁白",
-      "dialogue": "【解锁记忆碎片：拥抱】"
+      "dialogue": "【解锁记忆碎片：拥抱】",
+      "valueChanges": [
+        {
+          "name": "yongbao",
+          "amount": 1
+        },{
+          "name": "suipian",
+          "amount": 1
+        }
+      ]
     }
   }
 }

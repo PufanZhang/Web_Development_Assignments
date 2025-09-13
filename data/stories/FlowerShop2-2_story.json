@@ -54,6 +54,10 @@
     "node9": {
       "speaker": "旁白",
       "dialogue": "【获得记忆碎片：红掌花】",
+      "valueChanges": [
+        { "name": "hongzhanghua", "amount": 1},
+        { "name": "suipian", "amount": 1}
+      ],
       "nextNode": "node10"
     },
     "node10": {

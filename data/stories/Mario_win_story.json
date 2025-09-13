@@ -4,6 +4,12 @@
     "start": {
       "speaker": "旁白",
       "dialogue": "（你成功回到检修仓，太棒了！）",
+      "valueChanges": [
+        {
+          "name": "maliao",
+          "amount": 1
+        }
+      ],
       "action":{
         "type":"teleport",
         "teleportData": {
