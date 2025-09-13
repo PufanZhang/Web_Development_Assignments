@@ -1,7 +1,7 @@
 // --- 游戏全局配置文件 ---
 
 // 初始地图
-export const INITIAL_MAP = "map4-1";
+export const INITIAL_MAP = "map4-5";
 
 // 背景音乐设置
 export const VOLUME = 0.7;
@@ -14,7 +14,7 @@ export const LOGIN_MUSIC = "/assets/music/Anthurium.mp3";
 export const PLAYER_WIDTH = 100;
 export const PLAYER_HEIGHT = 100;
 export const PLAYER_SPEED = 2;
-export const PLAYER_INITIAL_X = 500;
+export const PLAYER_INITIAL_X = 800;
 export const PLAYER_INITIAL_Y = 650;
 
 // 交互相关配置

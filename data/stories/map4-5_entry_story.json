@@ -8,7 +8,7 @@
     },
     "node2": {
       "scene": [
-        { "id": "刘小星", "sprite": "assets/images/characternpc.png" },
+        { "id": "刘小星", "sprite": "assets/images/characterlxx.png" },
         { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
       ],
       "speaker": "刘小星",

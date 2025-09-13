@@ -41,9 +41,6 @@
           "amount": 1
         }
       ],
-      "nextNode": "node7"
-    },
-    "node7": {
       "action":{
         "type":"FTG"
       }

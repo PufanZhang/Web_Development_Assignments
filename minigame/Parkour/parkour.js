@@ -405,9 +405,15 @@ function initGame() {
 
     // 添加事件监听器
     document.getElementById('restart-btn').addEventListener('click', initGame);
-    document.getElementById('home-btn').addEventListener('click', goToHomePage);
+    document.getElementById('home-btn').addEventListener('click', function() {
+        const result = {success : false}
+        goToHomePage(result);
+    });
     document.getElementById('victory-restart-btn').addEventListener('click', initGame);
-    document.getElementById('victory-home-btn').addEventListener('click', goToHomePage);
+    document.getElementById('victory-home-btn').addEventListener('click', function() {
+        const result = {success : true}
+        goToHomePage(result);
+    });
 }
 
 // 生成障碍物
@@ -633,7 +639,7 @@ function gameLoop() {
     checkIfStuck();
 
     // 生成新障碍物
-    if (!inTutorial && !obstacleSpawnPaused && Math.random() < 0.03) {
+    if (!inTutorial && !obstacleSpawnPaused && Math.random() < 0.015) {
         generateObstacle();
     }
 
@@ -728,9 +734,9 @@ function victory() {
 }
 
 // 返回首页
-function goToHomePage() {
+function goToHomePage(result) {
     // 返回主游戏页面
-    const result = { success: false };
+    //const result = { success: false };
     window.parent.postMessage({ type: 'closeMinigame', result: result }, '*');
 }
 

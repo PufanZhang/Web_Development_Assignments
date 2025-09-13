@@ -1,0 +1,34 @@
+{
+  "username": "8489455",
+  "address": {
+    "map": "map4-4",
+    "x": 1088.0,
+    "y": 634.0
+  },
+  "values": {
+    "exam2": 0,
+    "help": 0,
+    "conch": 0,
+    "old": 1,
+    "suspicion": 150,
+    "Trainscore": 0,
+    "money": 0,
+    "exam1": 0
+  },
+  "mapStates": {
+    "map3-1": {
+      "removedObjects": [
+        "tousheng4-3"
+      ]
+    }
+  },
+  "achievements": [
+    "memoryEpsilon",
+    "memoryDelta",
+    "memoryBeta",
+    "memoryGamma",
+    "memoryAlpha",
+    "memoryTotal"
+  ],
+  "tools": []
+}

@@ -1,0 +1,39 @@
+{
+  "username": "48949",
+  "address": {
+    "map": "map4-4",
+    "x": 646.0,
+    "y": 470.0
+  },
+  "values": {
+    "Trainscore": 0,
+    "notebook": 0,
+    "money": 0,
+    "old": 1,
+    "conch": 0,
+    "exam2": 0,
+    "exam1": 0,
+    "help": 0,
+    "suspicion": 250
+  },
+  "mapStates": {},
+  "achievements": [
+    "memoryGamma",
+    "memoryAlpha",
+    "memoryEpsilon",
+    "tangJinCi",
+    "memoryZeta",
+    "schedule",
+    "memoryDelta",
+    "vagrant",
+    "hell",
+    "untie",
+    "liuXiaoYue",
+    "taoXiaoGuang",
+    "heiYing",
+    "truth",
+    "mario",
+    "memoryBeta"
+  ],
+  "tools": []
+}

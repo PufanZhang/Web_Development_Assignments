@@ -1,0 +1,17 @@
+{
+  "startNode": "start",
+  "nodes": {
+    "start": {
+      "speaker": "旁白",
+      "dialogue": "经过一番波折，你还是成功回到了检修仓。",
+      "action":{
+        "type":"teleport",
+        "teleportData": {
+            "targetMap": "map4-5",
+            "targetX": 800,
+            "targetY": 500
+        }
+      }
+    }
+  }
+}

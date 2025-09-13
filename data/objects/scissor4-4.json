@@ -6,10 +6,11 @@
   "width": 120,
   "height": 180,
   "showPrompt": true,
+  "singleInteraction": false,
   "teleportData": {
       "targetMap": "map4-5",
-      "targetX": 400,
-      "targetY": 400
+      "targetX": 800,
+      "targetY": 500
     },
   "storyKey": "scissor4-4_story"
 }

@@ -1,0 +1,17 @@
+{
+  "startNode": "start",
+  "nodes": {
+    "start": {
+      "speaker": "旁白",
+      "dialogue": "（你成功回到检修仓，太棒了！）",
+      "action":{
+        "type":"teleport",
+        "teleportData": {
+            "targetMap": "map4-5",
+            "targetX": 800,
+            "targetY": 500
+        }
+      }
+    }
+  }
+}
