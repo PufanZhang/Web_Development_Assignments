@@ -1,0 +1,13 @@
+{
+  "startNode": "node1",
+  "nodes": {
+    "node1": {
+      "speaker": "旁白",
+      "dialogue": "你们到达了联合防卫队作战指挥室。",
+      "action": {
+        "type": "saveFile",
+        "saveFileName":"save3"
+      }
+    }
+  }
+}

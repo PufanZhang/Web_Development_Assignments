@@ -18,7 +18,11 @@
     },
     "node4": {
       "speaker": "旁白",
-      "dialogue": "并请专家为你们制定了康复计划，希望你们早日能为人类做出更大的贡献。"
+      "dialogue": "并请专家为你们制定了康复计划，希望你们早日能为人类做出更大的贡献。",
+      "action": {
+        "type": "saveFile",
+        "saveFileName":"save2"
+      }
     }
   }
 }
