@@ -4,7 +4,7 @@
     "node1": {
       "scene": [
         { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
-        { "id": "管理员", "sprite": "assets/images/charactergly.png" }
+        { "id": "管理员", "sprite": "assets/images/Trainer2.png" }
       ],
       "speaker": "唐梓",
       "dialogue": "您好，请问这里是体能训练基地吗？",
@@ -13,7 +13,7 @@
     "node2": {
       "scene": [
         { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
-        { "id": "管理员", "sprite": "assets/images/charactergly.png" }
+        { "id": "管理员", "sprite": "assets/images/Trainer2.png" }
       ],
       "speaker": "管理员",
       "dialogue": "同志您好，您是今天来结业考核的唐梓同志吧！欢迎来到体能训练基地！",

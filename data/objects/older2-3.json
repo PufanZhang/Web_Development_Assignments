@@ -1,7 +1,7 @@
 {
     "id": "older2-3",
     "image": "assets/images/old.png",
-    "x":800, "y": 800, "width": 50, "height": 20,
+    "x":800, "y": 750, "width": 70, "height": 100,
     "showPrompt": true,
     "singleInteraction": true,
     "storyKey": "older2-3_story"

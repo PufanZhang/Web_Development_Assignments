@@ -1,0 +1,67 @@
+{
+  "username": "184894",
+  "address": {
+    "map": "Map2-4",
+    "x": 332.0,
+    "y": 200.0
+  },
+  "values": {
+    "exam1": 1,
+    "exam2": 0,
+    "notebook": 1,
+    "money": 0,
+    "help": 1,
+    "conch": 0,
+    "old": 0,
+    "suspicion": 150,
+    "Trainscore": 3
+  },
+  "mapStates": {
+    "Map1-4": {
+      "removedObjects": [
+        "NewsPaper1-4",
+        "Window1-4",
+        "door1-4"
+      ]
+    },
+    "Map2-4": {
+      "removedObjects": [
+        "TaoFu2-4-1"
+      ]
+    },
+    "Map2-3": {
+      "removedObjects": [
+        "older2-3"
+      ]
+    },
+    "Map2-1": {
+      "removedObjects": [
+        "Fu2-1"
+      ]
+    },
+    "Map1-3-2": {
+      "removedObjects": [
+        "XiaoYue1-3-2"
+      ]
+    }
+  },
+  "achievements": [
+    "memoryAlpha",
+    "heiYing",
+    "truth",
+    "memoryGamma",
+    "taoXiaoGuang",
+    "memoryZeta",
+    "memoryEpsilon",
+    "memoryDelta",
+    "schedule",
+    "liuXiaoYue",
+    "untie",
+    "tangJinCi",
+    "memoryBeta",
+    "hell",
+    "mario",
+    "vagrant"
+  ],
+  "tools": []
+}

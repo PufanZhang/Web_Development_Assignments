@@ -1,7 +1,7 @@
 {
     "id": "TaoFu2-4-2",
     "image": "assets/images/charactertf.png",
-    "x":800, "y": 500, "width": 50, "height": 20,
+    "x":800, "y": 500, "width": 50, "height": 100,
     "showPrompt": true,
     "singleInteraction": true,
     "storyKey": "TaoFu2-4-2_story",

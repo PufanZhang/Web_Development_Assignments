@@ -1,7 +1,8 @@
 {
     "id": "Trainer2-1-1",
     "image": "assets/images/Trainer1.png",
-    "x":1150, "y": 550, "width": 50, "height": 20,
+    "x":1150, "y": 550, "width": 50, "height": 100,
+    
     "showPrompt": true,
     "singleInteraction": false,
     "storyKey": "Trainer2-1-1_story"

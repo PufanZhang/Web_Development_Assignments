@@ -3,7 +3,7 @@
   "nodes": {
     "node2": {
       "scene": [
-        { "id": "老人", "sprite": "assets/images/characterlr.png" },
+        { "id": "老人", "sprite": "assets/images/old.png" },
         { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
       ],
       "speaker": "老人",
@@ -13,7 +13,7 @@
     "node3": {
       "scene": [
         { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
-        { "id": "老人", "sprite": "assets/images/characterlr.png" }
+        { "id": "老人", "sprite": "assets/images/old.png" }
       ],
       "speaker": "唐梓",
       "dialogue": "不用了大娘，这都是我应该做的。",
@@ -21,7 +21,7 @@
     },
     "node4": {
       "scene": [
-        { "id": "老人", "sprite": "assets/images/characterlr.png" },
+        { "id": "老人", "sprite": "assets/images/old.png" },
         { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
       ],
       "speaker": "老人",
@@ -33,7 +33,7 @@
     },
     "node6": {
       "scene": [
-        { "id": "大娘", "sprite": "assets/images/characterdn.png" }
+        { "id": "大娘", "sprite": "assets/images/old.png" }
       ],
       "speaker": "大娘",
       "dialogue": "好的好的小伙子，那你就在这边吧，大娘先走了哈",

@@ -1,7 +1,7 @@
 {
     "id": "People2-1",
     "image": "assets/images/people.png",
-    "x":800, "y": 800, "width": 50, "height": 20,
+    "x":800, "y": 800, "width": 50, "height": 100,
     "showPrompt": true,
     "singleInteraction": true,
     "storyKey": "People2-1_story"

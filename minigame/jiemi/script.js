@@ -203,7 +203,7 @@ function setupEventListeners() {
     });
 
     // 9. 成功后返回剧情
-    elements.backToStory.addEventListener('click', returnToStory);
+    elements.backToStory.addEventListener('click', Success);
     
     // 10. 失败后重试
     elements.tryAgain.addEventListener('click', returnToStory);
@@ -370,6 +370,17 @@ shakeStyle.textContent = `
 `;
 document.head.appendChild(shakeStyle);
 
+// 返回正常剧情（替换重新开始功能）
+function Success() {
+    // 这里可以添加返回剧情的逻辑，例如：
+    // 1. 隐藏游戏相关界面
+    elements.successScreen.classList.add('hidden');
+    elements.failureScreen.classList.add('hidden');
+    elements.cluesSection.classList.add('hidden');
+    elements.passwordSection.classList.add('hidden');
+    const result = { success: true };
+    window.parent.postMessage({ type: 'closeMinigame', result: result }, '*');
+}
 // 返回正常剧情（替换重新开始功能）
 function returnToStory() {
     // 这里可以添加返回剧情的逻辑，例如：
