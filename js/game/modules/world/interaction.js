@@ -125,7 +125,10 @@ export const interactionManager = {
             }
 
             if (endAction.type === 'end') {
-                gameState.saveLocation('end');
+                gameState.saveLocation('end',{
+                    x: -1.0,
+                    y: -1.0,
+                });
                 window.location.href = 'ending.html';
             }
         };
