@@ -69,6 +69,15 @@
     "node10": {
       "speaker": "旁白",
       "dialogue": "【解锁记忆碎片：氧气面罩】",
+      "valueChanges": [
+        {
+          "name": "yangqi",
+          "amount": 1
+        },{
+          "name": "suipian",
+          "amount": 1
+        }
+      ],
       "nextNode": "node11"
     },
     "node11": {

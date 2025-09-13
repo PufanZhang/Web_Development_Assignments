@@ -39,7 +39,12 @@
     },
     "node6": {
       "speaker": "旁白",
+      "valueChanges": [
+        { "name": "lucky", "amount": 1},
+        { "name": "suipian", "amount": 1}
+      ],
       "dialogue": "【获得记忆碎片：幸运符】",
+
       "nextNode": "node7"
     },
     "node7": {

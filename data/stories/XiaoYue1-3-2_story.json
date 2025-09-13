@@ -8,6 +8,15 @@
       ],
       "speaker": "刘小月",
       "dialogue": "我的姐姐很喜欢花，这片花海都是她种下的。之前姐姐在花田玩的时候，有一次把头绳落在了花田里。我找了好久都没找到，哥哥，你这么神通广大，能帮忙找到吗？",
+      "valueChanges": [
+        {
+          "name": "xiaoyue",
+          "amount": 1
+        },{
+          "name": "suipian",
+          "amount": 1
+        }
+      ],
       "nextNode": "node13"
     },
     

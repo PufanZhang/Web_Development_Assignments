@@ -9,8 +9,7 @@
   "requiredValues": {
     "logic": "AND",
     "conditions": [
-      {"name": "suspicion", "comparison": "greater_than_or_equal", "value": 150},
-      {"name": "conch", "comparison": "equal", "value": 0}
+      {"name": "wangchuan", "comparison": "greater_than_or_equal", "value": 1}
     ]
   }
 }
