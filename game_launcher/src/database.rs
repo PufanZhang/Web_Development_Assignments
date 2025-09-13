@@ -148,16 +148,32 @@ pub async fn login_user(req: &AuthRequest) -> Result<LoginOutcome, &'static str>
     }
 }
 
-// 保存玩家数据
-pub async fn save_player_data(data: &PlayerData) -> Result<(), Error> {
+/// 将 PlayerData 直接写入文件，用于服务器内部逻辑，不包含任何保护机制。
+async fn save_player_data_internal(data: &PlayerData) -> Result<(), Error> {
     let path = get_player_data_path(&data.username);
 
     // 在写入前，确保父目录 "./data/players" 存在
     if let Some(parent) = path.parent() {
         fs::create_dir_all(parent).await?;
     }
+
     let content = serde_json::to_string_pretty(data)?;
     fs::write(path, content).await
+}
+
+// 保存玩家数据
+pub async fn save_player_data(data: &PlayerData) -> Result<(), Error> {
+    // 为了保留服务器端的成就，先克隆一份前端传来的数据
+    let mut data_to_save = data.clone();
+
+    // 尝试加载服务器上已有的存档
+    if let Ok(current_data) = load_player_data(&data.username).await {
+        // 如果成功加载，就用服务器上的成就列表覆盖掉待保存数据中的成就列表
+        data_to_save.achievements = current_data.achievements;
+    }
+
+    // 调用内部函数，将整合了正确成就的数据写入文件
+    save_player_data_internal(&data_to_save).await
 }
 
 // 读取玩家数据
@@ -211,7 +227,9 @@ pub async fn modify_player_value(
     }
 
     // 4. 把修改后的完整数据存回去
-    save_player_data(&player_data).await?;
+    if let Err(e) = save_player_data_internal(&player_data).await {
+        return Err(ModifyValueError::Io(e));
+    }
 
     // 5. 返回成功信息、新的数值以及新解锁的成就列表
     Ok(ModifyValueResponse {
@@ -226,6 +244,11 @@ pub async fn create_manual_save(save_name: &str, data: &mut PlayerData) -> Resul
     // 1. 获取当前时间并更新 PlayerData 对象
     let now = Local::now();
     data.save_time = Some(now.format("%Y-%m-%d %H:%M:%S").to_string());
+
+    // 在创建手动存档前，先用服务器上最新的成就数据进行同步
+    if let Ok(current_main_data) = load_player_data(&data.username).await {
+        data.achievements = current_main_data.achievements;
+    }
 
     // 2. 读取存档集合文件
     let path = get_save_file_path(&data.username);
@@ -263,7 +286,7 @@ pub async fn load_save_file(username: &str, save_name: &str) -> Result<(), Error
         player_data_to_load.achievements = current_player_data.achievements;
 
         // 保存整合了最新成就的存档数据
-        save_player_data(&player_data_to_load).await
+        save_player_data_internal(&player_data_to_load).await
     } else {
         Err(Error::new(ErrorKind::NotFound, "Specified save name not found."))
     }
@@ -330,7 +353,7 @@ pub async fn modify_player_value_dev(username: &str, value_name: &str, amount: i
     achievements::check_and_unlock_achievements(&mut player_data).await;
 
     // 4. 保存修改后的数据
-    if let Err(e) = save_player_data(&player_data).await {
+    if let Err(e) = save_player_data_internal(&player_data).await {
         return Err(format!("Failed to save player data: {}", e));
     }
 
@@ -356,7 +379,7 @@ pub async fn set_player_value_dev(username: &str, value_name: &str, new_value: i
     achievements::check_and_unlock_achievements(&mut player_data).await;
 
     // 4. 保存修改后的数据
-    if let Err(e) = save_player_data(&player_data).await {
+    if let Err(e) = save_player_data_internal(&player_data).await {
         return Err(format!("Failed to save player data: {}", e));
     }
 

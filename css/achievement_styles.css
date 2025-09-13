@@ -6,6 +6,14 @@
     box-sizing: border-box;
 }
 
+/* 禁用全局文本选择和设置默认光标 */
+body, .achievement-container, .achievement-modal, .achievement-detail {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
 body {
     font-family: 'Orbitron', 'Microsoft YaHei', sans-serif;
     background:
@@ -482,7 +490,7 @@ body::before {
     color: #00ffff;
     padding: 15px;
     border-radius: 50%;
-    cursor: default;
+    cursor: pointer;
     outline: none;
     user-select: none;
     font-size: 20px;
