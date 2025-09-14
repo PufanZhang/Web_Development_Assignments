@@ -1,0 +1,14 @@
+{
+  "startNode": "node7",
+  "nodes": {
+    "node7": {
+      "speaker": "旁白",
+      "dialogue": "你受到袭击必然是有人想要阻止你对战机进行检修……日记本中的话再一次浮现在你眼前“你要快点挣脱束缚！",
+      "action":{
+        "type":"Rope",
+        "onWin":"Rope_win_story",
+        "onLose":"Rope_lose_story"
+      }
+    }
+  }
+}

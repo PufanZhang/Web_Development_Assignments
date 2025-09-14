@@ -1,0 +1,42 @@
+{
+  "username": "25735727",
+  "address": {
+    "map": "end1",
+    "x": 760.0,
+    "y": 284.0
+  },
+  "values": {
+    "maliao": 0,
+    "lucky": 0,
+    "jinci": 0,
+    "hongzhanghua": 0,
+    "wangchuan": 0,
+    "exam2": 0,
+    "reachEnd": 1,
+    "yangqi": 0,
+    "notebook": 0,
+    "Trainscore": 0,
+    "libie": 2,
+    "suspicion": 100,
+    "exam1": 0,
+    "money": 0,
+    "help": 0,
+    "old": 0,
+    "conch": 0,
+    "suipian": 1,
+    "xiaoyue": 0,
+    "xiaoguang": 0,
+    "wujian": 0,
+    "shengzi": 0,
+    "yongbao": 0,
+    "heiying": 0,
+    "shiguang": 0,
+    "tousheng": 0
+  },
+  "mapStates": {},
+  "achievements": [
+    "memoryZeta"
+  ],
+  "totalPlayTimeSeconds": 317,
+  "lastLoginTimestamp": 1757829346
+}

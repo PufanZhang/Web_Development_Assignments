@@ -1,0 +1,8 @@
+{
+    "id": "shengzi4-3",
+    "image": "assets/images/绳子.png",
+    "x":800, "y": 400, "width": 100, "height": 100,
+    "showPrompt": true,
+    "singleInteraction": true,
+    "storyKey": "map4-3_story"
+}
