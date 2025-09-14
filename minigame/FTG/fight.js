@@ -117,12 +117,7 @@ export const fightManager = {
         this.updateBuffTimerDisplay();
 
         let oldOption = gameState.getValue('old');
-        if(oldOption === 1){
-            this.isBuffActivable = true;
-        }
-        else{
-            this.isBuffActivable = false;
-        }
+        this.isBuffActivable = oldOption === 1;
 
         // 初始化敌人AI状态
         this.enemyBlockTimer = 0;
