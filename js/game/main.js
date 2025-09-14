@@ -169,6 +169,12 @@ function processEntryStoryEndAction(endAction) {
         console.log(`入场故事结束，触发存档动作: ${endAction.saveFileName}`);
         gameState.createSaveFile(endAction.saveFileName);
     }
+
+    if (endAction.type === 'teleport' && endAction.teleportData) {
+        console.log(`入场故事结束，触发传送动作: 前往地图 ${endAction.teleportData.targetMap}`);
+        loadMapAt(endAction.teleportData.targetMap, endAction.teleportData.targetX, endAction.teleportData.targetY);
+        return true; // 传送是一个中断性动作，返回 true
+    }
 }
 
 // --- 地图传送 ---
@@ -180,6 +186,7 @@ async function loadMapAt(mapId, targetX, targetY) {
     // 0. 如果已经到达结局，直接跳转到结局页面
     if (mapId === 'end') {
         window.location.href = 'ending.html';
+        return;
     }
 
     // 1. 调用 loader 来获取打包好的地图数据
@@ -253,8 +260,10 @@ async function loadMapAt(mapId, targetX, targetY) {
         mapView.style.transform = 'translate(0, 0)';
         try {
             await dialogueManager.start(packedMapData.entryStoryKey, (endAction) => {
-                processEntryStoryEndAction(endAction);
-                showMap();
+                const teleported = processEntryStoryEndAction(endAction);
+                if (!teleported) {
+                    showMap();
+                }
             });
         } catch (error) {
             console.error("启动入场故事时发生错误:", error);
