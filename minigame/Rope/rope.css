@@ -196,10 +196,7 @@ button:active {
 .hint-active .rope.hint {
     filter: drop-shadow(0 0 8px gold);
 }
-
-/* 添加以下样式到现有的 rope.css 文件中 */
-
-/* 被阻挡的绳子样式 */
+/* 添加被阻挡绳子的样式 */
 .rope.blocked {
     opacity: 0.5;
 }
@@ -207,19 +204,16 @@ button:active {
 .rope-end.blocked {
     cursor: not-allowed;
     opacity: 0.5;
+    animation: shake 0.5s ease;
 }
 
-/* 网格点样式（调试用） */
-.grid-point {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    transform: translate(-2px, -2px);
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
 }
 
-/* 绳子层级指示器 */
+/* 添加绳子层级指示器（调试用） */
 .rope::after {
     content: attr(data-layer);
     position: absolute;

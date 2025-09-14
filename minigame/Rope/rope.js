@@ -4,11 +4,10 @@ let gameState = {
     ropes: [],
     totalRopes: 0,
     solvedRopes: 0,
-    timeLeft: 120, // 2分钟
+    timeLeft: 60    , // 2分钟
     timer: null,
     isDragging: false,
     draggedEnd: null,
-    currentLevel: 1,
     startTime: null,
     hintActive: false
 };
@@ -24,7 +23,7 @@ const ropeColors = [
 function initGame() {
     gameState.ropes = [];
     gameState.solvedRopes = 0;
-    gameState.timeLeft = 120;
+    gameState.timeLeft = 60;
     gameState.isDragging = false;
     gameState.draggedEnd = null;
     gameState.startTime = Date.now();
@@ -35,7 +34,7 @@ function initGame() {
     document.getElementById('fail-screen').style.display = 'none';
 
     // 根据关卡难度创建绳子
-    createRopes(3 + gameState.currentLevel);
+    createRopes();
 
     // 开始计时
     startTimer();
@@ -45,11 +44,12 @@ function initGame() {
 }
 
 // 创建绳子
-function createRopes(count) {
+function createRopes() {
     const gameBoard = document.getElementById('game-board');
     const boardWidth = gameBoard.offsetWidth;
     const boardHeight = gameBoard.offsetHeight;
 
+    const count = 10;
     gameState.totalRopes = count;
     document.getElementById('ropes-count').textContent = count;
 
@@ -104,8 +104,13 @@ function createRopes(count) {
             start: {element: startEnd, x: startX, y: startY},
             end: {element: endEnd, x: endX, y: endY},
             color: color,
-            solved: false
+            solved: false,
+            layer: i
         });
+
+        rope.style.zIndex = i;
+        startEnd.style.zIndex = i + 1000;
+        endEnd.style.zIndex = i + 1000;
     }
 
     // 随机缠绕绳子
@@ -155,6 +160,20 @@ function updateRopePosition(rope) {
     rope.line.setAttribute("y1", rope.start.y);
     rope.line.setAttribute("x2", rope.end.x);
     rope.line.setAttribute("y2", rope.end.y);
+}
+// 检查绳子是否被阻挡
+function isRopeBlocked(rope) {
+    const currentLayer = rope.layer;
+
+    for (const otherRope of gameState.ropes) {
+        if (otherRope.layer > currentLayer &&
+            !otherRope.solved &&
+            areRopesCrossed(rope, otherRope)) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 // 检查绳子交叉
@@ -277,16 +296,31 @@ function setupEventListeners() {
     });
 
     // 按钮事件
+    // 修改按钮事件，移除下一关
     document.getElementById('hint-btn').addEventListener('click', showHint);
     document.getElementById('reset-btn').addEventListener('click', resetLevel);
-    document.getElementById('next-level-btn').addEventListener('click', nextLevel);
     document.getElementById('return-btn').addEventListener('click', returnToMainGame);
     document.getElementById('retry-btn').addEventListener('click', resetLevel);
     document.getElementById('fail-return-btn').addEventListener('click', returnToMainGame);
+
+    // 隐藏下一关按钮
+    document.getElementById('next-level-btn').style.display = 'none';
 }
 
 // 开始拖动绳子端点
 function startDragging(endElement, clientX, clientY) {
+    const ropeId = parseInt(endElement.dataset.ropeId);
+    const rope = gameState.ropes[ropeId];
+
+    // 检查绳子是否被阻挡
+    if (isRopeBlocked(rope)) {
+        endElement.classList.add('blocked');
+        setTimeout(() => {
+            endElement.classList.remove('blocked');
+        }, 500);
+        return;
+    }
+
     gameState.isDragging = true;
     gameState.draggedEnd = endElement;
     endElement.classList.add('dragging');
