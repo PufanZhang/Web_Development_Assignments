@@ -7,13 +7,14 @@ let gameState = {
     ropes: [],
     totalRopes: 0,
     solvedRopes: 0,
-    timeLeft: 60    , // 2分钟
+    timeLeft: 60, // 2分钟
     timer: null,
     isDragging: false,
     draggedEnd: null,
     startTime: null,
     hintActive: false
 };
+let result = true;
 
 // 绳子颜色
 const ropeColors = [
@@ -382,12 +383,14 @@ function startTimer() {
     updateTimerDisplay();
 
     gameState.timer = setInterval(() => {
-        gameState.timeLeft--;
-        updateTimerDisplay();
+        if(gameState.timer > 0) {
+            gameState.timeLeft--;
+            updateTimerDisplay();
+        }
 
         if (gameState.timeLeft <= 0) {
             clearInterval(gameState.timer);
-            endGame(false);
+            result = false;
         }
     }, 1000);
 }
@@ -660,7 +663,7 @@ function checkIfRopeSolved(rope) {
 
         // 检查是否所有绳子都已解开
         if (gameState.solvedRopes === gameState.totalRopes) {
-            endGame(true);
+            endGame(result);
         }
     }
 }

@@ -19,6 +19,8 @@ class MarioGame {
         this.state = GameState.PLAYING;
         this.camera = { x: 0, y: 0 };
         this.lastCheckpoint = { ...MAP_DATA.startPoint };
+        this.canDoubleJump = true;
+        this.hasDoubleJumped = false; // 跟踪是否已经进行了二段跳
 
         this.setupPlayer();
         this.setupEventListeners();
@@ -111,10 +113,36 @@ class MarioGame {
         }
 
         // 跳跃
-        if ((this.keys['w'] || this.keys['W'] || this.keys['ArrowUp'] || this.keys[' ']) && !this.player.isJumping) {
-            this.player.velY = -MAP_CONFIG.player.jumpForce;
-            this.player.isJumping = true;
+        if ((this.keys['w'] || this.keys['W'] || this.keys['ArrowUp'] || this.keys[' '])) {
+            if (!this.player.isJumping) {
+                // 一段跳
+                this.player.velY = -MAP_CONFIG.player.jumpForce;
+                this.player.isJumping = true;
+                this.hasDoubleJumped = false;
+            } else if (this.canDoubleJump && !this.hasDoubleJumped) {
+                // 二段跳
+                this.player.velY = -MAP_CONFIG.player.jumpForce * 0.8;
+                this.hasDoubleJumped = true;
+
+                // 添加二段跳特效
+                this.createDoubleJumpEffect();
+            }
         }
+    }
+
+    createDoubleJumpEffect() {
+        const effect = document.createElement('div');
+        effect.className = 'double-jump-effect';
+        effect.style.left = (this.player.x - this.camera.x) + 'px';
+        effect.style.top = (this.player.y + this.player.height - this.camera.y) + 'px';
+        document.getElementById('game-container').appendChild(effect);
+
+        // 动画结束后移除
+        setTimeout(() => {
+            if (effect.parentNode) {
+                effect.parentNode.removeChild(effect);
+            }
+        }, 1000);
     }
 
     checkCollisions() {
@@ -138,6 +166,7 @@ class MarioGame {
                     this.player.y = platform.y - this.player.height;
                     this.player.velY = 0;
                     this.player.isJumping = false;
+                    this.hasDoubleJumped = false;
                 }
                 // 从下方碰撞平台
                 else if (this.player.velY < 0 && this.player.y - this.player.velY >= platform.y + platform.height) {
