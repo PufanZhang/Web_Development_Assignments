@@ -1,5 +1,6 @@
-import {debugManager} from './debug.js';
-import {achievementNotifier} from './achievementNotifier.js';
+import { debugManager } from './debug.js';
+import { achievementNotifier } from './achievementNotifier.js';
+import { player } from "./world/player.js";
 
 window.playerDataCache = null;
 const onValueChangeCallbacks = [];
@@ -189,7 +190,7 @@ export const gameState = {
             alert("存档失败：玩家数据未加载。");
             return;
         }
-        console.log(`正在创建手动存档，名称: [${saveName}]...`);
+        console.log(`正在创建手动存档，名称: ${saveName}...`);
         this.saveLocation(window.playerDataCache.address.map, { x: player.x, y: player.y });
         const response = await apiRequest(`/player/savefile/${saveName}`, 'POST', window.playerDataCache);
         if (response) {
@@ -226,8 +227,8 @@ export const gameState = {
         console.log("正在向服务器请求游戏总时长...");
         const data = await apiRequest('/player/playtime');
 
-        if (data && typeof data.playtime === 'number') {
-            const totalSeconds = data.playtime;
+        if (data && typeof data.totalPlayTimeSeconds === 'number') {
+            const totalSeconds = data.totalPlayTimeSeconds;
             console.log(`✅ 成功获取游戏总时长: ${totalSeconds} 秒`);
             const hours = Math.floor(totalSeconds / 3600);
             const minutes = Math.floor((totalSeconds % 3600) / 60);
