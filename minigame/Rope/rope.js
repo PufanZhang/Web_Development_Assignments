@@ -7,7 +7,7 @@ let gameState = {
     ropes: [],
     totalRopes: 0,
     solvedRopes: 0,
-    timeLeft: 60    , // 2分钟
+    timeLeft: 60, // 2分钟
     timer: null,
     isDragging: false,
     draggedEnd: null,
