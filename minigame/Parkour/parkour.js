@@ -389,7 +389,7 @@ function initGame() {
     document.getElementById('time').textContent = '0';
     document.getElementById('game-over').style.display = 'none';
     document.getElementById('victory-screen').style.display = 'none';
-    document.getElementById('stuck-warning').style.display = 'none';
+    //document.getElementById('stuck-warning').style.display = 'none';
 
     if (!tutorialCompleted) {
         startTutorial();
