@@ -16,6 +16,7 @@ use std::net::TcpListener;
 use std::io::{self, BufRead};
 use tokio::sync::mpsc;
 use std::collections::HashMap;
+use fslock::LockFile;
 
 // 专门处理根路径"/"的请求，重定向到login.html
 #[get("/")]
@@ -51,6 +52,22 @@ fn pause_and_exit() {
 
 #[actix_web::main]
 async fn main() -> io::Result<()> {
+    let lock_file_path = "game_server.lock";
+    let mut lock_file = match LockFile::open(lock_file_path) {
+        Ok(file) => file,
+        Err(e) => {
+            eprintln!("❌ 致命错误: 无法创建锁文件: {}", e);
+            pause_and_exit();
+            return Ok(());
+        }
+    };
+
+    if !lock_file.try_lock().unwrap_or(false) {
+        eprintln!("❌ 致命错误: 游戏服务器或数据管理器已在运行中。");
+        eprintln!("请先关闭另一个程序后再试。");
+        pause_and_exit();
+        return Ok(());
+    }
     const HOST: &str = "127.0.0.1";
     const START_PORT: u16 = 8080;
 
@@ -141,6 +158,7 @@ async fn main() -> io::Result<()> {
                     .service(handlers::get_all_savefile_intros)
                     .service(handlers::get_all_achievements_status)
                     .service(handlers::get_play_time)
+                    .service(handlers::delete_player)
             )
             .service(Files::new("/js", "./js"))
             .service(Files::new("/css", "./css"))

@@ -312,3 +312,17 @@ pub struct SaveFileDisplayData {
 pub struct PlayTimeResponse {
     pub total_play_time_seconds: u64,
 }
+
+// 前端发送注销请求时的 JSON 格式
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct DeleteAccountRequest {
+    pub username: String,
+}
+
+// 注销 API 响应格式
+#[derive(Serialize, Debug)]
+pub struct ApiResponse {
+    pub success: bool,
+    pub message: String,
+}

@@ -1,6 +1,6 @@
-import { gameState } from "./game/modules/dataManager.js";
+import { achievements, auth, gameState } from "./game/modules/dataManager.js";
 import { audioManager } from "./game/modules/audioManager.js";
-import {VOLUME, MAIN_MUSIC } from "./game/config.js";
+import { VOLUME, MAIN_MUSIC } from "./game/config.js";
 
 let tutorialData = [];
 let currentTutorialIndex = 0;
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveButton = document.querySelector('.menu-buttons .save-btn');
     const achievementButton = document.querySelector('.menu-buttons .achievement-btn');
     const aboutButton = document.querySelector('.menu-buttons .about-btn');
-    const logoutButton = document.querySelector('.login-btn');
+    const panelLogoutButton = document.getElementById('panel-logout-btn');
     const showTutorialBtn = document.getElementById('show-tutorial-btn');
 
     // 新手教程UI元素
@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     tutorialConfirmOverlay.style.display = 'flex';
                     if (window.playerDataCache?.address) window.playerDataCache.address.map = 'tutorialFinished';
                 }
+                initializeUserInfoPanel();
             } else {
                 showNotification("Token 无效或已过期，请重新登录。");
                 localStorage.clear();
@@ -141,8 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 登出按钮逻辑
-    if (logoutButton) {
-        logoutButton.addEventListener('click', async () => {
+    if (panelLogoutButton) {
+        panelLogoutButton.addEventListener('click', async () => {
             console.log("【main_menu.js】: 正在请求登出...");
             showNotification('正在退出登录...');
             logout();
@@ -182,6 +183,93 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 页面加载完成时初始化 ---
     createParticles();
+
+    // --- 用户信息面板逻辑 ---
+    const userInfoPanel = document.getElementById('user-info-panel');
+    const usernameDisplay = document.getElementById('username-display');
+    const playtimeH = document.getElementById('playtime-h');
+    const playtimeM = document.getElementById('playtime-m');
+    const playtimeS = document.getElementById('playtime-s');
+    const totalAchProgress = document.getElementById('total-ach-progress');
+
+    // 定义各类成就的总数
+    const achievementCategoryTotals = {
+        memory: 6,
+        decrypt: 3,
+        character: 4,
+        mission: 3
+    };
+
+    let totalPlaytimeSeconds = 0;
+    let playtimeInterval = null;
+
+    // 更新单个时间数字的函数，并附带翻页动画
+    function updateDigit(element, newValue) {
+        const paddedValue = String(newValue).padStart(2, '0');
+        if (element.textContent !== paddedValue) {
+            element.textContent = paddedValue;
+            element.classList.add('flip');
+            // 动画结束后移除 class，方便下次触发
+            setTimeout(() => element.classList.remove('flip'), 400);
+        }
+    }
+
+    // 更新整个时钟的显示
+    function updatePlaytimeDisplay() {
+        totalPlaytimeSeconds++;
+        const hours = Math.floor(totalPlaytimeSeconds / 3600);
+        const minutes = Math.floor((totalPlaytimeSeconds % 3600) / 60);
+        const seconds = totalPlaytimeSeconds % 60;
+
+        updateDigit(playtimeH, hours);
+        updateDigit(playtimeM, minutes);
+        updateDigit(playtimeS, seconds);
+    }
+
+    // 初始化并显示用户信息面板
+    async function initializeUserInfoPanel() {
+        const playerData = window.playerDataCache;
+        if (!playerData) {
+            console.warn("未找到玩家数据，无法初始化用户信息面板。");
+            return;
+        }
+
+        // 1. 显示用户名
+        usernameDisplay.textContent = playerData.username;
+
+        // 2. 获取并设置成就进度
+        try {
+            const completionCounts = await achievements.getCategoryCompletionCounts();
+            let totalCompleted = 0;
+            let totalAchievements = 0;
+
+            for (const category in achievementCategoryTotals) {
+                const completed = completionCounts[category] || 0;
+                const total = achievementCategoryTotals[category];
+                totalCompleted += completed;
+                totalAchievements += total;
+
+                document.getElementById(`${category}-progress`).textContent = `${completed}/${total}`;
+                const bar = document.getElementById(`${category}-bar`);
+                if (bar) {
+                    bar.style.width = `${(completed / total) * 100}%`;
+                }
+            }
+            totalAchProgress.textContent = `${totalCompleted}/${totalAchievements}`;
+
+        } catch (error) {
+            console.error("加载成就进度失败:", error);
+        }
+
+        // 3. 获取并启动游戏时钟
+        totalPlaytimeSeconds = await gameState.getPlaytimeInSeconds();
+        if (playtimeInterval) clearInterval(playtimeInterval); // 清除旧的计时器
+        updatePlaytimeDisplay(); // 立即更新一次
+        playtimeInterval = setInterval(updatePlaytimeDisplay, 1000);
+
+        // 4. 一切就绪后，显示面板
+        userInfoPanel.style.display = 'block';
+    }
 
 
     // 从服务器加载教程数据
@@ -266,6 +354,70 @@ document.addEventListener('DOMContentLoaded', () => {
         showTutorialBtn.addEventListener('click', () => {
             tutorialConfirmOverlay.style.display = 'none';
             startTutorial();
+        });
+    }
+
+    // --- 注销账号弹窗逻辑 ---
+    const showDeleteModalBtn = document.getElementById('show-delete-account-modal-btn');
+    const deleteAccountOverlay = document.getElementById('delete-account-overlay');
+    const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+    const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+    let countdownInterval = null;
+
+    if (showDeleteModalBtn) {
+        showDeleteModalBtn.addEventListener('click', () => {
+            deleteAccountOverlay.style.display = 'flex';
+            confirmDeleteBtn.disabled = true;
+            let secondsLeft = 3;
+            confirmDeleteBtn.textContent = `确认注销 (${secondsLeft})`;
+
+            // 开始倒计时
+            countdownInterval = setInterval(() => {
+                secondsLeft--;
+                confirmDeleteBtn.textContent = `确认注销 (${secondsLeft})`;
+                if (secondsLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    confirmDeleteBtn.textContent = '确认注销';
+                    confirmDeleteBtn.disabled = false;
+                }
+            }, 1000);
+        });
+    }
+
+    if (cancelDeleteBtn) {
+        cancelDeleteBtn.addEventListener('click', () => {
+            deleteAccountOverlay.style.display = 'none';
+            // 如果倒计时还在进行，就清除它
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+        });
+    }
+
+    if (confirmDeleteBtn) {
+        confirmDeleteBtn.addEventListener('click', async () => {
+            if (confirmDeleteBtn.disabled) return;
+
+            const username = window.playerDataCache?.username;
+            if (!username) {
+                showNotification("错误：无法获取用户信息！");
+                return;
+            }
+
+            showNotification("正在处理注销请求...");
+            const result = await auth.deletePlayer(username);
+
+            // 根据后端返回的结果处理
+            if (result && result.success) {
+                showNotification("账号已成功注销。");
+                localStorage.clear();
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+            } else {
+                showNotification(result?.message || "注销失败，请稍后再试。");
+                deleteAccountOverlay.style.display = 'none';
+            }
         });
     }
 });

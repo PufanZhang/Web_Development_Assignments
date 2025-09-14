@@ -1,0 +1,12 @@
+[package]
+name = "dataManager"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1", features = ["full"] }
+fslock = "0.2.1"
+base64 = "0.21" # 用于二进制导入/导出
+chrono = "0.4" # 导出文件名可能需要时间戳

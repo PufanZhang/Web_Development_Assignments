@@ -431,3 +431,209 @@ body {
     from { transform: translateY(30px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
+
+/* --- 用户信息侧边栏 --- */
+.user-info-panel {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    transform: translate(-95%, -50%); /* 默认收起，留出一点点 handle */
+    width: 320px;
+    background: linear-gradient(135deg, rgba(30, 30, 50, 0.75), rgba(50, 30, 60, 0.75));
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-left: none; /* 左边框去掉，因为它贴着屏幕边缘 */
+    border-radius: 0 20px 20px 0;
+    z-index: 500;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    color: #f0f0f0;
+    box-shadow: 5px 0 30px rgba(0, 0, 0, 0.4);
+    display: none; /* 默认隐藏，JS加载成功后显示 */
+}
+
+.user-info-panel:hover {
+    transform: translate(0, -50%); /* 鼠标悬浮时完全展开 */
+}
+
+.panel-content {
+    padding: 25px;
+    height: 100%;
+}
+
+.username {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+}
+
+.info-section {
+    margin-bottom: 25px;
+}
+
+.section-title {
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 12px;
+}
+
+/* 游戏时间动态效果 */
+.playtime-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 2.2em;
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.digit-group {
+    position: relative;
+    display: inline-block;
+    perspective: 300px; /* 增加透视效果 */
+}
+
+.digit-group.flip {
+    animation: flip-anim 0.4s ease-in-out;
+}
+
+@keyframes flip-anim {
+    0% { transform: translateY(0.3em) rotateX(-90deg); opacity: 0; }
+    50% { transform: translateY(0) rotateX(0deg); opacity: 1; }
+    100% { transform: translateY(0) rotateX(0deg); opacity: 1; }
+}
+
+
+/* 成就进度条 */
+.achievement-list {
+    list-style: none;
+    padding: 0;
+}
+
+.achievement-list li {
+    margin-bottom: 12px;
+}
+
+.ach-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.progress-bar-bg {
+    width: 100%;
+    height: 12px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.5);
+}
+
+.progress-bar-fg {
+    height: 100%;
+    background: linear-gradient(90deg, #43e97b, #38f9d7);
+    border-radius: 6px;
+    transition: width 0.5s ease-out;
+}
+
+/* 为不同分类设置不同颜色 */
+#decrypt-bar { background: linear-gradient(90deg, #4facfe, #00f2fe); }
+#character-bar { background: linear-gradient(90deg, #fa709a, #fee140); }
+#mission-bar { background: linear-gradient(90deg, #f093fb, #f5576c); }
+
+.username {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 10px; /* 标签和名字之间的间距 */
+}
+
+/* “用户名”小标签的样式 */
+.username-label {
+    font-size: 0.6em; /* 字体小一点 */
+    font-weight: normal;
+    color: rgba(255, 255, 255, 0.6); /* 浅色半透明 */
+    text-transform: uppercase;
+}
+
+/* 底部退出按钮的容器 */
+.panel-footer {
+    margin-top: 25px; /* 和上面的成就列表分开一点 */
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+}
+
+/* 退出登录按钮样式 */
+.logout-btn {
+    background: linear-gradient(135deg, #d32f2f, #b71c1c) !important;
+    border-color: #d32f2f !important;
+    min-width: 200px;
+    animation: none !important;
+}
+
+.logout-btn:hover {
+    background: linear-gradient(135deg, #e53935, #c62828) !important;
+    border-color: #e53935 !important;
+    box-shadow: 0 5px 20px rgba(200, 50, 50, 0.4); /* 加个红色光晕 */
+}
+
+/* 注销账号链接按钮 */
+.delete-account-link {
+    display: block; /* 让它独占一行 */
+    margin: 15px auto 0; /* 和上面的退出登录按钮拉开距离 */
+    padding: 5px;
+    font-size: 0.8em;
+    opacity: 0.5;
+}
+
+.delete-account-link:hover {
+    opacity: 0.8;
+    color: #ff6b6b; /* 悬浮时变红，以示警告 */
+}
+
+/* 警告弹窗的标题 */
+.warning-title {
+    color: #ff6b6b;
+    animation: pulse-warning 1.5s infinite;
+}
+
+/* 确认注销按钮的禁用样式 */
+#confirm-delete-btn:disabled {
+    background: linear-gradient(135deg, #555, #333) !important;
+    border-color: #555 !important;
+    cursor: not-allowed;
+    color: #888;
+    box-shadow: none;
+    transform: none;
+}
+#confirm-delete-btn:disabled:hover::before {
+    display: none; /* 禁用时去掉悬浮动画 */
+}
+
+
+@keyframes pulse-warning {
+    0% {
+        transform: scale(1);
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+    }
+    50% {
+        transform: scale(1.05);
+        text-shadow: 0 0 15px rgba(255, 107, 107, 0.8);
+    }
+    100% {
+        transform: scale(1);
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+    }
+}

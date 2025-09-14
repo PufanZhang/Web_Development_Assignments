@@ -1,7 +1,7 @@
 use crate::loader::{load_and_pack_map_data, LoadError};
 use crate::database::{self, ModifyValueError, LoginOutcome};
 use actix_web::{get, post, web, HttpResponse, Responder};
-use crate::models::{AuthRequest, AuthResponse, ModifyValueRequest, PlayerData, LogoutRequest, TokenLoginRequest, LoginWithTokenResponse, ApiLogoutRequest, PlayTimeResponse};
+use crate::models::{AuthRequest, AuthResponse, ModifyValueRequest, PlayerData, LogoutRequest, TokenLoginRequest, LoginWithTokenResponse, ApiLogoutRequest, PlayTimeResponse, DeleteAccountRequest, ApiResponse};
 use crate::auth::{create_jwt, AuthenticatedUser};
 use std::collections::HashSet;
 use std::sync::Arc;
@@ -477,5 +477,45 @@ pub async fn get_play_time(user: AuthenticatedUser) -> impl Responder {
             })
         },
         Err(_) => HttpResponse::NotFound().body("Player data not found."),
+    }
+}
+
+#[post("/auth/delete_player")]
+pub async fn delete_player(
+    req: web::Json<DeleteAccountRequest>,
+    user: AuthenticatedUser,
+    active_users: web::Data<Arc<Mutex<HashSet<String>>>>,
+) -> impl Responder {
+    // 安全检查：确保 Token 里的用户名和请求注销的用户名是同一个人
+    if user.username != req.username {
+        return HttpResponse::Forbidden().json(ApiResponse {
+            success: false,
+            message: "身份验证令牌与要删除的用户不匹配。".to_string(),
+        });
+    }
+
+    // 1. 立刻将用户从在线列表中移除，防止后续操作出错
+    {
+        let mut users = active_users.lock().await;
+        users.remove(&user.username);
+        println!("用户 '{}' 已从在线状态移除，准备注销。", user.username);
+    }
+
+    // 2. 调用数据库函数，执行所有删除操作
+    match database::delete_player(&user.username).await {
+        Ok(_) => {
+            println!("✅ 账号 '{}' 已被成功注销。", user.username);
+            HttpResponse::Ok().json(ApiResponse {
+                success: true,
+                message: "账号注销成功。".to_string(),
+            })
+        }
+        Err(e) => {
+            eprintln!("❌ 注销用户 '{}' 的账号失败: {}", user.username, e);
+            HttpResponse::InternalServerError().json(ApiResponse {
+                success: false,
+                message: format!("服务器在注销账号时发生错误: {}", e),
+            })
+        }
     }
 }

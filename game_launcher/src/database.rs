@@ -410,3 +410,31 @@ pub async fn set_player_value_dev(username: &str, value_name: &str, new_value: i
     // 5. 返回成功信息
     Ok((value_name.to_string(), new_value))
 }
+
+// --- 注销账号核心函数 ---
+pub async fn delete_player(username: &str) -> Result<(), String> {
+    // 1. 从 users.json 中删除用户凭据
+    let mut users = read_users().await.map_err(|e| format!("Failed to read user database: {}", e))?;
+    if users.remove(username).is_none() {
+        // 即使用户凭据不存在，也继续尝试删除其他文件，以防数据不一致
+        eprintln!("警告: 在注销过程中未找到用户 '{}' 的凭据。", username);
+    }
+    write_users(&users).await.map_err(|e| format!("Failed to save updated user database: {}", e))?;
+    println!("已从凭据文件中删除用户 '{}'。", username);
+
+    // 2. 删除玩家主存档文件 (e.g., data/players/username.json)
+    let player_data_path = get_player_data_path(username);
+    if player_data_path.exists() {
+        fs::remove_file(player_data_path).await.map_err(|e| format!("Failed to delete player data file: {}", e))?;
+        println!("已删除 '{}' 的玩家主存档。", username);
+    }
+
+    // 3. 删除该玩家的手动存档集合文件 (e.g., data/save_files/username.json)
+    let save_file_path = get_save_file_path(username);
+    if save_file_path.exists() {
+        fs::remove_file(save_file_path).await.map_err(|e| format!("Failed to delete manual save files: {}", e))?;
+        println!("已删除 '{}' 的手动存档集合。", username);
+    }
+
+    Ok(())
+}
