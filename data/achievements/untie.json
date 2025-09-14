@@ -5,7 +5,7 @@
   "abstract": "阿巴阿巴",
   "descriptionUncompleted": "???",
   "descriptionCompleted": "在检修仓的黑暗中，你以惊人的速度解开了绳索的束缚。这不仅是肌肉记忆的苏醒，更是你意志的胜利。你成功避免了自己像日记预言的那样被困于此处，从而得以抢先一步发现黑影对战机的入侵。这次挣脱，让你从潜在的‘受害者’转变为主动的‘调查者’，为你赢得了揭开阴谋最初步的宝贵时间。",
-  "icon": "🌟",
+  "icon": "\uD83E\uDDF5",
   "requiredValues": {
     "conditions": [
       {"name": "shengzi", "comparison": "greater_than_or_equal", "value": 1}
