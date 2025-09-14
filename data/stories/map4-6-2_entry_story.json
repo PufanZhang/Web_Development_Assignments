@@ -117,7 +117,7 @@
       "action": {
         "type": "teleport",
         "teleportData": {
-          "targetMap": "end",
+          "targetMap": "end1",
           "targetX": -1,
           "targetY": -1
         }
@@ -140,7 +140,12 @@
         }
       ],
       "action": {
-        "type": "end"
+        "type": "teleport",
+        "teleportData": {
+          "targetMap": "end2",
+          "targetX": -1,
+          "targetY": -1
+        }
       }
 
     },
@@ -155,7 +160,12 @@
         }
       ],
       "action": {
-        "type": "end"
+        "type": "teleport",
+        "teleportData": {
+          "targetMap": "end3",
+          "targetX": -1,
+          "targetY": -1
+        }
       }
 
     },
@@ -170,7 +180,12 @@
         }
       ],
       "action": {
-        "type": "end"
+        "type": "teleport",
+        "teleportData": {
+          "targetMap": "end4",
+          "targetX": -1,
+          "targetY": -1
+        }
       }
 
     }
