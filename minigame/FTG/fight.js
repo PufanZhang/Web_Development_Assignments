@@ -1,3 +1,5 @@
+import { gameState } from "../../js/game/modules/dataManager.js"
+
 export const fightManager = {
     player: null,
     enemy: null,
@@ -5,6 +7,7 @@ export const fightManager = {
     isPlayerBuffActive: false,
     playerBuffTimer: 0,
     playerBuffDuration: 15,
+    isBuffActivable: true,
     // 大招CD相关属性
     ultCooldown: 0,
     ultCooldownDuration: 1800, // 30秒 * 60帧/秒
@@ -112,6 +115,14 @@ export const fightManager = {
         this.ultCooldown = 0;
         this.isUltCooldown = false;
         this.updateBuffTimerDisplay();
+
+        let oldOption = gameState.getValue('old');
+        if(oldOption === 1){
+            this.isBuffActivable = true;
+        }
+        else{
+            this.isBuffActivable = false;
+        }
 
         // 初始化敌人AI状态
         this.enemyBlockTimer = 0;
@@ -236,32 +247,34 @@ export const fightManager = {
     },
 
     activatePlayerBuff() {
-        this.isPlayerBuffActive = true
-        this.playerBuffTimer = this.playerBuffDuration
+        if(this.isBuffActivable){
+            this.isPlayerBuffActive = true
+            this.playerBuffTimer = this.playerBuffDuration
 
-        // 设置大招CD（但不在激活期间恢复）
-        this.ultCooldown = this.ultCooldownDuration;
-        this.isUltCooldown = false; // 激活期间不处于CD状态
+            // 设置大招CD（但不在激活期间恢复）
+            this.ultCooldown = this.ultCooldownDuration;
+            this.isUltCooldown = false; // 激活期间不处于CD状态
 
-        const effect = document.createElement("div")
-        effect.className = "skill-effect"
-        effect.style.left = `${this.player.x - 60}px`
-        effect.style.top = `${this.player.y - 40}px`
-        document.getElementById("arena").appendChild(effect)
+            const effect = document.createElement("div")
+            effect.className = "skill-effect"
+            effect.style.left = `${this.player.x - 60}px`
+            effect.style.top = `${this.player.y - 40}px`
+            document.getElementById("arena").appendChild(effect)
 
-        // 大招持续时间结束后设置CD状态
-        setTimeout(() => {
-            effect.remove()
-            this.isPlayerBuffActive = false
-            this.isUltCooldown = true; // 大招结束后开始CD
-        }, this.playerBuffDuration * 1000)
+            // 大招持续时间结束后设置CD状态
+            setTimeout(() => {
+                effect.remove()
+                this.isPlayerBuffActive = false
+                this.isUltCooldown = true; // 大招结束后开始CD
+            }, this.playerBuffDuration * 1000)
 
-        this.updatePlayerState("skill")
-        setTimeout(() => {
-            if (this.player.state === "skill") {
-                this.updatePlayerState("idle")
-            }
-        }, 500)
+            this.updatePlayerState("skill")
+            setTimeout(() => {
+                if (this.player.state === "skill") {
+                    this.updatePlayerState("idle")
+                }
+            }, 500)
+        }
     },
 
     // 恢复大招CD

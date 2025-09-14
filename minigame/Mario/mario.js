@@ -1,5 +1,6 @@
 import { MAP_CONFIG, MAP_DATA, STARS } from './mario_map.js';
 import { minigameLoader } from "../../js/game/modules/minigameLoader.js";
+import { gameState } from "../../js/game/modules/dataManager.js";
 
 // 游戏状态
 const GameState = {
@@ -19,7 +20,13 @@ class MarioGame {
         this.state = GameState.PLAYING;
         this.camera = { x: 0, y: 0 };
         this.lastCheckpoint = { ...MAP_DATA.startPoint };
-        this.canDoubleJump = true;
+        let oldOption = gameState.getValue('old');
+        if(oldOption === 3) {
+            this.canDoubleJump = true;
+        }
+        else{
+            this.canDoubleJump = false;
+        }
         this.hasDoubleJumped = false; // 跟踪是否已经进行了二段跳
 
         this.setupPlayer();
