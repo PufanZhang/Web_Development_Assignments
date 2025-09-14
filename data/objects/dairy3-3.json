@@ -7,7 +7,7 @@
     "singleInteraction": false,
     "teleportData": {
       "targetMap": "map3-4",
-      "targetX": 800,
-      "targetY": 800
+      "targetX": 700,
+      "targetY": 500
     }
 }

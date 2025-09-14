@@ -1,0 +1,50 @@
+{
+  "username": "357357275",
+  "address": {
+    "map": "map4-4",
+    "x": 622.0,
+    "y": 470.0
+  },
+  "values": {
+    "exam1": 0,
+    "help": 0,
+    "tousheng": 0,
+    "shengzi": 1,
+    "xiaoyue": 0,
+    "libie": 0,
+    "wujian": 0,
+    "Trainscore": 0,
+    "notebook": 0,
+    "shiguang": 0,
+    "money": 0,
+    "yongbao": 1,
+    "yangqi": 1,
+    "exam2": 0,
+    "hongzhanghua": 0,
+    "old": 1,
+    "jinci": 0,
+    "wangchuan": 0,
+    "reachEnd": 0,
+    "conch": 0,
+    "suspicion": 200,
+    "maliao": 0,
+    "suipian": 1,
+    "heiying": 0,
+    "xiaoguang": 0,
+    "lucky": 0
+  },
+  "mapStates": {
+    "tutorialFinished": {
+      "removedObjects": [
+        "tousheng4-3"
+      ]
+    }
+  },
+  "achievements": [
+    "memoryDelta",
+    "memoryEpsilon",
+    "untie"
+  ],
+  "totalPlayTimeSeconds": 323,
+  "lastLoginTimestamp": 1757837694
+}
