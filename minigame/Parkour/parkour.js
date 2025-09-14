@@ -1,5 +1,5 @@
 import { minigameLoader } from "../../js/game/modules/minigameLoader.js";
-
+import { loader, gameState, getCurrentUser } from "../../js/game/modules/dataManager.js";
 // 游戏常量
 const LANE_WIDTH = 100;
 const LANE_COUNT = 3;
@@ -355,10 +355,10 @@ class FinishLine {
 }
 
 // 初始化游戏
-function initGame() {
+async function initGame() {
     canvas = document.getElementById('game-canvas');
     ctx = canvas.getContext('2d');
-
+    await gameState.loadPlayerData();
     canvas.width = 500;
     canvas.height = 600;
 
@@ -389,7 +389,7 @@ function initGame() {
     document.getElementById('time').textContent = '0';
     document.getElementById('game-over').style.display = 'none';
     document.getElementById('victory-screen').style.display = 'none';
-    document.getElementById('stuck-warning').style.display = 'none';
+    //document.getElementById('stuck-warning').style.display = 'none';
 
     if (!tutorialCompleted) {
         startTutorial();
@@ -713,20 +713,30 @@ function gameLoop() {
 }
 
 // 结束游戏
-function endGame() {
+async function endGame() {
     gameOver = true;
     cancelAnimationFrame(animationId);
-
+    if (!window.playerDataCache) {
+        await gameState.loadPlayerData();
+    }
+    gameState.modifyValue(getCurrentUser(), 'money', coinsCollected*10)
+        .then(() => console.log('金钱更新成功'))
+        .catch(error => console.error('金钱更新失败:', error));
     document.getElementById('final-score').textContent = score;
     document.getElementById('final-coins').textContent = coinsCollected;
     document.getElementById('game-over').style.display = 'block';
 }
 
 // 胜利
-function victory() {
+async function victory() {
     gameWon = true;
     cancelAnimationFrame(animationId);
-
+    if (!window.playerDataCache) {
+        await gameState.loadPlayerData();
+    }
+    gameState.modifyValue(getCurrentUser(), 'money', coinsCollected)
+        .then(() => console.log('金钱更新成功'))
+        .catch(error => console.error('金钱更新失败:', error));
     document.getElementById('finish-time').textContent = Math.floor(gameTime / 60);
     document.getElementById('victory-score').textContent = score;
     document.getElementById('victory-coins').textContent = coinsCollected;
@@ -769,4 +779,6 @@ document.addEventListener('keydown', (e) => {
 });
 
 // 启动游戏
-window.onload = initGame;
+window.onload = async () => {
+    await initGame();
+};

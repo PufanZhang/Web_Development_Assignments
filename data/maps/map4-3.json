@@ -4,6 +4,7 @@
   "height": 900,
   "background": "assets/background/background4-3.png",
   "entryStoryKey": "map4-3_entry_story",
+  "music": "assets/music/Lost.mp3",
   "walls": [
     {"x": 0, "y": 0, "width": 550, "height": 280},
     {"x": 0, "y": 610, "width": 550, "height": 300},

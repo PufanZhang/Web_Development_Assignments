@@ -3,6 +3,7 @@
   "width": 1600,
   "height": 900,
   "background": "assets/background/background4-6.png",
+  "music": "assets/music/Anthurium.mp3",
   "entryStoryKey": "map4-6-1_entry_story",
   "walls": [
   ],

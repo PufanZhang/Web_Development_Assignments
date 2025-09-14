@@ -1,6 +1,5 @@
 {
   "startNode": "node1",
-  "animation": "assets/animation/01.mp4",
   "nodes": {
     "node1": {
       "speaker": "旁白",

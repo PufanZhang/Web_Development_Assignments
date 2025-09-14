@@ -3,6 +3,7 @@
   "width": 1600,
   "height": 900,
   "background": "assets/background/background2-2.png",
+  "music": "assets/music/Slient Love.mp3",
   "entryStoryKey": "Map2-2_entry_story",
   "walls": [
     {"x": 570, "y": 0, "width": 450, "height": 350},

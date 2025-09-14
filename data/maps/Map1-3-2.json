@@ -3,6 +3,7 @@
   "width": 1600,
   "height": 900,
   "background": "assets/background/background1-3-2.png",
+  "music": "assets/music/Whispers in the Breeze.mp3",
   "entryStoryKey": "map1-3-2_entry_story",
   "walls": [
 

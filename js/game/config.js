@@ -1,14 +1,14 @@
 // --- 游戏全局配置文件 ---
 
 // 初始地图
-export const INITIAL_MAP = "map4-3";
+export const INITIAL_MAP = "map4-4";
 
 // 背景音乐设置
 export const VOLUME = 0.7;
 export const ACHIEVEMENT_MUSIC = "/assets/music/Anthurium.mp3";
-export const MAIN_MUSIC = "/assets/music/Anthurium.mp3";
+export const MAIN_MUSIC = "/assets/music/Calling from Future!.mp3";
 export const SAVE_MUSIC = "/assets/music/Anthurium.mp3";
-export const LOGIN_MUSIC = "/assets/music/Anthurium.mp3";
+export const LOGIN_MUSIC = "/assets/music/Calling from Future!.mp3";
 
 // 玩家相关配置
 export const PLAYER_WIDTH = 100;
