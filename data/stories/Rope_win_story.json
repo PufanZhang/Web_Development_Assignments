@@ -1,0 +1,12 @@
+{
+  "startNode": "start",
+  "nodes": {
+    "start": {
+      "speaker": "旁白",
+      "dialogue": "恭喜你完成任务一：快点挣脱束缚",
+      "valueChanges": [
+        { "name": "shengzi", "amount": 1}
+      ]
+    }
+  }
+}

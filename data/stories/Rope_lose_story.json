@@ -1,0 +1,9 @@
+{
+  "startNode": "start",
+  "nodes": {
+    "start": {
+      "speaker": "旁白",
+      "dialogue": "最终你还是挣脱了绳子。"
+    }
+  }
+}
