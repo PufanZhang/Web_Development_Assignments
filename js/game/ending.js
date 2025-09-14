@@ -1,4 +1,6 @@
 import { achievements, gameState } from './modules/dataManager.js';
+import { audioManager } from './modules/audioManager.js';
+import { VOLUME, ENDING_MUSIC } from "./config";
 
 const endingContext = [
     "结局一 长空孤影\n" +
@@ -69,6 +71,8 @@ const endingContext = [
 ];
 
 document.addEventListener('DOMContentLoaded', async () => {
+    audioManager.init(VOLUME);
+    audioManager.playMusic(ENDING_MUSIC);
     const token = localStorage.getItem("jwt_token");
 
     if (!token) {
