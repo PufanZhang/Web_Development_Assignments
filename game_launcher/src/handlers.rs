@@ -1,7 +1,7 @@
 use crate::loader::{load_and_pack_map_data, LoadError};
 use crate::database::{self, ModifyValueError, LoginOutcome};
 use actix_web::{get, post, web, HttpResponse, Responder};
-use crate::models::{AuthRequest, AuthResponse, ModifyValueRequest, PlayerData, LogoutRequest, TokenLoginRequest, LoginWithTokenResponse, ApiLogoutRequest, PlayTimeResponse};
+use crate::models::{AuthRequest, AuthResponse, ModifyValueRequest, PlayerData, LogoutRequest, TokenLoginRequest, LoginWithTokenResponse, ApiLogoutRequest, PlayTimeResponse, DeleteAccountRequest, ApiResponse};
 use crate::auth::{create_jwt, AuthenticatedUser};
 use std::collections::HashSet;
 use std::sync::Arc;
@@ -106,7 +106,9 @@ pub async fn login(req: web::Json<AuthRequest>, active_users: web::Data<Arc<Mute
                 });
             }
 
-            // 登录成功后，更新时间戳
+            // 只有当用户不在活跃集合中时，才更新时间戳并加入
+            users.insert(req.username.clone());
+
             let username = req.username.clone();
             tokio::spawn(async move {
                 if let Ok(mut player_data) = database::load_player_data(&username).await {
@@ -117,10 +119,6 @@ pub async fn login(req: web::Json<AuthRequest>, active_users: web::Data<Arc<Mute
                 }
             });
 
-            // 如果不存在，则将其加入集合
-            users.insert(req.username.clone());
-
-            // 登录成功, 签发 token
             match create_jwt(&req.username) {
                 Ok(token) => HttpResponse::Ok().json(AuthResponse {
                     success: true,
@@ -224,40 +222,51 @@ pub async fn login_with_token(
 #[post("/player/logout")]
 pub async fn logout_and_save(payload: web::Json<LogoutRequest>, active_users: web::Data<Arc<Mutex<HashSet<String>>>>
 ) -> impl Responder {
-    // 1. 从请求体中拿出 token，手动进行验证
+    // 从请求体中拿出 token，手动进行验证
     match crate::auth::validate_and_get_username(&payload.token) {
         Ok(username) => {
-            // 2. 安全检查：确保 token 里的用户名和 player_data 里的用户名一致
+            // 安全检查：确保 token 里的用户名和 player_data 里的用户名一致
             if payload.player_data.username != username {
                 return HttpResponse::Forbidden().body("Token username does not match player data.");
             }
 
-            // 3. 从在线用户列表中移除该用户
             let mut users = active_users.lock().await;
-            users.remove(&username);
+            // 只有当用户确实在活跃列表中时，才执行时长结算
+            if users.remove(&username) {
+                // 加载服务器端最新的玩家数据
+                if let Ok(mut server_player_data) = database::load_player_data(&username).await {
+                    let current_timestamp = Utc::now().timestamp();
 
-            let mut player_data_to_save = payload.into_inner().player_data;
-            let current_timestamp = Utc::now().timestamp();
+                    // 使用服务器端的时间戳来计算会话时长
+                    if server_player_data.last_login_timestamp > 0 {
+                        let session_duration = current_timestamp - server_player_data.last_login_timestamp;
+                        if session_duration > 0 {
+                            server_player_data.total_play_time_seconds += session_duration as u64;
+                        }
+                    }
 
-            // 使用 payload 中的时间戳计算本次会话时长
-            if player_data_to_save.last_login_timestamp > 0 {
-                let session_duration = current_timestamp - player_data_to_save.last_login_timestamp;
-                if session_duration > 0 {
-                    // 将计算出的时长累加到总时长上
-                    player_data_to_save.total_play_time_seconds += session_duration as u64;
-                }
-            }
+                    // 合并前端数据（除了成就和时间相关字段）
+                    let client_data = payload.into_inner().player_data;
+                    server_player_data.address = client_data.address;
+                    server_player_data.values = client_data.values;
+                    server_player_data.map_states = client_data.map_states;
 
-            // 4. 保存更新了时长的玩家数据
-            match database::save_player_data(&player_data_to_save).await {
-                Ok(_) => {
+                    // 保存整合后的数据
+                    if let Err(e) = database::save_player_data(&server_player_data).await {
+                        eprintln!("Failed to save player data on logout for user '{}': {}", username, e);
+                        return HttpResponse::InternalServerError().finish();
+                    }
+
                     println!("User '{}' logged out and data saved.", username);
                     HttpResponse::Ok().finish()
-                },
-                Err(e) => {
-                    eprintln!("Failed to save player data on logout for user '{}': {}", username, e);
+                } else {
+                    eprintln!("Failed to load player data for user '{}' on logout.", username);
                     HttpResponse::InternalServerError().finish()
-                },
+                }
+            } else {
+                // 如果用户本就不在线，直接返回成功，不做任何处理
+                println!("User '{}' was not in the active set but sent a logout request. Ignored.", username);
+                HttpResponse::Ok().finish()
             }
         }
         Err(_) => {
@@ -274,7 +283,22 @@ pub async fn load_player_data(
 ) -> impl Responder {
     // 防止在刷新时被登出
     let mut users = active_users.lock().await;
-    users.insert(user.username.clone());
+
+    // 使用 insert 的返回值来判断用户是否是新登录
+    let is_newly_inserted = users.insert(user.username.clone());
+
+    // 如果是新插入的（即之前不在线），则更新其登录时间戳
+    if is_newly_inserted {
+        let username = user.username.clone();
+        tokio::spawn(async move {
+            if let Ok(mut player_data) = database::load_player_data(&username).await {
+                player_data.last_login_timestamp = Utc::now().timestamp();
+                if let Err(e) = database::save_player_data(&player_data).await {
+                    eprintln!("[Timestamp Error on Load] Failed to save for user '{}': {}", username, e);
+                }
+            }
+        });
+    }
 
     match database::load_player_data(&user.username).await {
         Ok(data) => HttpResponse::Ok().json(data),
@@ -347,8 +371,7 @@ pub async fn logout(
     req: web::Json<ApiLogoutRequest>,
     active_users: web::Data<Arc<Mutex<HashSet<String>>>>
 ) -> impl Responder {
-
-    // 1. 手动从请求体中拿出 token 进行验证
+    // 手动从请求体中拿出 token 进行验证
     match crate::auth::validate_and_get_username(&req.token) {
         Ok(username_from_token) => {
             // 确认 token 里的用户名和请求体里的用户名是不是同一个人
@@ -356,26 +379,28 @@ pub async fn logout(
                 return HttpResponse::Forbidden().body("Username in request body does not match token.");
             }
 
-            // 登出时更新游戏时长
-            let username_clone = username_from_token.clone();
-            tokio::spawn(async move {
-                if let Ok(mut player_data) = database::load_player_data(&username_clone).await {
-                    let current_timestamp = Utc::now().timestamp();
-                    if player_data.last_login_timestamp > 0 {
-                        let session_duration = current_timestamp - player_data.last_login_timestamp;
-                        if session_duration > 0 {
-                            player_data.total_play_time_seconds += session_duration as u64;
-                            if let Err(e) = database::save_player_data(&player_data).await {
-                                eprintln!("[Logout Playtime Error] Failed to save for user '{}': {}", username_clone, e);
+            let mut users = active_users.lock().await;
+            // 只有当用户确实从活跃集合中被移除时，才更新游戏时长
+            if users.remove(&username_from_token) {
+                let username_clone = username_from_token.clone();
+                tokio::spawn(async move {
+                    if let Ok(mut player_data) = database::load_player_data(&username_clone).await {
+                        let current_timestamp = Utc::now().timestamp();
+                        if player_data.last_login_timestamp > 0 {
+                            let session_duration = current_timestamp - player_data.last_login_timestamp;
+                            if session_duration > 0 {
+                                player_data.total_play_time_seconds += session_duration as u64;
+                                if let Err(e) = database::save_player_data(&player_data).await {
+                                    eprintln!("[Logout Playtime Error] Failed to save for user '{}': {}", username_clone, e);
+                                }
                             }
                         }
                     }
-                }
-            });
-
-            let mut users = active_users.lock().await;
-            users.remove(&username_from_token);
-            println!("User '{}' logged out via API.", username_from_token);
+                });
+                println!("User '{}' logged out via API.", username_from_token);
+            } else {
+                println!("User '{}' was not in the active set but sent an API logout request. Ignored.", username_from_token);
+            }
             HttpResponse::Ok().finish()
         }
         // 验证失败，说明 token 是无效的或者过期了
@@ -452,5 +477,45 @@ pub async fn get_play_time(user: AuthenticatedUser) -> impl Responder {
             })
         },
         Err(_) => HttpResponse::NotFound().body("Player data not found."),
+    }
+}
+
+#[post("/auth/delete_player")]
+pub async fn delete_player(
+    req: web::Json<DeleteAccountRequest>,
+    user: AuthenticatedUser,
+    active_users: web::Data<Arc<Mutex<HashSet<String>>>>,
+) -> impl Responder {
+    // 安全检查：确保 Token 里的用户名和请求注销的用户名是同一个人
+    if user.username != req.username {
+        return HttpResponse::Forbidden().json(ApiResponse {
+            success: false,
+            message: "身份验证令牌与要删除的用户不匹配。".to_string(),
+        });
+    }
+
+    // 1. 立刻将用户从在线列表中移除，防止后续操作出错
+    {
+        let mut users = active_users.lock().await;
+        users.remove(&user.username);
+        println!("用户 '{}' 已从在线状态移除，准备注销。", user.username);
+    }
+
+    // 2. 调用数据库函数，执行所有删除操作
+    match database::delete_player(&user.username).await {
+        Ok(_) => {
+            println!("✅ 账号 '{}' 已被成功注销。", user.username);
+            HttpResponse::Ok().json(ApiResponse {
+                success: true,
+                message: "账号注销成功。".to_string(),
+            })
+        }
+        Err(e) => {
+            eprintln!("❌ 注销用户 '{}' 的账号失败: {}", user.username, e);
+            HttpResponse::InternalServerError().json(ApiResponse {
+                success: false,
+                message: format!("服务器在注销账号时发生错误: {}", e),
+            })
+        }
     }
 }

@@ -41,6 +41,73 @@
 <body>
 <div class="particles" id="particles"></div>
 
+<div id="user-info-panel" class="user-info-panel">
+    <div class="panel-content">
+        <h3 class="username">
+            <span class="username-label">用户名</span>
+            <span id="username-display">一位旅行者</span>
+        </h3>
+
+        <div class="info-section">
+            <p class="section-title">旅途计时</p>
+            <div id="playtime-container" class="playtime-container">
+                <span class="digit-group" id="playtime-h">00</span>
+                <span class="separator">:</span>
+                <span class="digit-group" id="playtime-m">00</span>
+                <span class="separator">:</span>
+                <span class="digit-group" id="playtime-s">00</span>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <p class="section-title">成就进度 (<span id="total-ach-progress">0/16</span>)</p>
+            <ul id="achievement-list" class="achievement-list">
+                <li>
+                    <div class="ach-info">
+                        <span>记忆大师</span>
+                        <span id="memory-progress">0/6</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div id="memory-bar" class="progress-bar-fg" style="width: 0;"></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="ach-info">
+                        <span>解密大师</span>
+                        <span id="decrypt-progress">0/3</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div id="decrypt-bar" class="progress-bar-fg" style="width: 0;"></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="ach-info">
+                        <span>角色收集</span>
+                        <span id="character-progress">0/4</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div id="character-bar" class="progress-bar-fg" style="width: 0;"></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="ach-info">
+                        <span>任务完成</span>
+                        <span id="mission-progress">0/3</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div id="mission-bar" class="progress-bar-fg" style="width: 0;"></div>
+                    </div>
+                </li>
+            </ul>
+            <div class="panel-footer">
+                <button id="panel-logout-btn" class="menu-btn logout-btn">退出登录</button>
+            </div>
+            <button id="show-delete-account-modal-btn" class="bottom-btn delete-account-link">注销账号</button>
+        </div>
+    </div>
+    <div class="panel-handle"></div>
+</div>
+
 <div class="main-container">
     <div class="logo-section">
         <h1 class="game-title">时空回响</h1>
@@ -52,7 +119,6 @@
         <button class="menu-btn save-btn">读取存档</button>
         <button class="menu-btn achievement-btn">查看成就</button>
         <button class="menu-btn about-btn">关于我们</button>
-        <button class="menu-btn login-btn">退出登录</button>
     </div>
 </div>
 
@@ -60,6 +126,19 @@
     <button class="bottom-btn" id="show-tutorial-btn">查看教程</button>
     <div class="version-info">
         Version 1.1.0
+    </div>
+</div>
+
+<div id="delete-account-overlay" class="modal-overlay">
+    <div class="modal-content">
+        <h2 class="modal-title warning-title">！！！警告！！！</h2>
+        <p class="modal-text">你确定要注销你的账号吗？<br>
+            这是一个<strong style="color: #ff6b6b;">不可撤销</strong>的操作！所有存档、成就和角色数据都将被永久删除！
+        </p>
+        <div class="modal-buttons">
+            <button id="cancel-delete-btn" class="menu-btn save-btn">我再想想</button>
+            <button id="confirm-delete-btn" class="menu-btn logout-btn" disabled>确认注销 (3)</button>
+        </div>
     </div>
 </div>
 

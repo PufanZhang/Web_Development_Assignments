@@ -51,6 +51,12 @@ export const auth = {
 
     async loginWithToken(token) {
         return await apiRequest('/auth/login_with_token', 'POST', {token});
+    },
+
+    async deletePlayer(username) {
+        console.log(`正在向服务器请求注销用户: ${username}...`);
+        // 后端需要 token 来验证用户身份，需要 username 来做二次确认
+        return await apiRequest('/auth/delete_player', 'POST', { username });
     }
 };
 
@@ -239,6 +245,15 @@ export const gameState = {
             console.error("获取游戏总时长失败或返回格式不正确。");
             return "无法获取";
         }
+    },
+
+    async getPlaytimeInSeconds() {
+        console.log("正在向服务器请求原始游戏总时长(秒)...");
+        const data = await apiRequest('/player/playtime');
+        if (data && typeof data.totalPlayTimeSeconds === 'number') {
+            return data.totalPlayTimeSeconds;
+        }
+        return 0; // 失败时返回0
     }
 };
 
