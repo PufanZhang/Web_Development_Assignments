@@ -144,6 +144,43 @@ function saveAndLogout() {
     }
 }
 
+// 强制保存玩家数据并等待其完成的异步函数
+async function forceSave() {
+    console.log("正在强制保存玩家数据...");
+    if (window.playerDataCache) {
+        const token = localStorage.getItem('jwt_token');
+        if (!token) {
+            console.warn("未找到 token，无法强制保存。");
+            return;
+        }
+        const data = {
+            token: token,
+            playerData: window.playerDataCache
+        };
+        try {
+            const response = await fetch('/api/player/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+                keepalive: true
+            });
+
+            if (response.ok) {
+                console.log("✅ 玩家数据强制保存成功。");
+                console.log(`玩家数据: ${window.playerDataCache}`);
+            } else {
+                console.error("强制保存失败，服务器响应:", response.status, response.statusText);
+            }
+        } catch (error) {
+            console.error("强制保存时发生网络错误:", error);
+        }
+    } else {
+        console.warn("没有玩家数据缓存或当前地图ID，无法强制保存。");
+    }
+}
+
 function updateCamera() {
     if (!currentMap.width || !currentMap.height) return;
 
@@ -184,7 +221,12 @@ async function loadMapAt(mapId, targetX, targetY) {
     interactionManager.update(player);
 
     // 0. 如果已经到达结局，直接跳转到结局页面
-    if (mapId === 'end') {
+    if (mapId === 'end1' || mapId === 'end2' || mapId === 'end3' || mapId === 'end4') {
+        console.log("到达结局，准备强制保存并跳转...");
+        window.playerDataCache.address = { map: mapId, x: -1, y: -1 };
+        currentMap.id = mapId;
+        await forceSave(); // 等待保存操作完成
+        console.log("保存请求已发送，正在跳转到结局页面。");
         window.location.href = 'ending.html';
         return;
     }

@@ -117,7 +117,7 @@
       "action": {
         "type": "teleport",
         "teleportData": {
-          "targetMap": "end",
+          "targetMap": "end1",
           "targetX": -1,
           "targetY": -1
         }
