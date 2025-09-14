@@ -50,14 +50,14 @@ document.addEventListener('keydown', () => {
 
 function logout() {
     const token = localStorage.getItem('jwt_token');
-    const user = localStorage.getItem('user');
+    window.playerDataCache.address = { map: 'end', x: -1, y: -1 };
     if (token) {
         const data = {
             token: token,
-            username: user,
+            playerData: window.playerDataCache
         };
         const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
-        navigator.sendBeacon('/api/auth/logout', blob);
+        navigator.sendBeacon('/api/player/logout', blob);
     }
 }
 

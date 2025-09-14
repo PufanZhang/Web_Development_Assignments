@@ -113,8 +113,15 @@
     },
     "jiejuyi":{
       "speaker": "旁白",
-      "dialogue": "【通向结局一】"
-
+      "dialogue": "【通向结局一】",
+      "action": {
+        "type": "teleport",
+        "teleportData": {
+          "targetMap": "end",
+          "targetX": -1,
+          "targetY": -1
+        }
+      }
     },
     "jiejuer":{
       "valueChanges":[

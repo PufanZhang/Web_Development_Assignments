@@ -303,16 +303,16 @@ pub async fn modify_value(req: web::Json<ModifyValueRequest>, user: Authenticate
 #[post("/player/savefile/{save_name}")]
 pub async fn create_manual_save(
     path: web::Path<String>,
-    mut data: web::Json<PlayerData>,
+    data: web::Json<PlayerData>,
     user: AuthenticatedUser,
 ) -> impl Responder {
     let save_name = path.into_inner();
-    if data.username != user.username {
+    let mut player_data = data.into_inner();
+    if player_data.username != user.username {
         return HttpResponse::Forbidden().finish();
     }
 
-    // 调用新的数据库函数，传入可变的 data
-    match database::create_manual_save(&save_name, &mut data).await {
+    match database::create_manual_save(&save_name, &mut player_data).await {
         Ok(_) => HttpResponse::Ok().finish(),
         Err(_) => HttpResponse::InternalServerError().body("Failed to save player file."),
     }

@@ -118,10 +118,6 @@ export const dialogueManager = {
             });
         }
 
-        if (currentNode.saveFile) {
-            gameState.createSaveFile(currentNode.saveFile);
-        }
-
         if (currentNode.scene) {
             state.currentScene = currentNode.scene;
         }
