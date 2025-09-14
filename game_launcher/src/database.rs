@@ -167,9 +167,23 @@ pub async fn save_player_data(data: &PlayerData) -> Result<(), Error> {
     let mut data_to_save = data.clone();
 
     // 尝试加载服务器上已有的存档
-    if let Ok(current_data) = load_player_data(&data.username).await {
-        // 如果成功加载，就用服务器上的成就列表覆盖掉待保存数据中的成就列表
-        data_to_save.achievements = current_data.achievements;
+    match load_player_data(&data.username).await {
+        Ok(current_data) => {
+            // 如果成功加载，就用服务器上的成就列表覆盖掉待保存数据中的成就列表
+            data_to_save.achievements = current_data.achievements;
+        }
+        Err(e) if e.kind() == ErrorKind::NotFound => {
+            // 如果文件未找到，说明这是一个新用户，这是正常情况。
+            println!("Player data for '{}' not found, creating a new one.", data.username);
+        }
+        Err(e) => {
+            // 如果是其他类型的 I/O 错误，则必须中断保存，以防数据损坏
+            eprintln!(
+                "CRITICAL: An I/O error occurred while loading player data for '{}'. Aborting save to protect achievements. Error: {}",
+                data.username, e
+            );
+            return Err(e); // 中断保存并返回错误
+        }
     }
 
     // 调用内部函数，将整合了正确成就的数据写入文件
@@ -245,10 +259,20 @@ pub async fn create_manual_save(save_name: &str, data: &mut PlayerData) -> Resul
     let now = Local::now();
     data.save_time = Some(now.format("%Y-%m-%d %H:%M:%S").to_string());
 
-    // 在创建手动存档前，先用服务器上最新的成就数据进行同步
-    if let Ok(current_main_data) = load_player_data(&data.username).await {
-        data.achievements = current_main_data.achievements;
-    }
+    // 在创建手动存档前，必须先用服务器上最新的成就数据进行同步
+    match load_player_data(&data.username).await {
+        Ok(current_main_data) => {
+            data.achievements = current_main_data.achievements;
+        }
+        Err(e) => {
+            // 如果加载主存档失败，则不能创建手动存档，因为成就数据会出错
+            eprintln!(
+                "CRITICAL: Failed to load main player data for '{}' before creating manual save. Aborting save. Error: {}",
+                data.username, e
+            );
+            return Err(e);
+        }
+    };
 
     // 2. 读取存档集合文件
     let path = get_save_file_path(&data.username);
