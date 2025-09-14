@@ -1,5 +1,5 @@
 import { minigameLoader } from "../../js/game/modules/minigameLoader.js";
-
+import { gameState } from "../../js/game/modules/dataManager.js";
 // 游戏常量
 const GAME_WIDTH = 700;
 const GAME_HEIGHT = 840;
@@ -741,6 +741,7 @@ function goToHomePage(result) {
 // 选择难度
 function selectDifficulty(difficulty) {
     currentDifficulty = difficulty;
+//    let Nowdata = gameState.loadPlayerData();
     initGame();
 }
 
