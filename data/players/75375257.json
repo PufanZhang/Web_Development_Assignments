@@ -1,0 +1,46 @@
+{
+  "username": "75375257",
+  "address": {
+    "map": "map3-5",
+    "x": 600.0,
+    "y": 400.0
+  },
+  "values": {
+    "libie": 0,
+    "heiying": 0,
+    "tousheng": 0,
+    "lucky": 0,
+    "jinci": 0,
+    "yangqi": 0,
+    "exam1": 0,
+    "yongbao": 0,
+    "conch": 0,
+    "wujian": 0,
+    "shengzi": 0,
+    "suspicion": 100,
+    "Trainscore": 0,
+    "xiaoguang": 0,
+    "old": 0,
+    "notebook": 0,
+    "wangchuan": 0,
+    "xiaoyue": 0,
+    "reachEnd": 0,
+    "maliao": 0,
+    "money": 0,
+    "hongzhanghua": 0,
+    "help": 0,
+    "shiguang": 0,
+    "exam2": 0,
+    "suipian": 0
+  },
+  "mapStates": {
+    "map3-4": {
+      "removedObjects": [
+        "door3-4"
+      ]
+    }
+  },
+  "achievements": [],
+  "totalPlayTimeSeconds": 35927,
+  "lastLoginTimestamp": 1757824592
+}

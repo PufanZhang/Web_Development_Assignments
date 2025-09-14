@@ -1,6 +1,6 @@
 {
     "id":"ErShu3-4",
-    "x": 400,"y": 800,"width": 160,"height": 90,
+    "x": 200,"y": 400,"width": 160,"height": 90,
     "image": "assets/images/ErShu.png",
     "showPrompt": true,
     "singleInteraction": true,

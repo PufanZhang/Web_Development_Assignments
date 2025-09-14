@@ -136,6 +136,8 @@
       ]
     },
     "node10": {
+      "speaker":"旁白",
+      "dialogue":"……",
       "action": {
         "type": "teleport"
       }

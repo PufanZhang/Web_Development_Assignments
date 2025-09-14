@@ -39,7 +39,7 @@
         "type": "teleport",
         "teleportData": {
             "targetMap": "map3-5",
-            "targetX": 500,
+            "targetX": 800,
             "targetY": 500
         }
       }

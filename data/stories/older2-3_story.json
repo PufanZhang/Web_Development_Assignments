@@ -88,6 +88,8 @@
       "nextNode": "node15"
     },
     "node15": {
+      "speaker":"旁白",
+      "dialogue":"……",
       "options": [
         { "text": "购买能量化药丸 200元", "targetNode": "node17",
         "requiredValue": {
