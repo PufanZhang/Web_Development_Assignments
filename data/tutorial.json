@@ -29,6 +29,14 @@
   },
   {
     "image": "/assets/tutorial/step8.png",
+    "description": "将鼠标悬停在主页左侧，可以查看用户信息。\n注意，注销的账号不能找回！"
+  },
+  {
+    "image": "/assets/tutorial/step9.png",
+    "description": "打开根目录的数据管理器，管理本地的账号。\n您可以导出账号并在其他计算机上继续游玩！"
+  },
+  {
+    "image": "/assets/tutorial/step10.png",
     "description": "教程就到这里啦！如果想要再次查看教程，点击主页右下角的“查看教程”。\n真正的冒险现在才刚刚开始。祝你好运，时空旅行者！"
   }
 ]
