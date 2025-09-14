@@ -618,7 +618,7 @@ function gameLoop() {
         document.getElementById('speed').textContent = (baseGameSpeed / GAME_SPEED_INITIAL).toFixed(1) + 'x';
     }
     // 2分钟时生成终点线
-    if (currentTimeInSeconds >= 120 && !finishLine) {
+    if (currentTimeInSeconds >= 60 && !finishLine) {
         generateFinishLine();
     }
 
