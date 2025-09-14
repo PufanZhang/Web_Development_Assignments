@@ -77,12 +77,13 @@
       "options": [
         {
           "text": "【结局一 记忆碎片收集＜5片】",
+          "targetNode":"jiejuyi",
           "requiredValue": {
             "name": "suipian",
             "comparison": "less_than_or_equal",
             "value": 4
-          },
-          "nextNode":"jiejuyi"
+          }
+          
         },{
           "text": "【结局二 记忆碎片收集≥5片】",
           "requiredValue": {
@@ -90,7 +91,7 @@
             "comparison": "greater_than_or_equal",
             "value": 5
           },
-          "nextNode":"jiejuer"
+          "targetNode":"jiejuer"
         },{
           "text": "【结局三 任务一完成】",
           "requiredValue": {
@@ -98,7 +99,7 @@
             "comparison": "greater_than_or_equal",
             "value": 1
           },
-          "nextNode":"jiejusan"
+          "targetNode":"jiejusan"
         },{
           "text": "【结局四 哗变】",
           "requiredValue": {
@@ -106,15 +107,13 @@
             "comparison": "greater_than_or_equal",
             "value": 450
           },
-          "nextNode":"jiejusi"
+          "targetNode":"jiejusi"
         }
       ]
     },
     "jiejuyi":{
-  
-      "action": {
-        "type": "end"
-      }
+      "speaker": "旁白",
+      "dialogue": "【通向结局一】"
 
     },
     "jiejuer":{
