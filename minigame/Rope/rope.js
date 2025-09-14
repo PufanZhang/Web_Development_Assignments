@@ -1,4 +1,7 @@
 import { minigameLoader } from "../../js/game/modules/minigameLoader.js";
+const GRID_SIZE = 6; // 6x6点阵
+const GRID_POINTS = []; // 存储所有点阵点的坐标
+
 // 游戏状态
 let gameState = {
     ropes: [],
@@ -20,6 +23,7 @@ const ropeColors = [
 ];
 
 // 初始化游戏
+// 修改 initGame 函数
 function initGame() {
     gameState.ropes = [];
     gameState.solvedRopes = 0;
@@ -33,7 +37,7 @@ function initGame() {
     document.getElementById('victory-screen').style.display = 'none';
     document.getElementById('fail-screen').style.display = 'none';
 
-    // 根据关卡难度创建绳子
+    // 创建固定数量的绳子
     createRopes();
 
     // 开始计时
@@ -42,28 +46,85 @@ function initGame() {
     // 添加事件监听器
     setupEventListeners();
 }
-
-// 创建绳子
-function createRopes() {
+// 初始化点阵
+function initGrid() {
     const gameBoard = document.getElementById('game-board');
     const boardWidth = gameBoard.offsetWidth;
     const boardHeight = gameBoard.offsetHeight;
 
+    // 计算点阵间距
+    const gridSpacingX = boardWidth / (GRID_SIZE + 1);
+    const gridSpacingY = boardHeight / (GRID_SIZE + 1);
+
+    // 清空点阵
+    GRID_POINTS.length = 0;
+
+    // 创建点阵点
+    for (let row = 0; row < GRID_SIZE; row++) {
+        for (let col = 0; col < GRID_SIZE; col++) {
+            const x = (col + 1) * gridSpacingX;
+            const y = (row + 1) * gridSpacingY;
+
+            GRID_POINTS.push({
+                x: x,
+                y: y,
+                occupied: false, // 标记是否被占用
+                occupiedBy: null // 被哪个绳子端点占用
+            });
+
+            // 可选：可视化点阵点（调试用）
+            /*
+            const point = document.createElement('div');
+            point.className = 'grid-point';
+            point.style.left = `${x - 2}px`;
+            point.style.top = `${y - 2}px`;
+            gameBoard.appendChild(point);
+            */
+        }
+    }
+}
+
+// 创建绳子
+// 修改 createRopes 函数
+function createRopes() {
+    const gameBoard = document.getElementById('game-board');
     const count = 10;
     gameState.totalRopes = count;
     document.getElementById('ropes-count').textContent = count;
 
-    for (let i = 0; i < count; i++) {
-        // 随机生成绳子位置
-        const startX = Math.random() * (boardWidth - 100) + 50;
-        const startY = Math.random() * (boardHeight - 100) + 50;
-        let endX, endY;
+    // 初始化点阵
+    initGrid();
 
-        // 确保绳子有一定长度
-        do {
-            endX = Math.random() * (boardWidth - 100) + 50;
-            endY = Math.random() * (boardHeight - 100) + 50;
-        } while (Math.hypot(endX - startX, endY - startY) < 100);
+    // 重置所有点阵点的占用状态
+    GRID_POINTS.forEach(point => {
+        point.occupied = false;
+        point.occupiedBy = null;
+    });
+
+    // 收集所有可用的点阵点
+    const availablePoints = [...GRID_POINTS];
+
+    for (let i = 0; i < count; i++) {
+        // 随机选择两个不同的点阵点
+        if (availablePoints.length < 2) {
+            console.error("没有足够的点阵点来创建绳子");
+            break;
+        }
+
+        const startPointIndex = Math.floor(Math.random() * availablePoints.length);
+        const startPoint = availablePoints[startPointIndex];
+        availablePoints.splice(startPointIndex, 1);
+
+        const endPointIndex = Math.floor(Math.random() * availablePoints.length);
+        const endPoint = availablePoints[endPointIndex];
+        availablePoints.splice(endPointIndex, 1);
+
+        // 标记点阵点为已占用
+        startPoint.occupied = true;
+        startPoint.occupiedBy = { ropeId: i, endType: "start" };
+
+        endPoint.occupied = true;
+        endPoint.occupiedBy = { ropeId: i, endType: "end" };
 
         const color = ropeColors[i % ropeColors.length];
 
@@ -77,20 +138,27 @@ function createRopes() {
         rope.style.height = "100%";
         rope.style.pointerEvents = "none";
         rope.dataset.id = i;
+        rope.style.zIndex = i;
 
         const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-        line.setAttribute("x1", startX);
-        line.setAttribute("y1", startY);
-        line.setAttribute("x2", endX);
-        line.setAttribute("y2", endY);
+        line.setAttribute("x1", startPoint.x);
+        line.setAttribute("y1", startPoint.y);
+        line.setAttribute("x2", endPoint.x);
+        line.setAttribute("y2", endPoint.y);
         line.setAttribute("stroke", color);
         line.setAttribute("stroke-width", "4");
         line.setAttribute("stroke-linecap", "round");
         rope.appendChild(line);
 
         // 创建绳子端点
-        const startEnd = createRopeEnd(startX, startY, color, i, "start");
-        const endEnd = createRopeEnd(endX, endY, color, i, "end");
+        const startEnd = createRopeEnd(startPoint.x, startPoint.y, color, i, "start");
+        const endEnd = createRopeEnd(endPoint.x, endPoint.y, color, i, "end");
+
+        // 存储点阵点引用
+        startEnd.dataset.gridX = startPoint.x;
+        startEnd.dataset.gridY = startPoint.y;
+        endEnd.dataset.gridX = endPoint.x;
+        endEnd.dataset.gridY = endPoint.y;
 
         gameBoard.appendChild(rope);
         gameBoard.appendChild(startEnd);
@@ -101,16 +169,22 @@ function createRopes() {
             id: i,
             element: rope,
             line: line,
-            start: {element: startEnd, x: startX, y: startY},
-            end: {element: endEnd, x: endX, y: endY},
+            start: {
+                element: startEnd,
+                x: startPoint.x,
+                y: startPoint.y,
+                gridPoint: startPoint
+            },
+            end: {
+                element: endEnd,
+                x: endPoint.x,
+                y: endPoint.y,
+                gridPoint: endPoint
+            },
             color: color,
             solved: false,
             layer: i
         });
-
-        rope.style.zIndex = i;
-        startEnd.style.zIndex = i + 1000;
-        endEnd.style.zIndex = i + 1000;
     }
 
     // 随机缠绕绳子
@@ -130,19 +204,71 @@ function createRopeEnd(x, y, color, ropeId, endType) {
 }
 
 // 随机缠绕绳子
+// 修改 tangleRopes 函数
 function tangleRopes() {
-    // 实现绳子缠绕逻辑
-    // 这里简化处理，实际游戏中需要更复杂的缠绕算法
+    // 实现绳子缠绕逻辑，但确保端点保持在点阵上
     gameState.ropes.forEach(rope => {
-        // 随机移动端点，创造缠绕效果
-        const randomMove = 80;
-        rope.start.x += (Math.random() * randomMove * 2) - randomMove;
-        rope.start.y += (Math.random() * randomMove * 2) - randomMove;
-        rope.end.x += (Math.random() * randomMove * 2) - randomMove;
-        rope.end.y += (Math.random() * randomMove * 2) - randomMove;
+        // 随机选择一个不同的点阵点来移动端点
+        const availablePoints = GRID_POINTS.filter(point =>
+            !point.occupied ||
+            (point.occupiedBy &&
+                point.occupiedBy.ropeId === rope.id)
+        );
 
-        // 更新端点和线条位置
-        updateRopePosition(rope);
+        if (availablePoints.length > 1) {
+            // 随机移动起点
+            const startPointIndex = Math.floor(Math.random() * availablePoints.length);
+            const newStartPoint = availablePoints[startPointIndex];
+            availablePoints.splice(startPointIndex, 1);
+
+            // 释放原来的点
+            if (rope.start.gridPoint) {
+                rope.start.gridPoint.occupied = false;
+                rope.start.gridPoint.occupiedBy = null;
+            }
+
+            // 占用新的点
+            newStartPoint.occupied = true;
+            newStartPoint.occupiedBy = { ropeId: rope.id, endType: "start" };
+
+            // 更新起点位置
+            rope.start.x = newStartPoint.x;
+            rope.start.y = newStartPoint.y;
+            rope.start.gridPoint = newStartPoint;
+            rope.start.element.style.left = `${newStartPoint.x - 10}px`;
+            rope.start.element.style.top = `${newStartPoint.y - 10}px`;
+            rope.start.element.dataset.gridX = newStartPoint.x;
+            rope.start.element.dataset.gridY = newStartPoint.y;
+
+            // 随机移动终点
+            const endPointIndex = Math.floor(Math.random() * availablePoints.length);
+            const newEndPoint = availablePoints[endPointIndex];
+
+            // 释放原来的点
+            if (rope.end.gridPoint) {
+                rope.end.gridPoint.occupied = false;
+                rope.end.gridPoint.occupiedBy = null;
+            }
+
+            // 占用新的点
+            newEndPoint.occupied = true;
+            newEndPoint.occupiedBy = { ropeId: rope.id, endType: "end" };
+
+            // 更新终点位置
+            rope.end.x = newEndPoint.x;
+            rope.end.y = newEndPoint.y;
+            rope.end.gridPoint = newEndPoint;
+            rope.end.element.style.left = `${newEndPoint.x - 10}px`;
+            rope.end.element.style.top = `${newEndPoint.y - 10}px`;
+            rope.end.element.dataset.gridX = newEndPoint.x;
+            rope.end.element.dataset.gridY = newEndPoint.y;
+
+            // 更新线条
+            rope.line.setAttribute("x1", newStartPoint.x);
+            rope.line.setAttribute("y1", newStartPoint.y);
+            rope.line.setAttribute("x2", newEndPoint.x);
+            rope.line.setAttribute("y2", newEndPoint.y);
+        }
     });
 
     // 检查并标记交叉点
@@ -161,6 +287,7 @@ function updateRopePosition(rope) {
     rope.line.setAttribute("x2", rope.end.x);
     rope.line.setAttribute("y2", rope.end.y);
 }
+
 // 检查绳子是否被阻挡
 function isRopeBlocked(rope) {
     const currentLayer = rope.layer;
@@ -219,6 +346,35 @@ function areRopesCrossed(rope1, rope2) {
 
     // 如果ua和ub都在0和1之间，则线段交叉
     return ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1;
+}
+
+// 找到最近的点阵点
+function findNearestGridPoint(x, y) {
+    let nearestPoint = null;
+    let minDistance = Infinity;
+
+    for (const point of GRID_POINTS) {
+        const distance = Math.hypot(x - point.x, y - point.y);
+        if (distance < minDistance) {
+            minDistance = distance;
+            nearestPoint = point;
+        }
+    }
+
+    return nearestPoint;
+}
+
+// 检查点是否可用
+function isGridPointAvailable(point, excludeRopeId = null, excludeEndType = null) {
+    if (!point) return false;
+
+    // 如果点未被占用，或者被排除的绳子端点占用，则可用
+    return !point.occupied ||
+        (excludeRopeId !== null &&
+            excludeEndType !== null &&
+            point.occupiedBy &&
+            point.occupiedBy.ropeId === excludeRopeId &&
+            point.occupiedBy.endType === excludeEndType);
 }
 
 // 开始计时器
@@ -381,6 +537,95 @@ function dragRopeEnd(clientX, clientY) {
 
 // 停止拖动
 function stopDragging() {
+    if (!gameState.draggedEnd) return;
+
+    const ropeId = parseInt(gameState.draggedEnd.dataset.ropeId);
+    const endType = gameState.draggedEnd.dataset.endType;
+    const rope = gameState.ropes[ropeId];
+
+    // 找到最近的点阵点
+    const nearestPoint = findNearestGridPoint(
+        parseInt(gameState.draggedEnd.style.left) + 10,
+        parseInt(gameState.draggedEnd.style.top) + 10
+    );
+
+    // 检查点是否可用
+    const isAvailable = isGridPointAvailable(nearestPoint, ropeId, endType);
+
+    if (isAvailable) {
+        // 释放原来的点阵点
+        if (endType === 'start' && rope.start.gridPoint) {
+            rope.start.gridPoint.occupied = false;
+            rope.start.gridPoint.occupiedBy = null;
+        } else if (rope.end.gridPoint) {
+            rope.end.gridPoint.occupied = false;
+            rope.end.gridPoint.occupiedBy = null;
+        }
+
+        // 占用新的点阵点
+        nearestPoint.occupied = true;
+        nearestPoint.occupiedBy = { ropeId: ropeId, endType: endType };
+
+        // 更新绳子端点位置
+        if (endType === 'start') {
+            rope.start.x = nearestPoint.x;
+            rope.start.y = nearestPoint.y;
+            rope.start.gridPoint = nearestPoint;
+        } else {
+            rope.end.x = nearestPoint.x;
+            rope.end.y = nearestPoint.y;
+            rope.end.gridPoint = nearestPoint;
+        }
+
+        // 更新端点和线条位置
+        gameState.draggedEnd.style.left = `${nearestPoint.x - 10}px`;
+        gameState.draggedEnd.style.top = `${nearestPoint.y - 10}px`;
+        gameState.draggedEnd.dataset.gridX = nearestPoint.x;
+        gameState.draggedEnd.dataset.gridY = nearestPoint.y;
+
+        rope.line.setAttribute(
+            endType === 'start' ? 'x1' : 'x2',
+            nearestPoint.x
+        );
+        rope.line.setAttribute(
+            endType === 'start' ? 'y1' : 'y2',
+            nearestPoint.y
+        );
+
+        // 检查绳子是否已解开
+        checkIfRopeSolved(rope);
+    } else {
+        // 点不可用，回到原来的位置
+        const originalX = gameState.draggedEnd.dataset.gridX;
+        const originalY = gameState.draggedEnd.dataset.gridY;
+
+        gameState.draggedEnd.style.left = `${originalX - 10}px`;
+        gameState.draggedEnd.style.top = `${originalY - 10}px`;
+
+        if (endType === 'start') {
+            rope.start.x = originalX;
+            rope.start.y = originalY;
+        } else {
+            rope.end.x = originalX;
+            rope.end.y = originalY;
+        }
+
+        rope.line.setAttribute(
+            endType === 'start' ? 'x1' : 'x2',
+            originalX
+        );
+        rope.line.setAttribute(
+            endType === 'start' ? 'y1' : 'y2',
+            originalY
+        );
+
+        // 给用户一个视觉反馈，表明移动失败
+        gameState.draggedEnd.classList.add('invalid-move');
+        setTimeout(() => {
+            gameState.draggedEnd.classList.remove('invalid-move');
+        }, 500);
+    }
+
     gameState.draggedEnd.classList.remove('dragging');
     gameState.isDragging = false;
     gameState.draggedEnd = null;
