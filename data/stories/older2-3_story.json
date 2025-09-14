@@ -119,7 +119,8 @@
       "dialogue": "你已成功购买 能量化药丸，金币 -200",
       "nextNode": "node21",
       "valueChanges": [
-        { "name": "money", "value": -200 }
+        { "name": "money", "value": -200 },
+        { "name": "old", "value": 2}
       ]
 
     },
@@ -128,7 +129,8 @@
       "dialogue": "你已成功购买 强化激素，金币 -200",
       "nextNode": "node21",
       "valueChanges": [
-        { "name": "money", "value": -200 }
+        { "name": "money", "value": -200 },
+        { "name": "old", "value": 1 }
       ]
     },
     "node19": {
@@ -136,7 +138,8 @@
       "dialogue": "你已成功购买 飞云鞋，金币 -200",
       "nextNode": "node21",
       "valueChanges": [
-        { "name": "money", "value": -200 }
+        { "name": "money", "value": -200 },
+        { "name": "old", "value": 3 }
       ]
     },
     "node21": {

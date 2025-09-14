@@ -1,5 +1,5 @@
 import { minigameLoader } from "../../js/game/modules/minigameLoader.js";
-import { gameState } from "../../js/game/modules/dataManager.js";
+import {gameState, getCurrentUser} from "../../js/game/modules/dataManager.js";
 // 游戏常量
 const GAME_WIDTH = 700;
 const GAME_HEIGHT = 840;
@@ -43,6 +43,7 @@ let bossSpawned = false;
 let bossIndicator = null;
 let bombKeyPressed = false; // 新增：Bomb键按下状态标志
 let currentDifficulty = 'easy'; // 默认难度
+let lifePlus = false;
 
 // 玩家类
 class Player {
@@ -434,6 +435,8 @@ function initGame() {
     gameState = 'playing';
     score = 0;
     lives = 3;
+    if(lifePlus)
+        lives += 3;
     bombs = 3;
     gameTime = 0;
     bossSpawned = false;
@@ -742,6 +745,10 @@ function goToHomePage(result) {
 function selectDifficulty(difficulty) {
     currentDifficulty = difficulty;
 //    let Nowdata = gameState.loadPlayerData();
+    let oldOption = gameState.getValue('old');
+    if(oldOption === 2) {
+        lifePlus = true;
+    }
     initGame();
 }
 
