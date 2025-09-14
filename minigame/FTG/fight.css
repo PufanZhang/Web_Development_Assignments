@@ -31,7 +31,7 @@
 
 /* 玩家方块 */
 #player-fighter {
-    background-image: url('./images/player_FTG.png');
+    background-image: url('./images/idle.jpg');
     background-size: contain;
 }
 
@@ -76,6 +76,7 @@
 
 .fighter.block {
     transform: scale(1.2, 0.8);
+    background-image: url('./images/block.png');
     background-color: #ffeb3b;
 }
 
@@ -107,28 +108,33 @@
 
 @keyframes attackMove {
     0%, 100% { transform: translateX(0); }
-    25% { background-image: url('./images/keyframe1.png'); }
-    50% { background-image: url('./images/keyframe2.png'); }
-    75% { background-image: url('./images/keyframe3.png'); }
+    50% { background-image: url('./images/attack.png'); }
 }
 
 @keyframes attackMoveLeft {
     0%, 100% { transform: translateX(0) scaleX(-1); }
-    50% { transform: translateX(-50px) scaleX(-1); }
+    50% { background-image: url('./images/attack_left.png'); }
 }
 
 @keyframes walkAttackMove {
     0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(5px); }
-    50% { transform: translateX(50px); }
-    75% { transform: translateX(5px); }
+    50% { background-image: url('./images/attack.png'); }
 }
 
 @keyframes jumpAttackMove {
     0% { transform: translateY(0); }
-    25% { transform: translateY(-50px) translateX(25px); }
-    50% { transform: translateY(-100px) translateX(50px); }
-    75% { transform: translateY(-50px) translateX(25px); }
+    25% {
+        transform: translateY(-50px);
+        background-image: url('./images/attack.png');
+    }
+    50% {
+        transform: translateY(-100px);
+        background-image: url('./images/attack.png');
+    }
+    75% {
+        transform: translateY(-50px);
+        background-image: url('./images/attack.png');
+    }
     100% { transform: translateY(0) translateX(0); }
 }
 
