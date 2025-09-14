@@ -23,3 +23,8 @@ export const BASE_VISUAL_GAP = 15; // 提示标签和可交互对象的间距
 
 // 小游戏相关配置
 export const GAME_LIST = ['jiemi', 'FTG', 'Parkour', 'STG', 'Mario', 'Rope']; // 可用的所有小游戏名称
+
+// 调试窗口相关配置
+export const DEBUG_TRACKED_VALUES = {
+    'suspicion': '怀疑度',
+};
