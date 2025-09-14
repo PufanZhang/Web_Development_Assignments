@@ -66,7 +66,10 @@ export const fightManager = {
         // }
     },
 
-    initGame() {
+    async initGame() {
+        if(!playerDataCache){
+            await gameState.loadPlayerData();
+        }
         this.player = {
             element: document.getElementById("player-fighter"),
             x: 200,

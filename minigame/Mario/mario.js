@@ -11,7 +11,10 @@ const GameState = {
 };
 
 class MarioGame {
-    constructor() {
+    async constructor() {
+        if(!playerDataCache){
+            await gameState.loadPlayerData();
+        }
         this.canvas = document.getElementById('game-canvas');
         this.ctx = this.canvas.getContext('2d');
         this.gameMessage = document.getElementById('game-message');
@@ -21,12 +24,7 @@ class MarioGame {
         this.camera = { x: 0, y: 0 };
         this.lastCheckpoint = { ...MAP_DATA.startPoint };
         let oldOption = gameState.getValue('old');
-        if(oldOption === 3) {
-            this.canDoubleJump = true;
-        }
-        else{
-            this.canDoubleJump = false;
-        }
+        this.canDoubleJump = oldOption === 3;
         this.hasDoubleJumped = false; // 跟踪是否已经进行了二段跳
 
         this.setupPlayer();
