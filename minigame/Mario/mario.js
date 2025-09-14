@@ -45,7 +45,7 @@ class MarioGame {
         if(!playerDataCache){
             await gameState.loadPlayerData();
         }
-        let oldOption = gameState.getValue('old');
+        let oldOption = gameState.getValue('backpack');
         this.canDoubleJump = oldOption === 3;
     }
 

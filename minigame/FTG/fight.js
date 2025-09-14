@@ -70,7 +70,7 @@ export const fightManager = {
         if(!playerDataCache){
             await gameState.loadPlayerData();
         }
-        let oldOption = gameState.getValue('old');
+        let oldOption = gameState.getValue('backpack');
         this.isBuffActivable = (oldOption === 4);
     },
 

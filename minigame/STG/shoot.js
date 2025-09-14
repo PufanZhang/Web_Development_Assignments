@@ -747,7 +747,7 @@ async function selectDifficulty(difficulty) {
     if(!playerDataCache){
         await gameState.loadPlayerData();
     }
-    let oldOption = gameState.getValue('old');
+    let oldOption = gameState.getValue('backpack');
     if(oldOption === 2) {
         lifePlus = true;
     }
