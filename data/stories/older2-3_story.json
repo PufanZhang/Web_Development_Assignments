@@ -130,7 +130,7 @@
       "nextNode": "node21",
       "valueChanges": [
         { "name": "money", "value": -200 },
-        { "name": "old", "value": 1 }
+        { "name": "old", "value": 4 }
       ]
     },
     "node19": {
