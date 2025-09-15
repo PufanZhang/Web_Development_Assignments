@@ -16,6 +16,7 @@ class MarioGame {
         this.ctx = this.canvas.getContext('2d');
         this.gameMessage = document.getElementById('game-message');
         this.restartButton = document.getElementById('restart-button');
+        this.skipLevelButton = document.getElementById('skip-level-btn');
 
         this.state = GameState.PLAYING;
         this.camera = { x: 0, y: 0 };
@@ -65,6 +66,13 @@ class MarioGame {
             this.keys[e.key] = false;
             if (e.key === 'w' || e.key === 'W' || e.key === 'ArrowUp' || e.key === ' '){
                 this.jumpBlock = false;
+            }
+        });
+
+        // 跳关按钮事件监听
+        this.skipLevelButton.addEventListener('click', () => {
+            if (this.state === GameState.PLAYING) {
+                this.win();
             }
         });
 
