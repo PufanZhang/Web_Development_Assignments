@@ -20,14 +20,8 @@ class MarioGame {
         this.state = GameState.PLAYING;
         this.camera = { x: 0, y: 0 };
         this.lastCheckpoint = { ...MAP_DATA.startPoint };
-        let oldOption = gameState.getValue('old');
-        if(oldOption === 3) {
-            this.canDoubleJump = true;
-        }
-        else{
-            this.canDoubleJump = false;
-        }
         this.hasDoubleJumped = false; // 跟踪是否已经进行了二段跳
+        this.jumpBlock = false;
 
         this.setupPlayer();
         this.setupEventListeners();
@@ -37,7 +31,7 @@ class MarioGame {
         window.parent.postMessage({ type: 'minigameLoaded' }, '*');
     }
 
-    setupPlayer() {
+    async setupPlayer() {
         this.player = {
             x: MAP_DATA.startPoint.x,
             y: MAP_DATA.startPoint.y,
@@ -48,6 +42,11 @@ class MarioGame {
             isJumping: false,
             facing: 'right'
         };
+        if(!playerDataCache){
+            await gameState.loadPlayerData();
+        }
+        let oldOption = gameState.getValue('backpack');
+        this.canDoubleJump = oldOption === 3;
     }
 
     setupEventListeners() {
@@ -64,6 +63,9 @@ class MarioGame {
 
         window.addEventListener('keyup', (e) => {
             this.keys[e.key] = false;
+            if (e.key === 'w' || e.key === 'W' || e.key === 'ArrowUp' || e.key === ' '){
+                this.jumpBlock = false;
+            }
         });
 
         // 接收来自父页面的消息
@@ -120,13 +122,14 @@ class MarioGame {
         }
 
         // 跳跃
-        if ((this.keys['w'] || this.keys['W'] || this.keys['ArrowUp'] || this.keys[' '])) {
+        if ((this.keys['w'] || this.keys['W'] || this.keys['ArrowUp'] || this.keys[' ']) && !this.jumpBlock) {
             if (!this.player.isJumping) {
                 // 一段跳
                 this.player.velY = -MAP_CONFIG.player.jumpForce;
                 this.player.isJumping = true;
                 this.hasDoubleJumped = false;
-            } else if (this.canDoubleJump && !this.hasDoubleJumped) {
+                this.jumpBlock = true;
+            } else if (this.canDoubleJump && !this.hasDoubleJumped && !this.jumpBlock) {
                 // 二段跳
                 this.player.velY = -MAP_CONFIG.player.jumpForce * 0.8;
                 this.hasDoubleJumped = true;

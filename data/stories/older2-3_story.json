@@ -120,7 +120,7 @@
       "nextNode": "node21",
       "valueChanges": [
         { "name": "money", "value": -200 },
-        { "name": "old", "value": 2}
+        { "name": "backpack", "value": 2}
       ]
 
     },
@@ -130,7 +130,7 @@
       "nextNode": "node21",
       "valueChanges": [
         { "name": "money", "value": -200 },
-        { "name": "old", "value": 1 }
+        { "name": "backpack", "value": 4 }
       ]
     },
     "node19": {
@@ -139,7 +139,7 @@
       "nextNode": "node21",
       "valueChanges": [
         { "name": "money", "value": -200 },
-        { "name": "old", "value": 3 }
+        { "name": "backpack", "value": 3 }
       ]
     },
     "node21": {

@@ -1,5 +1,5 @@
 import { minigameLoader } from "../../js/game/modules/minigameLoader.js";
-import {gameState, getCurrentUser} from "../../js/game/modules/dataManager.js";
+import { gameState } from "../../js/game/modules/dataManager.js";
 // 游戏常量
 const GAME_WIDTH = 700;
 const GAME_HEIGHT = 840;
@@ -32,7 +32,7 @@ let playerBullets = [];
 let enemies = [];
 let enemyBullets = [];
 let boss = null;
-let gameState = 'start';
+let STGState = 'start';
 let score = 0;
 let lives = 3;
 let bombs = 3;
@@ -432,7 +432,7 @@ function initGame() {
     enemies = [];
     enemyBullets = [];
     boss = null;
-    gameState = 'playing';
+    STGState = 'playing';
     score = 0;
     lives = 3;
     if(lifePlus)
@@ -599,7 +599,7 @@ function checkCollisions() {
 
 // 游戏主循环
 function gameLoop() {
-    if (gameState !== 'playing') return;
+    if (STGState !== 'playing') return;
 
     // 清空画布
     ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
@@ -719,7 +719,7 @@ function drawGameObjects() {
 
 // 结束游戏
 function endGame() {
-    gameState = 'gameover';
+    STGState = 'gameover';
     cancelAnimationFrame(animationId);
 
     document.getElementById('final-score').textContent = score;
@@ -728,7 +728,7 @@ function endGame() {
 
 // 胜利
 function victory() {
-    gameState = 'victory';
+    STGState = 'victory';
     cancelAnimationFrame(animationId);
 
     document.getElementById('victory-score').textContent = score;
@@ -742,10 +742,12 @@ function goToHomePage(result) {
 }
 
 // 选择难度
-function selectDifficulty(difficulty) {
+async function selectDifficulty(difficulty) {
     currentDifficulty = difficulty;
-//    let Nowdata = gameState.loadPlayerData();
-    let oldOption = gameState.getValue('old');
+    if(!playerDataCache){
+        await gameState.loadPlayerData();
+    }
+    let oldOption = gameState.getValue('backpack');
     if(oldOption === 2) {
         lifePlus = true;
     }

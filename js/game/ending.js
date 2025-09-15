@@ -1,6 +1,6 @@
 import { achievements, gameState } from './modules/dataManager.js';
 import { audioManager } from './modules/audioManager.js';
-import { VOLUME, ENDING_MUSIC } from "./config";
+import { VOLUME, ENDING_MUSIC } from "./config.js";
 
 const endingContext = [
     "结局一 长空孤影\n" +
