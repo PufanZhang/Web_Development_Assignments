@@ -301,7 +301,8 @@ pub struct SaveFileIntro {
 pub struct SaveFileDisplayData {
     pub id: i32,
     pub file_name: String,
-    pub save_time: String, // 这个时间将从 PlayerData 中获取
+    pub display_name: String,
+    pub save_time: String,
     pub location: String,
     pub description: String,
     pub progress: i32,
@@ -325,4 +326,11 @@ pub struct DeleteAccountRequest {
 pub struct ApiResponse {
     pub success: bool,
     pub message: String,
+}
+
+#[derive(Deserialize)]
+pub struct InitialValuesConfig {
+    pub values: HashMap<String, i32>,
+    #[serde(rename = "valuesNoOverwrite")]
+    pub values_no_overwrite: Vec<String>,
 }

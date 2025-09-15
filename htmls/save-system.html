@@ -51,7 +51,69 @@
     </main>
 </div>
 
-<div class="save-detail" id="saveDetail"></div>
+<div class="save-detail" id="saveDetail" style="display: none;">
+    <div class="detail-background">
+        <button class="close-btn detail-back-btn" onclick="closeSaveDetail()">×</button>
+        <div class="neural-network"></div>
+
+        <div class="detail-content">
+
+            <div class="save-info-card">
+                <div class="save-avatar" id="avatarText">
+                    存档 00
+                    <div class="avatar-glow"></div>
+                </div>
+                <div class="save-metadata">
+                    <div class="save-name" id="saveName">存档名称</div>
+                    <div class="save-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">上次保存</span>
+                            <span class="stat-value" id="lastSave">时间戳</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">当前地点</span>
+                            <span class="stat-value" id="currentLevel">地点</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="description-section">
+                <div class="section-title">
+                    <span class="title-icon">❞</span>
+                    <span>数据摘要</span>
+                </div>
+                <p class="save-description" id="saveDescription">这里是存档的描述信息...</p>
+            </div>
+
+            <div class="progress-section">
+                <div class="section-title">
+                    <span class="title-icon">📈</span>
+                    <span>任务进度</span>
+                </div>
+                <div class="progress-grid">
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span class="progress-label">主线进度</span>
+                            <span class="progress-percent" id="mainProgress">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill main-progress" id="mainProgressBar" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-btn load-btn" onclick="loadSave()">
+                    <span class="btn-icon">▶</span>
+                    <span>加载存档</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 <div class="confirm-modal" id="loadConfirmModal" style="display: none;">
     <div class="modal-content">

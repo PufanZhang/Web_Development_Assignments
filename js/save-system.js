@@ -41,7 +41,8 @@ async function loadAllSaveFiles() {
         // 转换数据格式以匹配前端
         saveData = files.map(file => ({
             id: file.id,
-            name: file.fileName,
+            name: file.displayName,
+            fileName: file.fileName,
             level: file.location,
             lastSave: file.saveTime,
             mainProgress: file.progress,
@@ -170,9 +171,9 @@ async function loadSave() {
     if (currentSaveId !== null) {
         const save = saveData.find(s => s.id === currentSaveId);
         if (save) {
-            const success = await gameState.loadSaveFile(save.name);
+            const success = await gameState.loadSaveFile(save.fileName);
             if (success) {
-                document.getElementById('loadConfirmModal').style.display = 'block';
+                document.getElementById('loadConfirmModal').style.display = 'flex';
             }
         }
     }

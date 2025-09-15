@@ -209,6 +209,7 @@ function processEntryStoryEndAction(endAction) {
 
     if (endAction.type === 'teleport' && endAction.teleportData) {
         console.log(`入场故事结束，触发传送动作: 前往地图 ${endAction.teleportData.targetMap}`);
+        alert("进入结局");
         loadMapAt(endAction.teleportData.targetMap, endAction.teleportData.targetX, endAction.teleportData.targetY);
         return true; // 传送是一个中断性动作，返回 true
     }

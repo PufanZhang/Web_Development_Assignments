@@ -201,10 +201,8 @@ export const gameState = {
         const response = await apiRequest(`/player/savefile/${saveName}`, 'POST', window.playerDataCache);
         if (response) {
             console.log(`✅ 手动存档 [${saveName}] 创建成功！`);
-            alert(`存档点已保存：${saveName}`);
         } else {
             console.error(`手动存档 [${saveName}] 创建失败。`);
-            alert("存档失败，请稍后再试。");
         }
     },
 

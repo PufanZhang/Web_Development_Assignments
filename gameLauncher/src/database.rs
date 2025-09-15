@@ -1,4 +1,4 @@
-use crate::models::{AuthRequest, ModifyValueResponse, PlayerData, UnlockedAchievement, SaveFileIntro, SaveFileDisplayData};
+use crate::models::{AuthRequest, ModifyValueResponse, PlayerData, UnlockedAchievement, SaveFileIntro, SaveFileDisplayData, InitialValuesConfig};
 use crate::achievements;
 use sha2::{Digest, Sha256};
 use std::collections::HashMap;
@@ -70,12 +70,11 @@ fn hash_password(password: &str) -> String {
     format!("{:x}", result)
 }
 
-// 读取并解析初始数值配置文件
-async fn load_initial_values() -> Result<HashMap<String, i32>, Error> {
+async fn load_initial_values_config() -> Result<InitialValuesConfig, Error> {
     let path = PathBuf::from("./data/value_initialize.json");
     let content = fs::read_to_string(path).await?;
-    let values: HashMap<String, i32> = serde_json::from_str(&content)?;
-    Ok(values)
+    let config: InitialValuesConfig = serde_json::from_str(&content)?;
+    Ok(config)
 }
 
 // --- 核心数据库函数 ---
@@ -115,7 +114,7 @@ pub async fn register_user(req: &AuthRequest) -> Result<(), &'static str> {
     }
 
     // 在写入用户信息前，先确保初始数值文件可读
-    let initial_values = load_initial_values()
+    let initial_values_config = load_initial_values_config()
         .await
         .map_err(|_| "Server configuration error: Cannot read initial values.")?;
 
@@ -125,7 +124,7 @@ pub async fn register_user(req: &AuthRequest) -> Result<(), &'static str> {
     write_users(&users).await.map_err(|_| "Failed to save new user")?;
 
     // 使用从文件加载的初始值创建玩家存档
-    let initial_data = PlayerData::new_for_user(&req.username, initial_values);
+    let initial_data = PlayerData::new_for_user(&req.username, initial_values_config.values);
     save_player_data(&initial_data).await.map_err(|_| "Failed to create initial player data")?;
 
     Ok(())
@@ -302,15 +301,32 @@ pub async fn load_save_file(username: &str, save_name: &str) -> Result<(), Error
     let saves: HashMap<String, PlayerData> = serde_json::from_str(&content)?;
 
     // 从存档集合中找到对应的存档点
-    if let Some(mut player_data_to_load) = saves.get(save_name).cloned() {
-        // 在加载存档前，先读取玩家当前的成就
+    if let Some(mut player_data_from_save) = saves.get(save_name).cloned() {
+        // 1. 加载当前的主存档，作为数据合并的基础
         let current_player_data = load_player_data(username).await?;
 
-        // 用当前玩家的成就覆盖掉存档文件里的成就
-        player_data_to_load.achievements = current_player_data.achievements;
+        // 2. 读取不应被覆盖的数值列表
+        let config = load_initial_values_config().await?;
+        let no_overwrite_values: std::collections::HashSet<String> =
+            config.values_no_overwrite.into_iter().collect();
 
-        // 保存整合了最新成就的存档数据
-        save_player_data_internal(&player_data_to_load).await
+        // 3. 保留当前主存档中不应被覆盖的数值
+        for key in no_overwrite_values {
+            if let Some(current_value) = current_player_data.values.get(&key) {
+                // 用主存档的值，覆盖掉从手动存档里加载出来的值
+                player_data_from_save.values.insert(key, *current_value);
+            }
+        }
+
+        // 4. 用当前玩家的成就列表覆盖手动存档里的成就列表（这个逻辑保持不变）
+        player_data_from_save.achievements = current_player_data.achievements;
+
+        // 5. 保留当前玩家的游玩时间和登录时间戳，防止被旧存档覆盖
+        player_data_from_save.total_play_time_seconds = current_player_data.total_play_time_seconds;
+        player_data_from_save.last_login_timestamp = current_player_data.last_login_timestamp;
+
+        // 6. 将合并后的数据作为新的主存档保存
+        save_player_data_internal(&player_data_from_save).await
     } else {
         Err(Error::new(ErrorKind::NotFound, "Specified save name not found."))
     }
@@ -340,8 +356,8 @@ pub async fn get_all_save_display_data(username: &str) -> Result<Vec<SaveFileDis
                 // 4. 组合数据
                 let display_data = SaveFileDisplayData {
                     id: intro.id,
-                    file_name: intro.file_name,
-                    // 关键：save_time 从 PlayerData 中获取，如果不存在则提供一个默认值
+                    display_name: intro.file_name,
+                    file_name: save_name,
                     save_time: player_data.save_time.unwrap_or_else(|| "N/A".to_string()),
                     location: intro.location,
                     description: intro.description,
