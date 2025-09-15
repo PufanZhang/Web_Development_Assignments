@@ -28,5 +28,23 @@
     "help": 0,
     "reachEnd": 0
   },
-  "valuesNoOverwrite": ["suspicion", "reachEnd"]
+  "valuesNoOverwrite": ["reachEnd","Trainscore","exam1","exam2","money","old",
+    "notebook",
+    "tousheng",
+    "hongzhanghua",
+    "lucky",
+    "yangqi",
+    "yongbao",
+    "libie",
+    "wangchuan",
+    "wujian",
+    "shiguang",
+    "xiaoyue",
+    "jinci",
+    "xiaoguang",
+    "heiying",
+    "shengzi",
+    "maliao",
+    "suipian",
+    "help"]
 }

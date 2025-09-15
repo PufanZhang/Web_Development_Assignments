@@ -150,6 +150,10 @@
         },{
           "name": "wangchuan",
           "amount": 1
+        },{
+          "name": "suspicion",
+          "amount": 500,
+          "absolute": true
         }
       ],
       "action": {
