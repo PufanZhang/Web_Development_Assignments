@@ -112,10 +112,245 @@
     "node12": {
       "speaker": "旁白",
       "dialogue": "一时间，指挥室陷入了一片沉默。最后陶孚拉着你走出去，不管如何，军人的天职首先是服从。你们决定按照原计划推进火山行动。",
+      "options": [
+        {
+          "text": "你还是选择了服从"
+          
+        },{
+          "text": "哗变",
+          "requiredValue": {
+            "name": "suspicion",
+            "comparison": "greater_than_or_equal",
+            "value": 450
+          },
+          "targetNode":"node15"
+        }
+      ],
       "action": {
         "type": "saveFile",
         "saveFileName":"save5"
       }
+    },
+    "node15": {
+    "speaker": "旁白",
+    "dialogue": "指挥室内，电子地图上六扇传送门的信号刺眼地闪烁。李海峰与唐槿辞的对峙已至冰点,空气中弥漫着不安与怀疑。",
+    "nextNode": "node16"
+  },
+  "node16": {
+    "speaker": "旁白",
+    "dialogue": "你回想起空间站里他异常的冷静，牺牲战友时他毫无波动的命令，以及他坚决反对撤离民众的强硬——一个可怕的猜想在你脑中成形。",
+    "nextNode": "node17"
+  },
+  "node17": {
+    "speaker": "旁白",
+    "dialogue": "你与二叔交换了一个眼神，看到了彼此眼中相同的确定。",
+    "nextNode": "node18"
+  },
+  "node18": {
+    "scene": [
+      { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+      { "id": "唐槿辞", "sprite": "assets/images/charactertjc.png" }
+    ],
+    "speaker": "唐梓",
+    "dialogue": "（向前一步，神情坚定）队长，我申请暂停火山行动。在监测系统全面恢复、所有传送门真伪得以辨别之前，我拒绝执行出击命令。",
+    "nextNode": "node19"
+  },
+  "node19": {
+    "scene": [
+      { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+    ],
+    "speaker": "李海峰",
+    "dialogue": "（猛地转身，眼神锐利）唐梓！你这是公然违抗军令！",
+    "nextNode": "node20"
+  },
+  "node20": {
+    "scene": [
+      { "id": "唐槿辞", "sprite": "assets/images/charactertjc.png" }
+    ],
+    "speaker": "",
+    "dialogue": "（语气低沉）不是违抗，是在避免无谓的牺牲。海峰，你的权限账号在探头失效前十分钟执行了休眠指令，这件事，你需要解释。",
+    "nextNode": "node21"
+  },
+  "node21": {
+    "scene": [
+      { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+    ],
+    "speaker": "李海峰",
+    "dialogue": "（面色微变，但迅速恢复镇静）无稽之谈！唐槿辞，是你动了手脚想嫁祸于我，趁机夺权！",
+    "nextNode": "node22"
+  },
+  "node22": {
+    "scene": [
+      { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+    ],
+    "speaker": "唐梓",
+    "dialogue": "那么你为什么坚决反对火山星撤离民众？你比任何人都清楚，一旦火卫一失守，火山星就是下一个目标！",
+    "nextNode": "node23"
+  },
+  "node23": {
+    "scene": [
+      { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+    ],
+    "speaker": "唐梓",
+    "dialogue": "除非……你本来就知道那里不会是目标？或者说，你就是想让火山星被攻击？",
+    "nextNode": "node24"
+  },
+  "node24": {
+    "speaker": "旁白",
+    "dialogue": "话音未落，通讯员突然高声报告。“报告！初步信号分析完成！D区传送门能量签名与其他五扇有微小但关键的差异，疑似为真！”",
+    "nextNode": "node25"
+  },
+  "node25": {
+    "scene": [
+      { "id": "刘小星", "sprite": "assets/images/characterlxx.png" }
+    ],
+    "speaker": "刘小星",
+    "dialogue": "确认！D区传送门检测到极高的能量护盾反应！其他区域的护盾强度不足百分之一！",
+    "nextNode": "node26"
+  },
+  "node26": {
+    "scene": [
+      { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+    ],
+    "speaker": "李海峰",
+    "dialogue": "（眼神中一丝不易察觉的慌乱）……即便如此，现在更应该立刻集中力量攻击D区！",
+    "nextNode": "node27"
+  },
+  "node27": {
+    "scene": [
+      { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+    ],
+    "speaker": "唐梓",
+    "dialogue": "然后让你和智械应外合，把我们都葬送在那里吗？",
+    "nextNode": "node28"
+  },
+  "node28": {
+    "scene": [
+      { "id": "唐槿辞", "sprite": "assets/images/charactertjc.png" }
+    ],
+    "speaker": "唐槿辞",
+    "dialogue": "（果断下令）控制李海峰！",
+    "nextNode": "node29"
+  },
+  "node29": {
+    "speaker": "旁白",
+    "dialogue": "几名队员迅速上前，李海峰没有激烈反抗，只是冷冷地看着你。",
+    "nextNode": "node30"
+  },
+  "node30": {
+    "scene": [
+      { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+      { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+    ],
+    "speaker": "李海峰",
+    "dialogue": "唐梓，你会为你的愚蠢付出代价。没有我的指挥，你们根本无法突破那个护盾！",
+    "nextNode": "node31"
+  },
+  "node31": {
+    "scene": [
+      { "id": "唐槿辞", "sprite": "assets/images/charactertjc.png" }
+    ],
+    "speaker": "唐槿辞",
+    "dialogue": "不，需要你。正是需要你，才能突破它。",
+    "nextNode": "node32"
+  },
+  "node32": {
+    "scene": [
+      { "id": "唐槿辞", "sprite": "assets/images/charactertjc.png" }
+    ],
+    "speaker": "唐槿辞",
+    "dialogue": "（转向控制台）远程接入李海峰舰长的识别码，向D区发送最高优先级通行请求代码——就用他与智械联络的频道。",
+    "nextNode": "node33"
+  },
+  "node33": {
+    "scene": [
+      { "id": "唐梓", "sprite": "assets/images/charactertz.png" },
+      { "id": "李海峰", "sprite": "assets/images/characterlhf.png" }
+    ],
+    "speaker": "李海峰",
+    "dialogue": "（脸色终于大变）你们怎么知道……！",
+    "nextNode": "node34"
+  },
+  "node34": {
+    "scene": [
+      { "id": "通讯员", "sprite": "assets/images/charactercomms.png" }
+    ],
+    "speaker": "通讯员",
+    "dialogue": "上报！授权异常确认！你的每一步，都在把我们引向这个结局……",
+    "nextNode": "node35"
+  },
+  "node35": {
+    "scene": [
+      { "id": "通讯员", "sprite": "assets/images/charactercomms.png" }
+    ],
+    "speaker": "通讯员",
+    "dialogue": "现在，该用你的身份，为人类做最后一点贡献了！",
+    "nextNode": "node36"
+  },
+  "node36": {
+    "speaker": "旁白",
+    "dialogue": "李海峰的座驾被远程启动，径直飞向D区传送门。强大的能量护盾感知到“自己人”的独特信号，瞬间解除。",
+    "nextNode": "node37"
+  },
+  "node37": {
+    "scene": [
+      { "id": "刘小星", "sprite": "assets/images/characterlxx.png" }
+    ],
+    "speaker": "刘小星",
+    "dialogue": "护盾消失了！窗口期只有五秒！",
+    "nextNode": "node38"
+  },
+  "node38": {
+    "scene": [
+      { "id": "唐梓", "sprite": "assets/images/charactertz.png" }
+    ],
+    "speaker": "唐梓",
+    "dialogue": "所有单位！目标D区传送门！全力开火！",
+    "nextNode": "node39"
+  },
+  "node39": {
+    "speaker": "旁白",
+    "dialogue": "所有的炮火在短暂的窗口期内倾泻而下，精准击中了毫无防护的传送门核心。",
+    "nextNode": "node40"
+  },
+  "node40": {
+    "speaker": "旁白",
+    "dialogue": "巨大的爆炸照亮了天际，扭曲的金属碎片和能量涌流四散飞溅。通讯频道中传来李海峰绝望而扭曲的嘶吼，随即与爆炸声一同湮灭。",
+    "nextNode": "node41"
+  },
+  "node41": {
+    "speaker": "旁白",
+    "dialogue": "你们通过发挥自己的聪明才智，挫败了这场从开始就被内奸利用的“火山行动”阴谋。",
+    "nextNode": "node42"
+  },
+  "node42": {
+    "speaker": "旁白",
+    "dialogue": "可是，这背后真的有这么简单吗？你的记忆依然锁死，你的直觉告诉你，事情远不止这么简单。",
+    "nextNode": "node43"
+  },
+  "node43": {
+    "speaker": "旁白",
+    "dialogue": "结局四：哗变（完）",
+    "nextNode": "jiejusi"
+  },
+  "jiejusi":{
+    "valueChanges":[
+      {
+        "name": "xiaoguang",
+        "amount": 1
+      },{
+        "name": "wangchuan",
+        "amount": 1
+      }
+    ],
+    "action": {
+      "type": "teleport",
+      "teleportData": {
+        "targetMap": "end4",
+        "targetX": -1,
+        "targetY": -1
+      }
     }
   }
+}
 }

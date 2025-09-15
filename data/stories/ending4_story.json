@@ -198,6 +198,27 @@
   },
   "node30": {
     "speaker": "旁白",
-    "dialogue": "结局四：哗变（完）"
+    "dialogue": "结局四：哗变（完）",
+    "nextNode": "jiejusi"
+  },
+  "jiejusi":{
+    "valueChanges":[
+      {
+        "name": "xiaoguang",
+        "amount": 1
+      },{
+        "name": "wangchuan",
+        "amount": 1
+      }
+    ],
+    "action": {
+      "type": "teleport",
+      "teleportData": {
+        "targetMap": "end4",
+        "targetX": -1,
+        "targetY": -1
+      }
+    }
+
   }
 }
