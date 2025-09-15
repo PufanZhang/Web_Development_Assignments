@@ -35,6 +35,9 @@
     "node6": {
       "speaker": "旁白",
       "dialogue": "你看不见这个人的面容，但注意到了她肩上飘扬的长发。你看见她正在往战机上传什么程序，于是迅速冲过去，和她扭打在一起。",
+      "valueChanges": [
+        { "name": "old", "amount": 1 }
+      ],
       "action":{
         "type":"FTG"
       }
