@@ -82,7 +82,7 @@
 
 
 
-- `async gameState.loadPlayerData()`: 从后端加载当前登录玩家的所有数据（包括数值、位置等）并缓存到 `window.playerDataCache`。这是进入游戏或需要最新数据时的关键函数。
+- `async gameState.loadPlayerData()`: 从后端加载当前登录玩家的所有数据（包括数值、位置等）并缓存到 `window.playerDataCache`。这是进入游戏或需要最新数据时的关键函数。由于需要在退出浏览器时实现自动登出并存档，所以选用 `Beacon` 方法向后端发送登出存档请求。但是由于浏览器并不能区分刷新、页面跳转和退出这几个行为的区别，所以后端有一个小“后门”，如果在请求 `loadPlayerData` 时对应账号处在登出状态，那么将其更新为登录状态。因为这个特性，几乎所有网页在加载时都会调用这个方法，确保处在登录状态。
 - `gameState.getValue(valueName)`: 从前端缓存中快速读取玩家的特定数值（例如 'suspicion' 怀疑度）。
 - `async gameState.modifyValue(username, valueName, amount)`: 修改玩家的特定数值。它会向后端发送请求，后端处理后会返回新的数值和可能解锁的成就。
 - `async gameState.createSaveFile(saveName)`: 创建一个手动存档。函数会将在 `window.playerDataCache` 中的当前玩家数据完整地发送到后端保存。
@@ -158,4 +158,3 @@
   - `player`: 玩家对象，需要有 `x`, `y`, `width`, `height`, `targetX`, `targetY` 属性。
   - `walls`: 一个包含多个墙体对象的数组，每个墙体对象需要有 `x`, `y`, `width`, `height` 属性。
 
-希望这份文档能帮助您更好地理解和继续开发这个项目！
