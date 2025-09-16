@@ -75,6 +75,7 @@ export const fightManager = {
     },
 
     async initGame() {
+        await this.backGroundDecision();
         this.player = {
             element: document.getElementById("player-fighter"),
             x: 200,
@@ -207,6 +208,32 @@ export const fightManager = {
           }
       },
   */
+    async backGroundDecision() {
+        try {
+            // 确保玩家数据已加载
+            if(!window.playerDataCache){
+                await gameState.loadPlayerData();
+            }
+
+            // 获取old数值
+            let oldValue = gameState.getValue('old');
+
+            // 获取背景元素
+            let fightView = document.getElementById('fight-view');
+
+            // 根据old值设置背景
+            if (oldValue === 1) {
+                fightView.style.backgroundImage = "url('/minigame/FTG/images/bg2.png')";
+            } else {
+                fightView.style.backgroundImage = "url('/minigame/FTG/images/bg1.png')";
+            }
+        } catch (error) {
+            console.error("设置背景时出错:", error);
+            // 出错时使用默认背景
+            document.getElementById('fight-view').style.backgroundImage = "url('/minigame/FTG/images/bg1.png')";
+        }
+    },
+
     playerAttack() {
         // 允许在行走和跳跃状态下攻击
         if (this.player.state === "hurt") return
