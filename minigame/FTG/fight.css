@@ -36,6 +36,7 @@
 #player-fighter {
     background-image: url('./images/idle.png');
     background-size: contain;
+    background-repeat: no-repeat;
 }
 
 /* 敌人方块 */
@@ -80,7 +81,6 @@
 .fighter.block {
     transform: scale(1.2, 0.8);
     background-image: url('./images/block.png');
-    background-color: #ffeb3b;
 }
 
 .fighter.hurt {
