@@ -459,7 +459,7 @@ function setupEventListeners() {
     document.getElementById('hint-btn').addEventListener('click', showHint);
     document.getElementById('reset-btn').addEventListener('click', resetLevel);
     document.getElementById('return-btn').addEventListener('click', returnToMainGame);
-    document.getElementById('retry-btn').addEventListener('click', resetLevel);
+    //document.getElementById('retry-btn').addEventListener('click', resetLevel);
     document.getElementById('fail-return-btn').addEventListener('click', returnToMainGame);
 
     // 隐藏下一关按钮
