@@ -7,7 +7,7 @@ let gameState = {
     ropes: [],
     totalRopes: 0,
     solvedRopes: 0,
-    timeLeft: 60, // 2分钟
+    timeLeft: 30, // 2分钟
     timer: null,
     isDragging: false,
     draggedEnd: null,
@@ -28,7 +28,7 @@ const ropeColors = [
 function initGame() {
     gameState.ropes = [];
     gameState.solvedRopes = 0;
-    gameState.timeLeft = 60;
+    gameState.timeLeft = 30;
     gameState.isDragging = false;
     gameState.draggedEnd = null;
     gameState.startTime = Date.now();
@@ -403,7 +403,7 @@ function updateTimerDisplay() {
         `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
     // 时间少于30秒时变红色
-    if (gameState.timeLeft < 30) {
+    if (gameState.timeLeft < 10) {
         document.getElementById('time-left').style.color = '#ff5252';
     }
 }
@@ -459,7 +459,7 @@ function setupEventListeners() {
     document.getElementById('hint-btn').addEventListener('click', showHint);
     document.getElementById('reset-btn').addEventListener('click', resetLevel);
     document.getElementById('return-btn').addEventListener('click', returnToMainGame);
-    document.getElementById('retry-btn').addEventListener('click', resetLevel);
+    //document.getElementById('retry-btn').addEventListener('click', resetLevel);
     document.getElementById('fail-return-btn').addEventListener('click', returnToMainGame);
 
     // 隐藏下一关按钮
@@ -703,12 +703,6 @@ function showHint() {
 function resetLevel() {
     clearInterval(gameState.timer);
     initGame();
-}
-
-// 下一关
-function nextLevel() {
-    gameState.currentLevel++;
-    resetLevel();
 }
 
 // 结束游戏

@@ -1,6 +1,6 @@
 {
     "id": "Fu2-1",
-    "image": "assets/images/charactertf.png",
+    "image": "assets/images/tf_xs.png",
     "x":800, "y": 500, "width": 50, "height":100,
     "showPrompt": true,
     "singleInteraction": true,

@@ -1,7 +1,7 @@
 {
     "id":"HaiFeng3-4",
     "x": 400,"y":350 ,"width": 160,"height": 90,
-    "image": "assets/images/characterlhf.png",
+    "image": "assets/images/lhf_xs.png",
     
     "showPrompt": true,
     "singleInteraction": true,

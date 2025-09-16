@@ -35,6 +35,28 @@ body {
     pointer-events: none;
 }
 
+#skip-level-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    pointer-events: auto; /* 允许按钮接收点击事件 */
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Courier New', monospace;
+    z-index: 10;
+}
+
+#skip-level-btn:hover {
+    background: rgba(255, 255, 255, 0.8);
+    color: #000;
+}
+
 #game-message {
     position: absolute;
     top: 20px;
@@ -67,4 +89,27 @@ body {
 
 .visible {
     opacity: 1 !important;
+}
+
+/* 二段跳特效 */
+.double-jump-effect {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+    border-radius: 50%;
+    animation: doubleJump 1s forwards;
+    pointer-events: none;
+    z-index: 5;
+}
+
+@keyframes doubleJump {
+    0% {
+        transform: scale(0.5);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
 }
