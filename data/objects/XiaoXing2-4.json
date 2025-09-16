@@ -1,7 +1,7 @@
 {
     "id":"XiaoXing2-4",
     "x": 400,"y": 500,"width": 160,"height": 90,
-    "image": "assets/images/characterlxx.png",
+    "image": "assets/images/xx_xs.png",
     "storyKey": "XiaoXing2-4_story",
     "showPrompt": true,
     "singleInteraction": false
